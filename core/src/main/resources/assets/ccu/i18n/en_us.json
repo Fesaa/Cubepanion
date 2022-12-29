@@ -13,7 +13,12 @@
         },
         "gameEndMessage": {
           "name": "Auto GG text",
-          "description": "The message that will be send, but formatted: GG -> gg"
+          "entries": {
+            "gg": "gg",
+            "wp": "wp",
+            "goodGame": "Good game",
+            "wellPlayed": "Well played"
+          }
         },
         "customMessage":{
           "name": "Extra custom message"
@@ -40,11 +45,85 @@
           "name": "Show number of remaining players"
         }
       },
+      "autoVoteSubConfig": {
+        "name": "Auto Vote",
+        "eggWarsHealth": {
+          "name": "EggWars Health",
+          "entries": {
+            "left": "Half",
+            "middle": "Normal",
+            "right": "Double"
+          }
+        },
+        "eggWarsItems": {
+          "name": "EggWars Items",
+          "entries": {
+            "left": "Hardcore",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsChests": {
+          "name": "SkyWars Chests",
+          "entries": {
+            "left": "Basic",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsProjectiles": {
+          "name": "SkyWars Projectiles",
+          "entries": {
+            "left": "No Projectiles",
+            "middle": "Normal Projectiles",
+            "right": "Soft Blocks"
+          }
+        },
+        "skyWarsTime": {
+          "name": "SkyWars Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsTime": {
+          "name": "Lucky Islands Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsBlocks": {
+          "name": "Lucky Islands Blocks",
+          "entries": {
+            "left": "Blessed",
+            "middleLeft": "Normal",
+            "middleRight": "Overpowered",
+            "right": "Crazy"
+          }
+        }
+      },
       "friendMessageSound": {
         "name": "Play sound on friend message"
       },
       "whereAmI": {
         "name": "/whereami on server switch"
+      }
+    },
+    "hudWidget": {
+      "diamond": {
+        "name": "Diamond Counter"
+      },
+      "gold_ingot": {
+        "name": "Gold Counter"
+      },
+      "iron_ingot": {
+        "name": "Iron Counter"
+      },
+      "emerald": {
+        "name": "Emerald Counter"
       }
     }
   }

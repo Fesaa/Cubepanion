@@ -1,0 +1,19 @@
+{
+  "namespace": "ccu",
+  "displayName": "CubeCraft Utilities",
+  "description": "A CubeCraft focused LabyMod addon that provides useful features like AutoVote, better DRP, chat listener and much more!\nOnly supports 1.19, not affiliated with Ziax/CubeCraft in any way.",
+  "version": "0.0.0",
+  "author": "Fesa",
+  "os": [],
+  "compatibleMinecraftVersions": "*",
+  "meta": [],
+  "mavenDependencies": [],
+  "addonDependencies": [],
+  "mainClasses": [
+    "org.ccu.core.CCU"
+  ],
+  "incompatibles": [],
+  "entrypoints": {},
+  "earlyTransformers": [],
+  "transformers": []
+}

@@ -42,48 +42,6 @@ public class ConfigManager {
 
     mapInfo = (new ConfigObjectClass()).make(this.addon, new File("./config/LabyModCCU/EggWarsMapInfo.json"), mapInfoJson);
     configObjectClasses.add(mapInfo);
-
-    // Config
-    JsonObject needyFesaConfigJson = new JsonObject();
-    needyFesaConfigJson.addProperty("autoVote", true);
-    needyFesaConfigJson.addProperty("minWaitTime", 50);
-    needyFesaConfigJson.addProperty("maxWaitTime", 1000);
-    needyFesaConfigJson.addProperty("development-mode", false);
-    needyFesaConfigJson.addProperty("chestFinder", true);
-
-    JsonObject eggWarsVoting = new JsonObject();
-    eggWarsVoting.addProperty("leftVoteId", 16);
-    eggWarsVoting.addProperty("middleVoteId", -1);
-    eggWarsVoting.addProperty("rightVoteId", 10);
-    eggWarsVoting.addProperty("leftChoiceId", 11);
-    eggWarsVoting.addProperty("middleChoiceId", -1);
-    eggWarsVoting.addProperty("rightChoiceId", 15);
-    eggWarsVoting.addProperty("hotBarSlot", 2);
-
-    JsonObject soloSkyWarsVoting = new JsonObject();
-    soloSkyWarsVoting.addProperty("leftVoteId", 16);
-    soloSkyWarsVoting.addProperty("middleVoteId", 13);
-    soloSkyWarsVoting.addProperty("rightVoteId", 10);
-    soloSkyWarsVoting.addProperty("leftChoiceId", 10);
-    soloSkyWarsVoting.addProperty("middleChoiceId", 13);
-    soloSkyWarsVoting.addProperty("rightChoiceId", 16);
-    soloSkyWarsVoting.addProperty("hotBarSlot", 1);
-
-    JsonObject luckyIslandsVoting = new JsonObject();
-    luckyIslandsVoting.addProperty("leftVoteId", 14);
-    luckyIslandsVoting.addProperty("middleVoteId", -1);
-    luckyIslandsVoting.addProperty("rightVoteId", 10);
-    luckyIslandsVoting.addProperty("leftChoiceId", 11);
-    luckyIslandsVoting.addProperty("middleChoiceId", -1);
-    luckyIslandsVoting.addProperty("rightChoiceId", 15);
-    luckyIslandsVoting.addProperty("hotBarSlot", 1);
-
-    needyFesaConfigJson.add("Team EggWars", eggWarsVoting);
-    needyFesaConfigJson.add("Solo SkyWars", soloSkyWarsVoting);
-    needyFesaConfigJson.add("Lucky Islands", luckyIslandsVoting);
-
-    mainConfig = (new ConfigObjectClass()).make(this.addon, new File("./config/LabyModCCU/CCUmain.json"), needyFesaConfigJson);
-    configObjectClasses.add(mainConfig);
   }
 
   public void loadConfig() {

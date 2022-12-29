@@ -17,6 +17,7 @@ import net.labymod.api.event.client.scoreboard.ScoreboardTeamUpdateEvent;
 import org.ccu.core.CCU;
 import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
+import org.ccu.core.utils.AutoVote;
 import org.ccu.core.utils.EggWarsMapInfo;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -64,6 +65,10 @@ public class ChatReceiveEventListener {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
           CCUinternalConfig.updateTeamColour(this.addon);
           EggWarsMapInfo.eggWarsMapInfo(this.addon);
+        }
+        if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
+          //AutoVote.vote(this.addon);
+          this.addon.logger().info("Tried to auto vote");
         }
         this.addon.rpcManager.startOfGame();
         this.addon.rpcManager.updateRPC();

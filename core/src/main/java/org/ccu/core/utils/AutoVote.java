@@ -1,27 +1,61 @@
 package org.ccu.core.utils;
 
-import com.google.gson.JsonObject;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import org.ccu.core.CCU;
 import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.subconfig.AutoVoteSubConfig;
 
 public class AutoVote {
 
   private static int leftVoteID = -1;
   private static int rightVoteID = -1;
   private static int middleVoteID = -1;
+  private static int leftChoiceID = -1;
   private static int rightChoiceID = -1;
   private static int middleChoiceID = -1;
-
-
+  private static int hotBarSlot = -1;
 
   public static void vote(CCU addon) {
+    AutoVoteSubConfig config = addon.configuration().getAutoVoteSubConfig();
+    String gameName = CCUinternalConfig.name;
+    switch (gameName) {
+      case "Team EggWars": {
+        leftVoteID = config.getEggWarsItems().get().slot;
+        rightVoteID = config.getEggWarsItems().get().slot;
+        leftChoiceID = 11;
+        rightChoiceID = 15;
+        hotBarSlot = 2;
+        break;
+      }
+      case "Solo SkyWars": {
+        leftVoteID = config.getSkyWarsChests().get().slot;
+        middleVoteID = config.getSkyWarsProjectiles().get().slot;
+        rightVoteID = config.getSkyWarsTime().get().slot;
+        leftChoiceID = 10;
+        middleChoiceID = 13;
+        rightChoiceID = 16;
+        hotBarSlot = 1;
+        break;
+      }
+      case "Lucky Islands": {
+        leftVoteID = config.getLuckyIslandsBlocks().get().slot;
+        rightVoteID = config.getLuckyIslandsTime().get().slot;
+        leftChoiceID = 11;
+        rightChoiceID = 15;
+        hotBarSlot = 1;
+        break;
+      }
+    }
+    if (leftVoteID != -1) {
+      voteInternal(addon);
+    }
+  }
+
+  private static void voteInternal(CCU addon) {
     Minecraft minecraft = addon.labyAPI().minecraft();
     ClientPlayer p = minecraft.clientPlayer();
-
-    JsonObject voteInfo = addon.CCUconfig.mainConfig.get(CCUinternalConfig.name).getAsJsonObject();
 
     Inventory inv = p.inventory();
   }
@@ -118,8 +152,6 @@ public class AutoVote {
   private static void abortedAutoVote(String s) {
     MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of(s));
   }
-
-
 
  */
 }

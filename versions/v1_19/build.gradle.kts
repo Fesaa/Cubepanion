@@ -20,7 +20,7 @@ minecraft {
             args("--tweakClass", "net.labymod.core.loader.vanilla.launchwrapper.LabyModLaunchWrapperTweaker")
             args("--labymod-dev-environment", "true")
             args("--addon-dev-environment", "true")
-            jvmArgs("-Dnet.labymod.running-version=$minecraftGameVersion")
+            jvmArgs("-Dnet.labymod.running-version=$minecraftGameVersion", "-XstartOnFirstThread")
         }
     }
 }

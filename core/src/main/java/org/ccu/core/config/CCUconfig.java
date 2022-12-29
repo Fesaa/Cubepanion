@@ -4,6 +4,7 @@ import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import org.ccu.core.config.subconfig.AutoVoteSubConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
@@ -21,6 +22,8 @@ public class CCUconfig extends AddonConfig {
 
   private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
 
+  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
+
   @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
 
@@ -32,6 +35,7 @@ public class CCUconfig extends AddonConfig {
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}
+  public AutoVoteSubConfig getAutoVoteSubConfig() {return autoVoteSubConfig;}
   public ConfigProperty<Boolean> displayWhereAmI() {return this.whereAmI;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
 
