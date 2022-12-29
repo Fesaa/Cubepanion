@@ -1,0 +1,51 @@
+{
+  "ccu": {
+    "settings": {
+      "name": "CubeCraft Utilities",
+      "enabled": {
+        "name": "Enabled"
+      },
+      "endGameSubConfig": {
+        "name": "Auto messages on game end",
+        "onElimination": {
+          "name": "On elimination",
+          "description": "Send your message of choice when eliminated. Will not send again when winning."
+        },
+        "gameEndMessage": {
+          "name": "Auto GG text",
+          "description": "The message that will be send, but formatted: GG -> gg"
+        },
+        "customMessage":{
+          "name": "Extra custom message"
+        }
+      },
+      "eggWarsMapInfoSubConfig": {
+        "name": "EggWars Map Info",
+        "mapLayout": {
+          "name": "Display map layout on start"
+        },
+        "buildLimit": {
+          "name": "Display build limit on start"
+        },
+        "logInParty": {
+          "name": "Send map layout in party"
+        }
+      },
+      "discordRichPresenceSubConfig": {
+        "name": "Discord Rich Presence",
+        "map": {
+          "name": "Show the map you're playing"
+        },
+        "players": {
+          "name": "Show number of remaining players"
+        }
+      },
+      "friendMessageSound": {
+        "name": "Play sound on friend message"
+      },
+      "whereAmI": {
+        "name": "/whereami on server switch"
+      }
+    }
+  }
+}
