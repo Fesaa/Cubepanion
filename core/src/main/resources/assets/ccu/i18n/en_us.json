@@ -105,6 +105,9 @@
           }
         }
       },
+      "openCustomItemHudActivity": {
+        "name": "Custom Item Huds"
+      },
       "friendMessageSound": {
         "name": "Play sound on friend message"
       },
@@ -113,17 +116,35 @@
       }
     },
     "hudWidget": {
-      "diamond": {
-        "name": "Diamond Counter"
+      "diamond_counter": {
+        "name": "Diamond counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
       },
-      "gold_ingot": {
-        "name": "Gold Counter"
+      "gold_ingot_counter": {
+        "name": "Gold counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
       },
-      "iron_ingot": {
-        "name": "Iron Counter"
+      "iron_ingot_counter": {
+        "name": "Iron counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
       },
-      "emerald": {
-        "name": "Emerald Counter"
+      "emerald_counter": {
+        "name": "Emerald counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
+      },
+      "terracotta_counter": {
+        "name": "Terracotta blocks counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
       }
     }
   }

@@ -2,11 +2,10 @@ package org.ccu.core;
 
 import com.google.inject.Singleton;
 import net.labymod.api.addon.LabyAddon;
-import net.labymod.api.inject.LabyGuice;
 import net.labymod.api.models.addon.annotation.AddonListener;
-import org.ccu.core.HudWidgets.CustomItemHudWidget;
 import org.ccu.core.config.CCUconfig;
 import org.ccu.core.config.internal.ConfigManager;
+import org.ccu.core.gui.hud.widgets.CustomWidgets;
 import org.ccu.core.listener.ChatReceiveEventListener;
 import org.ccu.core.listener.NetworkListener;
 
@@ -30,12 +29,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(NetworkListener.class);
     this.registerListener(ChatReceiveEventListener.class);
 
-    this.labyAPI().hudWidgetRegistry().register(new CustomItemHudWidget("emerald"));
-    this.labyAPI().hudWidgetRegistry().register(new CustomItemHudWidget("diamond"));
-    this.labyAPI().hudWidgetRegistry().register(new CustomItemHudWidget("gold_ingot"));
-    this.labyAPI().hudWidgetRegistry().register(new CustomItemHudWidget("iron_ingot"));
-
-
+    CustomWidgets.RegisterWidgets(this);
   }
 
   @Override
