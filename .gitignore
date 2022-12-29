@@ -140,3 +140,4 @@ build-data.txt
 
 # macOS system files
 .DS_Store
+gradle.properties
