@@ -137,3 +137,6 @@ build-data.txt
 
 # Don't ignore libraries
 !libs/*.jar
+
+# macOS system files
+.DS_Store
