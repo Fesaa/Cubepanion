@@ -1,4 +1,4 @@
-package org.ccu.core.gui.hud.widgets.config;
+package org.ccu.core.gui.hud.widgets.base;
 
 import net.labymod.api.client.gui.hud.hudwidget.HudWidgetConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;

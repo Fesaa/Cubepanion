@@ -26,6 +26,11 @@ public class CCUinternalConfig {
 
   public static int chestPartyAnnounce = 0;
 
+  public static int totalHelmetDurability = 0;
+  public static int totalChestPlateDurability = 0;
+  public static int totalLeggingsDurability = 0;
+  public static int totalBootsDurability = 0;
+
   public static String debugString() {
     return "\nDebug info for Needyfesa" +
         "\nMap: " + map +

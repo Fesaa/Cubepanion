@@ -145,6 +145,33 @@
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
+      },
+      "helmet_durability_counter": {
+        "name": "Helmet durability counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
+      },
+      "chestplate_durability_counter": {
+        "name": "Chestplate durability counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
+      },
+      "leggings_durability_counter": {
+        "name": "Leggings durability counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
+      },
+      "boots_durability_counter": {
+        "name": "Boots durability counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        }
+      },
+      "nextArmourDurability": {
+        "name": "Next armour to break"
       }
     }
   }

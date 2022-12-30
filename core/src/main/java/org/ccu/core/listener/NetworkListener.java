@@ -107,12 +107,10 @@ public class NetworkListener {
   private void toRun(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
     CCUinternalConfig.setVars(this.addon, scoreboard, scoreboardObjective);
 
-    if (this.addon.CCUconfig.mainConfig.get("autoVote").getAsBoolean()
-        && this.addon.CCUconfig.mainConfig.has(CCUinternalConfig.name)) {
+    if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
       //AutoVote.vote();
       this.addon.logger().info("Tried to AutoVote");
     }
-
     this.addon.rpcManager.updateRPC();
   }
 
