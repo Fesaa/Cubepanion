@@ -190,17 +190,14 @@
           }
         }
       },
-      "current_winstreak_tracker": {
+      "all_time_winstreak_tracker": {
         "name": "All Time Winstreak"
-      },
-      "alltime_max_winstreak_tracker": {
-        "name": "All Time Max Winstreak"
-      },
-      "daily_max_winstreak_tracker": {
-        "name": "Daily Max Winstreak"
       },
       "daily_winstreak_tracker": {
         "name": "Daily Winstreak"
+      },
+      "daily_wins_tracker": {
+        "name": "Daily Wins"
       }
     }
   }

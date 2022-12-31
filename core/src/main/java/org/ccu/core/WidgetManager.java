@@ -27,43 +27,31 @@ public class WidgetManager {
     this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("boots_durability_counter", "\\w{0,10}_boots", 0, 1));
 
     this.addon.labyAPI().hudWidgetRegistry().register(new NextArmourBuyTextWidget("nextArmourDurability"));
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("current_winstreak_tracker", "Win Streak",
+
+    // Wins / Played
+    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_wins_tracker", "Wins/Games",
+        () -> {
+          StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+          if (gameStatsTracker != null) {
+            return gameStatsTracker.getDailyWins() + "/" + gameStatsTracker.getDailyPlayed();
+          }
+          return "";
+        },
+        this::booleanSupplier, 2, 1));
+
+    // Win Streak
+    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("all_time_winstreak_tracker", "Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
               CCUinternalConfig.name);
           if (gameStatsTracker != null) {
-            return String.valueOf(gameStatsTracker.getCurrentWinStreak());
+            return String.valueOf(gameStatsTracker.getWinStreak());
           }
           return "";
         },
-        this::booleanSupplier,
-        2,
-        1));
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("alltime_max_winstreak_tracker", "All Time High Win Streak",
-        () -> {
-          StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
-          if (gameStatsTracker != null) {
-            return String.valueOf(gameStatsTracker.getAllTimeHighestWinStreak());
-          }
-          return "";
-        },
-        this::booleanSupplier,
-        3,
-        1));
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_max_winstreak_tracker", "Daily Highest Win Streak",
-        () -> {
-          StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
-          if (gameStatsTracker != null) {
-            return String.valueOf(gameStatsTracker.getDailyHighestWinStreak());
-          }
-          return "";
-        },
-        this::booleanSupplier,
-        4,
-        1));
+        this::booleanSupplier, 3, 1));
     this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_winstreak_tracker", "Daily Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
@@ -73,9 +61,7 @@ public class WidgetManager {
           }
           return "";
         },
-        this::booleanSupplier,
-        2,
-        1));
+        this::booleanSupplier, 2, 1));
   }
 
   private boolean booleanSupplier() {

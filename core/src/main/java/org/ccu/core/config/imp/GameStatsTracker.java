@@ -2,55 +2,74 @@ package org.ccu.core.config.imp;
 
 public class GameStatsTracker {
 
-  private int allTimeHighestWinStreak;
-  private int dailyHighestWinStreak;
-  private int currentWinStreak;
-  private int dailyWinStreak;
+  private final StatsTracker winStreak;
+  private final StatsTracker wins;
+  private final StatsTracker played;
 
   public GameStatsTracker() {
-    this.currentWinStreak = 0;
-    this.allTimeHighestWinStreak = 0;
-    this.dailyHighestWinStreak = 0;
+    this.wins = new StatsTracker();
+    this.played = new StatsTracker();
+    this.winStreak = new StatsTracker();
   }
 
-  public int getCurrentWinStreak() {
-    return currentWinStreak;
+  // Games Played Getters
+  public int getDailyPlayed() {
+    return this.played.getDaily();
+  }
+
+  public int getMaxDailyPlayed() {
+    return this.played.getAllTimeDailyMax();
+  }
+
+  public int getAllTimePlayed() {
+    return this.played.getAllTime();
+  }
+
+  // Win Getters
+  public int getDailyWins() {
+    return this.wins.getDaily();
+  }
+
+  public int getMaxDailyWins() {
+    return this.wins.getAllTimeDailyMax();
+  }
+
+  public int getAllTimeWins() {
+    return this.wins.getAllTime();
+  }
+
+
+  // Win Streak Getters
+  public int getWinStreak() {
+    return this.winStreak.getAllTime();
   }
 
   public int getDailyWinStreak() {
-    return dailyWinStreak;
+    return this.winStreak.getDaily();
   }
 
   public int getAllTimeHighestWinStreak() {
-    return allTimeHighestWinStreak;
+    return this.winStreak.getAllTimeMax();
   }
 
   public int getDailyHighestWinStreak() {
-    return dailyHighestWinStreak;
+    return this.winStreak.getAllTimeDailyMax();
   }
 
   public void registerWin() {
-    this.currentWinStreak++;
-    this.dailyWinStreak++;
-    if (this.dailyWinStreak > this.dailyHighestWinStreak) {
-      this.dailyHighestWinStreak = this.dailyWinStreak;
-    }
-    if (this.currentWinStreak > this.allTimeHighestWinStreak) {
-      this.allTimeHighestWinStreak = this.currentWinStreak;
-    }
+    this.wins.registerSuccess();
+    this.played.registerSuccess();
+    this.winStreak.registerSuccess();
   }
 
-  public void lostWinStreak() {
-    this.currentWinStreak = 0;
+  public void registerLoss() {
+    this.played.registerSuccess();
+    this.winStreak.registerFail();
   }
 
   public void resetForDay() {
-    if (this.currentWinStreak > this.allTimeHighestWinStreak) {
-      this.allTimeHighestWinStreak = this.currentWinStreak;
-    }
-
-    this.dailyWinStreak = 0;
-    this.dailyHighestWinStreak = 0;
-
+    this.wins.registerNewDay();
+    this.played.registerNewDay();
+    this.winStreak.registerNewDay();
   }
 }
