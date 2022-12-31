@@ -63,7 +63,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     if (whereToDisplay.games && !CCUinternalConfig.inPreLobby) {
       return true;
     }
-    if (CCUinternalConfig.name.equals(whereToDisplay.gameName)) {
+    if (CCUinternalConfig.name.equals(whereToDisplay.gameName) && !CCUinternalConfig.inPreLobby) {
       return true;
     }
     return false;
