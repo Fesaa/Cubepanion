@@ -26,7 +26,6 @@ public class ChatReceiveEventListener {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent chatReceiveEvent) {
     String msg = chatReceiveEvent.chatMessage().getPlainText();
-    //TODO: Win streak counter*
 
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
@@ -41,6 +40,7 @@ public class ChatReceiveEventListener {
           statsTrackerSubConfig.getGameStatsTrackers().put(CCUinternalConfig.name, gameStatsTracker);
         }
         CCUinternalConfig.won = true;
+        return;
       }
     }
 
@@ -54,6 +54,7 @@ public class ChatReceiveEventListener {
           this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
         }
         CCUinternalConfig.hasSaidGG = true;
+        return;
       }
     }
 
@@ -62,6 +63,7 @@ public class ChatReceiveEventListener {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
         this.addon.labyAPI().minecraft().sounds().playSound(
             ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1000, 1);
+        return;
       }
     }
 
@@ -80,22 +82,26 @@ public class ChatReceiveEventListener {
         this.addon.rpcManager.startOfGame();
         this.addon.rpcManager.updateRPC();
       },100, TimeUnit.MILLISECONDS);
+      return;
     }
 
     // RPC
     Matcher matcher = playerElimination.matcher(msg);
     if (matcher.matches()) {
       this.addon.rpcManager.registerDeath(matcher.group(1));
+      return;
     }
 
     // Party Tracker
     if (msg.matches("You have joined [a-zA-Z0-9_]{2,16}'s party!")) {
       CCUinternalConfig.partyStatus = true;
+      return;
     }
     if (msg.matches("You have left your party!")
         || msg.matches("You were kicked from your party!")
         || msg.matches("The party has been disbanded!")) {
       CCUinternalConfig.partyStatus = false;
+      return;
     }
 
     if (msg.matches("[a-zA-Z0-9_]{2,16} joined the party!")) {
