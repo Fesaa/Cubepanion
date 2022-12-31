@@ -1,29 +1,19 @@
 package org.ccu.core.listener;
 
 import com.google.inject.Inject;
-import net.kyori.adventure.text.ScoreComponent;
-import net.kyori.adventure.text.TextComponent;
-import net.labymod.api.client.resources.ResourceLocation;
-import net.labymod.api.client.scoreboard.DisplaySlot;
-import net.labymod.api.client.scoreboard.Scoreboard;
-import net.labymod.api.client.scoreboard.ScoreboardObjective;
-import net.labymod.api.client.scoreboard.ScoreboardScore;
-import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.chat.ChatReceiveEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardScoreUpdateEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardTeamUpdateEvent;
-import org.ccu.core.CCU;
-import org.ccu.core.config.internal.CCUinternalConfig;
-import org.ccu.core.config.subconfig.EndGameSubConfig;
-import org.ccu.core.utils.AutoVote;
-import org.ccu.core.utils.EggWarsMapInfo;
-import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.labymod.api.client.resources.ResourceLocation;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import org.ccu.core.CCU;
+import org.ccu.core.config.imp.GameStatsTracker;
+import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.subconfig.EndGameSubConfig;
+import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
+import org.ccu.core.utils.EggWarsMapInfo;
 
 public class ChatReceiveEventListener {
 
@@ -36,6 +26,23 @@ public class ChatReceiveEventListener {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent chatReceiveEvent) {
     String msg = chatReceiveEvent.chatMessage().getPlainText();
+    //TODO: Win streak counter*
+
+    // Win Streak Counter
+    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
+    if (statsTrackerSubConfig.isEnabled()) {
+      if (msg.equals("Congratulations, you win!")) {
+        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+        if (gameStatsTracker != null) {
+          gameStatsTracker.registerWin();
+        } else {
+          gameStatsTracker = new GameStatsTracker();
+          gameStatsTracker.registerWin();
+          statsTrackerSubConfig.getGameStatsTrackers().put(CCUinternalConfig.name, gameStatsTracker);
+        }
+        CCUinternalConfig.won = true;
+      }
+    }
 
     // Auto GG
     EndGameSubConfig config = this.addon.configuration().getEndGameSubConfig();
@@ -52,7 +59,7 @@ public class ChatReceiveEventListener {
 
     // Friend Message Sound
     if (this.addon.configuration().friendMessageSound().get()) {
-      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
+      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
         this.addon.labyAPI().minecraft().sounds().playSound(
             ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1000, 1);
       }

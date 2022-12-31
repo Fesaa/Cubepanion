@@ -105,8 +105,14 @@
           }
         }
       },
-      "openCustomItemHudActivity": {
-        "name": "Custom Item Huds"
+      "statsTrackerSubConfig": {
+        "name": "Stats Trackers",
+        "autoReset": {
+          "name": "Auto reset current period"
+        },
+        "resetTime": {
+          "name": "Reset current period at"
+        }
       },
       "friendMessageSound": {
         "name": "Play sound on friend message"
@@ -171,7 +177,30 @@
         }
       },
       "nextArmourDurability": {
-        "name": "Next armour to break"
+        "name": "Next armour to break",
+        "wheretoDisplayType": {
+          "name": "Display in",
+          "entries": {
+            "eggWars": "EggWars",
+            "skyWars": "SkyWars",
+            "luckyIslands": "Lucky Islands",
+            "ffa": "FFA",
+            "allGames": "All Games",
+            "everywhere": "Everywhere"
+          }
+        }
+      },
+      "current_winstreak_tracker": {
+        "name": "All Time Winstreak"
+      },
+      "alltime_max_winstreak_tracker": {
+        "name": "All Time Max Winstreak"
+      },
+      "daily_max_winstreak_tracker": {
+        "name": "Daily Max Winstreak"
+      },
+      "daily_winstreak_tracker": {
+        "name": "Daily Winstreak"
       }
     }
   }

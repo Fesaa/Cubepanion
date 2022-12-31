@@ -1,6 +1,9 @@
 package org.ccu.core.listener;
 
 import com.google.inject.Inject;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.GameMode;
 import net.labymod.api.client.scoreboard.DisplaySlot;
@@ -14,11 +17,10 @@ import net.labymod.api.event.client.network.server.NetworkDisconnectEvent;
 import net.labymod.api.event.client.network.server.NetworkLoginEvent;
 import net.labymod.api.event.client.network.server.NetworkServerSwitchEvent;
 import org.ccu.core.CCU;
+import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.jetbrains.annotations.NotNull;
-import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class NetworkListener {
 
@@ -63,6 +65,15 @@ public class NetworkListener {
 
   @Subscribe
   public void onNetworkServerSwitchEvent(NetworkServerSwitchEvent networkServerSwitchEvent) {
+    // Win Streak Counter
+    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
+    if (statsTrackerSubConfig.isEnabled() && !CCUinternalConfig.won && !CCUinternalConfig.inPreLobby) {
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+      if (gameStatsTracker != null) {
+        gameStatsTracker.lostWinStreak();
+        this.addon.logger().info("Lost win streak onNetworkServerSwitchEvent");
+      }
+    }
     cubeProcesses();
   }
 

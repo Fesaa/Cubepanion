@@ -2,12 +2,12 @@ package org.ccu.core.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
 import net.labymod.api.client.scoreboard.DisplaySlot;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import org.ccu.core.CCU;
 import org.ccu.core.config.internal.CCUinternalConfig;
-import java.util.ArrayList;
 
 public class EggWarsMapInfo {
 

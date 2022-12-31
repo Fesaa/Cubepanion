@@ -1,10 +1,9 @@
 package org.ccu.core.config.internal;
 
 import com.google.gson.JsonObject;
-import org.ccu.core.CCU;
-
 import java.io.File;
 import java.util.ArrayList;
+import org.ccu.core.CCU;
 
 public class ConfigManager {
 

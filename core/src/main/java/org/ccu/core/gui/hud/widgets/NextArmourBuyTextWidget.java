@@ -7,7 +7,6 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import net.labymod.api.util.TextFormat;
 import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
@@ -33,24 +32,24 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     if (CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalChestPlateDurability
         && CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalLeggingsDurability
         && CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush(TextFormat.valueOf("Helmet"));
+      this.nextArmourBuy.updateAndFlush("Helmet");
     }
     else if (CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalHelmetDurability
         && CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalLeggingsDurability
         && CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush(TextFormat.valueOf("Chestplate"));
+      this.nextArmourBuy.updateAndFlush("Chestplate");
     }
     else if (CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalHelmetDurability
         && CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalChestPlateDurability
         && CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush(TextFormat.valueOf("Leggings"));
+      this.nextArmourBuy.updateAndFlush("Leggings");
     }
     else if (CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalHelmetDurability
         && CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalChestPlateDurability
         && CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalLeggingsDurability) {
-      this.nextArmourBuy.updateAndFlush(TextFormat.valueOf("Boots"));
+      this.nextArmourBuy.updateAndFlush("Boots");
     } else {
-      this.nextArmourBuy.updateAndFlush(TextFormat.valueOf("N/A"));
+      this.nextArmourBuy.updateAndFlush("N/A");
     }
 
     this.nextArmourBuy.setVisible(this.shouldBeVisible());

@@ -1,5 +1,8 @@
 package org.ccu.core;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.labymod.api.client.network.ClientPacketListener;
@@ -9,9 +12,6 @@ import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
 import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class DiscordRPCManager {
 

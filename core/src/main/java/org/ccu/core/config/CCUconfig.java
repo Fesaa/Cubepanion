@@ -8,6 +8,7 @@ import org.ccu.core.config.subconfig.AutoVoteSubConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
+import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 
 @SuppressWarnings("FieldMayBeFinal")
 @ConfigName("settings")
@@ -24,6 +25,8 @@ public class CCUconfig extends AddonConfig {
 
   private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
 
+  private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
+
   @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
 
@@ -35,7 +38,8 @@ public class CCUconfig extends AddonConfig {
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}
-  public AutoVoteSubConfig getAutoVoteSubConfig() {return autoVoteSubConfig;}
+  public AutoVoteSubConfig getAutoVoteSubConfig() {return this.autoVoteSubConfig;}
+  public StatsTrackerSubConfig getStatsTrackerSubConfig() {return this.statsTrackerSubConfig;}
   public ConfigProperty<Boolean> displayWhereAmI() {return this.whereAmI;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
 
