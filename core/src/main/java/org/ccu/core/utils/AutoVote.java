@@ -23,7 +23,7 @@ public class AutoVote {
     switch (gameName) {
       case "Team EggWars": {
         leftVoteID = config.getEggWarsItems().get().slot;
-        rightVoteID = config.getEggWarsItems().get().slot;
+        rightVoteID = config.getEggWarsHealth().get().slot;
         leftChoiceID = 11;
         rightChoiceID = 15;
         hotBarSlot = 2;
@@ -54,6 +54,7 @@ public class AutoVote {
   }
 
   private static void voteInternal(CCU addon) {
+    System.out.println("Tried to AutoVote");
     Minecraft minecraft = addon.labyAPI().minecraft();
     ClientPlayer p = minecraft.clientPlayer();
 
