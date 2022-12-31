@@ -65,15 +65,16 @@ public class NetworkListener {
 
   @Subscribe
   public void onNetworkServerSwitchEvent(NetworkServerSwitchEvent networkServerSwitchEvent) {
+
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled() && !CCUinternalConfig.won && !CCUinternalConfig.inPreLobby) {
       GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
       if (gameStatsTracker != null) {
-        gameStatsTracker.lostWinStreak();
-        this.addon.logger().info("Lost win streak onNetworkServerSwitchEvent");
+        gameStatsTracker.registerLoss();
       }
     }
+
     cubeProcesses();
   }
 
