@@ -1,9 +1,16 @@
 package org.ccu.core.config.imp;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.ccu.core.CCU;
+import org.jetbrains.annotations.NotNull;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class GameStatsTracker {
 
+  private final String game;
   private final StatsTracker winStreak;
   private final StatsTracker wins;
   private final StatsTracker played;
@@ -13,7 +20,17 @@ public class GameStatsTracker {
 
   private final HashMap<String, StatsTracker> perPlayerDeaths;
 
-  public GameStatsTracker() {
+  private final HashMap<String, GameStatsTracker> historicalData;
+
+  public static boolean shouldMakeGameStatsTracker(String game) {
+    return (game.equals("Solo SkyWars")
+        || game.equals("Team EggWars")
+        || game.equals("Lucky Islands")
+        || game.equals("FFA"));
+  }
+
+  public GameStatsTracker(String game) {
+    this.game = game;
     this.wins = new StatsTracker();
     this.played = new StatsTracker();
     this.winStreak = new StatsTracker();
@@ -21,6 +38,23 @@ public class GameStatsTracker {
     this.deaths = new StatsTracker();
     this.perPlayerKills = new HashMap<>();
     this.perPlayerDeaths = new HashMap<>();
+    this.historicalData = new HashMap<>();
+  }
+
+  private GameStatsTracker(String game, StatsTracker wins, StatsTracker played, StatsTracker winStreak, StatsTracker kills, StatsTracker deaths, HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker>perPlayerDeaths) {
+    this.game = game;
+    this.wins = wins;
+    this.played = played;
+    this.winStreak = winStreak;
+    this.kills = kills;
+    this.deaths = deaths;
+    this.perPlayerKills = perPlayerKills;
+    this.perPlayerDeaths = perPlayerDeaths;
+    this.historicalData = new HashMap<>();
+  }
+
+  private GameStatsTracker Copy() {
+    return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, this.perPlayerKills, this.perPlayerDeaths);
   }
 
   // Games Played Getters
@@ -117,6 +151,15 @@ public class GameStatsTracker {
     return playerStatsTracker.getDaily();
   }
 
+  // Historical Data Getters
+  public HashMap<String, GameStatsTracker> getHistoricalData() {
+    return this.historicalData;
+  }
+
+  public GameStatsTracker getHistoricalData(String date) {
+    return this.historicalData.get(date);
+  }
+
   public void registerWin() {
     this.wins.registerSuccess();
     this.played.registerSuccess();
@@ -129,6 +172,7 @@ public class GameStatsTracker {
   }
 
   public void resetForDay() {
+    this.historicalData.put(this.getDate(), this.Copy());
     this.wins.registerNewDay();
     this.played.registerNewDay();
     this.winStreak.registerNewDay();
@@ -140,6 +184,11 @@ public class GameStatsTracker {
     for (StatsTracker perPlayerDeaths : this.perPlayerDeaths.values()) {
       perPlayerDeaths.registerNewDay();
     }
+  }
+
+  private String getDate() {
+    Calendar cal = Calendar.getInstance();
+    return cal.get(Calendar.DAY_OF_MONTH) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
   }
 
   public void registerKill(String playerName) {
@@ -165,4 +214,78 @@ public class GameStatsTracker {
       this.perPlayerDeaths.put(playerName, playerKillStatsTracker);
     }
   }
+
+  public Component getUserStatsDisplayComponent(CCU addon, String name) {
+    StatsTracker kills = this.perPlayerKills.get(name);
+    StatsTracker deaths = this.perPlayerDeaths.get(name);
+
+    Component userStatsDisplayComponent = Component.empty();
+
+    if (kills == null && deaths == null) {
+      return userStatsDisplayComponent.append(addon.prefix())
+                                      .append(Component.text("No interaction stats available in " + this.game + " with " + name, NamedTextColor.RED));
+    }
+
+    userStatsDisplayComponent = userStatsDisplayComponent.append(addon.prefix())
+        .append(Component.text("Interaction stats in " + this.game + " with " + name, NamedTextColor.GREEN));
+
+    userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n    •Kills", NamedTextColor.AQUA));
+    userStatsDisplayComponent = getComponent(kills, userStatsDisplayComponent, "kills");
+
+    userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n    •Deaths", NamedTextColor.AQUA));
+    userStatsDisplayComponent = getComponent(deaths, userStatsDisplayComponent, "deaths");
+
+    return userStatsDisplayComponent;
+  }
+
+  @NotNull
+  private Component getComponent(StatsTracker statsTracker, Component userStatsDisplayComponent, String type) {
+    if (statsTracker == null) {
+      userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n        N/A", NamedTextColor.GRAY));
+    } else {
+      userStatsDisplayComponent = userStatsDisplayComponent
+          .append(Component.text("\n        -Total " + type + ": " + statsTracker.getAllTime(), NamedTextColor.GRAY))
+          .append(Component.text("\n        -Today's " + type + ": " + statsTracker.getDaily(), NamedTextColor.GRAY))
+          .append(Component.text("\n        -Most " + type + " in a day: " + statsTracker.getAllTimeDailyMax(), NamedTextColor.GRAY));
+    }
+    return userStatsDisplayComponent;
+  }
+
+  public Component getDisplayComponent(CCU addon) {
+    return Component.empty()
+        .append(addon.prefix())
+        .append(Component.text("Recorded stats for " + this.game + "\n", NamedTextColor.DARK_AQUA)
+            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <YYYY-MM-DD> for a snapshot of your stats on that day", NamedTextColor.GREEN))))
+
+        .append(Component.text("\n    •Games Played ", NamedTextColor.AQUA))
+        .append(Component.text("\n        -Total games played: " + this.getAllTimePlayed(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's games played: " + this.getDailyPlayed(), NamedTextColor.GRAY))
+
+        .append(Component.text("\n    •Win Streak ", NamedTextColor.AQUA))
+        .append(Component.text("\n        -Highest all time win streak: " + this.getAllTimeHighestWinStreak(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Current all time win streak: " + this.getWinStreak(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Highest daily win streak: " + this.getDailyHighestWinStreak(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's win streak: " + this.getDailyWinStreak(), NamedTextColor.GRAY))
+
+        .append(Component.text("\n    •Wins ", NamedTextColor.AQUA))
+        .append(Component.text("\n        -Total wins: " + this.getAllTimeWins(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's wins: " + this.getDailyWins(), NamedTextColor.GRAY))
+
+        .append(Component.text("\n    •Loses ", NamedTextColor.AQUA))
+        .append(Component.text("\n        -Total loses: " + (this.getAllTimePlayed() - this.getAllTimeWins()), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's loses: " + (this.getDailyPlayed() - this.getDailyWins()), NamedTextColor.GRAY))
+
+        .append(Component.text("\n    •Kills ", NamedTextColor.AQUA)
+            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <user name> for your kills on and death to that player.", NamedTextColor.GREEN))))
+        .append(Component.text("\n        -Total kills: " + this.getTotalKills(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's kills: " + this.getDailyKills(), NamedTextColor.GRAY))
+
+        .append(Component.text("\n    •Deaths ", NamedTextColor.AQUA)
+            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <user name> for your kills on and death to that player.", NamedTextColor.GREEN))))
+        .append(Component.text("\n        -Total deaths: " + this.getTotalDeaths(), NamedTextColor.GRAY))
+        .append(Component.text("\n        -Today's deaths: " + this.getDailyDeaths(), NamedTextColor.GRAY));
+  }
+
+
+
 }
