@@ -132,6 +132,14 @@ public class GameStatsTracker {
     this.wins.registerNewDay();
     this.played.registerNewDay();
     this.winStreak.registerNewDay();
+    this.deaths.registerNewDay();
+    this.kills.registerNewDay();
+    for (StatsTracker perPlayerKills : this.perPlayerKills.values()) {
+      perPlayerKills.registerNewDay();
+    }
+    for (StatsTracker perPlayerDeaths : this.perPlayerDeaths.values()) {
+      perPlayerDeaths.registerNewDay();
+    }
   }
 
   public void registerKill(String playerName) {
