@@ -83,9 +83,9 @@ public class StatsTracker {
   }
 
   public void registerNewDay() {
+    this.historicalData.put(this.getDate(), this.Copy());
     this.Daily = 0;
     this.DailyMax = 0;
-    this.historicalData.put(this.getDate(), this.Copy());
   }
 
   private String getDate() {
