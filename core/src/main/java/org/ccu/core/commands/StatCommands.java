@@ -1,0 +1,73 @@
+package org.ccu.core.commands;
+
+import com.google.inject.Inject;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.chat.command.Command;
+import org.ccu.core.CCU;
+import org.ccu.core.config.imp.GameStatsTracker;
+import org.ccu.core.config.internal.CCUinternalConfig;
+import java.util.regex.Pattern;
+
+public class StatCommands extends Command {
+
+  private final CCU addon;
+  private final Pattern timeFormat = Pattern.compile("((19|20)[0-9]{2})-(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])");
+
+  @Inject
+  private StatCommands(CCU addon) {
+    super("stats");
+
+    this.addon = addon;
+  }
+
+  @Override
+  public boolean execute(String prefix, String[] arguments) {
+
+    if (!CCUinternalConfig.serverIP.equals("play.cubecraft.net")) {
+      return false;
+    }
+
+    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(CCUinternalConfig.name);
+
+    if (gameStatsTracker == null) {
+      return false;
+    }
+
+    if (arguments.length == 0) {
+      this.displayMessage(gameStatsTracker.getDisplayComponent(this.addon));
+
+      return true;
+    } else if (arguments.length == 1) {
+
+      if (this.timeFormat.matcher(arguments[0]).matches()) {
+        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
+        this.displayMessage(snapShot.getDisplayComponent(this.addon));
+      } else {
+        this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(this.addon, arguments[0]));
+      }
+
+      return true;
+    } else if (arguments.length == 2) {
+
+      if (this.timeFormat.matcher(arguments[0]).matches()) {
+        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
+        this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[1]));
+      } else if (this.timeFormat.matcher(arguments[1]).matches()) {
+        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[1]);
+        this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[0]));
+      } else {
+        Component errorComponent = Component.empty()
+            .append(this.addon.prefix())
+            .append(Component.text("Unknown request! Layout: ", NamedTextColor.RED))
+            .append(Component.text("\n    •/stats YYYY-MM-DD <user name>", NamedTextColor.GRAY))
+            .append(Component.text("\n    •/stats <user name> YYYY-MM-DD", NamedTextColor.GRAY));
+        this.displayMessage(errorComponent);
+      }
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
