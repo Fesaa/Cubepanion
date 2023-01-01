@@ -23,7 +23,7 @@ public class ChatReceiveEventListener {
 
   private final CCU addon;
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game.");
-  private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{0,30}" + this.userNameRegex + ".{0,30}" + this.assistRegex);
+  private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{6,55}" + this.userNameRegex + ".{1,34}" + this.assistRegex);
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
   private final String assistRegex = "(\\s{0,5}\\(\\+\\d{1,2} assists?\\))?";
   private final List<Pattern> killMessages = new ArrayList<>();
