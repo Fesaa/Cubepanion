@@ -3,6 +3,7 @@ package org.ccu.core.config.subconfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
+import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class EggWarsMapInfoSubConfig extends Config {
@@ -11,12 +12,15 @@ public class EggWarsMapInfoSubConfig extends Config {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(y = 2, x = 1)
   private final ConfigProperty<Boolean> mapLayout = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(x = 6, y = 2)
   private final ConfigProperty<Boolean> buildLimit = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(x = 5, y = 2)
   private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(true);
 
   public ConfigProperty<Boolean> isEnabled() {return this.enabled;}

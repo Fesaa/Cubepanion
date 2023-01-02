@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class StatCommands extends Command {
 
   private final CCU addon;
-  private final Pattern timeFormat = Pattern.compile("((19|20)[0-9]{2})-(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])");
+  private final Pattern timeFormat = Pattern.compile("\\b(20[0-9]{2})-([1-9]|1[1-2])-(1[0-9]|2[0-9]|3[0-1]|[1-9])\\b");
 
   @Inject
   private StatCommands(CCU addon) {
@@ -61,7 +61,9 @@ public class StatCommands extends Command {
             .append(this.addon.prefix())
             .append(Component.text("Unknown request! Layout: ", NamedTextColor.RED))
             .append(Component.text("\n    •/stats YYYY-MM-DD <user name>", NamedTextColor.GRAY))
-            .append(Component.text("\n    •/stats <user name> YYYY-MM-DD", NamedTextColor.GRAY));
+            .append(Component.text("\n    •/stats <user name> YYYY-MM-DD", NamedTextColor.GRAY))
+            .append(Component.text("\n    -Date should not include trailing 0's.", NamedTextColor.GRAY))
+            .append(Component.text("\n    -Ex: 2023-1-1 for First of January 2023.", NamedTextColor.GRAY));
         this.displayMessage(errorComponent);
       }
 

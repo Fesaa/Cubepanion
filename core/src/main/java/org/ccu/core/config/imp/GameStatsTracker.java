@@ -7,6 +7,7 @@ import org.ccu.core.CCU;
 import org.jetbrains.annotations.NotNull;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameStatsTracker {
 
@@ -53,8 +54,13 @@ public class GameStatsTracker {
     this.historicalData = new HashMap<>();
   }
 
-  private GameStatsTracker Copy() {
-    return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, this.perPlayerKills, this.perPlayerDeaths);
+  private GameStatsTracker Copy(boolean perPlayerSnapshots) {
+    if (perPlayerSnapshots) {
+      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, this.perPlayerKills, this.perPlayerDeaths);
+    } else {
+      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, new HashMap<>(), new HashMap<>());
+    }
+
   }
 
   // Games Played Getters
@@ -160,6 +166,7 @@ public class GameStatsTracker {
     return this.historicalData.get(date);
   }
 
+  // Registers
   public void registerWin() {
     this.wins.registerSuccess();
     this.played.registerSuccess();
@@ -171,8 +178,10 @@ public class GameStatsTracker {
     this.winStreak.registerFail();
   }
 
-  public void resetForDay() {
-    this.historicalData.put(this.getDate(), this.Copy());
+  public void resetForDay(boolean snapshots, boolean perPlayerSnapshots) {
+    if (snapshots) {
+      this.historicalData.put(this.getDate(), this.Copy(perPlayerSnapshots));
+    }
     this.wins.registerNewDay();
     this.played.registerNewDay();
     this.winStreak.registerNewDay();
@@ -188,7 +197,7 @@ public class GameStatsTracker {
 
   private String getDate() {
     Calendar cal = Calendar.getInstance();
-    return cal.get(Calendar.DAY_OF_MONTH) + "-" + cal.get(Calendar.MONTH) + "-" + cal.get(Calendar.YEAR);
+    return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
   }
 
   public void registerKill(String playerName) {
@@ -205,16 +214,36 @@ public class GameStatsTracker {
 
   public void registerDeath(String playerName) {
     this.deaths.registerSuccess();
-    StatsTracker playerKillStatsTracker = this.perPlayerDeaths.get(playerName);
-    if (playerKillStatsTracker != null) {
-      playerKillStatsTracker.registerSuccess();
+    StatsTracker playerDeathStatsTracker = this.perPlayerDeaths.get(playerName);
+    if (playerDeathStatsTracker != null) {
+      playerDeathStatsTracker.registerSuccess();
     } else {
-      playerKillStatsTracker = new StatsTracker();
-      playerKillStatsTracker.registerSuccess();
-      this.perPlayerDeaths.put(playerName, playerKillStatsTracker);
+      playerDeathStatsTracker = new StatsTracker();
+      playerDeathStatsTracker.registerSuccess();
+      this.perPlayerDeaths.put(playerName, playerDeathStatsTracker);
     }
   }
 
+  // Cleanup functions
+  public void cleanUp(int minEntry) {
+    for (Map.Entry<String, StatsTracker> set : this.perPlayerKills.entrySet()) {
+      if (set.getValue().getAllTime() < minEntry) {
+        this.perPlayerKills.remove(set.getKey(), set.getValue());
+      }
+    }
+    for (Map.Entry<String, StatsTracker> set : this.perPlayerDeaths.entrySet()) {
+      if (set.getValue().getAllTime() < minEntry) {
+        this.perPlayerDeaths.remove(set.getKey(), set.getValue());
+      }
+    }
+
+    for (GameStatsTracker historicalGameStatsTracker : this.historicalData.values()) {
+      historicalGameStatsTracker.cleanUp(minEntry);
+    }
+
+  }
+
+  // Component generators
   public Component getUserStatsDisplayComponent(CCU addon, String name) {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);

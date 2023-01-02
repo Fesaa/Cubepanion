@@ -32,7 +32,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
     this.regex = regex;
     this.item = (((ItemStackFactory) LabyGuice.getInstance(ItemStackFactory.class)).create(
         ResourceLocation.create("minecraft", id))).getAsItem();
-    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "themes/vanilla/textures/settings/hud/hud.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
     this.placeHolderIcon = icon;

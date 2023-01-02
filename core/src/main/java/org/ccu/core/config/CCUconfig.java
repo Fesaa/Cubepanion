@@ -3,6 +3,8 @@ package org.ccu.core.config;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
+import net.labymod.api.configuration.loader.annotation.SpriteSlot;
+import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.ccu.core.config.subconfig.AutoVoteSubConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
@@ -12,25 +14,33 @@ import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 
 @SuppressWarnings("FieldMayBeFinal")
 @ConfigName("settings")
+@SpriteTexture("setting_icons.png")
 public class CCUconfig extends AddonConfig {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
+  @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
+  @SpriteSlot(x = 0)
   private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
 
+  @SpriteSlot(x = 1)
   private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
 
+  @SpriteSlot(x = 4)
   private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
 
+  @SpriteSlot(x = 3)
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
 
   @SwitchSetting
+  @SpriteSlot(x = 6)
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(x = 5)
   private final ConfigProperty<Boolean> whereAmI = new ConfigProperty<>(false);
 
   @Override

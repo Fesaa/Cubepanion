@@ -2,10 +2,14 @@ package org.ccu.core.config.subconfig;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
+import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
+import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.util.MethodOrder;
 import org.ccu.core.config.imp.GameStatsTracker;
 
 @SuppressWarnings("FieldMayBeFinal")
@@ -15,9 +19,31 @@ public class StatsTrackerSubConfig extends Config {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
   @SliderSetting(min = 0, max = 23)
+  @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<Integer> resetTime = new ConfigProperty<>(5);
 
-  private HashMap<String, GameStatsTracker> gameStatsTrackers = new HashMap<>();
+  @SwitchSetting
+  @SpriteSlot(x = 5, y = 1)
+  private final ConfigProperty<Boolean> keepSnapshots = new ConfigProperty<>(true);
+
+  @SwitchSetting
+  @SpriteSlot(x = 5, y = 1)
+  private final ConfigProperty<Boolean> keepPerPlayerSnapshots = new ConfigProperty<>(true);
+
+  @SliderSetting(min=1, max=20)
+  @SpriteSlot(x = 7, y = 1)
+  public final ConfigProperty<Integer> minEntry = new ConfigProperty<>(5);
+
+  @MethodOrder(after = "minEntry")
+  @ButtonSetting
+  @SpriteSlot(x = 6, y = 1)
+  private void clearStatsTrackers() {
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.values()) {
+      gameStatsTracker.cleanUp(this.minEntry.get());
+    }
+  }
+
+  public HashMap<String, GameStatsTracker> gameStatsTrackers = new HashMap<>();
 
   private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
 
@@ -31,16 +57,33 @@ public class StatsTrackerSubConfig extends Config {
 
   public void checkForResets() {
     Calendar cal = Calendar.getInstance();
-    int millisecondsInADay = 1000 * 60 * 60 * 24;
+    int milliSecondsInASecond = 1000;
+    int milliSecondsInAMinute = milliSecondsInASecond * 60;
+    int milliSecondsInAHour = milliSecondsInAMinute * 60;
 
-    if (cal.getTime().getTime() - this.lastReset.get() < millisecondsInADay) {
+    int milliSecondsThisDay = cal.get(Calendar.HOUR_OF_DAY) * milliSecondsInAHour
+                            + cal.get(Calendar.MINUTE) * milliSecondsInAMinute
+                            + cal.get(Calendar.SECOND) * milliSecondsInASecond
+                            + cal.get(Calendar.MILLISECOND);
+
+    long milliSecondsSinceLastReset = cal.getTime().getTime() - this.lastReset.get();
+    boolean lastResetWasToday = milliSecondsSinceLastReset < milliSecondsThisDay;
+
+    // Ensures milliSecondsSinceMidNightToLastReset is positive
+    if (!lastResetWasToday && cal.get(Calendar.HOUR_OF_DAY) < this.resetTime.get()) {
       return;
     }
 
-    if (cal.get(Calendar.HOUR_OF_DAY) > this.resetTime.get()) {
-      for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.values()) {
-        gameStatsTracker.resetForDay();
-      }
+    long milliSecondsSinceMidNightToLastReset = milliSecondsThisDay - milliSecondsSinceLastReset;
+    boolean lastResetWasBeforeResetTime = milliSecondsSinceMidNightToLastReset < this.resetTime.get() * milliSecondsInAHour;
+
+    // Already reset today
+    if (!lastResetWasBeforeResetTime) {
+      return;
+    }
+
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.values()) {
+      gameStatsTracker.resetForDay(this.keepSnapshots.get(), this.keepPerPlayerSnapshots.get());
     }
     this.lastReset.set(cal.getTime().getTime());
   }

@@ -3,6 +3,7 @@ package org.ccu.core.config.subconfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
+import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class AutoVoteSubConfig extends Config {
@@ -11,24 +12,31 @@ public class AutoVoteSubConfig extends Config {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
   @DropdownSetting
+  @SpriteSlot(x = 7)
   private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
   @DropdownSetting
+  @SpriteSlot(x = 1, y = 1)
   private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
+  @SpriteSlot(y = 1)
   private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
+  @SpriteSlot(x = 2, y = 1)
   private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
+  @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
+  @SpriteSlot(x = 4, y = 1)
   private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(FourOptionsMode.LEFT);
 
   @DropdownSetting
+  @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(ThreeOptionsMode.MIDDLE);
 
 

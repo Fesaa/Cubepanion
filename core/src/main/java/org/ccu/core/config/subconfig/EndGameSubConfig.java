@@ -5,6 +5,7 @@ import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.Te
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
+import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class EndGameSubConfig extends Config {
@@ -12,10 +13,13 @@ public class EndGameSubConfig extends Config {
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
   @SwitchSetting
+  @SpriteSlot(x = 4, y = 2)
   private final ConfigProperty<Boolean> onElimination = new ConfigProperty<>(false);
   @DropdownSetting
+  @SpriteSlot(x = 2, y = 2)
   private final ConfigProperty<gameEndMessages> gameEndMessage = new ConfigProperty<>(gameEndMessages.GG);
   @TextFieldSetting
+  @SpriteSlot(x = 3, y = 2)
   private final ConfigProperty<String> customMessage = new ConfigProperty<>("");
 
 

@@ -28,7 +28,7 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
   public void load(TextHudWidgetConfig config) {
     super.load(config);
 
-    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "themes/vanilla/textures/settings/hud/hud.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, this.posX, this.posY);
     this.setIcon(icon);
     this.HUDLine = super.createLine(this.text, "");
