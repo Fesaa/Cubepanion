@@ -39,6 +39,7 @@ public class AppealSiteCommand extends Command {
           .append(Component.text(userName, NamedTextColor.AQUA)
               .clickEvent(ClickEvent.openUrl(URL)))
           .append(Component.text("\n"));
+      this.displayMessage(appealSiteLink);
       return true;
     }
 
