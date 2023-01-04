@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonListener;
+import org.ccu.core.commands.AppealSiteCommand;
 import org.ccu.core.commands.StatCommands;
 import org.ccu.core.config.CCUconfig;
 import org.ccu.core.config.internal.ConfigManager;
@@ -33,6 +34,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.widgetManager = new WidgetManager(this);
 
     this.registerCommand(StatCommands.class);
+    this.registerCommand(AppealSiteCommand.class);
 
     this.registerListener(NetworkListener.class);
     this.registerListener(ChatReceiveEventListener.class);
