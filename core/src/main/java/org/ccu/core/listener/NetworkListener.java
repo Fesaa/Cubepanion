@@ -20,6 +20,7 @@ import org.ccu.core.CCU;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
+import org.ccu.core.utils.AutoVote;
 import org.jetbrains.annotations.NotNull;
 
 public class NetworkListener {
@@ -120,8 +121,7 @@ public class NetworkListener {
     CCUinternalConfig.setVars(this.addon, scoreboard, scoreboardObjective);
 
     if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
-      //AutoVote.vote();
-      this.addon.logger().info("Tried to AutoVote");
+      AutoVote.vote(this.addon);
     }
     this.addon.rpcManager.updateRPC();
   }
