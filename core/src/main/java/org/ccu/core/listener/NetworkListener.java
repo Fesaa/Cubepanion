@@ -121,7 +121,6 @@ public class NetworkListener {
 
     if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
       //AutoVote.vote();
-      this.addon.logger().info("Tried to AutoVote");
     }
     this.addon.rpcManager.updateRPC();
   }

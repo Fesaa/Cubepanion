@@ -184,10 +184,6 @@ public class ChatReceiveEventListener {
           CCUinternalConfig.updateTeamColour(this.addon);
           EggWarsMapInfo.eggWarsMapInfo(this.addon);
         }
-        if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
-          //AutoVote.vote(this.addon);
-          this.addon.logger().info("Tried to auto vote");
-        }
         this.addon.rpcManager.startOfGame();
         this.addon.rpcManager.updateRPC();
       },1000, TimeUnit.MILLISECONDS);

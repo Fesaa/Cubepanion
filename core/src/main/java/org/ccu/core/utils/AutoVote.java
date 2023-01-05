@@ -54,7 +54,7 @@ public class AutoVote {
   }
 
   private static void voteInternal(CCU addon) {
-    System.out.println("Tried to AutoVote");
+    addon.logger().info("Tried to AutoVote");
     Minecraft minecraft = addon.labyAPI().minecraft();
     ClientPlayer p = minecraft.clientPlayer();
 
