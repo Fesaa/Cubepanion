@@ -32,18 +32,27 @@ public class StatsTrackerSubConfig extends Config {
 
   @SliderSetting(min=1, max=20)
   @SpriteSlot(x = 7, y = 1)
-  public final ConfigProperty<Integer> minEntry = new ConfigProperty<>(5);
+  private final ConfigProperty<Integer> minEntry = new ConfigProperty<>(5);
 
   @MethodOrder(after = "minEntry")
   @ButtonSetting
   @SpriteSlot(x = 6, y = 1)
-  private void clearStatsTrackers() {
-    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.values()) {
+  public void clearStatsTrackers() {
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.get().values()) {
       gameStatsTracker.cleanUp(this.minEntry.get());
     }
   }
 
-  public HashMap<String, GameStatsTracker> gameStatsTrackers = new HashMap<>();
+  @MethodOrder(after = "clearStatsTrackers")
+  @ButtonSetting
+  @SpriteSlot(x = 6, y = 1)
+  public void clearAllHistoricalPlayerData() {
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.get().values()) {
+      gameStatsTracker.cleanUpPerPlayerHistorical();
+    }
+  }
+
+  private ConfigProperty<HashMap<String, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
 
   private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
 
@@ -52,7 +61,7 @@ public class StatsTrackerSubConfig extends Config {
   }
 
   public HashMap<String, GameStatsTracker> getGameStatsTrackers() {
-    return gameStatsTrackers;
+    return gameStatsTrackers.get();
   }
 
   public void checkForResets() {
@@ -82,7 +91,7 @@ public class StatsTrackerSubConfig extends Config {
       return;
     }
 
-    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.values()) {
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.get().values()) {
       gameStatsTracker.resetForDay(this.keepSnapshots.get(), this.keepPerPlayerSnapshots.get());
     }
     this.lastReset.set(cal.getTime().getTime());

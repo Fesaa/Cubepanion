@@ -17,9 +17,9 @@ public class GameStatsTracker {
   private final StatsTracker played;
   private final StatsTracker kills;
   private final StatsTracker deaths;
-  private final HashMap<String, StatsTracker> perPlayerKills;
+  private HashMap<String, StatsTracker> perPlayerKills;
 
-  private final HashMap<String, StatsTracker> perPlayerDeaths;
+  private HashMap<String, StatsTracker> perPlayerDeaths;
 
   private final HashMap<String, GameStatsTracker> historicalData;
 
@@ -226,21 +226,41 @@ public class GameStatsTracker {
 
   // Cleanup functions
   public void cleanUp(int minEntry) {
+    HashMap<String, StatsTracker> toRemove = new HashMap<>();
     for (Map.Entry<String, StatsTracker> set : this.perPlayerKills.entrySet()) {
       if (set.getValue().getAllTime() < minEntry) {
-        this.perPlayerKills.remove(set.getKey(), set.getValue());
+        toRemove.put(set.getKey(), set.getValue());
       }
     }
+
+    for (Map.Entry<String, StatsTracker> set : toRemove.entrySet()) {
+      this.perPlayerKills.remove(set.getKey(), set.getValue());
+    }
+
+    toRemove = new HashMap<>();
     for (Map.Entry<String, StatsTracker> set : this.perPlayerDeaths.entrySet()) {
       if (set.getValue().getAllTime() < minEntry) {
-        this.perPlayerDeaths.remove(set.getKey(), set.getValue());
+        toRemove.put(set.getKey(), set.getValue());
       }
+    }
+
+    for (Map.Entry<String, StatsTracker> set : toRemove.entrySet()) {
+      this.perPlayerDeaths.remove(set.getKey(), set.getValue());
     }
 
     for (GameStatsTracker historicalGameStatsTracker : this.historicalData.values()) {
       historicalGameStatsTracker.cleanUp(minEntry);
     }
 
+  }
+
+  public void cleanUpPerPlayerHistorical() {
+    for (String date : this.historicalData.keySet()) {
+      GameStatsTracker gameStatsTracker = this.historicalData.get(date);
+      gameStatsTracker.perPlayerKills = new HashMap<>();
+      gameStatsTracker.perPlayerDeaths = new HashMap<>();
+      this.historicalData.put(date, gameStatsTracker);
+    }
   }
 
   // Component generators

@@ -126,7 +126,12 @@
         },
         "clearStatsTrackers": {
           "name": "Clear up Game Stats Trackers",
-          "description": "Will remove all player data with less kills/deaths than specified.",
+          "description": "Will remove all player data with less kills/deaths than specified.\nThis action is irreversible.",
+          "text": "Clear"
+        },
+        "clearAllHistoricalPlayerData": {
+          "name": "Remove all historical player data",
+          "description": "This action is irreversible.",
           "text": "Clear"
         }
       },
