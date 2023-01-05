@@ -72,7 +72,7 @@ public class ChatReceiveEventListener {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " got snapped away by " + this.userNameRegex + "\\." + this.assistRegex), 2);
 
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " had to register their hands as deadly weapons after what they did to " + this.userNameRegex + "\\.{3}" + this.assistRegex), 1);
-    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " has been sent to the afterlife by " + this.userNameRegex + "\\." + this.assistRegex), 2);
+    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " has been sent to the after life by " + this.userNameRegex + "\\." + this.assistRegex), 2);
 
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " kicked " + this.userNameRegex + " into the abyss\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " killed " + this.userNameRegex + "\\. LOL!" + this.assistRegex), 1);
@@ -116,6 +116,7 @@ public class ChatReceiveEventListener {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was no match for " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was poked to death by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was pulled into the void by " + this.userNameRegex + "'s pet space kraken\\." + this.assistRegex), 2);
+    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was pummelled by " + this.userNameRegex + "'s Kung Fu moves\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was sniped by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was slapped into the void by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was smacked into next week by " + this.userNameRegex + "\\." + this.assistRegex), 2);
@@ -128,7 +129,7 @@ public class ChatReceiveEventListener {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " yeeted " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " yeeted their weapon into " + this.userNameRegex + "\\." + this.assistRegex), 1);
 
-    //this.killMessages.put(Pattern.compile(this.userNameRegex + "" + this.userNameRegex + "" + this.assistRegex));
+    //this.customKillMessages.put(Pattern.compile(this.userNameRegex + "" + this.userNameRegex + "" + this.assistRegex));
   }
 
   @Subscribe
