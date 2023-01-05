@@ -31,6 +31,15 @@ public class StatCommands extends Command {
     GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(CCUinternalConfig.name);
 
     if (gameStatsTracker == null) {
+
+      GameStatsTracker gameStatsTrackerFromArguments = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(String.join(" ", arguments));
+
+      if (gameStatsTrackerFromArguments != null) {
+        this.displayMessage(gameStatsTrackerFromArguments.getDisplayComponent(this.addon));
+        
+        return true;
+      }
+
       return false;
     }
 
