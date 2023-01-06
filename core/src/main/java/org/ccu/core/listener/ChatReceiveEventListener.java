@@ -21,10 +21,12 @@ import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.utils.EggWarsMapInfo;
+import org.ccu.core.utils.SubTitleManager;
 
 public class ChatReceiveEventListener {
 
   private final CCU addon;
+  private final SubTitleManager spawnProtectionSubTitle;
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game.");
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
@@ -35,6 +37,8 @@ public class ChatReceiveEventListener {
   @Inject
   public ChatReceiveEventListener(CCU addon) {
     this.addon = addon;
+    this.spawnProtectionSubTitle = new SubTitleManager(addon,
+        SubTitleManager::spawnProtectionComponentSupplier);
 
     // A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
@@ -85,6 +89,7 @@ public class ChatReceiveEventListener {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " OwO'd " + this.userNameRegex + " to death!" + this.assistRegex), 1);
 
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " pushed " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
+    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " picked up " + this.userNameRegex + " and threw them into the void\\." + this.assistRegex), 1);
 
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " scared " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " screamed \"This is Sparta!\" before kicking " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
@@ -247,7 +252,6 @@ public class ChatReceiveEventListener {
       }
 
     }
-
   }
 
   private boolean processKillMessage(Pattern killMessagePattern, int killerGroup, String msg, String userName) {
