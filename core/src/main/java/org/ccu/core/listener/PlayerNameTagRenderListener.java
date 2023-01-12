@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
+import net.labymod.api.event.client.render.PlayerNameTagRenderEvent.Context;
 import org.ccu.core.CCU;
 import org.ccu.core.gui.imp.SpawnProtectionComponent;
 
@@ -21,6 +22,10 @@ public class PlayerNameTagRenderListener {
   @Subscribe
   public void onPlayerNameTagRenderEvent(PlayerNameTagRenderEvent playerNameTagRenderEvent) {
     if (!this.addon.configuration().getRespawnTimer().get()) {
+      return;
+    }
+
+    if (playerNameTagRenderEvent.context().equals(Context.TAB_LIST)) {
       return;
     }
 
