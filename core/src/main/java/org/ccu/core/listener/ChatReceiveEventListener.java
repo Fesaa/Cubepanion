@@ -14,8 +14,8 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.ccu.core.CCU;
+import org.ccu.core.config.CCUManager.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
-import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.utils.EggWarsMapInfo;
@@ -140,32 +140,34 @@ public class ChatReceiveEventListener {
     }
     String userName = p.getName();
 
+    CCUManager manager = this.addon.getManager();
+
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled()) {
       if (msg.equals("Congratulations, you win!")) {
-        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
         if (gameStatsTracker != null) {
           gameStatsTracker.registerWin();
-        } else if (GameStatsTracker.shouldMakeGameStatsTracker(CCUinternalConfig.name)) {
-          gameStatsTracker = new GameStatsTracker(CCUinternalConfig.name);
+        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())) {
+          gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
           gameStatsTracker.registerWin();
-          statsTrackerSubConfig.getGameStatsTrackers().put(CCUinternalConfig.name, gameStatsTracker);
+          statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
         }
-        CCUinternalConfig.won = true;
+        manager.setWon(true);
       }
     }
 
     // Auto GG
     EndGameSubConfig config = this.addon.configuration().getEndGameSubConfig();
-    if (config.isEnabled().get() && !CCUinternalConfig.hasSaidGG) {
+    if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = this.addon.labyAPI().minecraft().clientPlayer().getName() + " has been eliminated from the game.";
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
         this.addon.labyAPI().minecraft().chatExecutor().chat(config.getGameEndMessage().get().msg, false);
         if (!config.getCustomMessage().isDefaultValue()) {
           this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
         }
-        CCUinternalConfig.hasSaidGG = true;
+        manager.setEliminated(true);
         return;
       }
     }
@@ -181,10 +183,10 @@ public class ChatReceiveEventListener {
 
     // Start of game
     if (msg.equals("Let the games begin!")) {
-      CCUinternalConfig.inPreLobby = false;
+      manager.setInPreLobby(false);
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
-          CCUinternalConfig.updateTeamColour(this.addon);
+          manager.updateTeamColour();
           EggWarsMapInfo.eggWarsMapInfo(this.addon);
         }
         this.addon.rpcManager.startOfGame();
@@ -201,20 +203,17 @@ public class ChatReceiveEventListener {
     }
 
     // Party Tracker
-    if (msg.matches("You have joined [a-zA-Z0-9_]{2,16}'s party!")) {
-      CCUinternalConfig.partyStatus = true;
+    if (msg.matches("You have joined [a-zA-Z0-9_]{2,16}'s party!") || msg.matches("[a-zA-Z0-9_]{2,16} joined the party!")) {
+      manager.setInParty(true);
       return;
     }
     if (msg.matches("You have left your party!")
         || msg.matches("You were kicked from your party!")
         || msg.matches("The party has been disbanded!")) {
-      CCUinternalConfig.partyStatus = false;
+      manager.setInParty(false);
       return;
     }
 
-    if (msg.matches("[a-zA-Z0-9_]{2,16} joined the party!")) {
-      CCUinternalConfig.partyStatus = true;
-    }
 
 
     // Kills & Death Tracker
@@ -285,24 +284,26 @@ public class ChatReceiveEventListener {
   }
 
   private void registerCustomDeath(String reason) {
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(CCUinternalConfig.name);
+    CCUManager manager = this.addon.getManager();
+    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivisionName());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerDeath(reason);
-    } else if (GameStatsTracker.shouldMakeGameStatsTracker(CCUinternalConfig.name)){
-      gameStatsTracker = new GameStatsTracker(CCUinternalConfig.name);
+    } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())){
+      gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
       gameStatsTracker.registerDeath(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(CCUinternalConfig.name, gameStatsTracker);
+      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
     }
   }
 
   private void registerCustomKill(String reason) {
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(CCUinternalConfig.name);
+    CCUManager manager = this.addon.getManager();
+    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivisionName());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerKill(reason);
-    } else  if (GameStatsTracker.shouldMakeGameStatsTracker(CCUinternalConfig.name)) {
-      gameStatsTracker = new GameStatsTracker(CCUinternalConfig.name);
+    } else  if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())) {
+      gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
       gameStatsTracker.registerKill(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(CCUinternalConfig.name, gameStatsTracker);
+      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
     }
   }
 

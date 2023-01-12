@@ -7,7 +7,7 @@ import net.labymod.api.client.scoreboard.DisplaySlot;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import org.ccu.core.CCU;
-import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.CCUManager.CCUManager;
 
 public class EggWarsMapInfo {
 
@@ -81,14 +81,14 @@ public class EggWarsMapInfo {
 
   public static void eggWarsMapInfo(CCU addon) {
     Scoreboard scoreboard = addon.labyAPI().minecraft().getScoreboard();
-    if (scoreboard == null) {return;};
+    if (scoreboard == null) {return;}
     ScoreboardObjective scoreboardObjective = scoreboard.objective(DisplaySlot.SIDEBAR);
-    if (scoreboardObjective == null) {return;};
-    CCUinternalConfig.updateTeamColour(addon);
+    if (scoreboardObjective == null) {return;}
 
-    addon.logger().info(CCUinternalConfig.debugString());
+    CCUManager manager = addon.getManager();
+    manager.updateTeamColour();
 
-    ArrayList<String> mapInfo = EggWarsMapInfo.MakeMapLayout(addon, CCUinternalConfig.map, CCUinternalConfig.teamColour);
+    ArrayList<String> mapInfo = EggWarsMapInfo.MakeMapLayout(addon, manager.getMapName(), manager.getTeamColour());
 
     if (mapInfo == null) {return;}
 
@@ -96,12 +96,12 @@ public class EggWarsMapInfo {
       addon.labyAPI().minecraft().chatExecutor().displayClientMessage(mapInfo.get(0));
     }
 
-    if (addon.configuration().getEggWarsMapInfoSubConfig().getBuildLimit().get() && addon.CCUconfig.mapInfo.get("teamBuildLimit").getAsJsonObject().has(CCUinternalConfig.map)) {
-      String buildLimit = "§6The build limit is: " + addon.CCUconfig.mapInfo.get("teamBuildLimit").getAsJsonObject().get(CCUinternalConfig.map).getAsString();
+    if (addon.configuration().getEggWarsMapInfoSubConfig().getBuildLimit().get() && addon.CCUconfig.mapInfo.get("teamBuildLimit").getAsJsonObject().has(manager.getMapName())) {
+      String buildLimit = "§6The build limit is: " + addon.CCUconfig.mapInfo.get("teamBuildLimit").getAsJsonObject().get(manager.getMapName()).getAsString();
       addon.labyAPI().minecraft().chatExecutor().displayClientMessage(buildLimit);
     }
 
-    if (addon.configuration().getEggWarsMapInfoSubConfig().getLogInParty().get() && CCUinternalConfig.partyStatus && mapInfo.size() > 1) {
+    if (addon.configuration().getEggWarsMapInfoSubConfig().getLogInParty().get() && manager.isInParty() && mapInfo.size() > 1) {
       addon.labyAPI().minecraft().chatExecutor().chat(mapInfo.get(1), false);
     }
   }

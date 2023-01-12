@@ -1,7 +1,7 @@
 package org.ccu.core;
 
+import org.ccu.core.config.CCUManager.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
-import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.gui.hud.widgets.CounterItemHudWidget;
 import org.ccu.core.gui.hud.widgets.DurabilityItemHudWidget;
@@ -15,24 +15,25 @@ public class WidgetManager {
   public WidgetManager(CCU addon) {this.addon = addon;}
   
   public void register() {
+    CCUManager manager = this.addon.getManager();
     this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("emerald_counter","emerald", 3, 0));
     this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("diamond_counter","diamond", 1, 0));
     this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("iron_ingot_counter","iron_ingot", 0, 0));
     this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("gold_ingot_counter","gold_ingot", 2, 0));
     this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", 4, 0));
 
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("helmet_durability_counter", "\\w{0,10}_helmet", 5, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("chestplate_durability_counter", "\\w{0,10}_chestplate", 6, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("leggings_durability_counter", "\\w{0,10}_leggings", 7, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("boots_durability_counter", "\\w{0,10}_boots", 0, 1));
+    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("helmet_durability_counter", "\\w{0,10}_helmet", 5, 0, manager));
+    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("chestplate_durability_counter", "\\w{0,10}_chestplate", 6, 0, manager));
+    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("leggings_durability_counter", "\\w{0,10}_leggings", 7, 0, manager));
+    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("boots_durability_counter", "\\w{0,10}_boots", 0, 1, manager));
 
-    this.addon.labyAPI().hudWidgetRegistry().register(new NextArmourBuyTextWidget("nextArmourDurability"));
+    this.addon.labyAPI().hudWidgetRegistry().register(new NextArmourBuyTextWidget("nextArmourDurability", manager));
 
     // Wins / Played
     this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_wins_tracker", "Wins/Games",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
           if (gameStatsTracker != null) {
             return gameStatsTracker.getDailyWins() + "/" + gameStatsTracker.getDailyPlayed();
           }
@@ -45,7 +46,7 @@ public class WidgetManager {
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
-              CCUinternalConfig.name);
+              manager.getDivisionName());
           if (gameStatsTracker != null) {
             return String.valueOf(gameStatsTracker.getWinStreak());
           }
@@ -57,7 +58,7 @@ public class WidgetManager {
     this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_winstreak_tracker", "Daily Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
           if (gameStatsTracker != null) {
             return String.valueOf(gameStatsTracker.getDailyWinStreak());
           }
@@ -68,7 +69,7 @@ public class WidgetManager {
 
   private boolean booleanSupplier() {
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+    GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.addon.getManager().getDivisionName());
     return gameStatsTracker != null;
   }
 

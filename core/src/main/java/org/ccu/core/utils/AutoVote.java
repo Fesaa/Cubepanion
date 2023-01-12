@@ -4,7 +4,6 @@ import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import org.ccu.core.CCU;
-import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.AutoVoteSubConfig;
 
 public class AutoVote {
@@ -19,7 +18,7 @@ public class AutoVote {
 
   public static void vote(CCU addon) {
     AutoVoteSubConfig config = addon.configuration().getAutoVoteSubConfig();
-    String gameName = CCUinternalConfig.name;
+    String gameName = addon.getManager().getDivisionName();
     switch (gameName) {
       case "Team EggWars": {
         leftVoteID = config.getEggWarsItems().get().slot;

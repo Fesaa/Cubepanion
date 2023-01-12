@@ -17,8 +17,8 @@ import net.labymod.api.event.client.network.server.NetworkDisconnectEvent;
 import net.labymod.api.event.client.network.server.NetworkLoginEvent;
 import net.labymod.api.event.client.network.server.NetworkServerSwitchEvent;
 import org.ccu.core.CCU;
+import org.ccu.core.config.CCUManager.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
-import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.utils.AutoVote;
 import org.jetbrains.annotations.NotNull;
@@ -26,21 +26,24 @@ import org.jetbrains.annotations.NotNull;
 public class NetworkListener {
 
   private final CCU addon;
+  private final CCUManager manager;
 
   @Inject
-  public NetworkListener(CCU addon) {this.addon = addon;}
+  public NetworkListener(CCU addon) {
+    this.addon = addon;
+    this.manager = this.addon.getManager();
+  }
 
   @Subscribe
   public void onPlayerInfoRemoveEvent(PlayerInfoRemoveEvent playerInfoRemoveEvent) {
-    if (!CCUinternalConfig.inPreLobby
-        && CCUinternalConfig.name.equals("Team EggWars")) {
+    if (!this.manager.isInPreLobby() && this.manager.getDivisionName().equals("Team EggWars")) {
       this.addon.rpcManager.registerDeath(playerInfoRemoveEvent.playerInfo());
     }
   }
 
   @Subscribe
   public void onPlayerInfoUpdateEvent(PlayerInfoUpdateEvent playerInfoUpdateEvent) {
-    if (CCUinternalConfig.name.equals("Team EggWars")) {
+    if (this.manager.getDivisionName().equals("Team EggWars")) {
 
       if (playerInfoUpdateEvent.type().equals(UpdateType.GAME_MODE) && playerInfoUpdateEvent.playerInfo().gameMode().equals(GameMode.SURVIVAL)) {
         this.addon.getManager().registerDeath(playerInfoUpdateEvent.playerInfo().profile().getUniqueId());
@@ -56,12 +59,19 @@ public class NetworkListener {
 
   @Subscribe
   public void onNetworkLoginEvent(NetworkLoginEvent networkLoginEvent) {
+    String serverAddress = this.addon.labyAPI().serverController().getCurrentServerData().address().getAddress().toString();
+    if (!(serverAddress.contains("cubecraft") || serverAddress.contains("ccgn.co"))) {
+      this.manager.reset();
+      return;
+    }
+
+    this.manager.onCubeJoin();
     cubeProcesses();
   }
 
   @Subscribe
   public void onNetworkDisconnectEvent(NetworkDisconnectEvent networkDisconnectEvent) {
-    CCUinternalConfig.resetVars();
+    this.manager.reset();
     this.addon.rpcManager.removeCustomRPC();
   }
 
@@ -70,33 +80,27 @@ public class NetworkListener {
 
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && !CCUinternalConfig.won && !CCUinternalConfig.inPreLobby) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(CCUinternalConfig.name);
+    if (statsTrackerSubConfig.isEnabled() && !this.manager.isWon() && !this.manager.isInPreLobby()) {
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.manager.getDivisionName());
       if (gameStatsTracker != null) {
         gameStatsTracker.registerLoss();
       }
     }
 
-    cubeProcesses();
+    if (this.manager.onCubeCraft()) {
+      cubeProcesses();
+    }
   }
 
   private void cubeProcesses() {
-    String serverAddress = this.addon.labyAPI().serverController().getCurrentServerData().address().getAddress().toString();
-
-    if (!(serverAddress.contains("cubecraft") || serverAddress.contains("ccgn.co"))) {
-      CCUinternalConfig.resetVars();
-      return;
-    }
-
     if (this.addon.configuration().displayWhereAmI().get()) {
       this.addon.labyAPI().minecraft().chatExecutor().chat("/whereami", false);
     }
 
-    CCUinternalConfig.hasSaidGG = false;
-    CCUinternalConfig.inPreLobby = true;
+    this.manager.setEliminated(false);
+    this.manager.setInPreLobby(true);
 
     Minecraft minecraft = this.addon.labyAPI().minecraft();
-
     Scoreboard scoreboard = minecraft.getScoreboard();
     if (scoreboard == null) {
       return;
@@ -119,9 +123,7 @@ public class NetworkListener {
   }
 
   private void toRun(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
-    CCUinternalConfig.setVars(this.addon, scoreboard, scoreboardObjective);
-
-    this.addon.getManager().registerNewDivision();
+    this.manager.registerNewDivision(scoreboard, scoreboardObjective);
 
     if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
       AutoVote.vote(this.addon);

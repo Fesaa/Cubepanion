@@ -7,16 +7,18 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.CCUManager.CCUManager;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
 
 public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfig> {
 
+  private final CCUManager manager;
   private TextLine nextArmourBuy;
 
-  public NextArmourBuyTextWidget(String id) {
+  public NextArmourBuyTextWidget(String id, CCUManager manager) {
     super(id, NextArmourBuyHudConfig.class);
+    this.manager = manager;
   }
 
   public void load(NextArmourBuyHudConfig config) {
@@ -29,24 +31,30 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   }
 
   public void onTick() {
-    if (CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalChestPlateDurability
-        && CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalLeggingsDurability
-        && CCUinternalConfig.totalHelmetDurability < CCUinternalConfig.totalBootsDurability) {
+    int totalHelmetDurability = manager.getTotalHelmetDurability();
+    int totalChestPlateDurability = manager.getTotalChestPlateDurability();
+    int totalLeggingsDurability = manager.getTotalLeggingsDurability();
+    int totalBootsDurability = manager.getTotalBootsDurability();
+    
+    
+    if (totalHelmetDurability < totalChestPlateDurability
+        && totalHelmetDurability < totalLeggingsDurability
+        && totalHelmetDurability < totalBootsDurability) {
       this.nextArmourBuy.updateAndFlush("Helmet");
     }
-    else if (CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalHelmetDurability
-        && CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalLeggingsDurability
-        && CCUinternalConfig.totalChestPlateDurability < CCUinternalConfig.totalBootsDurability) {
+    else if (totalChestPlateDurability < totalHelmetDurability
+        && totalChestPlateDurability < totalLeggingsDurability
+        && totalChestPlateDurability < totalBootsDurability) {
       this.nextArmourBuy.updateAndFlush("Chestplate");
     }
-    else if (CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalHelmetDurability
-        && CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalChestPlateDurability
-        && CCUinternalConfig.totalLeggingsDurability < CCUinternalConfig.totalBootsDurability) {
+    else if (totalLeggingsDurability < totalHelmetDurability
+        && totalLeggingsDurability < totalChestPlateDurability
+        && totalLeggingsDurability < totalBootsDurability) {
       this.nextArmourBuy.updateAndFlush("Leggings");
     }
-    else if (CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalHelmetDurability
-        && CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalChestPlateDurability
-        && CCUinternalConfig.totalBootsDurability < CCUinternalConfig.totalLeggingsDurability) {
+    else if (totalBootsDurability < totalHelmetDurability
+        && totalBootsDurability < totalChestPlateDurability
+        && totalBootsDurability < totalLeggingsDurability) {
       this.nextArmourBuy.updateAndFlush("Boots");
     } else {
       this.nextArmourBuy.updateAndFlush("N/A");
@@ -60,10 +68,10 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     if (whereToDisplay.everywhere) {
       return true;
     }
-    if (whereToDisplay.games && !CCUinternalConfig.inPreLobby) {
+    if (whereToDisplay.games && !this.manager.isInPreLobby()) {
       return true;
     }
-    if (CCUinternalConfig.name.equals(whereToDisplay.gameName) && !CCUinternalConfig.inPreLobby) {
+    if (this.manager.getDivisionName().equals(whereToDisplay.gameName) && !this.manager.isInPreLobby()) {
       return true;
     }
     return false;

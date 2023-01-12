@@ -5,13 +5,16 @@ import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.world.item.ItemStack;
-import org.ccu.core.config.internal.CCUinternalConfig;
+import org.ccu.core.config.CCUManager.CCUManager;
 import org.ccu.core.gui.hud.widgets.base.CustomItemHudWidget;
 
 public class DurabilityItemHudWidget extends CustomItemHudWidget {
 
-  public DurabilityItemHudWidget(String id, String regex, int posX, int posY) {
+  private final CCUManager manager;
+
+  public DurabilityItemHudWidget(String id, String regex, int posX, int posY, CCUManager manager) {
     super(id, regex, posX, posY);
+    this.manager = manager;
   }
 
   public void onTick() {
@@ -58,19 +61,19 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
   private void updateCCUInternalConfig() {
     switch (this.id) {
       case "helmet_durability_counter": {
-        CCUinternalConfig.totalHelmetDurability = this.counter;
+        this.manager.setTotalHelmetDurability(this.counter);
         break;
       }
       case "chestplate_durability_counter": {
-        CCUinternalConfig.totalChestPlateDurability = this.counter;
+        this.manager.setTotalChestPlateDurability(this.counter);
         break;
       }
       case "leggings_durability_counter": {
-        CCUinternalConfig.totalLeggingsDurability = this.counter;
+        this.manager.setTotalLeggingsDurability(this.counter);
         break;
       }
       case "boots_durability_counter": {
-        CCUinternalConfig.totalBootsDurability = this.counter;
+        this.manager.setTotalBootsDurability(this.counter);
         break;
       }
     }

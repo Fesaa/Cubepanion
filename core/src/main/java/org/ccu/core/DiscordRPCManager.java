@@ -10,7 +10,6 @@ import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.thirdparty.discord.DiscordActivity;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
-import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
 
 public class DiscordRPCManager {
@@ -39,7 +38,7 @@ public class DiscordRPCManager {
       return;
     }
 
-    if (!CCUinternalConfig.serverIP.equals("play.cubecraft.net")) {
+    if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
 
@@ -62,16 +61,18 @@ public class DiscordRPCManager {
     String details;
     String state;
 
-    if (CCUinternalConfig.name.equals("CubeCraft") || CCUinternalConfig.name.equals("sidebar")) {
+    String division = this.addon.getManager().getDivisionName();
+
+    if (division.equals("CubeCraft") || division.equals("sidebar")) {
       details = "In the Lobby";
       state = "Choosing a game...";
     } else {
-      details = "Playing " + CCUinternalConfig.name;
-      if (CCUinternalConfig.inPreLobby) {
+      details = "Playing " + division;
+      if (this.addon.getManager().isInPreLobby()) {
         state = "Waiting...";
       } else {
-        if (RPCConfig.map().get() && !CCUinternalConfig.map.equals("")) {
-          state = "On " + CCUinternalConfig.map;
+        if (RPCConfig.map().get() && !this.addon.getManager().getMapName().equals("")) {
+          state = "On " + this.addon.getManager().getMapName();
         } else {
           state = "In game";
         }
@@ -144,7 +145,7 @@ public class DiscordRPCManager {
   }
 
   private boolean doPlayerTracking() {
-    switch (CCUinternalConfig.name) {
+    switch (this.addon.getManager().getDivisionName()) {
       case "Skyblock":
       case "Simple Parkour":
       case "Normal Parkour":
