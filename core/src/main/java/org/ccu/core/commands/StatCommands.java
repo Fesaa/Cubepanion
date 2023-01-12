@@ -1,13 +1,13 @@
 package org.ccu.core.commands;
 
 import com.google.inject.Inject;
+import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.internal.CCUinternalConfig;
-import java.util.regex.Pattern;
 
 public class StatCommands extends Command {
 

@@ -52,6 +52,8 @@ public class WidgetManager {
           return "";
         },
         this::booleanSupplier, 3, 1));
+
+    // Daily Win Streak
     this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_winstreak_tracker", "Daily Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
