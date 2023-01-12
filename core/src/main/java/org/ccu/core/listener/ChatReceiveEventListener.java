@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.entity.player.GameMode;
-import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
@@ -21,12 +19,10 @@ import org.ccu.core.config.internal.CCUinternalConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.utils.EggWarsMapInfo;
-import org.ccu.core.utils.SubTitleManager;
 
 public class ChatReceiveEventListener {
 
   private final CCU addon;
-  private final SubTitleManager spawnProtectionSubTitle;
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game.");
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
@@ -37,8 +33,6 @@ public class ChatReceiveEventListener {
   @Inject
   public ChatReceiveEventListener(CCU addon) {
     this.addon = addon;
-    this.spawnProtectionSubTitle = new SubTitleManager(addon,
-        SubTitleManager::spawnProtectionComponentSupplier);
 
     // A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
@@ -95,7 +89,7 @@ public class ChatReceiveEventListener {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " screamed \"This is Sparta!\" before kicking " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " sent " + this.userNameRegex + " into a deep freeze\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " sent " + this.userNameRegex + " into a deep sleep!" + this.assistRegex), 1);
-    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " sent " + this.userNameRegex + " into the upside down\\." + this.assistRegex), 1);
+    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " sent " + this.userNameRegex + " into the Upside down\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " sent " + this.userNameRegex + " to the underworld\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " showcased their weapon to " + this.userNameRegex + "\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " showed " + this.userNameRegex + " their karate skills!" + this.assistRegex), 1);
@@ -140,8 +134,11 @@ public class ChatReceiveEventListener {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent chatReceiveEvent) {
     String msg = chatReceiveEvent.chatMessage().getPlainText();
-    ClientPlayer clientPlayer = this.addon.labyAPI().minecraft().clientPlayer();
-    String userName = clientPlayer.getName();
+    ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
+    if (p == null) {
+      return;
+    }
+    String userName = p.getName();
 
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
@@ -252,6 +249,12 @@ public class ChatReceiveEventListener {
       }
 
     }
+
+    // Spawn protection countdown
+    if (msg.equals("You are now invincible for 10 seconds.")) {
+      this.addon.clientPlayerSpawnProtection.registerDeath();
+    }
+
   }
 
   private boolean processKillMessage(Pattern killMessagePattern, int killerGroup, String msg, String userName) {
@@ -308,14 +311,5 @@ public class ChatReceiveEventListener {
         .append(Component.text(murdered, NamedTextColor.RED))
         .append(Component.text(" killed by "))
         .append(Component.text(murderer, NamedTextColor.GREEN)));
-  }
-
-  private boolean isSpectator(String userName) {
-    for (Player player : this.addon.labyAPI().minecraft().clientWorld().getPlayers()) {
-      if (player.getName().equals(userName)) {
-        return player.networkPlayerInfo().gameMode().equals(GameMode.SPECTATOR);
-      }
-    }
-    return true;
   }
 }

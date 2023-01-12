@@ -1,8 +1,5 @@
 package org.ccu.core.config.imp;
 
-import java.util.Calendar;
-import java.util.HashMap;
-
 public class StatsTracker {
 
   private int Daily;

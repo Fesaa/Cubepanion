@@ -20,6 +20,10 @@ public class CCUconfig extends AddonConfig {
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
+  @SwitchSetting
+  @SpriteSlot(x = 3, y = 1)
+  private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
+
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
@@ -45,6 +49,7 @@ public class CCUconfig extends AddonConfig {
 
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
+  public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}

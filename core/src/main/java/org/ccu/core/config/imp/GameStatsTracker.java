@@ -1,13 +1,13 @@
 package org.ccu.core.config.imp;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.ccu.core.CCU;
 import org.jetbrains.annotations.NotNull;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameStatsTracker {
 

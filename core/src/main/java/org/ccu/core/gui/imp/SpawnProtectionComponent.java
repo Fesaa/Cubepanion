@@ -1,0 +1,83 @@
+package org.ccu.core.gui.imp;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.ccu.core.CCU;
+
+public class SpawnProtectionComponent {
+
+  private final CCU addon;
+  private int second;
+  private int precisionSecond;
+  private boolean inUse;
+
+  public SpawnProtectionComponent(CCU addon) {
+    this.addon = addon;
+    this.second = 9;
+    this.precisionSecond = 10;
+    this.inUse = false;
+  }
+
+  public boolean isEnabled() {
+    return this.inUse;
+  }
+
+  public void enable() {
+    if (!this.addon.configuration().getRespawnTimer().get()) {
+      return;
+    }
+    this.inUse = true;
+  }
+
+  private void tryToDisable() {
+    if (this.second == 0 && this.precisionSecond == 0) {
+      this.second = 9;
+      this.precisionSecond = 9;
+      this.inUse = false;
+    }
+  }
+
+  private void lowerCount(boolean endOfSecond) {
+    if (endOfSecond) {
+      this.second--;
+      this.precisionSecond = 9;
+    } else {
+      this.precisionSecond--;
+    }
+  }
+
+  public void update(boolean endOfSecond) {
+    this.tryToDisable();
+    this.lowerCount(endOfSecond);
+  }
+
+  public Component getComponent() {
+    if (!this.inUse) {
+      return Component.empty();
+    }
+    return Component.text(second + ":" + precisionSecond, this.getColour(this.second));
+  }
+
+  private NamedTextColor getColour(int i) {
+    switch (i) {
+      case 7:
+      case 6:
+      case 5:{
+        return NamedTextColor.DARK_GREEN;
+      }
+      case 4:
+      case 3:
+      case 2:{
+        return NamedTextColor.RED;
+      }
+      case 1:
+      case 0:{
+        return NamedTextColor.DARK_RED;
+      }
+      default: {
+        return NamedTextColor.GREEN;
+      }
+    }
+  }
+
+}

@@ -35,20 +35,21 @@ public class NetworkListener {
     if (!CCUinternalConfig.inPreLobby
         && CCUinternalConfig.name.equals("Team EggWars")) {
       this.addon.rpcManager.registerDeath(playerInfoRemoveEvent.playerInfo());
-      this.addon.logger().info("onPlayerInfoRemoveEvent + 1 death");
-
     }
   }
 
   @Subscribe
   public void onPlayerInfoUpdateEvent(PlayerInfoUpdateEvent playerInfoUpdateEvent) {
     if (CCUinternalConfig.name.equals("Team EggWars")) {
+
+      if (playerInfoUpdateEvent.type().equals(UpdateType.GAME_MODE) && playerInfoUpdateEvent.playerInfo().gameMode().equals(GameMode.SURVIVAL)) {
+        this.addon.getManager().registerDeath(playerInfoUpdateEvent.playerInfo().profile().getUniqueId());
+      }
       return;
     }
     if (playerInfoUpdateEvent.type().equals(UpdateType.GAME_MODE)) {
       if (playerInfoUpdateEvent.playerInfo().gameMode().equals(GameMode.SPECTATOR)) {
         this.addon.rpcManager.registerDeath(playerInfoUpdateEvent.playerInfo());
-        this.addon.logger().info("onPlayerInfoUpdateEvent + 1 death");
       }
     }
   }
@@ -119,6 +120,8 @@ public class NetworkListener {
 
   private void toRun(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
     CCUinternalConfig.setVars(this.addon, scoreboard, scoreboardObjective);
+
+    this.addon.getManager().registerNewDivision();
 
     if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
       AutoVote.vote(this.addon);

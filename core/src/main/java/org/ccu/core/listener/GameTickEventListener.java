@@ -15,11 +15,17 @@ public class GameTickEventListener {
 
   @Subscribe
   public void onGameTickEvent(GameTickEvent gameTickEvent) {
-    int ticksInAMinute = 20 * 60;
+    int ticksInAMinute = 20 * 60 * 2;
     if (this.counter % ticksInAMinute == 0) {
       this.addon.configuration().getStatsTrackerSubConfig().checkForResets();
-      this.counter = 0;
       this.addon.saveConfiguration();
+    }
+    if (this.counter % 40 == 0) {
+      this.addon.clientPlayerSpawnProtection.update(true);
+      this.addon.getManager().updateSpawnProtectionComponentHashMap(true);
+    } else if (this.counter % 4 == 0) {
+      this.addon.clientPlayerSpawnProtection.update(false);
+      this.addon.getManager().updateSpawnProtectionComponentHashMap(false);
     }
     this.counter++;
   }
