@@ -18,7 +18,6 @@ import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
-import org.ccu.core.utils.EggWarsMapInfo;
 
 public class ChatReceiveEventListener {
 
@@ -187,7 +186,7 @@ public class ChatReceiveEventListener {
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
           manager.updateTeamColour();
-          EggWarsMapInfo.eggWarsMapInfo(this.addon);
+          manager.doEggWarsMapLayout();
         }
         this.addon.rpcManager.startOfGame();
         this.addon.rpcManager.updateRPC();
