@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 
 public class StatCommands extends Command {

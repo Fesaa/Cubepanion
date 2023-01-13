@@ -7,7 +7,7 @@ import net.labymod.api.client.scoreboard.DisplaySlot;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import org.ccu.core.CCU;
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 
 public class EggWarsMapInfo {
 

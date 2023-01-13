@@ -1,4 +1,4 @@
-package org.ccu.core.config.CCUManager;
+package org.ccu.core.config;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -40,6 +40,18 @@ public class CCUManager {
   public CCUManager(CCU addon) {
     this.addon = addon;
     this.uuidSpawnProtectionComponentHashMap = new HashMap<>();
+    this.serverIP = "";
+    this.divisionName = "";
+    this.lastDivisionName = "";
+    this.mapName = "";
+    this.teamColour = "";
+
+    this.eliminated = false;
+    this.inParty = false;
+    this.inPreLobby = false;
+    this.won = false;
+
+    this.chestPartyAnnounceCounter = 0;
   }
 
   public void reset() {

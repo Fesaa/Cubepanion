@@ -1,6 +1,6 @@
 package org.ccu.core;
 
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.gui.hud.widgets.CounterItemHudWidget;

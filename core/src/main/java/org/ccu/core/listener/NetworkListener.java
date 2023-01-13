@@ -17,7 +17,7 @@ import net.labymod.api.event.client.network.server.NetworkDisconnectEvent;
 import net.labymod.api.event.client.network.server.NetworkLoginEvent;
 import net.labymod.api.event.client.network.server.NetworkServerSwitchEvent;
 import org.ccu.core.CCU;
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.utils.AutoVote;

@@ -7,7 +7,7 @@ import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonListener;
 import org.ccu.core.commands.AppealSiteCommand;
 import org.ccu.core.commands.StatCommands;
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.CCUconfig;
 import org.ccu.core.config.internal.ConfigManager;
 import org.ccu.core.gui.imp.ClientPlayerSpawnProtection;

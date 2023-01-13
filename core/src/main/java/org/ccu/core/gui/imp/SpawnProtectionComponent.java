@@ -11,10 +11,20 @@ public class SpawnProtectionComponent {
   private int precisionSecond;
   private boolean inUse;
 
+  private final int startSecond = 7;
+  private final int startPrecisionSecond = 5;
+
   public SpawnProtectionComponent(CCU addon) {
     this.addon = addon;
-    this.second = 9;
-    this.precisionSecond = 10;
+    this.second = this.startSecond;
+    this.precisionSecond = this.startPrecisionSecond;
+    this.inUse = false;
+  }
+
+  public SpawnProtectionComponent(CCU addon, int startSecond, int startPrecisionSecond) {
+    this.addon = addon;
+    this.second = startSecond;
+    this.precisionSecond = startPrecisionSecond;
     this.inUse = false;
   }
 
@@ -31,8 +41,8 @@ public class SpawnProtectionComponent {
 
   private void tryToDisable() {
     if (this.second == 0 && this.precisionSecond == 0) {
-      this.second = 9;
-      this.precisionSecond = 9;
+      this.second = this.startSecond;
+      this.precisionSecond = this.startPrecisionSecond;
       this.inUse = false;
     }
   }

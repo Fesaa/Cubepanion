@@ -5,7 +5,7 @@ import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.world.item.ItemStack;
-import org.ccu.core.config.CCUManager.CCUManager;
+import org.ccu.core.config.CCUManager;
 import org.ccu.core.gui.hud.widgets.base.CustomItemHudWidget;
 
 public class DurabilityItemHudWidget extends CustomItemHudWidget {
