@@ -14,6 +14,7 @@ import org.ccu.core.gui.imp.ClientPlayerSpawnProtection;
 import org.ccu.core.listener.ChatReceiveEventListener;
 import org.ccu.core.listener.GameShutdownEventListener;
 import org.ccu.core.listener.GameTickEventListener;
+import org.ccu.core.listener.KeyEventListener;
 import org.ccu.core.listener.NetworkListener;
 import org.ccu.core.listener.PlayerNameTagRenderListener;
 
@@ -46,6 +47,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(GameTickEventListener.class);
     this.registerListener(GameShutdownEventListener.class);
     this.registerListener(PlayerNameTagRenderListener.class);
+    this.registerListener(KeyEventListener.class);
 
     this.widgetManager.register();
 
