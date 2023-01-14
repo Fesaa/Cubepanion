@@ -82,6 +82,10 @@ public class SquareEggWarsMap implements EggWarsMap {
   public void setCurrentTeamColour(String teamColour) {
     IndexPair indexPair = this.getIndex(teamColour);
 
+    if (indexPair.getSide() == -1 || indexPair.getLeftRight() == -1) {
+      return;
+    }
+
     this.currentTeamColour = teamColour;
     this.teamSide = this.teamColours.get(indexPair.getSide()).get((indexPair.getLeftRight() + 1) % 2);
     this.teamAcross = this.teamColours.get((indexPair.getSide() + 1) % 2).get((indexPair.getLeftRight() + 1) % 2);

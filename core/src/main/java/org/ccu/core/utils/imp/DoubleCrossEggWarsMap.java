@@ -124,8 +124,8 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
 
     this.currentTeamColour = teamColour;
     this.teamSide = this.teamColours.get(indexPair.getGroup()).get((indexPair.getLeftRight() + 1) % 2);
-    this.teamLeftLeft = this.teamColours.get((indexPair.getGroup() - 1) % 4).get(0);
-    this.teamLeftRight = this.teamColours.get((indexPair.getGroup() - 1) % 4).get(1);
+    this.teamLeftLeft = this.teamColours.get((indexPair.getGroup() + 3) % 4).get(0);
+    this.teamLeftRight = this.teamColours.get((indexPair.getGroup() + 3) % 4).get(1);
     this.teamRightLeft = this.teamColours.get((indexPair.getGroup() + 1) % 4).get(0);
     this.teamRightRight = this.teamColours.get((indexPair.getGroup() + 1) % 4).get(1);
     this.teamAcrossLeft = this.teamColours.get((indexPair.getGroup() + 2) % 4).get(0);

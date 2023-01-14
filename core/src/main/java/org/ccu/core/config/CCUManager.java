@@ -202,7 +202,7 @@ public class CCUManager {
     if (map == null) {
       return false;
     }
-    chat.displayClientMessage(Component.text("Map Info for " + mapName, NamedTextColor.GOLD));
+    chat.displayClientMessage(Component.text("\nMap Info for " + mapName, NamedTextColor.GOLD));
     map.setCurrentTeamColour(this.teamColour);
     Component mapLayout = map.getMapLayoutComponent();
     if (mapLayout != null) {
