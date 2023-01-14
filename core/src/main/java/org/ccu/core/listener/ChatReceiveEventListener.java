@@ -236,7 +236,8 @@ public class ChatReceiveEventListener {
 
       // "Natural" causes
       if (msg.equals(userName + " tried to survive in the void.")
-       || msg.equals(userName + " died in the void.")) {
+       || msg.equals(userName + " died in the void.")
+       || msg.equals(userName + " thought they could survive in the void.")) {
 
         this.displayKillMessage(userName, "void");
         this.registerCustomDeath("void");
