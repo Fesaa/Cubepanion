@@ -226,6 +226,7 @@ public class CCUManager {
     this.setCurrentTeamColour();
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
+    chat.displayClientMessage(Component.text("\nMap Info for " + mapName, NamedTextColor.GOLD));
 
     if (subConfig.getMapLayout().get()) {
       Component mapLayout = this.getMapLayoutComponent();
@@ -239,11 +240,6 @@ public class CCUManager {
       if (buildLimit != null) {
         chat.displayClientMessage(buildLimit);
       }
-    }
-
-    Component genLayoutComponent = this.getGenLayoutComponent();
-    if (genLayoutComponent != null) {
-      chat.displayClientMessage(genLayoutComponent);
     }
 
     if (subConfig.getLogInParty().get()) {
