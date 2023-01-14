@@ -24,7 +24,7 @@ public class KeyEventListener {
 
     // EggWars Map Info KeyBind
     EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
-    if (keyEvent.key().equals(subConfig.getKey().get()) || subConfig.isEnabled().get()) {
+    if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.getManager().doEggWarsMapLayout(this.addon.getManager().getMapName(), true);
       }
