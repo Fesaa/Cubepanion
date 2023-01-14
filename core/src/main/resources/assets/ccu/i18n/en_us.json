@@ -38,6 +38,13 @@
         },
         "logInParty": {
           "name": "Send map layout in party"
+        },
+        "key": {
+          "name": "Displays your current maps layout"
+        },
+        "genLayout": {
+          "name": "Displays maps gen layout",
+          "description": "  Only when using /eggwarsmaps <map name>"
         }
       },
       "discordRichPresenceSubConfig": {

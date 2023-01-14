@@ -2,10 +2,12 @@ package org.ccu.core.utils.imp;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.ccu.core.utils.ColourConverters;
 import org.ccu.core.utils.imp.base.EggWarsMap;
+import org.ccu.core.utils.imp.base.GenLayout;
 
 public class DoubleCrossEggWarsMap implements EggWarsMap {
 
@@ -17,6 +19,7 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
   private final String mapName;
   private final int teamSize;
   private final int buildLimit;
+  private final GenLayout genLayout;
 
   private final List<List<String>> teamColours;
 
@@ -30,11 +33,20 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
   private String teamAcrossRight = "";
 
   @SafeVarargs
-  public DoubleCrossEggWarsMap(String mapName, int teamSize, int buildLimit,  List<String>... teamColours) {
+  public DoubleCrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,  List<String>... teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
+    this.genLayout = genLayout;
     this.teamColours = Arrays.asList(teamColours);
+    Random rand = new Random();
+    List<String> temp = this.teamColours.get(rand.nextInt(this.teamColours.size()));
+    this.setCurrentTeamColour(temp.get(rand.nextInt(temp.size())));
+  }
+
+  @Override
+  public Component getGenLayoutComponent() {
+    return this.genLayout.getLayoutComponent();
   }
 
   @Override

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 
 public interface EggWarsMap {
 
+  Component getGenLayoutComponent();
   Component getMapLayoutComponent();
 
   Component getBuildLimitMessage();

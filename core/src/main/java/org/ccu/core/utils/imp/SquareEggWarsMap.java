@@ -2,10 +2,12 @@ package org.ccu.core.utils.imp;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.ccu.core.utils.ColourConverters;
 import org.ccu.core.utils.imp.base.EggWarsMap;
+import org.ccu.core.utils.imp.base.GenLayout;
 
 public class SquareEggWarsMap implements EggWarsMap {
 
@@ -17,6 +19,7 @@ public class SquareEggWarsMap implements EggWarsMap {
   private final String mapName;
   private final int teamSize;
   private final int buildLimit;
+  private final GenLayout genLayout;
 
   private final List<List<String>> teamColours;
 
@@ -26,11 +29,20 @@ public class SquareEggWarsMap implements EggWarsMap {
   private String teamAcrossSide = "";
 
   @SafeVarargs
-  public SquareEggWarsMap(String mapName, int teamSize, int buildLimit,  List<String>... teamColours) {
+  public SquareEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,  List<String>... teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
+    this.genLayout = genLayout;
     this.teamColours = Arrays.asList(teamColours);
+    Random rand = new Random();
+    List<String> temp = this.teamColours.get(rand.nextInt(this.teamColours.size()));
+    this.setCurrentTeamColour(temp.get(rand.nextInt(temp.size())));
+  }
+
+  @Override
+  public Component getGenLayoutComponent() {
+    return this.genLayout.getLayoutComponent();
   }
 
   @Override
@@ -72,14 +84,10 @@ public class SquareEggWarsMap implements EggWarsMap {
   public void setCurrentTeamColour(String teamColour) {
     IndexPair indexPair = this.getIndex(teamColour);
 
-    System.out.println(teamColour);
-
     this.currentTeamColour = teamColour;
     this.teamSide = this.teamColours.get(indexPair.getSide()).get((indexPair.getLeftRight() + 1) % 2);
     this.teamAcross = this.teamColours.get((indexPair.getSide() + 1) % 2).get((indexPair.getLeftRight() + 1) % 2);
     this.teamAcrossSide = this.teamColours.get((indexPair.getSide() + 1) % 2).get(indexPair.getLeftRight());
-
-    System.out.println(currentTeamColour + teamSide + teamAcross + teamAcrossSide);
 
     if (indexPair.getLeftRight() == 1) {
       this.currentTeamColour = this.teamSide;
@@ -89,8 +97,6 @@ public class SquareEggWarsMap implements EggWarsMap {
       this.teamAcross = this.teamAcrossSide;
       this.teamAcrossSide = temp;
     }
-
-    System.out.println(currentTeamColour + teamSide + teamAcross + teamAcrossSide);
   }
 
   public IndexPair getIndex(String member) {

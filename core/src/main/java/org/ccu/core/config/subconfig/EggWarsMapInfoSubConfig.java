@@ -25,6 +25,10 @@ public class EggWarsMapInfoSubConfig extends Config {
   private final ConfigProperty<Boolean> buildLimit = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(y = 2, x = 1)
+  private final ConfigProperty<Boolean> genLayout = new ConfigProperty<>(true);
+
+  @SwitchSetting
   @SpriteSlot(x = 5, y = 2)
   private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(true);
 
@@ -32,6 +36,7 @@ public class EggWarsMapInfoSubConfig extends Config {
   public ConfigProperty<Key> getKey() {return this.key;}
   public ConfigProperty<Boolean> getMapLayout() {return this.mapLayout;}
   public ConfigProperty<Boolean> getBuildLimit() {return this.buildLimit;}
+  public ConfigProperty<Boolean> getGenLayout() {return genLayout;}
   public ConfigProperty<Boolean> getLogInParty() {return this.logInParty;}
 
 }

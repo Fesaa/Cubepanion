@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.scoreboard.Scoreboard;
@@ -18,6 +19,10 @@ import org.ccu.core.utils.imp.CrossEggWarsMap;
 import org.ccu.core.utils.imp.DoubleCrossEggWarsMap;
 import org.ccu.core.utils.imp.SquareEggWarsMap;
 import org.ccu.core.utils.imp.base.EggWarsMap;
+import org.ccu.core.utils.imp.base.GenLayout;
+import org.ccu.core.utils.imp.base.GenLayout.Generator;
+import org.ccu.core.utils.imp.base.GenLayout.Location;
+import org.ccu.core.utils.imp.base.GenLayout.MapGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class CCUManager {
@@ -69,29 +74,135 @@ public class CCUManager {
   }
 
   private void registerEggWarsMaps() {
-    this.eggWarsMapLayouts.put("Yuki", new CrossEggWarsMap("Yuki", 4, 63, "yellow", "dark_blue", "green", "red"));
-    this.eggWarsMapLayouts.put("Olympus", new CrossEggWarsMap("Olympus", 4, 71, "green", "dark_aqua", "yellow", "red"));
-    this.eggWarsMapLayouts.put("Graveyard", new CrossEggWarsMap("Graveyard", 4, 56, "red", "green", "yellow", "dark_blue"));
-    this.eggWarsMapLayouts.put("Palace", new CrossEggWarsMap("Palace", 4, 70, "dark_purple", "yellow", "dark_blue", "red"));
-    this.eggWarsMapLayouts.put("Ruins", new CrossEggWarsMap("Ruins", 4, 86, "dark_purple", "red", "green", "dark_blue"));
-    this.eggWarsMapLayouts.put("Beach", new CrossEggWarsMap("Beach", 4, 86, "dark_purple", "green", "gold", "aqua"));
-    this.eggWarsMapLayouts.put("Fairytale", new CrossEggWarsMap("Fairytale", 4, 64, "dark_blue", "red", "dark_purple", "yellow"));
 
-    this.eggWarsMapLayouts.put("Cyber Snow", new DoubleCrossEggWarsMap("Cyber Snow", 2, 77,
+    GenLayout YukiGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 4),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 2, 4),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Yuki", new CrossEggWarsMap("Yuki", 4, 63, YukiGenLayout,  "yellow", "dark_blue", "green", "red"));
+
+    GenLayout OlympusGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 3),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 2, 3),
+            new MapGenerator(Generator.IRON, Location.MIDDLE, 3, 4),
+            new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 1, 4),
+            new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 4),
+            new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 3, 8),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 2),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 2)
+        );
+    this.eggWarsMapLayouts.put("Olympus", new CrossEggWarsMap("Olympus", 4, 71, OlympusGenLayout, "green", "dark_aqua", "yellow", "red"));
+
+    GenLayout PalaceGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 3, 2),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 3, 1),
+            new MapGenerator(Generator.IRON, Location.MIDDLE, 3, 1),
+            new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 2, 4),
+            new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 8),
+            new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 2, 8),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 2),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Palace", new CrossEggWarsMap("Palace", 4, 70, PalaceGenLayout, "dark_purple", "yellow", "dark_blue", "red"));
+
+    GenLayout RuinsGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 2),
+            new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 2, 2),
+            new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 2),
+            new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 3, 2),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 2),
+            new MapGenerator(Generator.GOLD, Location.BASE, 2, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 2),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Ruins", new CrossEggWarsMap("Ruins", 4, 86, RuinsGenLayout, "dark_purple", "red", "green", "dark_blue"));
+
+    GenLayout BeachGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 2),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 4, 2),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 2),
+            new MapGenerator(Generator.IRON, Location.BASE, 0, 1)
+        );
+    this.eggWarsMapLayouts.put("Beach", new CrossEggWarsMap("Beach", 4, 86, BeachGenLayout, "dark_purple", "green", "gold", "aqua"));
+
+    GenLayout FairytaleGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 2),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 3, 2),
+            new MapGenerator(Generator.IRON, Location.MIDDLE, 3, 4),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 3, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Fairytale", new CrossEggWarsMap("Fairytale", 4, 64, FairytaleGenLayout, "dark_blue", "red", "dark_purple", "yellow"));
+
+
+    GenLayout CyberSnowGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 1, 8),
+            new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 8),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Cyber Snow", new DoubleCrossEggWarsMap("Cyber Snow", 2, 77, CyberSnowGenLayout,
         List.of("dark_blue", "red"), List.of("gray", "light_purple"), List.of("dark_gray", "dark_aqua"), List.of("yellow", "green")));
 
-    this.eggWarsMapLayouts.put("Mushroom", new SquareEggWarsMap("Mushroom", 4, 72, List.of("green", "red"), List.of("yellow", "aqua")));
-    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, List.of("yellow", "red"), List.of("aqua", "light_purple")));
-    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, List.of("light_purple", "dark_aqua"), List.of("red", "green")));
+
+    GenLayout MushroomGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 1, 2),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 3, 2),
+            new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 1, 2),
+            new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 3, 2),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 3, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Mushroom", new SquareEggWarsMap("Mushroom", 4, 72, MushroomGenLayout, List.of("green", "red"), List.of("yellow", "aqua")));
+
+    GenLayout ModernGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 2),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 2, 2),
+            new MapGenerator(Generator.IRON, Location.MIDDLE, 3, 2),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 0, 1)
+        );
+    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, ModernGenLayout, List.of("yellow", "red"), List.of("aqua", "light_purple")));
+
+    GenLayout CyberCityGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 1, 3),
+            new MapGenerator(Generator.GOLD, Location.MIDDLE, 2, 6),
+            new MapGenerator(Generator.IRON, Location.MIDDLE, 2, 6),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, List.of("light_purple", "dark_aqua"), List.of("red", "green")));
 
   }
 
-  public boolean doEggWarsMapLayout(String mapName) {
+  public boolean doEggWarsMapLayout(String mapName, boolean keyBind) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
     EggWarsMap map = this.eggWarsMapLayouts.get(mapName);
+    EggWarsMapInfoSubConfig config = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (map == null) {
       return false;
     }
+    chat.displayClientMessage(Component.text("Map Info for " + mapName, NamedTextColor.GOLD));
     map.setCurrentTeamColour(this.teamColour);
     Component mapLayout = map.getMapLayoutComponent();
     if (mapLayout != null) {
@@ -100,6 +211,9 @@ public class CCUManager {
     Component buildLimit = map.getBuildLimitMessage();
     if (buildLimit != null) {
       chat.displayClientMessage(buildLimit);
+    }
+    if (config.getGenLayout().get() && !keyBind) {
+      chat.displayClientMessage(map.getGenLayoutComponent());
     }
     return true;
   }
@@ -127,6 +241,11 @@ public class CCUManager {
       }
     }
 
+    Component genLayoutComponent = this.getGenLayoutComponent();
+    if (genLayoutComponent != null) {
+      chat.displayClientMessage(genLayoutComponent);
+    }
+
     if (subConfig.getLogInParty().get()) {
       if (this.isInParty()) {
         String partyMessage = this.getPartyMessage();
@@ -135,6 +254,14 @@ public class CCUManager {
         }
       }
     }
+  }
+
+  private Component getGenLayoutComponent() {
+    EggWarsMap map = this.eggWarsMapLayouts.get(this.mapName);
+    if (map == null) {
+      return null;
+    }
+    return map.getGenLayoutComponent();
   }
 
   private void setCurrentTeamColour() {
