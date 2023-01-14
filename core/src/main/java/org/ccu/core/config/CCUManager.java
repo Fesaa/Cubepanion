@@ -86,6 +86,24 @@ public class CCUManager {
 
   }
 
+  public boolean doEggWarsMapLayout(String mapName) {
+    ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
+    EggWarsMap map = this.eggWarsMapLayouts.get(mapName);
+    if (map == null) {
+      return false;
+    }
+    map.setCurrentTeamColour(this.teamColour);
+    Component mapLayout = map.getMapLayoutComponent();
+    if (mapLayout != null) {
+      chat.displayClientMessage(mapLayout);
+    }
+    Component buildLimit = map.getBuildLimitMessage();
+    if (buildLimit != null) {
+      chat.displayClientMessage(buildLimit);
+    }
+    return true;
+  }
+
   public void doEggWarsMapLayout() {
     EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (!subConfig.isEnabled().get()) {
@@ -205,10 +223,10 @@ public class CCUManager {
     NetworkPlayerInfo playerInfo = this.addon.labyAPI().minecraft().clientPlayer().networkPlayerInfo();
     if (playerInfo == null) {
       return;
-    };
+    }
     for (Component component : playerInfo.getTeam().formatDisplayName(playerInfo.displayName()).children()) {
       if (!((TextComponent) component).content().equals("")) {
-        teamColour = Objects.requireNonNull(((TextComponent) component).color()).toString();
+        teamColour = Objects.requireNonNull(component.color()).toString();
         return;
       }
     }
