@@ -21,6 +21,10 @@ public class CCUconfig extends AddonConfig {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SpriteSlot(x = 6)
+  private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
+
+  @SwitchSetting
   @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
 
@@ -38,10 +42,6 @@ public class CCUconfig extends AddonConfig {
 
   @SpriteSlot(x = 3)
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
-
-  @SwitchSetting
-  @SpriteSlot(x = 6)
-  private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
 
   @SwitchSetting
   @SpriteSlot(x = 5)

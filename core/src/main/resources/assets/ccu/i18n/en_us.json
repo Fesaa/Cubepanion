@@ -5,11 +5,15 @@
       "enabled": {
         "name": "Enabled"
       },
+      "respawnTimer": {
+        "name": "Respawn timer",
+        "description": "  Adds to a countdown timer to a players name tag while respawning in EggWars."
+      },
       "endGameSubConfig": {
         "name": "Auto messages on game end",
         "onElimination": {
           "name": "On elimination",
-          "description": "Send your message of choice when eliminated. Will not send again when winning."
+          "description": "  Send your messages of choice when eliminated. Will not send again when winning."
         },
         "gameEndMessage": {
           "name": "Auto GG text",
@@ -118,20 +122,20 @@
         },
         "keepPerPlayerSnapshots": {
           "name": "Keep snapshots of per player data",
-          "description": "This might use a lot of data."
+          "description": "  This might use a lot of data."
         },
         "minEntry": {
           "name": "Player importance",
-          "description": "Minimum amount of kills/deaths needed to not be cleaned up"
+          "description": "  Minimum amount of kills/deaths needed to not be cleaned up"
         },
         "clearStatsTrackers": {
           "name": "Clear up Game Stats Trackers",
-          "description": "Will remove all player data with less kills/deaths than specified.\nThis action is irreversible.",
+          "description": "  Will remove all player data with less kills/deaths than specified.\nThis action is irreversible.",
           "text": "Clear"
         },
         "clearAllHistoricalPlayerData": {
           "name": "Remove all historical player data",
-          "description": "This action is irreversible.",
+          "description": "  This action is irreversible.",
           "text": "Clear"
         }
       },

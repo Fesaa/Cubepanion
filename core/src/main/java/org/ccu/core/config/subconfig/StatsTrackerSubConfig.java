@@ -28,7 +28,7 @@ public class StatsTrackerSubConfig extends Config {
 
   @SwitchSetting
   @SpriteSlot(x = 5, y = 1)
-  private final ConfigProperty<Boolean> keepPerPlayerSnapshots = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> keepPerPlayerSnapshots = new ConfigProperty<>(false);
 
   @SliderSetting(min=1, max=20)
   @SpriteSlot(x = 7, y = 1)
