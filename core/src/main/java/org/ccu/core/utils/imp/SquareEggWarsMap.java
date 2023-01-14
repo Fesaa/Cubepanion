@@ -35,9 +35,7 @@ public class SquareEggWarsMap implements EggWarsMap {
     this.buildLimit = buildLimit;
     this.genLayout = genLayout;
     this.teamColours = Arrays.asList(teamColours);
-    Random rand = new Random();
-    List<String> temp = this.teamColours.get(rand.nextInt(this.teamColours.size()));
-    this.setCurrentTeamColour(temp.get(rand.nextInt(temp.size())));
+    this.setCurrentTeamColour(this.teamColours.get(0).get(0));
   }
 
   @Override

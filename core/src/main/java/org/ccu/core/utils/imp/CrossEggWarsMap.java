@@ -35,8 +35,7 @@ public class CrossEggWarsMap implements EggWarsMap {
     this.buildLimit = buildLimit;
     this.genLayout = genLayout;
     this.teamColours = Arrays.asList(teamColours);
-    Random rand = new Random();
-    this.setCurrentTeamColour(this.teamColours.get(rand.nextInt(this.teamColours.size())));
+    this.setCurrentTeamColour(this.teamColours.get(0));
   }
 
   @Override

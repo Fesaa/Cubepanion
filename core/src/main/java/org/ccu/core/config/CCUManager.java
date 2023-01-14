@@ -30,7 +30,7 @@ public class CCUManager {
   private final CCU addon;
 
   private HashMap<UUID, SpawnProtectionComponent> uuidSpawnProtectionComponentHashMap;
-  private HashMap<String, EggWarsMap> eggWarsMapLayouts;
+  private final HashMap<String, EggWarsMap> eggWarsMapLayouts;
 
   private String serverIP;
   private String divisionName;
