@@ -5,12 +5,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
+import org.ccu.core.Colours;
 
 public class PartyCommands extends Command {
 
@@ -67,46 +66,50 @@ public class PartyCommands extends Command {
   }
 
   private void noPermissions() {
-    this.displayMessage(this.addon.prefix().append(Component.text("You need to be party owner to use this command.", NamedTextColor.GRAY)));
+    this.displayMessage(
+        this.addon.prefix().append(
+            Component.text("You need to be party owner to use this command.", Colours.Error)));
   }
 
   private void missingArguments() {
-    this.displayMessage(this.addon.prefix().append(Component.text("You are missing required arguments, please try again.", NamedTextColor.GRAY)));
+    this.displayMessage(
+        this.addon.prefix().append(
+            Component.text("You are missing required arguments, please try again.", Colours.Error)));
   }
 
   private void helpCommand(String command) {
     Component helpComponent = this.addon.prefix()
-        .append(Component.text("------- Enhanced Party Commands -------"));
+        .append(Component.text("------- Enhanced Party Commands -------", Colours.Title));
 
     boolean run = command.equals("extra");
 
     if (run || command.equals("reinvite") || command.equals("reinv")) {
       helpComponent = helpComponent
-          .append(Component.text("\n/party reinvite <username*>", NamedTextColor.AQUA)
+          .append(Component.text("\n/party reinvite <username*>", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party reinvite ")))
-          .append(Component.text(" Will kick and invite the passed usernames if they are in the party.", NamedTextColor.WHITE));
+          .append(Component.text(" Will kick and invite the passed usernames if they are in the party.", Colours.Secondary));
     }
 
     if (run || command.equals("remake")) {
       helpComponent = helpComponent
-          .append(Component.text("\n/party remake [username*]", NamedTextColor.AQUA)
+          .append(Component.text("\n/party remake [username*]", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party remake ")))
-          .append(Component.text(" Will disband the party and invite everyone ", NamedTextColor.WHITE))
-          .append(Component.text(" except ", NamedTextColor.WHITE).decorate(TextDecoration.BOLD))
-          .append(Component.text("the usernames passed.", NamedTextColor.WHITE));
+          .append(Component.text(" Will disband the party and invite everyone ", Colours.Secondary))
+          .append(Component.text(" except ", Colours.Secondary).decorate(TextDecoration.BOLD))
+          .append(Component.text("the usernames passed.", Colours.Secondary));
     }
 
     if (run || command.equals("kick")) {
       helpComponent = helpComponent
-          .append(Component.text("\n/party kick [username*]", NamedTextColor.AQUA)
+          .append(Component.text("\n/party kick [username*]", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party kick ")))
-          .append(Component.text(" Will kick all the passed usernames if they are in the party.", NamedTextColor.WHITE));
+          .append(Component.text(" Will kick all the passed usernames if they are in the party.", Colours.Secondary));
     }
 
     helpComponent = helpComponent
-        .append(Component.text("\n/party extra [command]", NamedTextColor.AQUA)
+        .append(Component.text("\n/party extra [command]", Colours.Primary)
             .clickEvent(ClickEvent.suggestCommand("/party extra ")))
-        .append(Component.text(" Displays the help message for a command. Omitting the command, displays for all commands.", NamedTextColor.WHITE));
+        .append(Component.text(" Displays the help message for a command. Omitting the command, displays for all commands.", Colours.Secondary));
 
     this.displayMessage(helpComponent);
   }

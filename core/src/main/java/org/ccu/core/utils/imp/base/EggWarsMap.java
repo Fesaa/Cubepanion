@@ -11,6 +11,8 @@ public interface EggWarsMap {
 
   String getPartyMessage();
 
+  String getName();
+
   void setCurrentTeamColour(String teamColour);
 
 }

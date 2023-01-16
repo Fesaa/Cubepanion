@@ -3,9 +3,10 @@ package org.ccu.core.commands;
 import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
+import org.ccu.core.Colours;
 
 public class AppealSiteCommand extends Command {
 
@@ -32,12 +33,14 @@ public class AppealSiteCommand extends Command {
         userName = arguments[0].replace("mco/", "");
         URL = "https://appeals.cubecraft.net/find_appeals/" + userName + "/MCO";
       }
-      Component appealSiteLink = Component.empty()
+      Component appealSiteLink = Component.newline()
           .append(this.addon.prefix())
-          .append(Component.text("Appeal site link for: ", NamedTextColor.GRAY))
-          .append(Component.text(userName, NamedTextColor.AQUA)
-              .clickEvent(ClickEvent.openUrl(URL)))
-          .append(Component.text("\n"));
+          .append(Component.text("Appeal site link for: ", Colours.Secondary))
+          .append(Component.text(userName, Colours.Primary)
+              .clickEvent(ClickEvent.openUrl(URL))
+              .hoverEvent(HoverEvent.showText(Component.text("Click to open URL", Colours.Secondary))))
+          .append(Component.newline());
+
       this.displayMessage(appealSiteLink);
       return true;
     }

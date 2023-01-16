@@ -3,9 +3,9 @@ package org.ccu.core.config.submanagers;
 import java.util.HashMap;
 import java.util.List;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.chat.ChatExecutor;
 import org.ccu.core.CCU;
+import org.ccu.core.Colours;
 import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.ccu.core.utils.imp.CrossEggWarsMap;
 import org.ccu.core.utils.imp.DoubleCrossEggWarsMap;
@@ -148,102 +148,70 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
     this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, List.of("light_purple", "dark_aqua"), List.of("red", "green")));
+  }
 
-    
+  private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout, boolean party) {
+    ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
+
+    map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
+
+    Component display = this.addon.prefix()
+        .append(Component.text("------- Map Info For " + map.getName() + " -------", Colours.Title));
+
+    Component mapLayout = map.getMapLayoutComponent();
+    if (mapLayout != null) {
+      display = display
+          .append(Component.newline())
+          .append(Component.text("Map Layout;", Colours.Primary))
+          .append(Component.newline())
+          .append(mapLayout);
+    }
+
+    Component buildLimit = map.getBuildLimitMessage();
+    if (buildLimit != null) {
+      display = display
+          .append(Component.newline())
+          .append(Component.newline())
+          .append(buildLimit);
+    }
+
+    if (genLayout) {
+      display = display
+          .append(Component.newline())
+          .append(this.addon.prefix())
+          .append(map.getGenLayoutComponent());
+    }
+
+    chat.displayClientMessage(display.append(Component.newline()));
+
+    if (party) {
+      String partyMessage = map.getPartyMessage();
+      if (partyMessage != null) {
+        chat.chat(partyMessage, false);
+      }
+    }
   }
 
   public boolean doEggWarsMapLayout(String mapName, boolean keyBind) {
-    
-    ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
     EggWarsMap map = this.eggWarsMapLayouts.get(mapName);
     EggWarsMapInfoSubConfig config = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (map == null) {
       return false;
     }
-    chat.displayClientMessage(Component.text("\nMap Info for " + mapName, NamedTextColor.GOLD));
-    map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
-    Component mapLayout = map.getMapLayoutComponent();
-    if (mapLayout != null) {
-      chat.displayClientMessage(mapLayout);
-    }
-    Component buildLimit = map.getBuildLimitMessage();
-    if (buildLimit != null) {
-      chat.displayClientMessage(buildLimit);
-    }
-    if (config.getGenLayout().get() && !keyBind) {
-      chat.displayClientMessage(map.getGenLayoutComponent());
-    }
+    this.displayEggWarsMapLayout(map, config.getGenLayout().get() && !keyBind, false);
     return true;
   }
 
   public void doEggWarsMapLayout() {
-    
     EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (!subConfig.isEnabled().get()) {
       return;
     }
-    this.setCurrentTeamColour();
-
-    ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
-    chat.displayClientMessage(Component.text("\nMap Info for " + this.addon.getManager().getMapName(), NamedTextColor.GOLD));
-
-    if (subConfig.getMapLayout().get()) {
-      Component mapLayout = this.getMapLayoutComponent();
-      if (mapLayout != null) {
-        chat.displayClientMessage(mapLayout);
-      }
-    }
-
-    if (subConfig.getBuildLimit().get()) {
-      Component buildLimit = this.getBuildLimitMessage();
-      if (buildLimit != null) {
-        chat.displayClientMessage(buildLimit);
-      }
-    }
-
-    if (subConfig.getLogInParty().get()) {
-      if (this.addon.getManager().getPartyManager().isInParty()) {
-        String partyMessage = this.getPartyMessage();
-        if (partyMessage != null) {
-          chat.chat(partyMessage, false);
-        }
-      }
-    }
-  }
-
-  private void setCurrentTeamColour() {
-    
-    EggWarsMap map = this.eggWarsMapLayouts.get(this.addon.getManager().getMapName());
-    if (map != null) {
-      map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
-    }
-  }
-
-  private Component getMapLayoutComponent() {
-    
     EggWarsMap map = this.eggWarsMapLayouts.get(this.addon.getManager().getMapName());
     if (map == null) {
-      return null;
+      return;
     }
-    return map.getMapLayoutComponent();
-  }
 
-  private Component getBuildLimitMessage() {
-    
-    EggWarsMap map = this.eggWarsMapLayouts.get(this.addon.getManager().getMapName());
-    if (map == null) {
-      return null;
-    }
-    return map.getBuildLimitMessage();
+    this.displayEggWarsMapLayout(map, false, subConfig.getLogInParty().get() && this.addon.getManager().getPartyManager().isInParty());
   }
-
-  private String getPartyMessage() {
-    
-    EggWarsMap map = this.eggWarsMapLayouts.get(this.addon.getManager().getMapName());
-    if (map == null) {
-      return null;
-    }
-    return map.getPartyMessage();
-  }
-
 }

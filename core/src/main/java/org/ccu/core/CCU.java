@@ -2,7 +2,6 @@ package org.ccu.core;
 
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonListener;
 import net.labymod.api.util.Pair;
@@ -67,9 +66,9 @@ public class CCU extends LabyAddon<CCUconfig> {
   }
 
   public Component prefix() {
-    return Component.text("[", NamedTextColor.GOLD)
-        .append(Component.text("CCU", NamedTextColor.AQUA))
-        .append(Component.text("] ", NamedTextColor.GOLD));
+    return Component.text("[", Colours.Title)
+        .append(Component.text("CCU", Colours.Primary))
+        .append(Component.text("] ", Colours.Title));
   }
 
   @Override

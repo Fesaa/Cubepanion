@@ -3,7 +3,7 @@ package org.ccu.core.utils.imp;
 import java.util.Arrays;
 import java.util.List;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import org.ccu.core.Colours;
 import org.ccu.core.utils.ColourConverters;
 import org.ccu.core.utils.imp.base.EggWarsMap;
 import org.ccu.core.utils.imp.base.GenLayout;
@@ -38,6 +38,11 @@ public class SquareEggWarsMap implements EggWarsMap {
   }
 
   @Override
+  public String getName() {
+    return this.mapName;
+  }
+
+  @Override
   public Component getGenLayoutComponent() {
     return this.genLayout.getLayoutComponent();
   }
@@ -60,7 +65,8 @@ public class SquareEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.text("The build limit is: " + this.buildLimit, NamedTextColor.GOLD);
+    return Component.text("Build limit: ", Colours.Primary)
+        .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
   @Override

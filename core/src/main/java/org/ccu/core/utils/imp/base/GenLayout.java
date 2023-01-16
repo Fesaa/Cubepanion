@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.ccu.core.Colours;
 
 public class GenLayout {
 
@@ -21,21 +22,21 @@ public class GenLayout {
     for (MapGenerator gen : this.generators) {
       switch (gen.getLoc()) {
         case BASE: {
-          base = base.append(Component.text(gen.getCount() + "x level " + gen.getLevel() + " ", NamedTextColor.GRAY))
+          base = base.append(Component.text(gen.getCount() + "x level " + gen.getLevel() + " ", Colours.Secondary))
               .append(Component.text(gen.getType().getString(), gen.getType().getColour()))
-              .append(Component.text(" generator(s)\n",NamedTextColor.GRAY));
+              .append(Component.text(" generator(s)\n", Colours.Secondary));
           break;
         }
         case MIDDLE: {
-          middle = middle.append(Component.text(gen.getCount() + "x level " + gen.getLevel() +" ", NamedTextColor.GRAY))
+          middle = middle.append(Component.text(gen.getCount() + "x level " + gen.getLevel() +" ", Colours.Secondary))
               .append(Component.text(gen.getType().getString(), gen.getType().getColour()))
-              .append(Component.text(" generator(s)\n",NamedTextColor.GRAY));
+              .append(Component.text(" generator(s)\n",Colours.Secondary));
           break;
         }
         case SEMI_MIDDLE: {
-          semi = semi.append(Component.text(gen.getCount() + "x level " + gen.getLevel() + " ", NamedTextColor.GRAY))
+          semi = semi.append(Component.text(gen.getCount() + "x level " + gen.getLevel() + " ", Colours.Secondary))
               .append(Component.text(gen.getType().getString(), gen.getType().getColour()))
-              .append(Component.text(" generator(s)\n",NamedTextColor.GRAY));
+              .append(Component.text(" generator(s)\n",Colours.Secondary));
           break;
         }
       }
@@ -43,19 +44,19 @@ public class GenLayout {
 
     Component out = Component.empty();
     if (!middle.equals(Component.empty())) {
-      out = out.append(Component.text("Middle: \n", NamedTextColor.AQUA))
+      out = out.append(Component.text("Middle: \n", Colours.Primary))
           .append(middle);
     }
     if (!semi.equals(Component.empty())) {
-      out = out.append(Component.text("Semi Middle: \n", NamedTextColor.AQUA))
+      out = out.append(Component.text("Semi Middle: \n", Colours.Primary))
           .append(semi);
     }
     if (!base.equals(Component.empty())) {
-      out = out.append(Component.text("Base: \n", NamedTextColor.AQUA))
+      out = out.append(Component.text("Base: \n", Colours.Primary))
           .append(base);
     }
     if (!out.equals(Component.empty())) {
-      out = Component.text("Gen Layout: \n", NamedTextColor.GOLD).append(out);
+      out = Component.text("------- Gen Layout ------- \n", Colours.Title).append(out);
     }
 
     return out;
