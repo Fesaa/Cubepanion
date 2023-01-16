@@ -80,7 +80,7 @@ public class ColourConverters {
       case "green": {return "Green";}
       case "dark_red":
       case "red": {return "Red";}
-      case "dark_aqua": {return "Aqua";}
+      case "dark_aqua": {return "Cyan";}
       case "dark_purple": {return "Purple";}
       case "gold": {return "Orange";}
       case "aqua": {return "Light Blue";}
