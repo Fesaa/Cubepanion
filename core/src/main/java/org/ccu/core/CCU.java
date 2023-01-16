@@ -67,9 +67,9 @@ public class CCU extends LabyAddon<CCUconfig> {
   }
 
   public Component prefix() {
-    return Component.text("[", NamedTextColor.GRAY)
-        .append(Component.text("CCU", NamedTextColor.GOLD))
-        .append(Component.text("] ", NamedTextColor.GRAY));
+    return Component.text("[", NamedTextColor.GOLD)
+        .append(Component.text("CCU", NamedTextColor.AQUA))
+        .append(Component.text("] ", NamedTextColor.GOLD));
   }
 
   @Override

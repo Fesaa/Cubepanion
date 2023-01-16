@@ -15,6 +15,26 @@
           "name": "On elimination",
           "description": "  Send your messages of choice when eliminated. Will not send again when winning."
         },
+        "commandSystemSubConfig": {
+          "name": "Custom Commands",
+          "description": "  Disabling the setting, disables all commands.",
+          "appealSiteCommand": {
+            "name": "Appeal Site",
+            "description": "  Usage: /appeal [mco/]<name>\nReturns a link to the users appeal page.\nWorks everywhere"
+          },
+          "EggWarsMapInfoCommand": {
+            "name": "EggWars Map Info",
+            "description": "  Usage: /eggwarsmap|ewm <Map Name>\nReturns all known information about the EggWars Map"
+          },
+          "PartyCommands": {
+            "name": "Party Commands",
+            "description": "  Enables extra handy party commands. /party extra for a full list"
+          },
+          "StatsCommand": {
+            "name": "Stats Commands",
+            "description": "  Enables enhanced stat tracking commands. /stats help for extra info."
+          }
+        },
         "gameEndMessage": {
           "name": "Auto GG text",
           "entries": {

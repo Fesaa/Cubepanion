@@ -3,6 +3,11 @@ package org.ccu.core.commands;
 import com.google.inject.Inject;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
@@ -10,11 +15,10 @@ import org.ccu.core.CCU;
 public class PartyCommands extends Command {
 
   private final CCU addon;
-  private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
 
   @Inject
   private PartyCommands(CCU addon) {
-    super("party");
+    super("party", "p");
 
     this.addon = addon;
   }
@@ -22,40 +26,155 @@ public class PartyCommands extends Command {
   @Override
   public boolean execute(String prefix, String[] arguments) {
 
-    if (!this.addon.getManager().getPartyManager().isPartyOwner()) {
+    if (arguments.length == 0) {
       return false;
     }
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
+    boolean canUse = this.addon.getManager().getPartyManager().isPartyOwner();
 
-    switch (arguments.length) {
-      case 2: {
-        if (arguments[0].equals("reinvite") && arguments[1].matches(this.userNameRegex)) {
-          chat.chat("/p kick " + arguments[1], false);
-          chat.chat("/p invite " + arguments[1], false);
+    switch (arguments[0]) {
+      case "reinvite":
+      case "reinv": {
+        if (canUse) {
+          this.reInviteCommand(chat, this.removeFirstN(arguments, 1));
+        } else {
+          this.noPermissions();
+        }
+        return true;
+      }
+      case "remake": {
+        if (canUse) {
+          this.reMakeCommand(chat, this.removeFirstN(arguments, 1));
+        } else {
+          this.noPermissions();
+        }
+        return true;
+      }
+      case "kick": {
+        if (arguments.length > 2 && canUse) {
+          this.multiKickCommand(chat, this.removeFirstN(arguments, 1));
           return true;
         }
-        break;
+        return false;
       }
-      case 1: {
-        if (arguments[0].equals("remake")) {
-          chat.chat("/p disband", false);
-          int multiplier = 1;
-          for (String userName : this.addon.getManager().getPartyManager().getPartyMembers()) {
-            Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
-                () -> chat.chat("/p invite " + userName, false),
-                100L * multiplier,
-                TimeUnit.MILLISECONDS
-            );
-            multiplier++;
-          }
-          return  true;
-        }
-        break;
+      case "extra": {
+        this.helpCommand(arguments[arguments.length-1]);
+        return true;
       }
     }
-
     return false;
+  }
+
+  private void noPermissions() {
+    this.displayMessage(this.addon.prefix().append(Component.text("You need to be party owner to use this command.", NamedTextColor.GRAY)));
+  }
+
+  private void missingArguments() {
+    this.displayMessage(this.addon.prefix().append(Component.text("You are missing required arguments, please try again.", NamedTextColor.GRAY)));
+  }
+
+  private void helpCommand(String command) {
+    Component helpComponent = this.addon.prefix()
+        .append(Component.text("------- Enhanced Party Commands -------"));
+
+    boolean run = command.equals("extra");
+
+    if (run || command.equals("reinvite") || command.equals("reinv")) {
+      helpComponent = helpComponent
+          .append(Component.text("\n/party reinvite <username*>", NamedTextColor.AQUA)
+              .clickEvent(ClickEvent.suggestCommand("/party reinvite ")))
+          .append(Component.text(" Will kick and invite the passed usernames if they are in the party.", NamedTextColor.WHITE));
+    }
+
+    if (run || command.equals("remake")) {
+      helpComponent = helpComponent
+          .append(Component.text("\n/party remake [username*]", NamedTextColor.AQUA)
+              .clickEvent(ClickEvent.suggestCommand("/party remake ")))
+          .append(Component.text(" Will disband the party and invite everyone ", NamedTextColor.WHITE))
+          .append(Component.text(" except ", NamedTextColor.WHITE).decorate(TextDecoration.BOLD))
+          .append(Component.text("the usernames passed.", NamedTextColor.WHITE));
+    }
+
+    if (run || command.equals("kick")) {
+      helpComponent = helpComponent
+          .append(Component.text("\n/party kick [username*]", NamedTextColor.AQUA)
+              .clickEvent(ClickEvent.suggestCommand("/party kick ")))
+          .append(Component.text(" Will kick all the passed usernames if they are in the party.", NamedTextColor.WHITE));
+    }
+
+    helpComponent = helpComponent
+        .append(Component.text("\n/party extra [command]", NamedTextColor.AQUA)
+            .clickEvent(ClickEvent.suggestCommand("/party extra ")))
+        .append(Component.text(" Displays the help message for a command. Omitting the command, displays for all commands.", NamedTextColor.WHITE));
+
+    this.displayMessage(helpComponent);
+  }
+
+  private void multiKickCommand(ChatExecutor chat, String[] usernames) {
+    int multiplier = 1;
+
+    for (String username : usernames) {
+      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
+          () -> chat.chat("/p kick " + username, false),
+          100L * multiplier,
+          TimeUnit.MILLISECONDS
+      );
+      multiplier++;
+    }
+  }
+
+  private void reMakeCommand(ChatExecutor chat, String[] excludedUsernames) {
+    chat.chat("/p disband", false);
+    int multiplier = 1;
+
+    for (String username : this.addon.getManager().getPartyManager().getPartyMembers()) {
+      if (!this.inArray(excludedUsernames, username)) {
+        Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
+            () -> chat.chat("/p invite " + username, false),
+            100L * multiplier,
+            TimeUnit.MILLISECONDS
+        );
+        multiplier++;
+      }
+    }
+  }
+
+  private void reInviteCommand(ChatExecutor chat, String[] Usernames) {
+
+    if (Usernames.length == 0) {
+      this.missingArguments();
+    }
+
+    for (String username : Usernames) {
+      if (this.addon.getManager().getPartyManager().isMemberInParty(username)) {
+        chat.chat("/p kick " + username, false);
+        chat.chat("/p invite " + username, false);
+      }
+    }
+  }
+
+  private boolean inArray(String[] array, String member) {
+    for (String element : array) {
+      if (element.equals(member)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private String[] removeFirstN(String[] array, int n) {
+    if (array.length <= n) {
+      return new String[0];
+    }
+
+    String[] slicedArray = new String[array.length - n];
+
+    for (int i = 0; i < array.length; i++) {
+      slicedArray[i] = array[n + i];
+    }
+
+    return slicedArray;
   }
 
 }

@@ -44,6 +44,10 @@ public class PartyManager {
     this.inParty = false;
   }
 
+  public boolean isMemberInParty(String username) {
+    return this.partyMembers.contains(username);
+  }
+
   public List<String> getPartyMembers() {
     return this.partyMembers;
   }
