@@ -1,27 +1,25 @@
-package org.ccu.core.listener;
+package org.ccu.core.listener.Chat;
 
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.ccu.core.CCU;
 import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
-import org.ccu.core.config.subconfig.EndGameSubConfig;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 
-public class ChatReceiveEventListener {
+public class StatsTracker {
 
   private final CCU addon;
+  private final CCUManager manager;
+
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game.");
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
@@ -30,8 +28,9 @@ public class ChatReceiveEventListener {
   private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>();
 
   @Inject
-  public ChatReceiveEventListener(CCU addon) {
+  public StatsTracker(CCU addon) {
     this.addon = addon;
+    this.manager = addon.getManager();
 
     // A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
@@ -126,20 +125,17 @@ public class ChatReceiveEventListener {
 
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " yeeted " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " yeeted their weapon into " + this.userNameRegex + "\\." + this.assistRegex), 1);
-
-    //this.customKillMessages.put(Pattern.compile(this.userNameRegex + "" + this.userNameRegex + "" + this.assistRegex));
   }
 
   @Subscribe
-  public void onChatReceiveEvent(ChatReceiveEvent chatReceiveEvent) {
-    String msg = chatReceiveEvent.chatMessage().getPlainText();
+  public void onChatReceiveEvent(ChatReceiveEvent e) {
+    String msg = e.chatMessage().getPlainText();
     ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
     if (p == null) {
       return;
     }
-    String userName = p.getName();
 
-    CCUManager manager = this.addon.getManager();
+    String userName = p.getName();
 
     // Win Streak Counter
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
@@ -154,66 +150,9 @@ public class ChatReceiveEventListener {
           statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
         }
         manager.setWon(true);
-      }
-    }
-
-    // Auto GG
-    EndGameSubConfig config = this.addon.configuration().getEndGameSubConfig();
-    if (config.isEnabled().get() && !manager.isEliminated()) {
-      String eliminationMessage = this.addon.labyAPI().minecraft().clientPlayer().getName() + " has been eliminated from the game.";
-      if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
-        this.addon.labyAPI().minecraft().chatExecutor().chat(config.getGameEndMessage().get().msg, false);
-        if (!config.getCustomMessage().isDefaultValue()) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
-        }
-        manager.setEliminated(true);
         return;
       }
     }
-
-    // Friend Message Sound
-    if (this.addon.configuration().friendMessageSound().get()) {
-      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
-        this.addon.labyAPI().minecraft().sounds().playSound(
-            ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1000, 1);
-        return;
-      }
-    }
-
-    // Start of game
-    if (msg.equals("Let the games begin!")) {
-      manager.setInPreLobby(false);
-      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
-        if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
-          manager.updateTeamColour();
-          manager.doEggWarsMapLayout();
-        }
-        this.addon.rpcManager.startOfGame();
-        this.addon.rpcManager.updateRPC();
-      },1000, TimeUnit.MILLISECONDS);
-      return;
-    }
-
-    // RPC
-    Matcher matcher = playerElimination.matcher(msg);
-    if (matcher.matches()) {
-      this.addon.rpcManager.registerDeath(matcher.group(1));
-      return;
-    }
-
-    // Party Tracker
-    if (msg.matches("You have joined [a-zA-Z0-9_]{2,16}'s party!") || msg.matches("[a-zA-Z0-9_]{2,16} joined the party!")) {
-      manager.setInParty(true);
-      return;
-    }
-    if (msg.matches("You have left your party!")
-        || msg.matches("You were kicked from your party!")
-        || msg.matches("The party has been disbanded!")) {
-      manager.setInParty(false);
-      return;
-    }
-
-
 
     // Kills & Death Tracker
     if (msg.contains(userName)) {
@@ -236,8 +175,8 @@ public class ChatReceiveEventListener {
 
       // "Natural" causes
       if (msg.equals(userName + " tried to survive in the void.")
-       || msg.equals(userName + " died in the void.")
-       || msg.equals(userName + " thought they could survive in the void.")) {
+          || msg.equals(userName + " died in the void.")
+          || msg.equals(userName + " thought they could survive in the void.")) {
 
         this.displayKillMessage(userName, "void");
         this.registerCustomDeath("void");
@@ -247,11 +186,6 @@ public class ChatReceiveEventListener {
         this.registerCustomDeath("tnt");
       }
 
-    }
-
-    // Spawn protection countdown
-    if (msg.equals("You are now invincible for 10 seconds.")) {
-      this.addon.clientPlayerSpawnProtection.registerDeath();
     }
 
   }
@@ -313,4 +247,5 @@ public class ChatReceiveEventListener {
         .append(Component.text(" killed by "))
         .append(Component.text(murderer, NamedTextColor.GREEN)));
   }
+
 }

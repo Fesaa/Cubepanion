@@ -22,6 +22,6 @@ public class EggWarsMapInfoCommand extends Command {
     } else {
       mapName = String.join(" ", arguments);
     }
-    return this.addon.getManager().doEggWarsMapLayout(mapName, false);
+    return this.addon.getManager().getEggWarsMapInfoManager().doEggWarsMapLayout(mapName, false);
   }
 }

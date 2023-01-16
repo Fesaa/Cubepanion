@@ -1,9 +1,9 @@
 package org.ccu.core.utils.imp.base;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import java.util.Arrays;
 import java.util.List;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class GenLayout {
 

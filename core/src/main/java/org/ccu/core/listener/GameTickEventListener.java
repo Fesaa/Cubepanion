@@ -5,14 +5,20 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import org.ccu.core.CCU;
+import org.ccu.core.config.submanagers.SpawnProtectionManager;
 
 public class GameTickEventListener {
 
   private final CCU addon;
+  private final SpawnProtectionManager spawnProtectionManager;
   private int counter = 0;
 
   @Inject
-  public GameTickEventListener(CCU addon) {this.addon = addon;}
+  public GameTickEventListener(CCU addon) {
+    this.addon = addon;
+
+    this.spawnProtectionManager = addon.getManager().getSpawnProtectionManager();
+  }
 
   @Subscribe
   public void onGameTickEvent(GameTickEvent gameTickEvent) {
@@ -26,11 +32,11 @@ public class GameTickEventListener {
       this.addon.saveConfiguration();
     }
     if (this.counter % 20 == 0) {
-      this.addon.clientPlayerSpawnProtection.update(true);
-      this.addon.getManager().updateSpawnProtectionComponentHashMap(true);
+      this.spawnProtectionManager.getClientPlayerSpawnProtection().update(true);
+      this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(true);
     } else if (this.counter % 2 == 0) {
-      this.addon.clientPlayerSpawnProtection.update(false);
-      this.addon.getManager().updateSpawnProtectionComponentHashMap(false);
+      this.spawnProtectionManager.getClientPlayerSpawnProtection().update(false);
+      this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(false);
     }
     this.counter++;
   }

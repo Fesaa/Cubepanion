@@ -34,7 +34,6 @@ public class AppealSiteCommand extends Command {
       }
       Component appealSiteLink = Component.empty()
           .append(this.addon.prefix())
-          .append(Component.text("\n"))
           .append(Component.text("Appeal site link for: ", NamedTextColor.GRAY))
           .append(Component.text(userName, NamedTextColor.AQUA)
               .clickEvent(ClickEvent.openUrl(URL)))

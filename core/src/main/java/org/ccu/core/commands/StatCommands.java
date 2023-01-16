@@ -21,6 +21,8 @@ public class StatCommands extends Command {
     this.addon = addon;
   }
 
+  //TODO: Reorder importance of arguments, a specified game should go before the game you're currently in.
+  // Failing in specifying should fail the command with an error message
   @Override
   public boolean execute(String prefix, String[] arguments) {
     CCUManager manager = this.addon.getManager();

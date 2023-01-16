@@ -46,7 +46,7 @@ public class NetworkListener {
     if (this.manager.getDivisionName().equals("Team EggWars")) {
 
       if (playerInfoUpdateEvent.type().equals(UpdateType.GAME_MODE) && playerInfoUpdateEvent.playerInfo().gameMode().equals(GameMode.SURVIVAL)) {
-        this.addon.getManager().registerDeath(playerInfoUpdateEvent.playerInfo().profile().getUniqueId());
+        this.addon.getManager().getSpawnProtectionManager().registerDeath(playerInfoUpdateEvent.playerInfo().profile().getUniqueId());
       }
       return;
     }
@@ -92,6 +92,8 @@ public class NetworkListener {
     }
   }
 
+  //TODO: Rewrite cubeProcesses, it's message and not clear what it's supposed to do
+  // Give each sub function its own function to call from the listeners for more flexibility
   private void cubeProcesses() {
     if (this.addon.configuration().displayWhereAmI().get()) {
       this.addon.labyAPI().minecraft().chatExecutor().chat("/whereami", false);

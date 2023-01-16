@@ -7,6 +7,7 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.ccu.core.config.subconfig.AutoVoteSubConfig;
+import org.ccu.core.config.subconfig.CommandSystemSubConfig;
 import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.ccu.core.config.subconfig.EndGameSubConfig;
@@ -31,6 +32,8 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
+  private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
+
   @SpriteSlot(x = 0)
   private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
 
@@ -50,6 +53,7 @@ public class CCUconfig extends AddonConfig {
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
+  public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}

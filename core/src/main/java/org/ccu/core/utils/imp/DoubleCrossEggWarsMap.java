@@ -2,7 +2,6 @@ package org.ccu.core.utils.imp;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.ccu.core.utils.ColourConverters;

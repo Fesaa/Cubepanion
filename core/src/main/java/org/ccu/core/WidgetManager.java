@@ -8,6 +8,10 @@ import org.ccu.core.gui.hud.widgets.DurabilityItemHudWidget;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.ccu.core.gui.hud.widgets.TextTrackerHudWidget;
 
+//TODO: Maybe! Add ...
+// Custom text widget
+// Deaths, Kills, etc. per game tracker
+// Party information
 public class WidgetManager {
   
   private final CCU addon;

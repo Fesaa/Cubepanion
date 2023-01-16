@@ -35,7 +35,7 @@ public class PlayerNameTagRenderListener {
     }
 
     UUID uuid = playerInfo.profile().getUniqueId();
-    SpawnProtectionComponent spawnProtectionComponentGen = this.addon.getManager().getSpawnProtectionComponent(uuid);
+    SpawnProtectionComponent spawnProtectionComponentGen = this.addon.getManager().getSpawnProtectionManager().getSpawnProtectionComponent(uuid);
     if (spawnProtectionComponentGen == null) {
       return;
     }
