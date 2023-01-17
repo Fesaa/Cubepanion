@@ -1,11 +1,11 @@
 package org.ccu.core;
 
-import net.labymod.api.client.chat.command.Command;
-import net.labymod.api.configuration.loader.property.ConfigProperty;
-import net.labymod.api.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.util.Pair;
 
 public class CommandManager {
 

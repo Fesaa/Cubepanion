@@ -30,12 +30,13 @@ public class PartyCommands extends Command {
     }
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
-    boolean canUse = this.addon.getManager().getPartyManager().isPartyOwner();
+    boolean partyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
+    boolean inParty = this.addon.getManager().getPartyManager().isInParty();
 
     switch (arguments[0]) {
       case "reinvite":
       case "reinv": {
-        if (canUse) {
+        if (partyOwner) {
           this.reInviteCommand(chat, this.removeFirstN(arguments, 1));
         } else {
           this.noPermissions();
@@ -43,7 +44,7 @@ public class PartyCommands extends Command {
         return true;
       }
       case "remake": {
-        if (canUse) {
+        if (partyOwner) {
           this.reMakeCommand(chat, this.removeFirstN(arguments, 1));
         } else {
           this.noPermissions();
@@ -51,7 +52,7 @@ public class PartyCommands extends Command {
         return true;
       }
       case "kick": {
-        if (arguments.length > 2 && canUse) {
+        if (arguments.length > 2 && partyOwner) {
           this.multiKickCommand(chat, this.removeFirstN(arguments, 1));
           return true;
         }
@@ -59,7 +60,7 @@ public class PartyCommands extends Command {
       }
       case "invite":
       case "add": {
-        if (arguments.length > 2 && canUse) {
+        if (arguments.length > 2 && (partyOwner || !inParty)) {
           this.multiInviteCommand(chat, this.removeFirstN(arguments, 1));
           return true;
         }
@@ -160,7 +161,7 @@ public class PartyCommands extends Command {
     int multiplier = 1;
 
     for (String username : this.addon.getManager().getPartyManager().getPartyMembers()) {
-      if (!this.inArray(excludedUsernames, username)) {
+      if (!this.inArray(excludedUsernames, username) && !username.equals(this.addon.labyAPI().minecraft().clientPlayer().getName())) {
         Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
             () -> chat.chat("/p invite " + username, false),
             100L * multiplier,
