@@ -13,7 +13,6 @@ import org.ccu.core.config.submanagers.PartyManager;
 import org.ccu.core.config.submanagers.SpawnProtectionManager;
 import org.jetbrains.annotations.NotNull;
 
-//TODO: Maybe! Split up some specific trackers into their subclasses and only have a getSubClass function in CCUManager
 public class CCUManager {
 
   private final CCU addon;
@@ -121,13 +120,14 @@ public class CCUManager {
     this.spawnProtectionManager.resetHasMap();
 
     this.lastDivisionName = this.divisionName;
-    this.divisionName = ((TextComponent) scoreboardObjective.getTitle()).content();
+    this.divisionName = (((TextComponent) scoreboardObjective.getTitle()).content()).replaceAll("[^\\w| ]", "").trim();
     this.mapName = getMap(scoreboard, scoreboardObjective);
 
     this.eliminated = false;
     this.won = false;
   }
 
+  // TODO: Fix for 1.19 Update
   public void updateTeamColour() {
     NetworkPlayerInfo playerInfo = this.addon.labyAPI().minecraft().clientPlayer().networkPlayerInfo();
     if (playerInfo == null) {
