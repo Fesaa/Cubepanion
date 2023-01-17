@@ -57,6 +57,14 @@ public class PartyCommands extends Command {
         }
         return false;
       }
+      case "invite":
+      case "add": {
+        if (arguments.length > 2 && canUse) {
+          this.multiInviteCommand(chat, this.removeFirstN(arguments, 1));
+          return true;
+        }
+        return false;
+      }
       case "extra": {
         this.helpCommand(arguments[arguments.length-1]);
         return true;
@@ -106,12 +114,32 @@ public class PartyCommands extends Command {
           .append(Component.text(" Will kick all the passed usernames if they are in the party.", Colours.Secondary));
     }
 
+    if (run || command.equals("invite") || command.equals("add") ) {
+      helpComponent = helpComponent
+          .append(Component.text("\n/party invite [username*]", Colours.Primary)
+              .clickEvent(ClickEvent.suggestCommand("/party invite ")))
+          .append(Component.text(" Will invite all the passed usernames.", Colours.Secondary));
+    }
+
     helpComponent = helpComponent
         .append(Component.text("\n/party extra [command]", Colours.Primary)
             .clickEvent(ClickEvent.suggestCommand("/party extra ")))
         .append(Component.text(" Displays the help message for a command. Omitting the command, displays for all commands.", Colours.Secondary));
 
     this.displayMessage(helpComponent);
+  }
+
+  private void multiInviteCommand(ChatExecutor chat, String[] usernames) {
+    int multiplier = 1;
+
+    for (String username : usernames) {
+      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
+          () -> chat.chat("/p invite " + username, false),
+          100L * multiplier,
+          TimeUnit.MILLISECONDS
+      );
+      multiplier++;
+    }
   }
 
   private void multiKickCommand(ChatExecutor chat, String[] usernames) {

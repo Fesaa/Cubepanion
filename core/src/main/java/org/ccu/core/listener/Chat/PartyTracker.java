@@ -22,6 +22,7 @@ public class PartyTracker {
   private final String kickedFromParty = "You were kicked from your party!";
   private final String leftParty = "You have left your party!";
   private final String joinedParty = "You have joined " + this.userNameRegex + "'s party!";
+  private final Pattern ownerChange = Pattern.compile("The owner of the party has been changed to " + this.userNameRegex + "!");
   private final Pattern playerJoinsPartyMessage = Pattern.compile("\\[Party\\] \\[\\+\\] " + this.userNameRegex + " joined the party\\.");
   private final Pattern playerKickedFromPartyMessage = Pattern.compile(this.userNameRegex + " was kicked from the party!");
   private final Pattern playerLeavesPartyMessage = Pattern.compile("\\[Party\\] \\[-\\] " + this.userNameRegex + " left the party\\.");
@@ -54,6 +55,7 @@ public class PartyTracker {
 
       if (!this.partyManager.isInParty()) {
         this.partyManager.setInParty(true);
+        this.partyManager.setPartyOwner(true);
 
         this.toggleTryingToReadPartyMembers();
       }
@@ -118,6 +120,14 @@ public class PartyTracker {
           this.tryingToReadPartyMembers = false;
           this.addon.logger().info(this.partyManager.getPartyMembers().toString());
         }
+        return;
+      }
+    }
+
+    if (this.partyManager.isInParty()) {
+      Matcher ownerChangeMatcher = this.ownerChange.matcher(msg);
+      if (ownerChangeMatcher.matches()) {
+        this.partyManager.setPartyOwner(ownerChangeMatcher.group(1).equals(p.getName()));
       }
     }
   }
