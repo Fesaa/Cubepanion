@@ -41,7 +41,7 @@ public class StatCommands extends Command {
     String gameName = this.getGameString(arguments);
 
     GameStatsTracker gameStatsTracker;
-    if (gameName == null ) {
+    if (gameName == null) {
        gameStatsTracker = allGameStatsTrackers.get(manager.getDivisionName());
     } else {
       gameStatsTracker = allGameStatsTrackers.get(gameName);
@@ -152,7 +152,7 @@ public class StatCommands extends Command {
   }
 
   private String[] removeFromArguments(String[] arguments, String member) {
-    String[] newArguments = new String[arguments.length];
+    String[] newArguments = new String[arguments.length - 1];
 
     int j = 0;
     for (String argument : arguments) {
@@ -168,7 +168,7 @@ public class StatCommands extends Command {
     String game = "";
 
     for (String arg : arguments) {
-      game = game + arg;
+      game = (game + " " + arg).trim();
 
       GameStatsTracker tracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers()
           .get(game);
