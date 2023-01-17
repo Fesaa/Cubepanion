@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.labymod.api.client.chat.command.Command;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
@@ -35,10 +36,10 @@ public class AppealSiteCommand extends Command {
       }
       Component appealSiteLink = Component.newline()
           .append(this.addon.prefix())
-          .append(Component.text("Appeal site link for: ", Colours.Secondary))
-          .append(Component.text(userName, Colours.Primary)
+          .append(Component.text("Appeal site link for: ", Colours.Primary))
+          .append(Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD)
               .clickEvent(ClickEvent.openUrl(URL))
-              .hoverEvent(HoverEvent.showText(Component.text("Click to open URL", Colours.Secondary))))
+              .hoverEvent(HoverEvent.showText(Component.text("Click to open URL", Colours.Hover))))
           .append(Component.newline());
 
       this.displayMessage(appealSiteLink);
