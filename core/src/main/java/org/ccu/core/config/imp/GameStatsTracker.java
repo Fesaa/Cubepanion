@@ -4,9 +4,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.ccu.core.CCU;
+import org.ccu.core.Colours;
 import org.jetbrains.annotations.NotNull;
 
 public class GameStatsTracker {
@@ -268,20 +267,15 @@ public class GameStatsTracker {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);
 
-    Component userStatsDisplayComponent = Component.empty();
+    Component userStatsDisplayComponent = addon.prefix()
+        .append(Component.text("------- Interaction stats with " + name, Colours.Title));
 
     if (kills == null && deaths == null) {
-      return userStatsDisplayComponent.append(addon.prefix())
-                                      .append(Component.text("No interaction stats available in " + this.game + " with " + name, NamedTextColor.RED));
+      return addon.prefix()
+          .append(Component.text("No interaction stats available in " + this.game + " with " + name, Colours.Error));
     }
 
-    userStatsDisplayComponent = userStatsDisplayComponent.append(addon.prefix())
-        .append(Component.text("Interaction stats in " + this.game + " with " + name, NamedTextColor.GREEN));
-
-    userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n    •Kills", NamedTextColor.AQUA));
     userStatsDisplayComponent = getComponent(kills, userStatsDisplayComponent, "kills");
-
-    userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n    •Deaths", NamedTextColor.AQUA));
     userStatsDisplayComponent = getComponent(deaths, userStatsDisplayComponent, "deaths");
 
     return userStatsDisplayComponent;
@@ -290,51 +284,51 @@ public class GameStatsTracker {
   @NotNull
   private Component getComponent(StatsTracker statsTracker, Component userStatsDisplayComponent, String type) {
     if (statsTracker == null) {
-      userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\n        N/A", NamedTextColor.GRAY));
+      userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\nNo " + type + "stats available.", Colours.Error));
     } else {
       userStatsDisplayComponent = userStatsDisplayComponent
-          .append(Component.text("\n        -Total " + type + ": " + statsTracker.getAllTime(), NamedTextColor.GRAY))
-          .append(Component.text("\n        -Today's " + type + ": " + statsTracker.getDaily(), NamedTextColor.GRAY))
-          .append(Component.text("\n        -Most " + type + " in a day: " + statsTracker.getAllTimeDailyMax(), NamedTextColor.GRAY));
+          .append(Component.text("\nTotal " + type +": ", Colours.Primary))
+          .append(Component.text(statsTracker.getAllTime(), Colours.Secondary))
+          .append(Component.text("\nToday's " + type +": ", Colours.Primary))
+          .append(Component.text(statsTracker.getDaily(), Colours.Secondary))
+          .append(Component.text("\nTop Daily " + type +": ", Colours.Primary))
+          .append(Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary));
     }
     return userStatsDisplayComponent;
   }
 
   public Component getDisplayComponent(CCU addon) {
-    return Component.empty()
-        .append(addon.prefix())
-        .append(Component.text("Recorded stats for " + this.game + "\n", NamedTextColor.DARK_AQUA)
-            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <YYYY-MM-DD> for a snapshot of your stats on that day", NamedTextColor.GREEN))))
-
-        .append(Component.text("\n    •Games Played ", NamedTextColor.AQUA))
-        .append(Component.text("\n        -Total games played: " + this.getAllTimePlayed(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's games played: " + this.getDailyPlayed(), NamedTextColor.GRAY))
-
-        .append(Component.text("\n    •Win Streak ", NamedTextColor.AQUA))
-        .append(Component.text("\n        -Highest all time win streak: " + this.getAllTimeHighestWinStreak(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Current all time win streak: " + this.getWinStreak(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Highest daily win streak: " + this.getDailyHighestWinStreak(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's win streak: " + this.getDailyWinStreak(), NamedTextColor.GRAY))
-
-        .append(Component.text("\n    •Wins ", NamedTextColor.AQUA))
-        .append(Component.text("\n        -Total wins: " + this.getAllTimeWins(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's wins: " + this.getDailyWins(), NamedTextColor.GRAY))
-
-        .append(Component.text("\n    •Loses ", NamedTextColor.AQUA))
-        .append(Component.text("\n        -Total loses: " + (this.getAllTimePlayed() - this.getAllTimeWins()), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's loses: " + (this.getDailyPlayed() - this.getDailyWins()), NamedTextColor.GRAY))
-
-        .append(Component.text("\n    •Kills ", NamedTextColor.AQUA)
-            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <user name> for your kills on and death to that player.", NamedTextColor.GREEN))))
-        .append(Component.text("\n        -Total kills: " + this.getTotalKills(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's kills: " + this.getDailyKills(), NamedTextColor.GRAY))
-
-        .append(Component.text("\n    •Deaths ", NamedTextColor.AQUA)
-            .hoverEvent(HoverEvent.showText(Component.text("You can use /stats <user name> for your kills on and death to that player.", NamedTextColor.GREEN))))
-        .append(Component.text("\n        -Total deaths: " + this.getTotalDeaths(), NamedTextColor.GRAY))
-        .append(Component.text("\n        -Today's deaths: " + this.getDailyDeaths(), NamedTextColor.GRAY));
+    return addon.prefix()
+        .append(Component.text("------ Game Stats For " + game + " ------", Colours.Title))
+        .append(Component.text("\nTotal games played: ", Colours.Primary))
+        .append(Component.text(this.getAllTimePlayed(), Colours.Secondary))
+        .append(Component.text("\nToday's games played: ", Colours.Primary))
+        .append(Component.text(this.getDailyPlayed(), Colours.Secondary))
+        .append(Component.text("\nHighest all time win streak: : ", Colours.Primary))
+        .append(Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary))
+        .append(Component.text("\nCurrent all time win streak: : ", Colours.Primary))
+        .append(Component.text(this.getWinStreak(), Colours.Secondary))
+        .append(Component.text("\nHighest daily win streak: ", Colours.Primary))
+        .append(Component.text(this.getDailyHighestWinStreak(), Colours.Secondary))
+        .append(Component.text("\nToday's win streak: ", Colours.Primary))
+        .append(Component.text(this.getDailyWinStreak(), Colours.Secondary))
+        .append(Component.text("\nTotal wins: ", Colours.Primary))
+        .append(Component.text(this.getAllTimeWins(), Colours.Secondary))
+        .append(Component.text("\nToday's wins: ", Colours.Primary))
+        .append(Component.text(this.getDailyWins(), Colours.Secondary))
+        .append(Component.text("\nTotal loses: ", Colours.Primary))
+        .append(Component.text(this.getAllTimePlayed() - this.getAllTimeWins(), Colours.Secondary))
+        .append(Component.text("\nToday's loses: ", Colours.Primary))
+        .append(Component.text(this.getDailyPlayed() - this.getDailyWins(), Colours.Secondary))
+        .append(Component.text("\nTotal kills: ", Colours.Primary))
+        .append(Component.text(this.getTotalKills(), Colours.Secondary))
+        .append(Component.text("\nToday's kills: ", Colours.Primary))
+        .append(Component.text(this.getDailyKills(), Colours.Secondary))
+        .append(Component.text("\nTotal deaths: ", Colours.Primary))
+        .append(Component.text(this.getTotalDeaths(), Colours.Secondary))
+        .append(Component.text("\nToday's deaths: ", Colours.Primary))
+        .append(Component.text(this.getDailyDeaths(), Colours.Secondary))
+        ;
   }
-
-
 
 }

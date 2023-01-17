@@ -28,7 +28,6 @@ public class StatCommands extends Command {
     this.addon = addon;
   }
 
-  // TODO: Colours
   @Override
   public boolean execute(String prefix, String[] arguments) {
     CCUManager manager = this.addon.getManager();
