@@ -61,7 +61,6 @@ public class Automations {
     Matcher matcher = playerElimination.matcher(msg);
     if (matcher.matches()) {
       this.addon.rpcManager.registerDeath(matcher.group(1));
-      return;
     }
 
     // Auto GG
