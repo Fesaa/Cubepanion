@@ -41,6 +41,9 @@ public class CCUManager {
   private int totalLeggingsDurability = 0;
   private int totalBootsDurability = 0;
 
+  // TEMP
+  private boolean changedColour = false;
+
 
 
   public CCUManager(CCU addon) {
@@ -120,15 +123,24 @@ public class CCUManager {
     this.spawnProtectionManager.resetHasMap();
 
     this.lastDivisionName = this.divisionName;
-    this.divisionName = (((TextComponent) scoreboardObjective.getTitle()).content()).replaceAll("[^\\w| ]", "").trim();
+
+    Component title = scoreboardObjective.getTitle();
+
+    if (title.children().size() == 0) { // Prod
+      this.divisionName = ((TextComponent) title).content();
+    } else { // dev2
+      this.divisionName = ((TextComponent) title.children().get(0)).content();
+    }
     this.mapName = getMap(scoreboard, scoreboardObjective);
 
     this.eliminated = false;
     this.won = false;
   }
 
-  // TODO: Fix for 1.19 Update
   public void updateTeamColour() {
+    if (this.changedColour) {
+      return;
+    }
     NetworkPlayerInfo playerInfo = this.addon.labyAPI().minecraft().clientPlayer().networkPlayerInfo();
     if (playerInfo == null) {
       return;
@@ -139,6 +151,11 @@ public class CCUManager {
         return;
       }
     }
+  }
+
+  public void setTeamColour(String teamColour) {
+    this.teamColour = teamColour;
+    this.changedColour = true;
   }
 
   private String getMap(@NotNull Scoreboard scoreboard, ScoreboardObjective scoreboardObjective) {
@@ -153,6 +170,8 @@ public class CCUManager {
     }
     return "";
   }
+
+  public void setChangedColour(boolean changedColour) {this.changedColour = changedColour;}
 
   public boolean onCubeCraft() {
     return this.serverIP.equals("play.cubecraft.net");

@@ -101,6 +101,7 @@ public class NetworkListener {
 
     this.manager.setEliminated(false);
     this.manager.setInPreLobby(true);
+    this.manager.setChangedColour(false);
 
     Minecraft minecraft = this.addon.labyAPI().minecraft();
     Scoreboard scoreboard = minecraft.getScoreboard();
