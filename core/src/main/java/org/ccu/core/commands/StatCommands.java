@@ -34,10 +34,6 @@ public class StatCommands extends Command {
     StatsTrackerSubConfig config = this.addon.configuration().getStatsTrackerSubConfig();
     HashMap<String, GameStatsTracker> allGameStatsTrackers = config.getGameStatsTrackers();
 
-    if (arguments.length == 0) {
-      return false;
-    }
-
     String gameName = this.getGameString(arguments);
 
     GameStatsTracker gameStatsTracker;
