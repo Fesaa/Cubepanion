@@ -36,6 +36,7 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
+  @SpriteSlot(x = 7, y = 2)
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
 
   @SpriteSlot(x = 0)

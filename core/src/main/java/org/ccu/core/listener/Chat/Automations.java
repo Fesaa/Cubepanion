@@ -1,14 +1,10 @@
 package org.ccu.core.listener.Chat;
 
 import com.google.inject.Inject;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
