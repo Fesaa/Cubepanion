@@ -1,6 +1,7 @@
 package org.ccu.core.config;
 
 import net.labymod.api.addon.AddonConfig;
+import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
@@ -29,6 +30,9 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
 
+  @SliderSetting(min = 0, max = 20)
+  private final ConfigProperty<Integer> durabilityWarning = new ConfigProperty<>(10);
+
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
@@ -53,6 +57,7 @@ public class CCUconfig extends AddonConfig {
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
+  public ConfigProperty<Integer> getDurabilityWarning() {return durabilityWarning;}
   public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}

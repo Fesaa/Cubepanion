@@ -8,6 +8,7 @@ import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownW
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.ccu.core.config.CCUManager;
+import org.ccu.core.config.submanagers.DurabilityManager;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
 
@@ -31,10 +32,11 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   }
 
   public void onTick() {
-    int totalHelmetDurability = manager.getTotalHelmetDurability();
-    int totalChestPlateDurability = manager.getTotalChestPlateDurability();
-    int totalLeggingsDurability = manager.getTotalLeggingsDurability();
-    int totalBootsDurability = manager.getTotalBootsDurability();
+    DurabilityManager durabilityManager = this.manager.getDurabilityManager();
+    int totalHelmetDurability = durabilityManager.getTotalHelmetDurability();
+    int totalChestPlateDurability = durabilityManager.getTotalChestPlateDurability();
+    int totalLeggingsDurability = durabilityManager.getTotalLeggingsDurability();
+    int totalBootsDurability = durabilityManager.getTotalBootsDurability();
     
     
     if (totalHelmetDurability < totalChestPlateDurability

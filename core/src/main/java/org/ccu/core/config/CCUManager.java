@@ -8,6 +8,7 @@ import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import net.labymod.api.client.scoreboard.ScoreboardScore;
 import org.ccu.core.CCU;
+import org.ccu.core.config.submanagers.DurabilityManager;
 import org.ccu.core.config.submanagers.EggWarsMapInfoManager;
 import org.ccu.core.config.submanagers.PartyManager;
 import org.ccu.core.config.submanagers.SpawnProtectionManager;
@@ -22,6 +23,7 @@ public class CCUManager {
   private final PartyManager partyManager;
   private final EggWarsMapInfoManager eggWarsMapInfoManager;
   private final SpawnProtectionManager spawnProtectionManager;
+  private final DurabilityManager durabilityManager;
 
   // Own fields
 
@@ -36,10 +38,6 @@ public class CCUManager {
   private boolean won;
 
   private int chestPartyAnnounceCounter;
-  private int totalHelmetDurability = 0;
-  private int totalChestPlateDurability = 0;
-  private int totalLeggingsDurability = 0;
-  private int totalBootsDurability = 0;
 
   // TEMP
   private boolean changedColour = false;
@@ -52,6 +50,7 @@ public class CCUManager {
     this.partyManager = new PartyManager();
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
     this.spawnProtectionManager = new SpawnProtectionManager(addon);
+    this.durabilityManager = new DurabilityManager();
 
     this.serverIP = "";
     this.divisionName = "";
@@ -74,7 +73,7 @@ public class CCUManager {
   public EggWarsMapInfoManager getEggWarsMapInfoManager() {
     return this.eggWarsMapInfoManager;
   }
-
+  public DurabilityManager getDurabilityManager() {return this.durabilityManager;}
   public SpawnProtectionManager getSpawnProtectionManager() {return spawnProtectionManager;}
 
   public String debugVars() {
@@ -102,6 +101,7 @@ public class CCUManager {
     this.chestPartyAnnounceCounter = 0;
 
     this.partyManager.reset();
+    this.durabilityManager.reset();
   }
 
   public void onCubeJoin() {
@@ -203,38 +203,6 @@ public class CCUManager {
 
   public int getChestPartyAnnounceCounter() {
     return chestPartyAnnounceCounter;
-  }
-
-  public int getTotalBootsDurability() {
-    return totalBootsDurability;
-  }
-
-  public void setTotalBootsDurability(int totalBootsDurability) {
-    this.totalBootsDurability = totalBootsDurability;
-  }
-
-  public int getTotalChestPlateDurability() {
-    return totalChestPlateDurability;
-  }
-
-  public void setTotalChestPlateDurability(int totalChestPlateDurability) {
-    this.totalChestPlateDurability = totalChestPlateDurability;
-  }
-
-  public int getTotalHelmetDurability() {
-    return totalHelmetDurability;
-  }
-
-  public void setTotalHelmetDurability(int totalHelmetDurability) {
-    this.totalHelmetDurability = totalHelmetDurability;
-  }
-
-  public int getTotalLeggingsDurability() {
-    return totalLeggingsDurability;
-  }
-
-  public void setTotalLeggingsDurability(int totalLeggingsDurability) {
-    this.totalLeggingsDurability = totalLeggingsDurability;
   }
 
   public String getDivisionName() {
