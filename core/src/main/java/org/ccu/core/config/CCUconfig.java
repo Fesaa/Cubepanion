@@ -30,13 +30,14 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
 
+  @SpriteSlot(x = 7, y = 2)
   @SliderSetting(min = 0, max = 20)
   private final ConfigProperty<Integer> durabilityWarning = new ConfigProperty<>(10);
 
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
 
-  @SpriteSlot(x = 7, y = 2)
+
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
 
   @SpriteSlot(x = 0)

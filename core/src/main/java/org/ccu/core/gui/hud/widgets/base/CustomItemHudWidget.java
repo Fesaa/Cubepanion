@@ -115,7 +115,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
     if (player == null) {
       return false;
     }
-    return (this.counter > 0) && (!this.config.getOnlyDisplayWhenHeld().get() || this.itemIsHeld);
+    return (this.counter > 0) && (!this.config.getOnlyDisplayWhenHeld().get() || this.itemIsHeld) && this.itemStack != null && !this.itemStack.isAir();
   }
 
 

@@ -1,10 +1,17 @@
 package org.ccu.core;
 
+import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.client.entity.player.Inventory;
+import net.labymod.api.client.gui.hud.HudWidgetRegistry;
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
+import net.labymod.api.client.world.item.Item;
+import net.labymod.api.client.world.item.ItemStack;
 import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
 import org.ccu.core.gui.hud.widgets.CounterItemHudWidget;
 import org.ccu.core.gui.hud.widgets.DurabilityItemHudWidget;
+import org.ccu.core.gui.hud.widgets.HeldItemTracker;
 import org.ccu.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.ccu.core.gui.hud.widgets.TextTrackerHudWidget;
 
@@ -20,21 +27,24 @@ public class WidgetManager {
   
   public void register() {
     CCUManager manager = this.addon.getManager();
-    this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("emerald_counter","emerald", 3, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("diamond_counter","diamond", 1, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("iron_ingot_counter","iron_ingot", 0, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("gold_ingot_counter","gold_ingot", 2, 0));
-    this.addon.labyAPI().hudWidgetRegistry().register(new CounterItemHudWidget("terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", 4, 0));
+    HudWidgetRegistry hudWidgetRegistry = this.addon.labyAPI().hudWidgetRegistry();
+    
+    hudWidgetRegistry.register(new CounterItemHudWidget("emerald_counter","emerald", 3, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget("diamond_counter","diamond", 1, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget("iron_ingot_counter","iron_ingot", 0, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget("gold_ingot_counter","gold_ingot", 2, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget("terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", 4, 0));
+    hudWidgetRegistry.register(new HeldItemTracker());
 
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("helmet_durability_counter", "\\w{0,10}_helmet", 5, 0, manager));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("chestplate_durability_counter", "\\w{0,10}_chestplate", 6, 0, manager));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("leggings_durability_counter", "\\w{0,10}_leggings", 7, 0, manager));
-    this.addon.labyAPI().hudWidgetRegistry().register(new DurabilityItemHudWidget("boots_durability_counter", "\\w{0,10}_boots", 0, 1, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget("helmet_durability_counter", "\\w{0,10}_helmet", 5, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget("chestplate_durability_counter", "\\w{0,10}_chestplate", 6, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget("leggings_durability_counter", "\\w{0,10}_leggings", 7, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget("boots_durability_counter", "\\w{0,10}_boots", 0, 1, manager));
 
-    this.addon.labyAPI().hudWidgetRegistry().register(new NextArmourBuyTextWidget("nextArmourDurability", manager));
+    hudWidgetRegistry.register(new NextArmourBuyTextWidget("nextArmourDurability", manager));
 
     // Wins / Played
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_wins_tracker", "Wins/Games",
+    hudWidgetRegistry.register(new TextTrackerHudWidget("daily_wins_tracker", "Wins/Games",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
@@ -46,7 +56,7 @@ public class WidgetManager {
         this::booleanSupplier, 2, 1));
 
     // Win Streak
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("all_time_winstreak_tracker", "Win Streak",
+    hudWidgetRegistry.register(new TextTrackerHudWidget("all_time_winstreak_tracker", "Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
@@ -59,7 +69,7 @@ public class WidgetManager {
         this::booleanSupplier, 3, 1));
 
     // Daily Win Streak
-    this.addon.labyAPI().hudWidgetRegistry().register(new TextTrackerHudWidget("daily_winstreak_tracker", "Daily Win Streak",
+    hudWidgetRegistry.register(new TextTrackerHudWidget("daily_winstreak_tracker", "Daily Win Streak",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
