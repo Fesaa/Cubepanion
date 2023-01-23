@@ -28,7 +28,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, 1, 1);
     this.setIcon(icon);
-    this.nextArmourBuy = super.createLine("First armour to run out of ", "");
+    this.nextArmourBuy = super.createLine("Next armour to run out", "");
   }
 
   public void onTick() {
