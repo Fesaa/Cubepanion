@@ -208,6 +208,13 @@
           "name": "Only display item when being held"
         }
       },
+      "held_item_tracker": {
+        "name": "Held item counter",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held",
+          "description": "  This setting is useless and an artifact of the underlying implementation."
+        }
+      },
       "helmet_durability_counter": {
         "name": "Helmet durability counter",
         "onlyDisplayWhenHeld": {

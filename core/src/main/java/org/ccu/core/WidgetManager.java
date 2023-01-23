@@ -1,11 +1,6 @@
 package org.ccu.core;
 
-import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.HudWidgetRegistry;
-import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
-import net.labymod.api.client.world.item.Item;
-import net.labymod.api.client.world.item.ItemStack;
 import org.ccu.core.config.CCUManager;
 import org.ccu.core.config.imp.GameStatsTracker;
 import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
