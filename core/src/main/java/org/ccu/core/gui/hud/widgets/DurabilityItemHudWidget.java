@@ -1,6 +1,7 @@
 package org.ccu.core.gui.hud.widgets;
 
 import net.kyori.adventure.text.Component;
+import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
@@ -57,6 +58,20 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
     this.updateItemName(Component.text(this.counter));
 
     this.updateCCUInternalConfig();
+  }
+
+  @Override
+  public boolean isVisibleInGame() {
+    Minecraft minecraft = this.labyAPI.minecraft();
+    if (minecraft == null) {
+      return false;
+    }
+
+    ClientPlayer player = minecraft.clientPlayer();
+    if (player == null) {
+      return false;
+    }
+    return (this.counter > 0) && (!this.config.getOnlyDisplayWhenHeld().get() || this.itemIsHeld);
   }
 
   private void updateCCUInternalConfig() {
