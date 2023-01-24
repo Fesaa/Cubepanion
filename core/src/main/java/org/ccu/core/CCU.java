@@ -18,8 +18,9 @@ import org.ccu.core.listener.ConfigurationSaveEventListener;
 import org.ccu.core.listener.GameShutdownEventListener;
 import org.ccu.core.listener.GameTickEventListener;
 import org.ccu.core.listener.KeyEventListener;
-import org.ccu.core.listener.NetworkListener;
 import org.ccu.core.listener.PlayerNameTagRenderListener;
+import org.ccu.core.listener.network.PlayerInfo;
+import org.ccu.core.listener.network.ServerNavigation;
 
 @Singleton
 @AddonListener
@@ -45,7 +46,8 @@ public class CCU extends LabyAddon<CCUconfig> {
         Pair.of(this.configuration().getCommandSystemSubConfig()::getEggWarsMapInfoCommand, EggWarsMapInfoCommand.class),
         Pair.of(this.configuration().getCommandSystemSubConfig()::getPartyCommands, PartyCommands.class));
 
-    this.registerListener(NetworkListener.class);
+    this.registerListener(PlayerInfo.class);
+    this.registerListener(ServerNavigation.class);
     this.registerListener(GameTickEventListener.class);
     this.registerListener(GameShutdownEventListener.class);
     this.registerListener(PlayerNameTagRenderListener.class);

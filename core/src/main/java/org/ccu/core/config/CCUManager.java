@@ -113,10 +113,17 @@ public class CCUManager {
 
     this.eliminated = false;
     this.inPreLobby = true;
+    this.changedColour = false;
 
     this.chestPartyAnnounceCounter = 0;
 
     this.partyManager.reset();
+  }
+
+  public void onServerSwitch() {
+    this.eliminated = false;
+    this.inPreLobby = true;
+    this.changedColour = false;
   }
 
   public void registerNewDivision(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
