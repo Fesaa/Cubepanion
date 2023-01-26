@@ -1,6 +1,5 @@
 package org.ccu.core.listener;
 
-import com.google.inject.Inject;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.input.KeyEvent;
 import net.labymod.api.event.client.input.KeyEvent.State;
@@ -11,8 +10,8 @@ public class KeyEventListener {
 
   private final CCU addon;
 
-  @Inject
-  private KeyEventListener(CCU addon) {
+
+  public KeyEventListener(CCU addon) {
     this.addon = addon;
   }
 

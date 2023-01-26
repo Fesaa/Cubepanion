@@ -1,11 +1,10 @@
 package org.ccu.core.listener.Chat;
 
-import com.google.inject.Inject;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.kyori.adventure.text.format.TextColor;
+import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
@@ -22,7 +21,6 @@ public class Automations {
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
 
-  @Inject
   public Automations(CCU addon) {
     this.addon = addon;
     this.manager = addon.getManager();
@@ -88,7 +86,8 @@ public class Automations {
     // TeamColour Tracker
     Matcher teamColourMatcher = this.EggWarsTeamJoin.matcher(msg);
     if (teamColourMatcher.matches()) {
-      TextColor colour = e.chatMessage().component().children().get(0).children().get(1).color();
+      TextColor colour = e.chatMessage().component().getChildren().get(0).getChildren().get(1)
+          .getColor();
       if (colour == null) {
         this.manager.setTeamColour("yellow");
       } else {

@@ -1,11 +1,10 @@
 package org.ccu.core.commands;
 
-import com.google.inject.Inject;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.event.HoverEvent;
+import net.labymod.api.client.component.format.TextDecoration;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
 
@@ -13,8 +12,7 @@ public class AppealSiteCommand extends Command {
 
   private final CCU addon;
 
-  @Inject
-  private AppealSiteCommand(CCU addon) {
+  public AppealSiteCommand(CCU addon) {
     super("appeal");
 
     this.addon = addon;
@@ -23,6 +21,10 @@ public class AppealSiteCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+
+    if (!this.addon.configuration().getCommandSystemSubConfig().getAppealSiteCommand().get()) {
+      return false;
+    }
 
     if (arguments.length == 1) {
       String URL;

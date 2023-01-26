@@ -1,13 +1,12 @@
 package org.ccu.core.commands;
 
-import com.google.inject.Inject;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.format.TextDecoration;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
 
@@ -15,8 +14,7 @@ public class PartyCommands extends Command {
 
   private final CCU addon;
 
-  @Inject
-  private PartyCommands(CCU addon) {
+  public PartyCommands(CCU addon) {
     super("party", "p");
 
     this.addon = addon;
@@ -24,6 +22,10 @@ public class PartyCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+
+    if (!this.addon.configuration().getCommandSystemSubConfig().getPartyCommands().get()) {
+      return false;
+    }
 
     if (arguments.length == 0) {
       return false;

@@ -1,7 +1,8 @@
 package org.ccu.core.gui.hud.widgets.base;
 
-import net.kyori.adventure.text.Component;
+import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.gui.hud.hudwidget.item.ItemHudWidget;
 import net.labymod.api.client.gui.icon.Icon;
@@ -11,8 +12,6 @@ import net.labymod.api.client.render.matrix.Stack;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.Item;
 import net.labymod.api.client.world.item.ItemStack;
-import net.labymod.api.client.world.item.ItemStackFactory;
-import net.labymod.api.inject.LabyGuice;
 
 public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
 
@@ -30,8 +29,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
     super(id, ItemHudConfig.class);
     this.id = id;
     this.regex = regex;
-    this.item = (((ItemStackFactory) LabyGuice.getInstance(ItemStackFactory.class)).create(
-        ResourceLocation.create("minecraft", id))).getAsItem();
+    this.item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", id)).getAsItem();
     ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
@@ -99,8 +97,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
   @Override
   public void load(ItemHudConfig config) {
     super.load(config);
-    this.itemStack = ((ItemStackFactory) LabyGuice.getInstance(ItemStackFactory.class)).create(
-        this.item.getIdentifier());
+    this.itemStack = Laby.references().itemStackFactory().create(this.item.getIdentifier());
     this.updateItemStack(this.itemStack);
 
   }

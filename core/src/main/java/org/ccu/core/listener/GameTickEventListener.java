@@ -1,7 +1,6 @@
 package org.ccu.core.listener;
 
-import com.google.inject.Inject;
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -21,7 +20,6 @@ public class GameTickEventListener {
   private final DurabilityManager durabilityManager;
   private int counter = 0;
 
-  @Inject
   public GameTickEventListener(CCU addon) {
     this.addon = addon;
 

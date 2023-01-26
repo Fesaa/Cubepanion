@@ -1,6 +1,5 @@
 package org.ccu.core.listener.network;
 
-import com.google.inject.Inject;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,6 @@ public class ServerNavigation {
   private final CCU addon;
   private final CCUManager manager;
 
-  @Inject
   public ServerNavigation(CCU addon) {
     this.addon = addon;
     this.manager = addon.getManager();

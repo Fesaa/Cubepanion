@@ -1,6 +1,5 @@
 package org.ccu.core.listener.network;
 
-import com.google.inject.Inject;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoRemoveEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
@@ -13,7 +12,6 @@ public class PlayerInfo {
   private final CCU addon;
   private final CCUManager manager;
 
-  @Inject
   public PlayerInfo(CCU addon) {
     this.addon = addon;
     this.manager = addon.getManager();

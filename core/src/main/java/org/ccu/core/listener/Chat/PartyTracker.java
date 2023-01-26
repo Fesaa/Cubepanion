@@ -1,6 +1,5 @@
 package org.ccu.core.listener.Chat;
 
-import com.google.inject.Inject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.entity.player.ClientPlayer;
@@ -31,7 +30,6 @@ public class PartyTracker {
   private final Pattern partyOwner = Pattern.compile("Owner: (" + this.userNameRegex + ")");
   private final Pattern partyMember = Pattern.compile(this.userNameRegex + "( - KICK)?");
 
-  @Inject
   public PartyTracker(CCU addon) {
     this.addon = addon;
     this.partyManager = addon.getManager().getPartyManager();

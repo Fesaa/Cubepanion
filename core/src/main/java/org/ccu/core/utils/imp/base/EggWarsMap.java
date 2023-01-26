@@ -1,6 +1,6 @@
 package org.ccu.core.utils.imp.base;
 
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 
 public interface EggWarsMap {
 

@@ -2,8 +2,8 @@ package org.ccu.core.config.submanagers;
 
 import java.util.HashMap;
 import java.util.List;
-import net.kyori.adventure.text.Component;
 import net.labymod.api.client.chat.ChatExecutor;
+import net.labymod.api.client.component.Component;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
 import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
@@ -102,6 +102,16 @@ public class EggWarsMapInfoManager {
         );
     this.eggWarsMapLayouts.put("Fairytale", new CrossEggWarsMap("Fairytale", 4, 64, FairytaleGenLayout, "dark_blue", "red", "dark_purple", "yellow"));
 
+    GenLayout AquaticGenLayout =
+        new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 1, 4),
+            new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 8),
+            new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 3, 8),
+            new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
+            new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
+        );
+
+    this.eggWarsMapLayouts.put("Aquatic", new CrossEggWarsMap("Aquatic", 4, 89, AquaticGenLayout, "light_purple", "red", "yellow", "blue"));
 
     GenLayout CyberSnowGenLayout =
         new GenLayout(new MapGenerator(Generator.DIAMOND, Location.SEMI_MIDDLE, 1, 8),
@@ -136,7 +146,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 0, 1)
         );
-    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, ModernGenLayout, List.of("red", "yellow"), List.of("aqua", "light_purple")));
+    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, ModernGenLayout, List.of("red", "yellow"), List.of("light_purple", "aqua")));
 
     GenLayout CyberCityGenLayout =
         new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 1, 3),
@@ -147,7 +157,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
-    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, List.of("light_purple", "dark_aqua"), List.of("red", "green")));
+    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, List.of("dark_aqua", "light_purple"), List.of("red", "green")));
   }
 
   private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout, boolean party) {

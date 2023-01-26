@@ -1,10 +1,11 @@
 package org.ccu.core.utils;
 
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextColor;
 
 public class ColourConverters {
 
-  public static NamedTextColor colourToNamedTextColor(String colour) {
+  public static TextColor colourToNamedTextColor(String colour) {
     switch (colour) {
       case "black": {return NamedTextColor.BLACK;}
       case "dark_blue": {return NamedTextColor.DARK_BLUE;}

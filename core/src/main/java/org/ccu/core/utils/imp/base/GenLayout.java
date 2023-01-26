@@ -2,8 +2,9 @@ package org.ccu.core.utils.imp.base;
 
 import java.util.Arrays;
 import java.util.List;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextColor;
 import org.ccu.core.Colours;
 
 public class GenLayout {
@@ -107,15 +108,15 @@ public class GenLayout {
     GOLD(NamedTextColor.GOLD, "Gold"),
     IRON(NamedTextColor.GRAY, "Iron");
 
-    private final NamedTextColor colour;
+    private final TextColor colour;
     private final String string;
 
-    Generator(NamedTextColor colour, String string) {
+    Generator(TextColor colour, String string) {
       this.colour = colour;
       this.string = string;
     }
 
-    public NamedTextColor getColour() {
+    public TextColor getColour() {
       return colour;
     }
 

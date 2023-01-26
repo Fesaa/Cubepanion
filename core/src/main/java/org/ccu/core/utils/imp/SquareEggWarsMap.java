@@ -2,7 +2,7 @@ package org.ccu.core.utils.imp;
 
 import java.util.Arrays;
 import java.util.List;
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 import org.ccu.core.Colours;
 import org.ccu.core.utils.ColourConverters;
 import org.ccu.core.utils.imp.base.EggWarsMap;

@@ -1,15 +1,14 @@
 package org.ccu.core.commands;
 
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
 import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.event.HoverEvent;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
 import org.ccu.core.config.CCUManager;
@@ -21,8 +20,7 @@ public class StatCommands extends Command {
   private final CCU addon;
   private final Pattern timeFormat = Pattern.compile("\\b(20[0-9]{2})-([1-9]|1[1-2])-(1[0-9]|2[0-9]|3[0-1]|[1-9])\\b");
 
-  @Inject
-  private StatCommands(CCU addon) {
+  public StatCommands(CCU addon) {
     super("stats");
 
     this.addon = addon;
@@ -30,6 +28,12 @@ public class StatCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+
+    if (!this.addon.configuration().getCommandSystemSubConfig().getStatsCommand().get()) {
+      return false;
+    }
+
+
     CCUManager manager = this.addon.getManager();
     StatsTrackerSubConfig config = this.addon.configuration().getStatsTrackerSubConfig();
     HashMap<String, GameStatsTracker> allGameStatsTrackers = config.getGameStatsTrackers();

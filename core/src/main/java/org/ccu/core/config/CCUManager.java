@@ -1,8 +1,8 @@
 package org.ccu.core.config;
 
 import java.util.Objects;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
@@ -133,10 +133,10 @@ public class CCUManager {
 
     Component title = scoreboardObjective.getTitle();
 
-    if (title.children().size() == 0) { // Prod
-      this.divisionName = ((TextComponent) title).content();
+    if (title.getChildren().size() == 0) { // Prod
+      this.divisionName = ((TextComponent) title).getText();
     } else { // dev2
-      this.divisionName = ((TextComponent) title.children().get(0)).content();
+      this.divisionName = ((TextComponent) title.getChildren().get(0)).getText();
     }
     this.mapName = getMap(scoreboard, scoreboardObjective);
 
@@ -152,9 +152,9 @@ public class CCUManager {
     if (playerInfo == null) {
       return;
     }
-    for (Component component : playerInfo.getTeam().formatDisplayName(playerInfo.displayName()).children()) {
-      if (!((TextComponent) component).content().equals("")) {
-        teamColour = Objects.requireNonNull(component.color()).toString();
+    for (Component component : playerInfo.getTeam().formatDisplayName(playerInfo.displayName()).getChildren()) {
+      if (!((TextComponent) component).getText().equals("")) {
+        teamColour = Objects.requireNonNull(component.getColor()).toString();
         return;
       }
     }

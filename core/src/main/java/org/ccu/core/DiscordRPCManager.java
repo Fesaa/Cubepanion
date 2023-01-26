@@ -3,8 +3,8 @@ package org.ccu.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.network.ClientPacketListener;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.thirdparty.discord.DiscordActivity;
@@ -110,8 +110,8 @@ public class DiscordRPCManager {
     if (checkIfAlreadyRemoved(playerInfo.profile().getProfileId())) {
       return;
     }
-    for (Component c : playerInfo.displayName().children()) {
-      if (checkIfAlreadyRemoved(((TextComponent)c).content())) {
+    for (Component c : playerInfo.displayName().getChildren()) {
+      if (checkIfAlreadyRemoved(((TextComponent) c).getText())) {
         return;
       }
     }

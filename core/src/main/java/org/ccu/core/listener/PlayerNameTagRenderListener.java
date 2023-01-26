@@ -1,8 +1,7 @@
 package org.ccu.core.listener;
 
-import com.google.inject.Inject;
 import java.util.UUID;
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
@@ -14,7 +13,6 @@ public class PlayerNameTagRenderListener {
 
   private final CCU addon;
 
-  @Inject
   public PlayerNameTagRenderListener(CCU addon) {
     this.addon = addon;
   }

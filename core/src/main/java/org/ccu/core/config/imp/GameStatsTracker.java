@@ -3,7 +3,7 @@ package org.ccu.core.config.imp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 import org.ccu.core.CCU;
 import org.ccu.core.Colours;
 import org.jetbrains.annotations.NotNull;

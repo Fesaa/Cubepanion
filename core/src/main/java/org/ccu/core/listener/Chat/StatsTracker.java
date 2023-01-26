@@ -1,12 +1,11 @@
 package org.ccu.core.listener.Chat;
 
-import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
@@ -27,7 +26,6 @@ public class StatsTracker {
   private final HashMap<Pattern, Integer> customKillMessages = new HashMap<>();
   private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>();
 
-  @Inject
   public StatsTracker(CCU addon) {
     this.addon = addon;
     this.manager = addon.getManager();

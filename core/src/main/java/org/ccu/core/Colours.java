@@ -1,13 +1,14 @@
 package org.ccu.core;
 
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextColor;
 
 public class Colours {
 
-  public static NamedTextColor Title = NamedTextColor.GOLD;
-  public static NamedTextColor Primary = NamedTextColor.AQUA;
-  public static NamedTextColor Secondary = NamedTextColor.WHITE;
-  public static NamedTextColor Error = NamedTextColor.RED;
-  public static NamedTextColor Hover = NamedTextColor.GREEN;
+  public static TextColor Title = NamedTextColor.GOLD;
+  public static TextColor Primary = NamedTextColor.AQUA;
+  public static TextColor Secondary = NamedTextColor.WHITE;
+  public static TextColor Error = NamedTextColor.RED;
+  public static TextColor Hover = NamedTextColor.GREEN;
 
 }

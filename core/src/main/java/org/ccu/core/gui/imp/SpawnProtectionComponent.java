@@ -1,7 +1,8 @@
 package org.ccu.core.gui.imp;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextColor;
 import org.ccu.core.CCU;
 
 public class SpawnProtectionComponent {
@@ -68,7 +69,7 @@ public class SpawnProtectionComponent {
     return Component.text(second + ":" + precisionSecond, this.getColour(this.second));
   }
 
-  private NamedTextColor getColour(int i) {
+  private TextColor getColour(int i) {
     switch (i) {
       case 7:
       case 6:

@@ -1,6 +1,6 @@
 package org.ccu.core.gui.hud.widgets;
 
-import net.kyori.adventure.text.Component;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.world.item.ItemStack;
