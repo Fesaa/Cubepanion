@@ -7,12 +7,7 @@ import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import org.ccu.core.config.subconfig.AutoVoteSubConfig;
-import org.ccu.core.config.subconfig.CommandSystemSubConfig;
-import org.ccu.core.config.subconfig.DiscordRichPresenceSubConfig;
-import org.ccu.core.config.subconfig.EggWarsMapInfoSubConfig;
-import org.ccu.core.config.subconfig.EndGameSubConfig;
-import org.ccu.core.config.subconfig.StatsTrackerSubConfig;
+import org.ccu.core.config.subconfig.*;
 
 @SuppressWarnings("FieldMayBeFinal")
 @ConfigName("settings")
@@ -22,17 +17,21 @@ public class CCUconfig extends AddonConfig {
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
-  @SwitchSetting
   @SpriteSlot(x = 6)
+  @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
 
-  @SwitchSetting
   @SpriteSlot(x = 3, y = 1)
+  @SwitchSetting
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
 
   @SpriteSlot(x = 7, y = 2)
   @SliderSetting(min = 0, max = 20)
   private final ConfigProperty<Integer> durabilityWarning = new ConfigProperty<>(10);
+
+  @SpriteSlot(y = 3)
+  @SwitchSetting
+  private final ConfigProperty<Boolean> pingInNameTag = new ConfigProperty<>(true);
 
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
@@ -52,14 +51,15 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 3)
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
 
-  @SwitchSetting
   @SpriteSlot(x = 5)
+  @SwitchSetting
   private final ConfigProperty<Boolean> whereAmI = new ConfigProperty<>(false);
 
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
   public ConfigProperty<Integer> getDurabilityWarning() {return durabilityWarning;}
+  public ConfigProperty<Boolean> getPingInNameTag() {return pingInNameTag;}
   public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
