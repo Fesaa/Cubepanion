@@ -179,6 +179,12 @@
       },
       "whereAmI": {
         "name": "/whereami on server switch"
+      },
+      "copyServerID": {
+        "name": "Copy Server ID"
+      },
+      "copyBungeecord": {
+        "name": "Copy Bungeecord Instance"
       }
     },
     "hudWidget": {
