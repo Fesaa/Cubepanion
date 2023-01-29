@@ -12,7 +12,7 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 labyMod {
     defaultPackageName = "org.example" //change this to your main package name (used by all modules)
     addonInfo {
-        namespace = "ccu"
+        namespace = "cubecraftutilities"
         displayName = "CubeCraft Utilities"
         author = "Fesa"
         description = "A CubeCraft focused LabyMod addon that provides a ton of useful features!\nNot affiliated with Ziax/CubeCraft in any way."
