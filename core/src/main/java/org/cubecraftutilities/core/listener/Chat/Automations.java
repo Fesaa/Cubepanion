@@ -20,6 +20,7 @@ public class Automations {
 
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
+  private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
 
   public Automations(CCU addon) {
     this.addon = addon;
@@ -93,7 +94,16 @@ public class Automations {
       } else {
         this.manager.setTeamColour(colour.toString());
       }
+      return;
     }
+
+    Matcher whereAmIMatcher = this.WhereAmIOutPut.matcher(msg);
+    if (whereAmIMatcher.matches()) {
+      this.manager.setBungeecord(whereAmIMatcher.group(1));
+      this.manager.setServerID(whereAmIMatcher.group(2));
+      return;
+    }
+
   }
 
 }

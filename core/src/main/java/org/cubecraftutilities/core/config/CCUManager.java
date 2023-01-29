@@ -32,6 +32,8 @@ public class CCUManager {
   private String lastDivisionName;
   private String mapName;
   private String teamColour;
+  private String bungeecord;
+  private String serverID;
 
   private boolean eliminated;
   private boolean inPreLobby;
@@ -57,6 +59,8 @@ public class CCUManager {
     this.lastDivisionName = "";
     this.mapName = "";
     this.teamColour = "";
+    this.bungeecord = "";
+    this.serverID = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -94,6 +98,8 @@ public class CCUManager {
     this.divisionName = "";
     this.teamColour = "";
     this.mapName = "";
+    this.bungeecord = "";
+    this.serverID = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -230,5 +236,21 @@ public class CCUManager {
 
   public String getTeamColour() {
     return teamColour;
+  }
+
+  public String getBungeecord() {
+    return bungeecord;
+  }
+
+  public String getServerID() {
+    return serverID;
+  }
+
+  public void setBungeecord(String bungeecord) {
+    this.bungeecord = bungeecord;
+  }
+
+  public void setServerID(String serverID) {
+    this.serverID = serverID;
   }
 }

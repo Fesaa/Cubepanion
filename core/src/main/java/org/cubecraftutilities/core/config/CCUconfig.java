@@ -1,6 +1,8 @@
 package org.cubecraftutilities.core.config;
 
 import net.labymod.api.addon.AddonConfig;
+import net.labymod.api.client.gui.screen.key.Key;
+import net.labymod.api.client.gui.screen.widget.widgets.input.KeybindWidget.KeyBindSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
@@ -55,6 +57,14 @@ public class CCUconfig extends AddonConfig {
   @SwitchSetting
   private final ConfigProperty<Boolean> whereAmI = new ConfigProperty<>(false);
 
+  @SpriteSlot(x = 5)
+  @KeyBindSetting
+  private final ConfigProperty<Key> copyServerID = new ConfigProperty<>(Key.NONE);
+
+  @SpriteSlot(x = 5)
+  @KeyBindSetting
+  private final ConfigProperty<Key> copyBungeecord = new ConfigProperty<>(Key.NONE);
+
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
@@ -67,6 +77,8 @@ public class CCUconfig extends AddonConfig {
   public AutoVoteSubConfig getAutoVoteSubConfig() {return this.autoVoteSubConfig;}
   public StatsTrackerSubConfig getStatsTrackerSubConfig() {return this.statsTrackerSubConfig;}
   public ConfigProperty<Boolean> displayWhereAmI() {return this.whereAmI;}
+  public ConfigProperty<Key> getCopyBungeecord() {return copyBungeecord;}
+  public ConfigProperty<Key> getCopyServerID() {return copyServerID;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
 
 }
