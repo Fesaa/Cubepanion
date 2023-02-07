@@ -10,8 +10,6 @@ import org.cubecraftutilities.core.utils.imp.base.GenLayout;
 
 public class SquareEggWarsMap implements EggWarsMap {
 
-  private final Component teamFiller = Component.text("||||||");
-  private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
 
@@ -51,15 +49,15 @@ public class SquareEggWarsMap implements EggWarsMap {
   public Component getMapLayoutComponent() {
     return Component.empty()
         .append(this.sideSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamAcross)))
+        .append(this.getTeamFiller(this.teamAcross))
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamAcrossSide)))
+        .append(this.getTeamFiller(this.teamAcrossSide))
         .append(Component.newline())
         .append(Component.newline())
         .append(this.sideSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.currentTeamColour)))
+        .append(this.getTeamFiller(this.currentTeamColour))
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamSide)))
+        .append(this.getTeamFiller(this.teamSide))
         ;
   }
 

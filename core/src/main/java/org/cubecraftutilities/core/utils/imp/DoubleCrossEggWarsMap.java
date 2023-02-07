@@ -10,7 +10,6 @@ import org.cubecraftutilities.core.utils.imp.base.GenLayout;
 
 public class DoubleCrossEggWarsMap implements EggWarsMap {
 
-  private final Component teamFiller = Component.text("||||||");
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
@@ -57,34 +56,34 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
         .append(this.sideSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamAcrossLeft)))
+        .append(this.getTeamFiller(this.teamAcrossLeft))
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamAcrossRight)))
+        .append(this.getTeamFiller(this.teamAcrossRight))
         .append(Component.newline())
         .append(this.sideSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamLeftLeft)))
+        .append(this.getTeamFiller(this.teamLeftLeft))
         .append(this.betweenSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamRightRight)))
+        .append(this.getTeamFiller(this.teamRightRight))
         .append(Component.newline())
         .append(this.sideSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamLeftRight)))
+        .append(this.getTeamFiller(this.teamLeftRight))
         .append(this.betweenSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamRightLeft)))
+        .append(this.getTeamFiller(this.teamRightLeft))
         .append(Component.newline())
         .append(this.sideSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.currentTeamColour)))
+        .append(this.getTeamFiller(this.currentTeamColour))
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamSide)));
+        .append(this.getTeamFiller(this.teamSide));
   }
 
   @Override

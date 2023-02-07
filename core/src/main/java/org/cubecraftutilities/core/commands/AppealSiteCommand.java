@@ -7,6 +7,7 @@ import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 
 public class AppealSiteCommand extends Command {
 
@@ -21,8 +22,9 @@ public class AppealSiteCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!this.addon.configuration().getCommandSystemSubConfig().getAppealSiteCommand().get()) {
+    if (!config.getAppealSiteCommand().get() || !config.getEnabled().get()) {
       return false;
     }
 

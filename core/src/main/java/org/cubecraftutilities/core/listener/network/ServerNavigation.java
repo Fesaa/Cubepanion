@@ -8,9 +8,9 @@ import net.labymod.api.client.scoreboard.DisplaySlot;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.network.server.NetworkDisconnectEvent;
-import net.labymod.api.event.client.network.server.NetworkLoginEvent;
-import net.labymod.api.event.client.network.server.NetworkServerSwitchEvent;
+import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
+import net.labymod.api.event.client.network.server.ServerJoinEvent;
+import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
@@ -29,8 +29,8 @@ public class ServerNavigation {
   }
 
   @Subscribe
-  public void onNetworkLoginEvent(NetworkLoginEvent e) {
-    String serverAddress = this.addon.labyAPI().serverController().getCurrentServerData().address().getAddress().toString();
+  public void onServerJoinEvent(ServerJoinEvent e) {
+    String serverAddress = e.serverData().address().toString();
     if (!(serverAddress.contains("cubecraft") || serverAddress.contains("ccgn.co"))) {
       this.manager.reset();
       return;
@@ -47,7 +47,7 @@ public class ServerNavigation {
   }
 
   @Subscribe
-  public void onNetworkDisconnectEvent(NetworkDisconnectEvent e) {
+  public void onServerDisconnectEvent(ServerDisconnectEvent e) {
     if (this.manager.onCubeCraft()) {
       this.manager.reset();
       this.addon.rpcManager.removeCustomRPC();
@@ -56,7 +56,7 @@ public class ServerNavigation {
 
   // This event is called when switching from server instance
   @Subscribe
-  public void onNetworkServerSwitchEvent(NetworkServerSwitchEvent e) {
+  public void onSubServerSwitchEvent(SubServerSwitchEvent e) {
     if (!this.manager.onCubeCraft()) {
       return;
     }
@@ -91,12 +91,13 @@ public class ServerNavigation {
     if (maxDelay == 0) {
       return;
     }
-    if (scoreboard.objective(DisplaySlot.SIDEBAR) == null) {
+    ScoreboardObjective scoreboardObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+    if (scoreboardObjective == null) {
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() ->
               waitForScoreboard(scoreboard, maxDelay-100)
           , 100, TimeUnit.MILLISECONDS);
     } else {
-      this.onServerSwitchAfterScoreboardLoad(scoreboard, Objects.requireNonNull(scoreboard.objective(DisplaySlot.SIDEBAR)));
+      this.onServerSwitchAfterScoreboardLoad(scoreboard, Objects.requireNonNull(scoreboardObjective));
     }
   }
 

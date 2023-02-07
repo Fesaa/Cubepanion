@@ -10,7 +10,6 @@ import org.cubecraftutilities.core.utils.imp.base.GenLayout;
 
 public class CrossEggWarsMap implements EggWarsMap {
 
-  private final Component teamFiller = Component.text("||||||");
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
@@ -48,19 +47,19 @@ public class CrossEggWarsMap implements EggWarsMap {
         .append(this.sideSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamBefore)))
+        .append(this.getTeamFiller(this.teamBefore))
         .append(Component.newline())
         .append(this.sideSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamLeft)))
+        .append(this.getTeamFiller(this.teamLeft))
         .append(this.betweenSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.teamRight)))
+        .append(this.getTeamFiller(this.teamRight))
         .append(Component.newline())
         .append(this.sideSpaces)
         .append(this.teamFillerSpaces)
         .append(this.betweenSpaces)
-        .append(this.teamFiller.color(ColourConverters.colourToNamedTextColor(this.currentTeamColour)));
+        .append(this.getTeamFiller(this.currentTeamColour));
   }
 
   @Override

@@ -9,6 +9,7 @@ import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 
 public class PartyCommands extends Command {
 
@@ -22,8 +23,9 @@ public class PartyCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!this.addon.configuration().getCommandSystemSubConfig().getPartyCommands().get()) {
+    if (!config.getPartyCommands().get() || !config.getEnabled().get()) {
       return false;
     }
 

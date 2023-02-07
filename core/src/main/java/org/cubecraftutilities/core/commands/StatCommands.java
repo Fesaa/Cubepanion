@@ -13,6 +13,7 @@ import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.Colours;
 import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
+import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 
 public class StatCommands extends Command {
@@ -28,8 +29,9 @@ public class StatCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    CommandSystemSubConfig commandSystemSubConfig = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!this.addon.configuration().getCommandSystemSubConfig().getStatsCommand().get()) {
+    if (!commandSystemSubConfig.getStatsCommand().get() || !commandSystemSubConfig.getEnabled().get()) {
       return false;
     }
 

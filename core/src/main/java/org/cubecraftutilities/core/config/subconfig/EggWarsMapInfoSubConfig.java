@@ -30,7 +30,7 @@ public class EggWarsMapInfoSubConfig extends Config {
 
   @SwitchSetting
   @SpriteSlot(x = 5, y = 2)
-  private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(false);
 
   public ConfigProperty<Boolean> isEnabled() {return this.enabled;}
   public ConfigProperty<Key> getKey() {return this.key;}

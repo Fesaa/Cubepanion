@@ -2,6 +2,7 @@ package org.cubecraftutilities.core.commands;
 
 import net.labymod.api.client.chat.command.Command;
 import org.cubecraftutilities.core.CCU;
+import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 
 public class EggWarsMapInfoCommand extends Command {
 
@@ -14,8 +15,9 @@ public class EggWarsMapInfoCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!this.addon.configuration().getCommandSystemSubConfig().getEggWarsMapInfoCommand().get()) {
+    if (!config.getEggWarsMapInfoCommand().get() || !config.getEnabled().get()) {
       return false;
     }
 
