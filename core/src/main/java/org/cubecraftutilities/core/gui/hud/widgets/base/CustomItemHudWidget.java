@@ -30,7 +30,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
     this.id = id;
     this.regex = regex;
     this.item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", id)).getAsItem();
-    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
     this.placeHolderIcon = icon;
@@ -118,7 +118,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
 
   @Override
   public Icon createPlaceholderIcon() {
-    ResourceLocation resourceLocation =  ResourceLocation.create("ccu", "diamond.png");
+    ResourceLocation resourceLocation =  ResourceLocation.create("cubecraftutilities", "sprites.png");
     return Icon.sprite16(resourceLocation, 0, 0);
   }
 

@@ -25,7 +25,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   public void load(NextArmourBuyHudConfig config) {
     super.load(config);
 
-    ResourceLocation resourceLocation = ResourceLocation.create("ccu", "sprites.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, 1, 1);
     this.setIcon(icon);
     this.nextArmourBuy = super.createLine("Next armour to run out", "");
