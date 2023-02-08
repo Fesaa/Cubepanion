@@ -23,9 +23,17 @@ import org.cubecraftutilities.core.listener.network.ServerNavigation;
 public class CCU extends LabyAddon<CCUconfig> {
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;
-
-
   private CCUManager manager;
+
+  private static CCU instance;
+
+  public CCU() {
+    instance = this;
+  }
+
+  public static CCU get() {
+    return instance;
+  }
 
   @Override
   protected void enable() {

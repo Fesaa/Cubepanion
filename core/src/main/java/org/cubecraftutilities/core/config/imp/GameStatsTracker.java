@@ -201,6 +201,10 @@ public class GameStatsTracker {
 
   public void registerKill(String playerName) {
     this.kills.registerSuccess();
+
+    if (!CCU.get().configuration().getStatsTrackerSubConfig().keepPlayerStats().get()) {
+      return;
+    }
     StatsTracker playerKillStatsTracker = this.perPlayerKills.get(playerName);
     if (playerKillStatsTracker != null) {
       playerKillStatsTracker.registerSuccess();
@@ -213,6 +217,10 @@ public class GameStatsTracker {
 
   public void registerDeath(String playerName) {
     this.deaths.registerSuccess();
+
+    if (!CCU.get().configuration().getStatsTrackerSubConfig().keepPlayerStats().get()) {
+      return;
+    }
     StatsTracker playerDeathStatsTracker = this.perPlayerDeaths.get(playerName);
     if (playerDeathStatsTracker != null) {
       playerDeathStatsTracker.registerSuccess();
@@ -262,31 +270,37 @@ public class GameStatsTracker {
     }
   }
 
+  public void resetAllPlayerStats() {
+    this.perPlayerKills = new HashMap<>();
+    this.perPlayerDeaths = new HashMap<>();
+    this.cleanUpPerPlayerHistorical();
+  }
+
   // Component generators
   public Component getUserStatsDisplayComponent(CCU addon, String name) {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);
 
     Component userStatsDisplayComponent = addon.prefix()
-        .append(Component.text("------- Interaction stats with " + name, Colours.Title));
+        .append(Component.text("------- Interaction stats with " + name + " -------", Colours.Title));
 
     if (kills == null && deaths == null) {
       return addon.prefix()
           .append(Component.text("No interaction stats available in " + this.game + " with " + name, Colours.Error));
     }
 
-    userStatsDisplayComponent = getComponent(kills, userStatsDisplayComponent, "kills");
-    userStatsDisplayComponent = getComponent(deaths, userStatsDisplayComponent, "deaths");
-
-    return userStatsDisplayComponent;
+    return userStatsDisplayComponent
+        .append(getComponent(kills, "kills"))
+        .append(getComponent(deaths, "deaths"));
   }
 
   @NotNull
-  private Component getComponent(StatsTracker statsTracker, Component userStatsDisplayComponent, String type) {
+  private Component getComponent(StatsTracker statsTracker, String type) {
+    Component comp = Component.empty();
     if (statsTracker == null) {
-      userStatsDisplayComponent = userStatsDisplayComponent.append(Component.text("\nNo " + type + "stats available.", Colours.Error));
+      comp = comp.append(Component.text("\nNo " + type + " stats available.", Colours.Error));
     } else {
-      userStatsDisplayComponent = userStatsDisplayComponent
+      comp = comp
           .append(Component.text("\nTotal " + type +": ", Colours.Primary))
           .append(Component.text(statsTracker.getAllTime(), Colours.Secondary))
           .append(Component.text("\nToday's " + type +": ", Colours.Primary))
@@ -294,7 +308,7 @@ public class GameStatsTracker {
           .append(Component.text("\nTop Daily " + type +": ", Colours.Primary))
           .append(Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary));
     }
-    return userStatsDisplayComponent;
+    return comp;
   }
 
   public Component getDisplayComponent(CCU addon) {

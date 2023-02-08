@@ -1,6 +1,7 @@
 package org.cubecraftutilities.core.listener;
 
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -61,7 +62,9 @@ public class GameTickEventListener {
       return;
     }
 
-    boolean threshHoldPassed = itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get();
+    boolean threshHoldPassed =
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedHelmet();
 
     if (threshHoldPassed && !hasAlreadyWarned) {
@@ -77,7 +80,9 @@ public class GameTickEventListener {
       return;
     }
 
-    boolean threshHoldPassed = itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get();
+    boolean threshHoldPassed =
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedChestplate();
 
     if (threshHoldPassed && !hasAlreadyWarned) {
@@ -93,7 +98,9 @@ public class GameTickEventListener {
       return;
     }
 
-    boolean threshHoldPassed = itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get();
+    boolean threshHoldPassed =
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedLeggings();
 
     if (threshHoldPassed && !hasAlreadyWarned) {
@@ -109,7 +116,9 @@ public class GameTickEventListener {
       return;
     }
 
-    boolean threshHoldPassed = itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get();
+    boolean threshHoldPassed =
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedBoots();
 
     if (threshHoldPassed && !hasAlreadyWarned) {
@@ -131,13 +140,13 @@ public class GameTickEventListener {
   private Component EquipmentSpotToComponent(EquipmentSpot spot) {
     switch (spot) {
       case HEAD:
-        return Component.text("helmet is");
+        return Component.text("helmet", NamedTextColor.GOLD).append(Component.text(" is"));
       case CHEST:
-        return Component.text("chestplate is");
+        return Component.text("chestplate", NamedTextColor.GOLD).append(Component.text(" is"));
       case LEGS:
-        return Component.text("leggings are");
+        return Component.text("leggings", NamedTextColor.GOLD).append(Component.text(" are"));
       case FEET:
-        return Component.text("boots are");
+        return Component.text("boots", NamedTextColor.GOLD).append(Component.text(" are"));
       default:
         return Component.text("??? is");
     }

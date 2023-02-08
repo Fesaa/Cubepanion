@@ -67,6 +67,9 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
 
   private boolean shouldBeVisible() {
     whereToDisplay whereToDisplay = this.config.getWheretoDisplayType().get();
+    if (whereToDisplay == null) {
+      return false;
+    }
     if (whereToDisplay.everywhere) {
       return true;
     }
@@ -82,18 +85,18 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   public static class NextArmourBuyHudConfig extends TextHudWidgetConfig {
 
     @DropdownSetting
-    private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(whereToDisplay.EGG_WARS);
+    private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(whereToDisplay.EGGWARS);
 
     public ConfigProperty<whereToDisplay> getWheretoDisplayType() {
       return wheretoDisplayType;
     }
 
     public enum whereToDisplay {
-      EGG_WARS(false, false, "Team EggWars"),
-      SKY_WARS(false, false, "Solo SkyWars"),
-      LUCKY_ISLANDS(false, false, "Lucky Islands"),
+      EGGWARS(false, false, "Team EggWars"),
+      SKYWARS(false, false, "Solo SkyWars"),
+      LUCKYISLANDS(false, false, "Lucky Islands"),
       FFA(false, false, "FFA"),
-      ALL_GAMES(false, true,""),
+      ALLGAMES(false, true,""),
       EVERYWHERE(true, true, "");
 
       public final boolean everywhere;

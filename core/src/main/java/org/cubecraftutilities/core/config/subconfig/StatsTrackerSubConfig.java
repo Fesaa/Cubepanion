@@ -24,6 +24,10 @@ public class StatsTrackerSubConfig extends Config {
 
   @SwitchSetting
   @SpriteSlot(x = 5, y = 1)
+  private final ConfigProperty<Boolean> keepPlayerStats = new ConfigProperty<>(true);
+
+  @SwitchSetting
+  @SpriteSlot(x = 5, y = 1)
   private final ConfigProperty<Boolean> keepSnapshots = new ConfigProperty<>(true);
 
   @SwitchSetting
@@ -52,6 +56,15 @@ public class StatsTrackerSubConfig extends Config {
     }
   }
 
+  @MethodOrder(after = "clearAllHistoricalPlayerData")
+  @ButtonSetting
+  @SpriteSlot(x = 6, y = 1)
+  public void clearAllPlayerData() {
+    for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.get().values()) {
+      gameStatsTracker.resetAllPlayerStats();
+    }
+  }
+
   private ConfigProperty<HashMap<String, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
 
   private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
@@ -62,6 +75,9 @@ public class StatsTrackerSubConfig extends Config {
 
   public HashMap<String, GameStatsTracker> getGameStatsTrackers() {
     return gameStatsTrackers.get();
+  }
+  public ConfigProperty<Boolean> keepPlayerStats() {
+    return this.keepPlayerStats;
   }
 
   public void checkForResets() {

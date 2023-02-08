@@ -152,6 +152,10 @@
         "resetTime": {
           "name": "Reset current period at"
         },
+        "keepPlayerStats": {
+          "name": "Keep kills & deaths per player",
+          "description": "  This might use a lot of data."
+        },
         "keepSnapshots": {
           "name": "Keep a snapshot of your stats per day"
         },
@@ -170,6 +174,11 @@
         },
         "clearAllHistoricalPlayerData": {
           "name": "Remove all historical player data",
+          "description": "  This action is irreversible.",
+          "text": "Clear"
+        },
+        "clearAllPlayerData": {
+          "name": "Remove all player data",
           "description": "  This action is irreversible.",
           "text": "Clear"
         }
