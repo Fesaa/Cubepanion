@@ -2,6 +2,7 @@ package org.cubecraftutilities.core.listener;
 
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -140,13 +141,13 @@ public class GameTickEventListener {
   private Component EquipmentSpotToComponent(EquipmentSpot spot) {
     switch (spot) {
       case HEAD:
-        return Component.text("helmet", NamedTextColor.GOLD).append(Component.text(" is"));
+        return Component.text("helmet", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error));
       case CHEST:
-        return Component.text("chestplate", NamedTextColor.GOLD).append(Component.text(" is"));
+        return Component.text("chestplate", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error));
       case LEGS:
-        return Component.text("leggings", NamedTextColor.GOLD).append(Component.text(" are"));
+        return Component.text("leggings", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error));
       case FEET:
-        return Component.text("boots", NamedTextColor.GOLD).append(Component.text(" are"));
+        return Component.text("boots", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error));
       default:
         return Component.text("??? is");
     }
