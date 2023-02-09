@@ -140,8 +140,8 @@ public class DiscordRPCManager {
 
 
   private int getTotalPlayers() {
-    ClientPacketListener clientPacketListener = this.addon.labyAPI().minecraft().clientPacketListener();
-    return clientPacketListener.getPlayerCount();
+    ClientPacketListener clientPacketListener = this.addon.labyAPI().minecraft().getClientPacketListener();
+    return clientPacketListener == null ?  0 : clientPacketListener.getPlayerCount();
   }
 
   private boolean doPlayerTracking() {
