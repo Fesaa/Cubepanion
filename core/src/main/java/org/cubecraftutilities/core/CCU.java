@@ -2,6 +2,7 @@ package org.cubecraftutilities.core;
 
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.entity.player.tag.PositionType;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import org.cubecraftutilities.core.commands.AppealSiteCommand;
 import org.cubecraftutilities.core.commands.EggWarsMapInfoCommand;
@@ -9,13 +10,14 @@ import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
 import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.CCUconfig;
+import org.cubecraftutilities.core.gui.hud.nametags.PingTags;
+import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
 import org.cubecraftutilities.core.listener.Chat.Automations;
 import org.cubecraftutilities.core.listener.Chat.PartyTracker;
 import org.cubecraftutilities.core.listener.Chat.StatsTracker;
 import org.cubecraftutilities.core.listener.GameShutdownEventListener;
 import org.cubecraftutilities.core.listener.GameTickEventListener;
 import org.cubecraftutilities.core.listener.KeyEventListener;
-import org.cubecraftutilities.core.listener.PlayerNameTagRenderListener;
 import org.cubecraftutilities.core.listener.network.PlayerInfo;
 import org.cubecraftutilities.core.listener.network.ServerNavigation;
 
@@ -53,11 +55,13 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(new ServerNavigation(this));
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
-    this.registerListener(new PlayerNameTagRenderListener(this));
     this.registerListener(new KeyEventListener(this));
     this.registerListener(new Automations(this));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
+
+    this.labyAPI().tagRegistry().register("ping_tag", PositionType.RIGHT_TO_NAME, new PingTags(this));
+   this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 
     this.widgetManager.register();
 

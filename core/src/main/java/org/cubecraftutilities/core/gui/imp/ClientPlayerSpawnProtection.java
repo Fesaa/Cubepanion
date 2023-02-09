@@ -10,7 +10,7 @@ public class ClientPlayerSpawnProtection {
 
   public ClientPlayerSpawnProtection(CCU addon) {
     this.addon = addon;
-    this.actionBarComponent = new SpawnProtectionComponent(addon, 10, 0);
+    this.actionBarComponent = new SpawnProtectionComponent(addon, 7, 5);
   }
 
   public void registerDeath() {

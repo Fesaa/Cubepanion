@@ -17,7 +17,6 @@ public class PlayerInfo {
     this.manager = addon.getManager();
   }
 
-  // Checks for players leaving the game. TODO: Why is this only checking in Team EggWars?
   @Subscribe
   public void onPlayerInfoRemoveEvent(PlayerInfoRemoveEvent e) {
     if (!this.manager.isInPreLobby() && this.manager.getDivisionName().equals("Team EggWars")) {

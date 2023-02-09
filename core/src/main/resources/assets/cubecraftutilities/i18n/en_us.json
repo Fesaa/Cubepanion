@@ -33,8 +33,7 @@
         "description": "  Displays a warning in chat, the action bar and makes a sound when your armour has less durability than specified."
       },
       "pingInNameTag": {
-        "name": "Display ping in the nametag",
-        "description": "  Will add a pencil to the right to indicate the nametag has been modified. Player names are never modified."
+        "name": "Display ping in the nametag"
       },
       "commandSystemSubConfig": {
         "name": "Custom Commands",
