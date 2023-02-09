@@ -24,6 +24,9 @@ public class CommandSystemSubConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> StatsCommand = new ConfigProperty<>(true);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> nameHistoryCommand = new ConfigProperty<>(true);
+
   public ConfigProperty<Boolean> getAppealSiteCommand() {
     return appealSiteCommand;
   }
@@ -38,6 +41,10 @@ public class CommandSystemSubConfig extends Config {
 
   public ConfigProperty<Boolean> getEggWarsMapInfoCommand() {
     return EggWarsMapInfoCommand;
+  }
+
+  public ConfigProperty<Boolean> getNameHistoryCommand() {
+    return nameHistoryCommand;
   }
 
   public ConfigProperty<Boolean> getEnabled() {

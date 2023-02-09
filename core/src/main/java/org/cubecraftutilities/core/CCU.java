@@ -6,6 +6,7 @@ import net.labymod.api.client.entity.player.tag.PositionType;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import org.cubecraftutilities.core.commands.AppealSiteCommand;
 import org.cubecraftutilities.core.commands.EggWarsMapInfoCommand;
+import org.cubecraftutilities.core.commands.NameHistoryCommand;
 import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
 import org.cubecraftutilities.core.config.CCUManager;
@@ -50,6 +51,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new EggWarsMapInfoCommand(this));
     this.registerCommand(new StatCommands(this));
+    this.registerCommand(new NameHistoryCommand(this));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));
@@ -61,7 +63,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(new StatsTracker(this));
 
     this.labyAPI().tagRegistry().register("ping_tag", PositionType.RIGHT_TO_NAME, new PingTags(this));
-   this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
+    this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 
     this.widgetManager.register();
 
