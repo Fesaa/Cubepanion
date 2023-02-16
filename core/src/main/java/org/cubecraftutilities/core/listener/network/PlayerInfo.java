@@ -29,7 +29,7 @@ public class PlayerInfo {
     if (e.type().equals(UpdateType.GAME_MODE)) {
       switch (e.playerInfo().gameMode()) {
         case SURVIVAL: {
-          if (this.manager.getDivisionName().equals("Team EggWars")) {
+          if (this.manager.getDivisionName().equals("Team EggWars") && !this.manager.isInPreLobby()) {
             this.manager.getSpawnProtectionManager().registerDeath(e.playerInfo().profile().getUniqueId());
           }
           break;

@@ -35,6 +35,7 @@ public class StatsTracker {
     //Default kill messages
     this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " died in the void while escaping " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " was slain by " + this.userNameRegex + "\\." + this.assistRegex), 2);
+    this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " was blown up by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " thought they could survive in the void while escaping " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " kicked " + this.userNameRegex + " into the void\\." + this.assistRegex), 1);
     this.defaultKillMessages.put(Pattern.compile(this.userNameRegex + " couldn't fly while escaping " + this.userNameRegex + "\\." + this.assistRegex), 2);
@@ -112,6 +113,7 @@ public class StatsTracker {
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was poked to death by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was pulled into the void by " + this.userNameRegex + "'s pet space kraken\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was pummelled by " + this.userNameRegex + "'s Kung Fu moves\\." + this.assistRegex), 2);
+    this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was RKO'd out of nowhere by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was sniped by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was slapped into the void by " + this.userNameRegex + "\\." + this.assistRegex), 2);
     this.customKillMessages.put(Pattern.compile(this.userNameRegex + " was smacked into next week by " + this.userNameRegex + "\\." + this.assistRegex), 2);

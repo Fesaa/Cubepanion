@@ -65,13 +65,13 @@ public class NameHistoryCommand extends Command {
     if (changed_at != null && !changed_at.equals("")) {
       out = out.append(Component.text(changed_at.split("T")[0], Colours.Primary));
     } else {
-      out = out.append(Component.text("N/A           "));
+      out = out.append(Component.text("0000-00-00"));
     }
 
     out = out
         .append(Component.text(": ", NamedTextColor.GRAY))
         .append(Component.text(
-            name.equals("－") ? "hidden" : name
+            name.matches("[a-zA-Z0-9_]{2,16}") ? name : "hidden"
             ,Colours.Secondary));
 
     return out.append(Component.newline());

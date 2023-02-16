@@ -9,6 +9,7 @@ import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.configuration.settings.annotation.SettingRequires;
 import org.cubecraftutilities.core.config.subconfig.*;
 
 @SuppressWarnings("FieldMayBeFinal")
@@ -59,10 +60,12 @@ public class CCUconfig extends AddonConfig {
 
   @SpriteSlot(x = 5)
   @KeyBindSetting
+  @SettingRequires("whereAmI")
   private final ConfigProperty<Key> copyServerID = new ConfigProperty<>(Key.NONE);
 
   @SpriteSlot(x = 5)
   @KeyBindSetting
+  @SettingRequires("whereAmI")
   private final ConfigProperty<Key> copyBungeecord = new ConfigProperty<>(Key.NONE);
 
   @Override

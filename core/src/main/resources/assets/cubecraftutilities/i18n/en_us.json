@@ -53,6 +53,10 @@
         "StatsCommand": {
           "name": "Stats Commands",
           "description": "  /stats help for all information."
+        },
+        "nameHistoryCommand": {
+          "name": "Name History",
+          "description": "/namehistory <name>"
         }
       },
       "eggWarsMapInfoSubConfig": {
