@@ -34,13 +34,13 @@ public class PartyCommands extends Command {
     }
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
-    boolean partyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
+    boolean isPartyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
     boolean inParty = this.addon.getManager().getPartyManager().isInParty();
 
     switch (arguments[0]) {
       case "reinvite":
       case "reinv": {
-        if (partyOwner) {
+        if (isPartyOwner) {
           this.reInviteCommand(chat, this.removeFirstN(arguments, 1));
         } else {
           this.noPermissions();
@@ -48,7 +48,7 @@ public class PartyCommands extends Command {
         return true;
       }
       case "remake": {
-        if (partyOwner) {
+        if (isPartyOwner) {
           this.reMakeCommand(chat, this.removeFirstN(arguments, 1));
         } else {
           this.noPermissions();
@@ -56,7 +56,7 @@ public class PartyCommands extends Command {
         return true;
       }
       case "kick": {
-        if (arguments.length > 2 && partyOwner) {
+        if (arguments.length > 2 && isPartyOwner) {
           this.multiKickCommand(chat, this.removeFirstN(arguments, 1));
           return true;
         }
@@ -64,7 +64,7 @@ public class PartyCommands extends Command {
       }
       case "invite":
       case "add": {
-        if (arguments.length > 2 && (partyOwner || !inParty)) {
+        if (arguments.length > 2 && (isPartyOwner || !inParty)) {
           this.multiInviteCommand(chat, this.removeFirstN(arguments, 1));
           return true;
         }

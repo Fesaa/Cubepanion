@@ -80,17 +80,6 @@ public class CCUManager {
   public DurabilityManager getDurabilityManager() {return this.durabilityManager;}
   public SpawnProtectionManager getSpawnProtectionManager() {return spawnProtectionManager;}
 
-  public String debugVars() {
-    return "ServerIp: " + this.serverIP
-        + "\nDivisionName: " + this.divisionName
-        + "\nLastDivisionName: " + this.lastDivisionName
-        + "\nMapName: " + this.mapName
-        + "\nEliminated: " + this.eliminated
-        + "\nInPreLobby: " + this.inPreLobby
-        + "\nInParty: " + this.partyManager.isInParty()
-        + "\nWon: " + this.won
-        + "\nChestPartyAnnounceCounter: " + this.chestPartyAnnounceCounter;
-  }
 
   public void reset() {
     this.serverIP = "";
