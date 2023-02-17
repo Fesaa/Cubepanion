@@ -16,7 +16,7 @@ import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 public class StatsTrackerSubConfig extends Config {
 
   @ParentSwitch
-  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
   @SliderSetting(min = 0, max = 23)
   @SpriteSlot(x = 3, y = 1)
