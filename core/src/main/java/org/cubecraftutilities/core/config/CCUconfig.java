@@ -26,7 +26,7 @@ public class CCUconfig extends AddonConfig {
 
   @SpriteSlot(x = 3, y = 1)
   @SwitchSetting
-  private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
 
   @SpriteSlot(x = 7, y = 2)
   @SliderSetting(min = 0, max = 20)
