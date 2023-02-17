@@ -1,7 +1,7 @@
 package org.cubecraftutilities.core.config.submanagers;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
@@ -122,7 +122,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
     this.eggWarsMapLayouts.put("Cyber Snow", new DoubleCrossEggWarsMap("Cyber Snow", 2, 77, CyberSnowGenLayout,
-        List.of("dark_blue", "red"), List.of("gray", "light_purple"), List.of("dark_gray", "dark_aqua"), List.of("yellow", "green")));
+        Arrays.asList("dark_blue", "red"), Arrays.asList("gray", "light_purple"), Arrays.asList("dark_gray", "dark_aqua"), Arrays.asList("yellow", "green")));
 
 
     GenLayout MushroomGenLayout =
@@ -135,7 +135,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
-    this.eggWarsMapLayouts.put("Mushroom", new SquareEggWarsMap("Mushroom", 4, 72, MushroomGenLayout, List.of("green", "red"), List.of("yellow", "aqua")));
+    this.eggWarsMapLayouts.put("Mushroom", new SquareEggWarsMap("Mushroom", 4, 72, MushroomGenLayout, Arrays.asList("green", "red"), Arrays.asList("yellow", "aqua")));
 
     GenLayout ModernGenLayout =
         new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 2, 2),
@@ -146,7 +146,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 0, 1)
         );
-    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, ModernGenLayout, List.of("red", "yellow"), List.of("light_purple", "aqua")));
+    this.eggWarsMapLayouts.put("Modern", new SquareEggWarsMap("Modern", 2, 54, ModernGenLayout, Arrays.asList("red", "yellow"), Arrays.asList("light_purple", "aqua")));
 
     GenLayout CyberCityGenLayout =
         new GenLayout(new MapGenerator(Generator.DIAMOND, Location.MIDDLE, 1, 3),
@@ -157,7 +157,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
-    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, List.of("dark_aqua", "light_purple"), List.of("red", "green")));
+    this.eggWarsMapLayouts.put("Cyber City", new SquareEggWarsMap("Cyber City", 2, 67, CyberCityGenLayout, Arrays.asList("light_purple", "dark_aqua"), Arrays.asList("red", "green")));
   }
 
   private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout, boolean party) {
