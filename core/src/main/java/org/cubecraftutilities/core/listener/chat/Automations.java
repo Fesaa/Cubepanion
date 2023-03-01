@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -22,6 +23,9 @@ public class Automations {
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
+  private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
+
+  private boolean passedOffline = false;
 
   public Automations(CCU addon) {
     this.addon = addon;
@@ -105,23 +109,30 @@ public class Automations {
     }
 
     // Friends list shorter
-    if (this.addon.configuration().getShortFriendsList().get()) {
-      // TODO:  Change to regex
-      if (msg.contains("------- Friends (")
-          && msg.contains("Offline:")
-          && msg.contains(") -------")) {
-        if (!this.manager.hasRequestedFullFriendsList()) {
-          Component shorterFriendsList = Component.empty();
+    if (this.addon.configuration().getShortFriendsList().get()
+    && this.FriendList.matcher(msg).matches()) {
+      if (this.manager.hasRequestedFullFriendsList()) {
+        this.manager.setRequestedFullFriendsList(false);
+      } else {
+        Component shorterFriendsList = Component.empty();
+        this.passedOffline = false;
+        shortenFriendsList(shorterFriendsList, e.message());
 
-          //TODO: Implement shortening
-
-          e.setMessage(e.message());
-        } else {
-          this.manager.setRequestedFullFriendsList(false);
-        }
+        e.setMessage(shorterFriendsList);
       }
     }
-
   }
 
+  private void shortenFriendsList(Component short_c, Component long_c) {
+    for (Component child : long_c.getChildren()) {
+      TextComponent textComponent = (TextComponent) child;
+      if (textComponent.getText().contains("Offline")) {
+        this.passedOffline = true;
+      }
+      if (!this.passedOffline) {
+        short_c.append(child);
+      }
+      shortenFriendsList(short_c, child);
+    }
+  }
 }
