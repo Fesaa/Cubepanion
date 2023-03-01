@@ -1,9 +1,10 @@
-package org.cubecraftutilities.core.listener.Chat;
+package org.cubecraftutilities.core.listener.chat;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -87,8 +88,7 @@ public class Automations {
     // TeamColour Tracker
     Matcher teamColourMatcher = this.EggWarsTeamJoin.matcher(msg);
     if (teamColourMatcher.matches()) {
-      TextColor colour = e.chatMessage().component().getChildren().get(0).getChildren().get(1)
-          .getColor();
+      TextColor colour = e.chatMessage().component().getChildren().get(0).getChildren().get(1).getColor();
       if (colour == null) {
         this.manager.setTeamColour("yellow");
       } else {
@@ -102,6 +102,24 @@ public class Automations {
       this.manager.setBungeecord(whereAmIMatcher.group(1));
       this.manager.setServerID(whereAmIMatcher.group(2));
       return;
+    }
+
+    // Friends list shorter
+    if (this.addon.configuration().getShortFriendsList().get()) {
+      // TODO:  Change to regex
+      if (msg.contains("------- Friends (")
+          && msg.contains("Offline:")
+          && msg.contains(") -------")) {
+        if (!this.manager.hasRequestedFullFriendsList()) {
+          Component shorterFriendsList = Component.empty();
+
+          //TODO: Implement shortening
+
+          e.setMessage(e.message());
+        } else {
+          this.manager.setRequestedFullFriendsList(false);
+        }
+      }
     }
 
   }

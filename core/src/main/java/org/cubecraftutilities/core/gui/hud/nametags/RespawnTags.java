@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.gui.hud.nametags;
 
+import java.util.UUID;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.NameTag;
@@ -8,7 +9,6 @@ import net.labymod.api.client.render.font.RenderableComponent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.gui.imp.SpawnProtectionComponent;
 import org.jetbrains.annotations.Nullable;
-import java.util.UUID;
 
 public class RespawnTags extends NameTag {
 

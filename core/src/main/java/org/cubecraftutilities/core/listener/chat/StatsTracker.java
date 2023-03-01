@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.listener.Chat;
+package org.cubecraftutilities.core.listener.chat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -132,6 +132,10 @@ public class StatsTracker {
     String msg = e.chatMessage().getPlainText();
     ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
     if (p == null) {
+      return;
+    }
+
+    if (!this.addon.configuration().getStatsTrackerSubConfig().isEnabled()) {
       return;
     }
 

@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.listener.Chat;
+package org.cubecraftutilities.core.listener.chat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

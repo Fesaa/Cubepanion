@@ -39,6 +39,8 @@ public class CCUManager {
   private boolean inPreLobby;
   private boolean won;
 
+  private boolean requestedFullFriendsList;
+
   private int chestPartyAnnounceCounter;
 
   // TEMP
@@ -65,6 +67,7 @@ public class CCUManager {
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
+    this.requestedFullFriendsList = false;
 
     this.chestPartyAnnounceCounter = 0;
   }
@@ -92,6 +95,8 @@ public class CCUManager {
 
     this.eliminated = false;
     this.inPreLobby = false;
+    this.won = false;
+    this.requestedFullFriendsList = false;
 
     this.chestPartyAnnounceCounter = 0;
 
@@ -241,5 +246,13 @@ public class CCUManager {
 
   public void setServerID(String serverID) {
     this.serverID = serverID;
+  }
+
+  public boolean hasRequestedFullFriendsList() {
+    return requestedFullFriendsList;
+  }
+
+  public void setRequestedFullFriendsList(boolean requestedFullFriendsList) {
+    this.requestedFullFriendsList = requestedFullFriendsList;
   }
 }

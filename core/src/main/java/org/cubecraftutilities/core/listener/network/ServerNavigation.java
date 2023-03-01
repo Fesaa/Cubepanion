@@ -51,6 +51,18 @@ public class ServerNavigation {
     if (this.manager.onCubeCraft()) {
       this.manager.reset();
       this.addon.rpcManager.removeCustomRPC();
+      register_game_leave();
+    }
+  }
+
+  private void register_game_leave() {
+    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
+    if (statsTrackerSubConfig.isEnabled() && !this.manager.isWon() && !this.manager.isInPreLobby()) {
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.manager.getDivisionName());
+      if (gameStatsTracker != null) {
+        gameStatsTracker.registerLoss();
+        gameStatsTracker.registerDeath("leave");
+      }
     }
   }
 
@@ -61,15 +73,7 @@ public class ServerNavigation {
       return;
     }
 
-    // Win Streak Counter
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && !this.manager.isWon() && !this.manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.manager.getDivisionName());
-      if (gameStatsTracker != null) {
-        gameStatsTracker.registerLoss();
-      }
-    }
-
+    register_game_leave();
     this.executeWhereAmI();
     this.manager.onServerSwitch();
 

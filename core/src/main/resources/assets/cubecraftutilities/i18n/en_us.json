@@ -56,7 +56,7 @@
         },
         "nameHistoryCommand": {
           "name": "Name History",
-          "description": "/namehistory <name>"
+          "description": "  /namehistory <name>"
         }
       },
       "eggWarsMapInfoSubConfig": {
@@ -197,6 +197,10 @@
       },
       "copyBungeecord": {
         "name": "Copy Bungeecord Instance"
+      },
+      "shortFriendsList": {
+        "name": "Shorter friends list",
+        "description": "  Use /friends list full to display your full friends list"
       }
     },
     "hudWidget": {

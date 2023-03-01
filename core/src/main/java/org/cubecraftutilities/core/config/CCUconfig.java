@@ -10,7 +10,12 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingRequires;
-import org.cubecraftutilities.core.config.subconfig.*;
+import org.cubecraftutilities.core.config.subconfig.AutoVoteSubConfig;
+import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
+import org.cubecraftutilities.core.config.subconfig.DiscordRichPresenceSubConfig;
+import org.cubecraftutilities.core.config.subconfig.EggWarsMapInfoSubConfig;
+import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
+import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 
 @SuppressWarnings("FieldMayBeFinal")
 @ConfigName("settings")
@@ -23,6 +28,9 @@ public class CCUconfig extends AddonConfig {
   @SpriteSlot(x = 6)
   @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
+
+  @SwitchSetting
+  private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
 
   @SpriteSlot(x = 3, y = 1)
   @SwitchSetting
@@ -83,5 +91,5 @@ public class CCUconfig extends AddonConfig {
   public ConfigProperty<Key> getCopyBungeecord() {return copyBungeecord;}
   public ConfigProperty<Key> getCopyServerID() {return copyServerID;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
-
+  public ConfigProperty<Boolean> getShortFriendsList() {return shortFriendsList;}
 }
