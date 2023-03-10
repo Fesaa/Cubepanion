@@ -14,6 +14,8 @@ import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
+import org.cubecraftutilities.core.config.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.utils.imp.OnlineFriendLocation;
 
 public class Automations {
 
@@ -24,6 +26,7 @@ public class Automations {
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
   private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
+  private final Pattern onlineFriends = Pattern.compile("\\\\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
 
   private boolean passedOffline = false;
 
@@ -35,7 +38,7 @@ public class Automations {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
+    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
     if (p == null) {
       return;
     }
@@ -72,7 +75,7 @@ public class Automations {
     // Auto GG
     EndGameSubConfig config = this.addon.configuration().getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
-      String eliminationMessage = this.addon.labyAPI().minecraft().clientPlayer().getName() + " has been eliminated from the game.";
+      String eliminationMessage = p.getName() + " has been eliminated from the game.";
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
         this.addon.labyAPI().minecraft().chatExecutor().chat(config.getGameEndMessage().get().msg, false);
         if (!config.getCustomMessage().isDefaultValue()) {
@@ -108,7 +111,7 @@ public class Automations {
       return;
     }
 
-    // Friends list shorter
+    // Friends list shorter && tracker
     if (this.addon.configuration().getShortFriendsList().get()
     && this.FriendList.matcher(msg).matches()) {
       if (this.manager.hasRequestedFullFriendsList()) {
@@ -119,6 +122,21 @@ public class Automations {
         shortenFriendsList(shorterFriendsList, e.message());
 
         e.setMessage(shorterFriendsList);
+      }
+
+      FriendTrackerManager friendTrackerManager = this.manager.getFriendTrackerManager();
+      if (friendTrackerManager.isUpdating()) {
+        Matcher onlineFriends = this.onlineFriends.matcher(msg);
+
+        while (onlineFriends.find()) {
+          String username = onlineFriends.group("username");
+          String game = onlineFriends.group("game");
+          String map = onlineFriends.group("map");
+          this.addon.logger().info(username + game + map);
+          friendTrackerManager.updateFriendLocation(new OnlineFriendLocation(username, game, map));
+        }
+        friendTrackerManager.setUpdating(false);
+        e.setCancelled(true);
       }
     }
   }

@@ -3,6 +3,7 @@ package org.cubecraftutilities.core.config;
 import java.util.Objects;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
@@ -10,6 +11,7 @@ import net.labymod.api.client.scoreboard.ScoreboardScore;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.config.submanagers.EggWarsMapInfoManager;
+import org.cubecraftutilities.core.config.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.config.submanagers.PartyManager;
 import org.cubecraftutilities.core.config.submanagers.SpawnProtectionManager;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +26,7 @@ public class CCUManager {
   private final EggWarsMapInfoManager eggWarsMapInfoManager;
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
+  private final FriendTrackerManager friendTrackerManager;
 
   // Own fields
 
@@ -55,6 +58,7 @@ public class CCUManager {
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
     this.spawnProtectionManager = new SpawnProtectionManager(addon);
     this.durabilityManager = new DurabilityManager();
+    this.friendTrackerManager = new FriendTrackerManager();
 
     this.serverIP = "";
     this.divisionName = "";
@@ -74,15 +78,11 @@ public class CCUManager {
 
 
 
-  public PartyManager getPartyManager() {
-    return this.partyManager;
-  }
-  public EggWarsMapInfoManager getEggWarsMapInfoManager() {
-    return this.eggWarsMapInfoManager;
-  }
+  public PartyManager getPartyManager() {return this.partyManager;}
+  public EggWarsMapInfoManager getEggWarsMapInfoManager() {return this.eggWarsMapInfoManager;}
   public DurabilityManager getDurabilityManager() {return this.durabilityManager;}
   public SpawnProtectionManager getSpawnProtectionManager() {return spawnProtectionManager;}
-
+  public FriendTrackerManager getFriendTrackerManager() {return friendTrackerManager;}
 
   public void reset() {
     this.serverIP = "";
@@ -102,6 +102,7 @@ public class CCUManager {
 
     this.partyManager.reset();
     this.durabilityManager.reset();
+    this.friendTrackerManager.setRunning(false);
   }
 
   public void onCubeJoin() {
@@ -118,6 +119,7 @@ public class CCUManager {
     this.chestPartyAnnounceCounter = 0;
 
     this.partyManager.reset();
+    this.friendTrackerManager.beginLoop();
   }
 
   public void onServerSwitch() {
@@ -148,7 +150,11 @@ public class CCUManager {
     if (this.changedColour) {
       return;
     }
-    NetworkPlayerInfo playerInfo = this.addon.labyAPI().minecraft().clientPlayer().networkPlayerInfo();
+    ClientPlayer clientPlayer = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (clientPlayer == null) {
+      return;
+    }
+    NetworkPlayerInfo playerInfo = clientPlayer.networkPlayerInfo();
     if (playerInfo == null) {
       return;
     }
