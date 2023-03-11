@@ -1,6 +1,7 @@
 package org.cubecraftutilities.core.gui.hud.widgets;
 
 import java.util.function.Supplier;
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
@@ -16,13 +17,15 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
   private final String text;
   private TextLine HUDLine;
 
-  public TextTrackerHudWidget(String id, String text, Supplier<String> valueSupplier, Supplier<Boolean> visibleSupplier, int posX, int posY) {
+  public TextTrackerHudWidget(HudWidgetCategory category,String id, String text, Supplier<String> valueSupplier, Supplier<Boolean> visibleSupplier, int posX, int posY) {
     super(id);
     this.text = text;
     this.valueSupplier = valueSupplier;
     this.visibleSupplier = visibleSupplier;
     this.posX = posX;
     this.posY = posY;
+
+    this.bindCategory(category);
   }
 
   public void load(TextHudWidgetConfig config) {

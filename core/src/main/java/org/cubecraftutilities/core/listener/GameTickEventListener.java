@@ -44,7 +44,7 @@ public class GameTickEventListener {
       this.spawnProtectionManager.getClientPlayerSpawnProtection().update(true);
       this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(true);
 
-      ClientPlayer player = this.addon.labyAPI().minecraft().clientPlayer();
+      ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
       if (player != null) {
         this.processHelmetForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.HEAD));
         this.processChestForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.CHEST));

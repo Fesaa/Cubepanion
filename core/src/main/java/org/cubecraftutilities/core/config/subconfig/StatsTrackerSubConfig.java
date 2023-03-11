@@ -65,7 +65,7 @@ public class StatsTrackerSubConfig extends Config {
     }
   }
 
-  private ConfigProperty<HashMap<String, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
+  private final ConfigProperty<HashMap<String, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
 
   private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
 

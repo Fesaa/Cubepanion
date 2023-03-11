@@ -141,6 +141,7 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
     }
   }
 
+  @SuppressWarnings("DuplicatedCode")
   public IndexPair getIndex(String member) {
 
     int leftRight = 0;

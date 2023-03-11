@@ -205,62 +205,62 @@
     },
     "hudWidget": {
       "diamond_counter": {
-        "name": "Diamond counter",
+        "name": "#Diamond",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "gold_ingot_counter": {
-        "name": "Gold counter",
+        "name": "#Gold",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "iron_ingot_counter": {
-        "name": "Iron counter",
+        "name": "#Iron",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "emerald_counter": {
-        "name": "Emerald counter",
+        "name": "#Emerald",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "terracotta_counter": {
-        "name": "Terracotta blocks counter",
+        "name": "#Terracotta blocks",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "held_item_tracker": {
-        "name": "Held item counter",
+        "name": "#Held item",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held",
           "description": "  This setting is useless and an artifact of the underlying implementation."
         }
       },
       "helmet_durability_counter": {
-        "name": "Helmet durability counter",
+        "name": "#Helmet durability",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "chestplate_durability_counter": {
-        "name": "Chestplate durability counter",
+        "name": "#Chestplate durability",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "leggings_durability_counter": {
-        "name": "Leggings durability counter",
+        "name": "#Leggings durability",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
       },
       "boots_durability_counter": {
-        "name": "Boots durability counter",
+        "name": "#Boots durability",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         }
@@ -287,6 +287,12 @@
       },
       "daily_wins_tracker": {
         "name": "Daily Wins"
+      }
+    },
+    "hudWidgetCategory": {
+      "CCU": {
+        "name": "CubeCraft Utilities",
+        "description": "All custom widgets provided by CubeCraft Utilities"
       }
     }
   }

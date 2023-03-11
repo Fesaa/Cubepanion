@@ -25,6 +25,7 @@ public class StatCommands extends Command {
     super("stats");
 
     this.addon = addon;
+    this.messagePrefix = addon.prefix();
   }
 
   @Override
@@ -51,11 +52,8 @@ public class StatCommands extends Command {
 
     if (gameStatsTracker == null) {
       if (!arguments[0].equals("help")) {
-        this.displayMessage(
-            this.addon.prefix()
-                .append(Component.text(" Could not find the specified game. Possible options are ", Colours.Error))
-                .append(this.gamesList().color(Colours.Error))
-        );
+        this.displayMessage(Component.text(" Could not find the specified game. Possible options are ", Colours.Error)
+            .append(this.gamesList().color(Colours.Error)));
         return false;
       } else {
         this.helpCommand();
@@ -103,8 +101,7 @@ public class StatCommands extends Command {
   }
 
   private void helpCommand() {
-    Component helpComponent = this.addon.prefix()
-        .append(Component.text("------- Enhanced Stats Commands -------", Colours.Title))
+    Component helpComponent = Component.text("------- Enhanced Stats Commands -------", Colours.Title)
         .append(Component.text("\n/stats <game>", Colours.Primary)
             .clickEvent(ClickEvent.suggestCommand("/stats ")))
         .append(Component.text(" Displays your stats in a game.", Colours.Secondary))

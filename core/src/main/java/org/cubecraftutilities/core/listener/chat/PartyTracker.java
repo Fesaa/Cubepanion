@@ -17,16 +17,12 @@ public class PartyTracker {
   private int partySize;
 
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
-  private final String partyDisband = "The party has been disbanded!";
-  private final String kickedFromParty = "You were kicked from your party!";
-  private final String leftParty = "You have left your party!";
   private final String joinedParty = "You have joined " + this.userNameRegex + "'s party!";
   private final Pattern ownerChange = Pattern.compile("The owner of the party has been changed to " + this.userNameRegex + "!");
   private final Pattern playerJoinsPartyMessage = Pattern.compile("\\[Party\\] \\[\\+\\] " + this.userNameRegex + " joined the party\\.");
   private final Pattern playerKickedFromPartyMessage = Pattern.compile(this.userNameRegex + " was kicked from the party!");
   private final Pattern playerLeavesPartyMessage = Pattern.compile("\\[Party\\] \\[-\\] " + this.userNameRegex + " left the party\\.");
   private final Pattern partyStatusTop = Pattern.compile("------- Party Status \\((\\d{1,2})\\/\\d{1,2}\\) -------");
-  private final String membersMessage = "Members:";
   private final Pattern partyOwner = Pattern.compile("Owner: (" + this.userNameRegex + ")");
   private final Pattern partyMember = Pattern.compile(this.userNameRegex + "( - KICK)?");
 
@@ -41,7 +37,7 @@ public class PartyTracker {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
+    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
     if (p == null) {
       return;
     }
@@ -80,9 +76,12 @@ public class PartyTracker {
       return;
     }
 
-    if (msg.matches(this.leftParty)
-    ||  msg.matches(this.partyDisband)
-    ||  msg.matches(this.kickedFromParty)) {
+    String leftParty = "You have left your party!";
+    String kickedFromParty = "You were kicked from your party!";
+    String partyDisband = "The party has been disbanded!";
+    if (msg.matches(leftParty)
+    ||  msg.matches(partyDisband)
+    ||  msg.matches(kickedFromParty)) {
       this.partyManager.setEmptyParty();
       return;
     }
@@ -103,7 +102,8 @@ public class PartyTracker {
         return;
       }
 
-      if (msg.matches(this.membersMessage)) {
+      String membersMessage = "Members:";
+      if (msg.matches(membersMessage)) {
         e.setCancelled(true);
         return;
       }

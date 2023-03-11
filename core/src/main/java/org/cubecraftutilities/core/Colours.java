@@ -5,11 +5,11 @@ import net.labymod.api.client.component.format.TextColor;
 
 public class Colours {
 
-  public static TextColor Title = NamedTextColor.GOLD;
-  public static TextColor Primary = NamedTextColor.AQUA;
-  public static TextColor Secondary = NamedTextColor.WHITE;
-  public static TextColor Error = NamedTextColor.RED;
-  public static TextColor Hover = NamedTextColor.GREEN;
+  public static final TextColor Title = NamedTextColor.GOLD;
+  public static final TextColor Primary = NamedTextColor.AQUA;
+  public static final TextColor Secondary = NamedTextColor.WHITE;
+  public static final TextColor Error = NamedTextColor.RED;
+  public static final TextColor Hover = NamedTextColor.GREEN;
 
 
   public static TextColor pingColour(int ping) {

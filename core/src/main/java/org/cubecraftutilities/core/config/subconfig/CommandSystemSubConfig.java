@@ -6,7 +6,6 @@ import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
-@SuppressWarnings("FieldMayBeFinal")
 public class CommandSystemSubConfig extends Config {
 
   @ParentSwitch

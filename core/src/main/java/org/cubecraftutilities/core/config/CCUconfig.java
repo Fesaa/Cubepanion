@@ -17,7 +17,6 @@ import org.cubecraftutilities.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 
-@SuppressWarnings("FieldMayBeFinal")
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")
 public class CCUconfig extends AddonConfig {
@@ -50,7 +49,7 @@ public class CCUconfig extends AddonConfig {
 
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
 
-  @SpriteSlot(x = 0)
+  @SpriteSlot()
   private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
 
   @SpriteSlot(x = 1)

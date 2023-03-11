@@ -112,16 +112,18 @@ public class Automations {
     }
 
     // Friends list shorter && tracker
-    if (this.addon.configuration().getShortFriendsList().get()
-    && this.FriendList.matcher(msg).matches()) {
-      if (this.manager.hasRequestedFullFriendsList()) {
-        this.manager.setRequestedFullFriendsList(false);
-      } else {
-        Component shorterFriendsList = Component.empty();
-        this.passedOffline = false;
-        shortenFriendsList(shorterFriendsList, e.message());
+    if (this.FriendList.matcher(msg).matches()) {
 
-        e.setMessage(shorterFriendsList);
+      if (this.addon.configuration().getShortFriendsList().get()) {
+        if (this.manager.hasRequestedFullFriendsList()) {
+          this.manager.setRequestedFullFriendsList(false);
+        } else  {
+          Component shorterFriendsList = Component.empty();
+          this.passedOffline = false;
+          shortenFriendsList(shorterFriendsList, e.message());
+
+          e.setMessage(shorterFriendsList);
+        }
       }
 
       FriendTrackerManager friendTrackerManager = this.manager.getFriendTrackerManager();
@@ -129,12 +131,11 @@ public class Automations {
         Matcher onlineFriends = this.onlineFriends.matcher(msg);
 
         while (onlineFriends.find()) {
-          this.addon.logger().info("FOUND A MATCH");
-          String username = onlineFriends.group("username");
-          String game = onlineFriends.group("game");
-          String map = onlineFriends.group("map");
-          this.addon.logger().info(username + game + map);
-          friendTrackerManager.updateFriendLocation(new OnlineFriendLocation(username, game, map));
+          friendTrackerManager.updateFriendLocation(
+              new OnlineFriendLocation(
+                  onlineFriends.group("username"),
+                  onlineFriends.group("game"),
+                  onlineFriends.group("map")));
         }
         friendTrackerManager.setUpdating(false);
         e.setCancelled(true);
@@ -150,8 +151,8 @@ public class Automations {
       }
       if (!this.passedOffline) {
         short_c.append(child);
+        shortenFriendsList(short_c, child);
       }
-      shortenFriendsList(short_c, child);
     }
   }
 }

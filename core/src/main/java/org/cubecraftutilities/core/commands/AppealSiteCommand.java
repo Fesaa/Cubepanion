@@ -17,6 +17,7 @@ public class AppealSiteCommand extends Command {
     super("appeal");
 
     this.addon = addon;
+    this.messagePrefix = addon.prefix();
   }
 
 
@@ -39,7 +40,6 @@ public class AppealSiteCommand extends Command {
         URL = "https://appeals.cubecraft.net/find_appeals/" + userName + "/MCO";
       }
       Component appealSiteLink = Component.newline()
-          .append(this.addon.prefix())
           .append(Component.text("Appeal site link for: ", Colours.Primary))
           .append(Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD)
               .clickEvent(ClickEvent.openUrl(URL))

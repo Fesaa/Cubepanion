@@ -7,6 +7,7 @@ import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
+import net.labymod.api.client.entity.player.ClientPlayer;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.Colours;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
@@ -19,17 +20,14 @@ public class PartyCommands extends Command {
     super("party", "p");
 
     this.addon = addon;
+    this.messagePrefix = addon.prefix();
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!config.getPartyCommands().get() || !config.getEnabled().get()) {
-      return false;
-    }
-
-    if (arguments.length == 0) {
+    if (!config.getPartyCommands().get() || !config.getEnabled().get() || arguments.length == 0) {
       return false;
     }
 
@@ -41,7 +39,7 @@ public class PartyCommands extends Command {
       case "reinvite":
       case "reinv": {
         if (isPartyOwner) {
-          this.reInviteCommand(chat, this.removeFirstN(arguments, 1));
+          this.reInviteCommand(chat, this.removeFirstN(arguments));
         } else {
           this.noPermissions();
         }
@@ -49,7 +47,7 @@ public class PartyCommands extends Command {
       }
       case "remake": {
         if (isPartyOwner) {
-          this.reMakeCommand(chat, this.removeFirstN(arguments, 1));
+          this.reMakeCommand(chat, this.removeFirstN(arguments));
         } else {
           this.noPermissions();
         }
@@ -57,7 +55,7 @@ public class PartyCommands extends Command {
       }
       case "kick": {
         if (arguments.length > 2 && isPartyOwner) {
-          this.multiKickCommand(chat, this.removeFirstN(arguments, 1));
+          this.multiKickCommand(chat, this.removeFirstN(arguments));
           return true;
         }
         return false;
@@ -65,7 +63,7 @@ public class PartyCommands extends Command {
       case "invite":
       case "add": {
         if (arguments.length > 2 && (isPartyOwner || !inParty)) {
-          this.multiInviteCommand(chat, this.removeFirstN(arguments, 1));
+          this.multiInviteCommand(chat, this.removeFirstN(arguments));
           return true;
         }
         return false;
@@ -79,20 +77,15 @@ public class PartyCommands extends Command {
   }
 
   private void noPermissions() {
-    this.displayMessage(
-        this.addon.prefix().append(
-            Component.text("You need to be party owner to use this command.", Colours.Error)));
+    this.displayMessage(Component.text("You need to be party owner to use this command.", Colours.Error));
   }
 
   private void missingArguments() {
-    this.displayMessage(
-        this.addon.prefix().append(
-            Component.text("You are missing required arguments, please try again.", Colours.Error)));
+    this.displayMessage(Component.text("You are missing required arguments, please try again.", Colours.Error));
   }
 
   private void helpCommand(String command) {
-    Component helpComponent = this.addon.prefix()
-        .append(Component.text("------- Enhanced Party Commands -------", Colours.Title));
+    Component helpComponent = Component.text("------- Enhanced Party Commands -------", Colours.Title);
 
     boolean run = command.equals("extra");
 
@@ -165,7 +158,11 @@ public class PartyCommands extends Command {
     int multiplier = 1;
 
     for (String username : this.addon.getManager().getPartyManager().getPartyMembers()) {
-      if (!this.inArray(excludedUsernames, username) && !username.equals(this.addon.labyAPI().minecraft().clientPlayer().getName())) {
+      ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
+      if (p == null) {
+        return;
+      }
+      if (!this.inArray(excludedUsernames, username) && !username.equals(p.getName())) {
         Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
             () -> chat.chat("/p invite " + username, false),
             100L * multiplier,
@@ -199,16 +196,12 @@ public class PartyCommands extends Command {
     return false;
   }
 
-  private String[] removeFirstN(String[] array, int n) {
-    if (array.length <= n) {
+  private String[] removeFirstN(String[] array) {
+    if (array.length <= 1) {
       return new String[0];
     }
-
-    String[] slicedArray = new String[array.length - n];
-
-    for (int i = 0; i < array.length; i++) {
-      slicedArray[i] = array[n + i];
-    }
+    String[] slicedArray = new String[array.length - 1];
+    System.arraycopy(array, 1, slicedArray, 0, array.length);
 
     return slicedArray;
   }
