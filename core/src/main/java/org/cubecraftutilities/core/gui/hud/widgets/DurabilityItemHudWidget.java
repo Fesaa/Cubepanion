@@ -5,6 +5,7 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
 import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
@@ -14,13 +15,15 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
 
   private final CCUManager manager;
 
-  public DurabilityItemHudWidget(String id, String regex, int posX, int posY, CCUManager manager) {
+  public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex, int posX, int posY, CCUManager manager) {
     super(id, regex, posX, posY);
     this.manager = manager;
+
+    this.bindCategory(category);
   }
 
   public void onTick() {
-    ClientPlayer player = this.labyAPI.minecraft().clientPlayer();
+    ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
     if (player == null) {
       return;
     }
@@ -67,7 +70,7 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
       return false;
     }
 
-    ClientPlayer player = minecraft.clientPlayer();
+    ClientPlayer player = minecraft.getClientPlayer();
     if (player == null) {
       return false;
     }

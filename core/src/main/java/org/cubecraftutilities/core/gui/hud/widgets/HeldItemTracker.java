@@ -3,18 +3,21 @@ package org.cubecraftutilities.core.gui.hud.widgets;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.Item;
 import net.labymod.api.client.world.item.ItemStack;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemHudWidget;
 
 public class HeldItemTracker extends CustomItemHudWidget {
 
-  public HeldItemTracker() {
+  public HeldItemTracker(HudWidgetCategory category) {
     super("held_item_tracker", "", 4, 1);
+
+    this.bindCategory(category);
   }
 
   public void onTick() {
-    ClientPlayer p = this.labyAPI.minecraft().clientPlayer();
+    ClientPlayer p = this.labyAPI.minecraft().getClientPlayer();
     if (p == null) {
       this.itemStack = null;
       this.updateItemStack(null);

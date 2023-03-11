@@ -108,7 +108,7 @@ public class CustomItemHudWidget extends ItemHudWidget<ItemHudConfig> {
       return false;
     }
 
-    ClientPlayer player = minecraft.clientPlayer();
+    ClientPlayer player = minecraft.getClientPlayer();
     if (player == null) {
       return false;
     }

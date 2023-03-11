@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.gui.hud.widgets;
 
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
@@ -17,9 +18,11 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   private final CCUManager manager;
   private TextLine nextArmourBuy;
 
-  public NextArmourBuyTextWidget(String id, CCUManager manager) {
+  public NextArmourBuyTextWidget(HudWidgetCategory category, String id, CCUManager manager) {
     super(id, NextArmourBuyHudConfig.class);
     this.manager = manager;
+
+    this.bindCategory(category);
   }
 
   public void load(NextArmourBuyHudConfig config) {
@@ -65,6 +68,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     this.nextArmourBuy.setVisible(this.shouldBeVisible());
   }
 
+  @SuppressWarnings("RedundantIfStatement")
   private boolean shouldBeVisible() {
     whereToDisplay whereToDisplay = this.config.getWheretoDisplayType().get();
     if (whereToDisplay == null) {

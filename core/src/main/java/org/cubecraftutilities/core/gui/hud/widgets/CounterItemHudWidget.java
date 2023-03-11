@@ -3,17 +3,20 @@ package org.cubecraftutilities.core.gui.hud.widgets;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
+import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemHudWidget;
 
 public class CounterItemHudWidget extends CustomItemHudWidget {
 
-  public CounterItemHudWidget(String id, String regex, int posX, int posY) {
+  public CounterItemHudWidget(HudWidgetCategory category, String id, String regex, int posX, int posY) {
     super(id, regex, posX, posY);
+
+    this.bindCategory(category);
   }
 
   public void onTick() {
-    ClientPlayer player = this.labyAPI.minecraft().clientPlayer();
+    ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
     if (player != null) {
       ItemStack offHandItem = player.getOffHandItemStack();
       Inventory inventory = player.inventory();
