@@ -1,7 +1,7 @@
 rootProject.name = "CubeCraft-Utilities"
 
 pluginManagement {
-    val labyGradlePluginVersion = "0.3.17"
+    val labyGradlePluginVersion = "0.3.19"
     plugins {
         id("net.labymod.gradle") version (labyGradlePluginVersion)
     }

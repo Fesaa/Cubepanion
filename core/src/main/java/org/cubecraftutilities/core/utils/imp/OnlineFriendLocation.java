@@ -37,9 +37,9 @@ public class OnlineFriendLocation {
 
   public boolean hasMoved(OnlineFriendLocation newLocation) {
     return
-        this.username.equals(newLocation.getUsername())
+        !(this.username.equals(newLocation.getUsername())
         && this.game.equals(newLocation.getGame())
-        && this.map.equals(newLocation.getMap());
+        && this.map.equals(newLocation.getMap()));
   }
 
   public void broadcastMove(OnlineFriendLocation newLocation) {

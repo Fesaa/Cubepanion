@@ -25,7 +25,7 @@ public class CommandSystemSubConfig extends Config {
   private final ConfigProperty<Boolean> StatsCommand = new ConfigProperty<>(true);
 
   @SwitchSetting
-  private final ConfigProperty<Boolean> nameHistoryCommand = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> friendsTrackerCommand = new ConfigProperty<>(true);
 
   public ConfigProperty<Boolean> getAppealSiteCommand() {
     return appealSiteCommand;
@@ -43,8 +43,8 @@ public class CommandSystemSubConfig extends Config {
     return EggWarsMapInfoCommand;
   }
 
-  public ConfigProperty<Boolean> getNameHistoryCommand() {
-    return nameHistoryCommand;
+  public ConfigProperty<Boolean> getFriendsTrackerCommand() {
+    return friendsTrackerCommand;
   }
 
   public ConfigProperty<Boolean> getEnabled() {

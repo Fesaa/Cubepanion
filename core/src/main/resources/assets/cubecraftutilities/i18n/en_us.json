@@ -54,9 +54,9 @@
           "name": "Stats Commands",
           "description": "  /stats help for all information."
         },
-        "nameHistoryCommand": {
-          "name": "Name History",
-          "description": "  /namehistory <name>"
+        "friendsTrackerCommand": {
+          "name": "Friend tracker",
+          "description": "  /tracker (un)track/interval [username*|int]"
         }
       },
       "eggWarsMapInfoSubConfig": {

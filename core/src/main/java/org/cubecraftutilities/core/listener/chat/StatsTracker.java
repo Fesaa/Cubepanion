@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
@@ -19,7 +17,6 @@ public class StatsTracker {
   private final CCU addon;
   private final CCUManager manager;
 
-  private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game.");
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
   private final String assistRegex = "(\\s{0,5}\\(\\+\\d{1,2} assists?\\))?";
@@ -130,7 +127,7 @@ public class StatsTracker {
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().clientPlayer();
+    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
     if (p == null) {
       return;
     }
@@ -181,12 +178,8 @@ public class StatsTracker {
       if (msg.equals(userName + " tried to survive in the void.")
           || msg.equals(userName + " died in the void.")
           || msg.equals(userName + " thought they could survive in the void.")) {
-
-        this.displayKillMessage(userName, "void");
         this.registerCustomDeath("void");
       } else if (msg.equals(userName + " blew up.")) {
-
-        this.displayKillMessage(userName, "tnt");
         this.registerCustomDeath("tnt");
       }
 
@@ -211,10 +204,8 @@ public class StatsTracker {
 
       if (killer.equals(userName)) {
         this.registerCustomKill(other);
-        this.displayKillMessage(other, killer);
       } else {
         this.registerCustomDeath(other);
-        this.displayKillMessage(userName, killer);
       }
       return true;
     }
@@ -244,12 +235,4 @@ public class StatsTracker {
       this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
     }
   }
-
-  private void displayKillMessage(String murdered, String murderer) {
-    this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(Component.empty()
-        .append(Component.text(murdered, NamedTextColor.RED))
-        .append(Component.text(" killed by "))
-        .append(Component.text(murderer, NamedTextColor.GREEN)));
-  }
-
 }

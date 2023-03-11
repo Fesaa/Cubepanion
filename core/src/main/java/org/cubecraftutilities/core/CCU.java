@@ -14,12 +14,12 @@ import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.CCUconfig;
 import org.cubecraftutilities.core.gui.hud.nametags.PingTags;
 import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
-import org.cubecraftutilities.core.listener.chat.Automations;
-import org.cubecraftutilities.core.listener.chat.PartyTracker;
-import org.cubecraftutilities.core.listener.chat.StatsTracker;
 import org.cubecraftutilities.core.listener.GameShutdownEventListener;
 import org.cubecraftutilities.core.listener.GameTickEventListener;
 import org.cubecraftutilities.core.listener.KeyEventListener;
+import org.cubecraftutilities.core.listener.chat.Automations;
+import org.cubecraftutilities.core.listener.chat.PartyTracker;
+import org.cubecraftutilities.core.listener.chat.StatsTracker;
 import org.cubecraftutilities.core.listener.network.PlayerInfo;
 import org.cubecraftutilities.core.listener.network.ServerNavigation;
 

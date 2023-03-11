@@ -102,7 +102,8 @@ public class CCUManager {
 
     this.partyManager.reset();
     this.durabilityManager.reset();
-    this.friendTrackerManager.setRunning(false);
+    this.friendTrackerManager.endCurrentLoop();
+    this.friendTrackerManager.resetTrackers();
   }
 
   public void onCubeJoin() {
@@ -119,7 +120,6 @@ public class CCUManager {
     this.chestPartyAnnounceCounter = 0;
 
     this.partyManager.reset();
-    this.friendTrackerManager.beginLoop();
   }
 
   public void onServerSwitch() {

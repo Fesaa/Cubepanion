@@ -26,7 +26,7 @@ public class Automations {
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
   private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
-  private final Pattern onlineFriends = Pattern.compile("\\\\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
+  private final Pattern onlineFriends = Pattern.compile("\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
 
   private boolean passedOffline = false;
 
@@ -129,6 +129,7 @@ public class Automations {
         Matcher onlineFriends = this.onlineFriends.matcher(msg);
 
         while (onlineFriends.find()) {
+          this.addon.logger().info("FOUND A MATCH");
           String username = onlineFriends.group("username");
           String game = onlineFriends.group("game");
           String map = onlineFriends.group("map");

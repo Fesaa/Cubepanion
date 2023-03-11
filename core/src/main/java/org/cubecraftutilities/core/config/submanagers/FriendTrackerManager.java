@@ -1,30 +1,30 @@
 package org.cubecraftutilities.core.config.submanagers;
 
-import net.labymod.api.Laby;
-import org.cubecraftutilities.core.utils.imp.OnlineFriendLocation;
-import org.jetbrains.annotations.Nullable;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import net.labymod.api.Laby;
+import org.cubecraftutilities.core.utils.imp.OnlineFriendLocation;
 
 public class FriendTrackerManager {
 
   private final Set<String> tracking;
   private final HashMap<String, OnlineFriendLocation> friendLocations;
+  private final List<Integer> runningLoops;
 
   private boolean isUpdating = false;
-  private boolean running = false;
-  private int updateInterVal = 60;
+  private int currentLoop;
+  private int updateInterVal = 30;
 
   public FriendTrackerManager() {
     this.tracking = new HashSet<>();
     this.friendLocations = new HashMap<>();
-  }
-
-  public HashMap<String, OnlineFriendLocation> getFriendLocations() {
-    return this.friendLocations;
+    this.runningLoops = new ArrayList<>();
   }
 
   public Set<String> getTracking() {
@@ -37,15 +37,25 @@ public class FriendTrackerManager {
 
   public void addTracking(String username) {
     this.tracking.add(username);
+
+    if (this.runningLoops.size() == 0) {
+      this.beginLoop((int) Instant.now().getEpochSecond());
+    }
+
   }
 
   public void unTrack(String username) {
     this.tracking.remove(username);
     this.friendLocations.remove(username);
+
+    if (this.tracking.size() == 0) {
+      this.endCurrentLoop();
+    }
   }
 
-  public @Nullable OnlineFriendLocation getFriendLocation(String username) {
-    return this.friendLocations.getOrDefault(username, null);
+  public void resetTrackers() {
+    this.tracking.clear();
+    this.friendLocations.clear();
   }
 
   public void updateFriendLocation(OnlineFriendLocation friendLocation) {
@@ -69,23 +79,34 @@ public class FriendTrackerManager {
     isUpdating = updating;
   }
 
-  public void beginLoop() {
-    this.running = true;
-    this.loop();
+  public void beginLoop(int loopID) {
+    this.endCurrentLoop();
+
+    this.currentLoop = loopID;
+    this.runningLoops.add(this.currentLoop);
+    Executors.newScheduledThreadPool(
+            Runtime.getRuntime().availableProcessors())
+        .schedule(this::loop,5, TimeUnit.SECONDS);
   }
 
-  public void setRunning(boolean running) {
-    this.running = running;
+  public void endCurrentLoop() {
+    for (int i = 0; i < this.runningLoops.size(); i ++) {
+      if (this.runningLoops.get(i) == this.currentLoop) {
+        this.runningLoops.remove(i);
+        return;
+      }
+    }
   }
+
 
   public void setUpdateInterVal(int i) {
     this.updateInterVal = i;
   }
 
   private void loop() {
-    this.isUpdating = true;
-    Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
-    if (this.running) {
+    if (this.runningLoops.contains(this.currentLoop)) {
+      this.isUpdating = true;
+      Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       Executors.newScheduledThreadPool(
           Runtime.getRuntime().availableProcessors())
           .schedule(this::loop,this.updateInterVal, TimeUnit.SECONDS);
