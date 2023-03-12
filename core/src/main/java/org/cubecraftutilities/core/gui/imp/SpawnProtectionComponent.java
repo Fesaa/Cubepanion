@@ -34,7 +34,7 @@ public class SpawnProtectionComponent {
   }
 
   public void enable() {
-    if (!this.addon.configuration().getRespawnTimer().get()) {
+    if (!this.addon.configuration().getQolConfig().getRespawnTimer().get()) {
       return;
     }
     this.inUse = true;

@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.config.submanagers;
+package org.cubecraftutilities.core.managers.submanagers;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
-import org.cubecraftutilities.core.utils.imp.OnlineFriendLocation;
+import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class FriendTrackerManager {
 

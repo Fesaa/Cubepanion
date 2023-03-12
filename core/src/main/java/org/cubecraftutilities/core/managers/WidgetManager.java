@@ -1,8 +1,8 @@
-package org.cubecraftutilities.core;
+package org.cubecraftutilities.core.managers;
 
 import net.labymod.api.client.gui.hud.HudWidgetRegistry;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
-import org.cubecraftutilities.core.config.CCUManager;
+import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubecraftutilities.core.gui.hud.widgets.CounterItemHudWidget;

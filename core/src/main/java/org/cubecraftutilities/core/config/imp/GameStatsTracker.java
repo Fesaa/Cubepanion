@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.utils.Colours;
 import org.jetbrains.annotations.NotNull;
 
 public class GameStatsTracker {

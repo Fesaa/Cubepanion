@@ -3,7 +3,6 @@ package org.cubecraftutilities.core.commands;
 
 import net.labymod.api.client.chat.command.Command;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.utils.Utils;
 
 public class FriendListCommand extends Command {
 
@@ -19,7 +18,7 @@ public class FriendListCommand extends Command {
   public boolean execute(String prefix, String[] arguments) {
     if ((
         arguments.length > 0 ?
-            Utils.stringJoiner(arguments, " ") :
+            this.stringJoiner(arguments) :
             ""
     ).contains("full")
     || prefix.equals("flf")) {
@@ -29,5 +28,13 @@ public class FriendListCommand extends Command {
     }
     return false;
 
+  }
+
+  private String stringJoiner(String[] string) {
+    StringBuilder out = new StringBuilder();
+    for (String s: string) {
+      out.append(" ").append(s);
+    }
+    return out.toString();
   }
 }

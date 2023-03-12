@@ -12,10 +12,10 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
-import org.cubecraftutilities.core.config.submanagers.FriendTrackerManager;
-import org.cubecraftutilities.core.utils.imp.OnlineFriendLocation;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class Automations {
 
@@ -44,7 +44,7 @@ public class Automations {
     }
 
     // Friend Message Sound
-    if (this.addon.configuration().friendMessageSound().get()) {
+    if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
         this.addon.labyAPI().minecraft().sounds().playSound(
             ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1000, 1);
@@ -73,7 +73,7 @@ public class Automations {
     }
 
     // Auto GG
-    EndGameSubConfig config = this.addon.configuration().getEndGameSubConfig();
+    EndGameSubConfig config = this.addon.configuration().getAutomationConfig().getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = p.getName() + " has been eliminated from the game.";
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
@@ -114,7 +114,7 @@ public class Automations {
     // Friends list shorter && tracker
     if (this.FriendList.matcher(msg).matches()) {
 
-      if (this.addon.configuration().getShortFriendsList().get()) {
+      if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
         if (this.manager.hasRequestedFullFriendsList()) {
           this.manager.setRequestedFullFriendsList(false);
         } else  {

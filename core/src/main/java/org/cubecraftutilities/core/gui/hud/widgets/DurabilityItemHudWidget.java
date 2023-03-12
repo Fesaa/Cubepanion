@@ -7,9 +7,9 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
-import org.cubecraftutilities.core.config.CCUManager;
-import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemHudWidget;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 
 public class DurabilityItemHudWidget extends CustomItemHudWidget {
 

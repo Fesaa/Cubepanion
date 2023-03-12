@@ -1,12 +1,11 @@
-package org.cubecraftutilities.core.utils.imp;
+package org.cubecraftutilities.core.utils.eggwarsmaps;
 
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.utils.ColourConverters;
-import org.cubecraftutilities.core.utils.imp.base.EggWarsMap;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout;
+import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout;
 
 public class DoubleCrossEggWarsMap implements EggWarsMap {
 
@@ -95,26 +94,26 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
   @Override
   public String getPartyMessage() {
     return "@Side: "
-        + ColourConverters.colourToCubeColour(this.teamSide)
-        + ColourConverters.colourToCubeColourString(this.teamSide)
+        + Colours.colourToCubeColour(this.teamSide)
+        + Colours.colourToCubeColourString(this.teamSide)
         + "&r. Left: "
-        + ColourConverters.colourToCubeColour(this.teamLeftLeft)
-        + ColourConverters.colourToCubeColourString(this.teamLeftLeft)
+        + Colours.colourToCubeColour(this.teamLeftLeft)
+        + Colours.colourToCubeColourString(this.teamLeftLeft)
         + "&r &"
-        + ColourConverters.colourToCubeColour(this.teamLeftRight)
-        + ColourConverters.colourToCubeColourString(this.teamLeftRight)
+        + Colours.colourToCubeColour(this.teamLeftRight)
+        + Colours.colourToCubeColourString(this.teamLeftRight)
         + "&r. Right: "
-        + ColourConverters.colourToCubeColour(this.teamRightLeft)
-        + ColourConverters.colourToCubeColourString(this.teamRightLeft)
+        + Colours.colourToCubeColour(this.teamRightLeft)
+        + Colours.colourToCubeColourString(this.teamRightLeft)
         + "&r &"
-        + ColourConverters.colourToCubeColour(this.teamRightRight)
-        + ColourConverters.colourToCubeColourString(this.teamRightRight)
+        + Colours.colourToCubeColour(this.teamRightRight)
+        + Colours.colourToCubeColourString(this.teamRightRight)
         + "&r. Across: "
-        + ColourConverters.colourToCubeColour(this.teamAcrossLeft)
-        + ColourConverters.colourToCubeColourString(this.teamAcrossLeft)
+        + Colours.colourToCubeColour(this.teamAcrossLeft)
+        + Colours.colourToCubeColourString(this.teamAcrossLeft)
         + "&r &"
-        + ColourConverters.colourToCubeColour(this.teamAcrossRight)
-        + ColourConverters.colourToCubeColourString(this.teamAcrossRight)
+        + Colours.colourToCubeColour(this.teamAcrossRight)
+        + Colours.colourToCubeColourString(this.teamAcrossRight)
         + "&r.";
   }
 
@@ -141,7 +140,6 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
     }
   }
 
-  @SuppressWarnings("DuplicatedCode")
   public IndexPair getIndex(String member) {
 
     int leftRight = 0;

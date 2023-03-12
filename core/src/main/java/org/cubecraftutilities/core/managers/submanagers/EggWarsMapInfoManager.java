@@ -1,20 +1,20 @@
-package org.cubecraftutilities.core.config.submanagers;
+package org.cubecraftutilities.core.managers.submanagers;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
 import org.cubecraftutilities.core.config.subconfig.EggWarsMapInfoSubConfig;
-import org.cubecraftutilities.core.utils.imp.CrossEggWarsMap;
-import org.cubecraftutilities.core.utils.imp.DoubleCrossEggWarsMap;
-import org.cubecraftutilities.core.utils.imp.SquareEggWarsMap;
-import org.cubecraftutilities.core.utils.imp.base.EggWarsMap;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout.Generator;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout.Location;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout.MapGenerator;
+import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.eggwarsmaps.CrossEggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.SquareEggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout.Generator;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout.Location;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
 
 public class EggWarsMapInfoManager {
 

@@ -5,7 +5,7 @@ import net.labymod.api.event.client.network.playerinfo.PlayerInfoRemoveEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent.UpdateType;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.CCUManager;
+import org.cubecraftutilities.core.managers.CCUManager;
 
 public class PlayerInfo {
 

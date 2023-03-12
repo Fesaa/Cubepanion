@@ -11,9 +11,9 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
-import org.cubecraftutilities.core.config.submanagers.SpawnProtectionManager;
+import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
+import org.cubecraftutilities.core.managers.submanagers.SpawnProtectionManager;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class GameTickEventListener {
 
@@ -64,7 +64,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedHelmet();
 
@@ -82,7 +82,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedChestplate();
 
@@ -100,7 +100,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedLeggings();
 
@@ -118,7 +118,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedBoots();
 

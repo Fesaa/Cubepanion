@@ -10,11 +10,11 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.event.HoverEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class StatCommands extends Command {
 

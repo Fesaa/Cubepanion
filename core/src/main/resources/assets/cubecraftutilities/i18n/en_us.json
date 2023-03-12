@@ -5,58 +5,56 @@
       "enabled": {
         "name": "Enabled"
       },
-      "respawnTimer": {
-        "name": "Respawn timer",
-        "description": "  Adds to a countdown timer to a players name tag while respawning in EggWars."
-      },
-      "endGameSubConfig": {
-        "name": "Auto messages on game end",
-        "onElimination": {
-          "name": "On elimination",
-          "description": "  Send your messages of choice when eliminated. Will not send again when winning."
-        },
-        "gameEndMessage": {
-          "name": "Auto GG text",
-          "entries": {
-            "gg": "gg",
-            "wp": "wp",
-            "goodGame": "Good game",
-            "wellPlayed": "Well played"
+      "automationConfig": {
+        "name": "Automation",
+        "endGameSubConfig": {
+          "name": "Game End Message (AutoGG)",
+          "onElimination": {
+            "name": "On elimination",
+            "description": "Send your messages of choice when eliminated. Will not send again when winning."
+          },
+          "gameEndMessage": {
+            "name": "Auto GG text",
+            "entries": {
+              "GG": "gg",
+              "wp": "wp",
+              "goodGame": "Good game",
+              "wellPlayed": "Well played"
+            }
+          },
+          "customMessage":{
+            "name": "Extra custom message"
           }
         },
-        "customMessage":{
-          "name": "Extra custom message"
+        "friendMessageSound": {
+          "name": "Play sound on friend message"
+        },
+        "whereAmI": {
+          "name": "/whereami on server switch"
+        },
+        "copyServerID": {
+          "name": "Copy Server ID"
+        },
+        "copyBungeecord": {
+          "name": "Copy Bungeecord Instance"
+        },
+        "durabilityWarning": {
+          "name": "Durability Warning",
+          "description": "Displays a warning in chat, the action bar and makes a sound when your armour has less durability than specified."
         }
       },
-      "durabilityWarning": {
-        "name": "Durability Warning",
-        "description": "  Displays a warning in chat, the action bar and makes a sound when your armour has less durability than specified."
-      },
-      "pingInNameTag": {
-        "name": "Display ping in the nametag"
-      },
-      "commandSystemSubConfig": {
-        "name": "Custom Commands",
-        "description": "  Disabling the setting, disables all commands.",
-        "appealSiteCommand": {
-          "name": "Appeal Site",
-          "description": "  /appeal [mco/]<name>."
+      "qolConfig": {
+        "name": "QOL features",
+        "respawnTimer": {
+          "name": "Respawn timer",
+          "description": "  Adds to a countdown timer to a players name tag while respawning in EggWars."
         },
-        "EggWarsMapInfoCommand": {
-          "name": "EggWars Map Info",
-          "description": "  /eggwarsmap <Map Name>."
+        "shortFriendsList": {
+          "name": "Shorter friends list",
+          "description": "  Use /friends list full to display your full friends list"
         },
-        "PartyCommands": {
-          "name": "Party Commands",
-          "description": "  /party extra for all information."
-        },
-        "StatsCommand": {
-          "name": "Stats Commands",
-          "description": "  /stats help for all information."
-        },
-        "friendsTrackerCommand": {
-          "name": "Friend tracker",
-          "description": "  /tracker (un)track/interval [username*|int]"
+        "pingInNameTag": {
+          "name": "Display ping in the nametag"
         }
       },
       "eggWarsMapInfoSubConfig": {
@@ -87,67 +85,7 @@
           "name": "Show number of remaining players"
         }
       },
-      "autoVoteSubConfig": {
-        "name": "Auto Vote",
-        "eggWarsHealth": {
-          "name": "EggWars Health",
-          "entries": {
-            "left": "Half",
-            "middle": "Normal",
-            "right": "Double"
-          }
-        },
-        "eggWarsItems": {
-          "name": "EggWars Items",
-          "entries": {
-            "left": "Hardcore",
-            "middle": "Normal",
-            "right": "Overpowered"
-          }
-        },
-        "skyWarsChests": {
-          "name": "SkyWars Chests",
-          "entries": {
-            "left": "Basic",
-            "middle": "Normal",
-            "right": "Overpowered"
-          }
-        },
-        "skyWarsProjectiles": {
-          "name": "SkyWars Projectiles",
-          "entries": {
-            "left": "No Projectiles",
-            "middle": "Normal Projectiles",
-            "right": "Soft Blocks"
-          }
-        },
-        "skyWarsTime": {
-          "name": "SkyWars Time",
-          "entries": {
-            "left": "Day",
-            "middle": "Night",
-            "right": "Sunset"
-          }
-        },
-        "luckyIslandsTime": {
-          "name": "Lucky Islands Time",
-          "entries": {
-            "left": "Day",
-            "middle": "Night",
-            "right": "Sunset"
-          }
-        },
-        "luckyIslandsBlocks": {
-          "name": "Lucky Islands Blocks",
-          "entries": {
-            "left": "Blessed",
-            "middleLeft": "Normal",
-            "middleRight": "Overpowered",
-            "right": "Crazy"
-          }
-        }
-      },
-      "statsTrackerSubConfig": {
+     "statsTrackerSubConfig": {
         "name": "Stats Trackers",
         "autoReset": {
           "name": "Auto reset current period"
@@ -186,21 +124,29 @@
           "text": "Clear"
         }
       },
-      "friendMessageSound": {
-        "name": "Play sound on friend message"
-      },
-      "whereAmI": {
-        "name": "/whereami on server switch"
-      },
-      "copyServerID": {
-        "name": "Copy Server ID"
-      },
-      "copyBungeecord": {
-        "name": "Copy Bungeecord Instance"
-      },
-      "shortFriendsList": {
-        "name": "Shorter friends list",
-        "description": "  Use /friends list full to display your full friends list"
+      "commandSystemSubConfig": {
+        "name": "Custom Commands",
+        "description": "  Disabling the setting, disables all commands.",
+        "appealSiteCommand": {
+          "name": "Appeal Site",
+          "description": "  /appeal [mco/]<name>."
+        },
+        "EggWarsMapInfoCommand": {
+          "name": "EggWars Map Info",
+          "description": "  /eggwarsmap <Map Name>."
+        },
+        "PartyCommands": {
+          "name": "Party Commands",
+          "description": "  /party extra for all information."
+        },
+        "StatsCommand": {
+          "name": "Stats Commands",
+          "description": "  /stats help for all information."
+        },
+        "friendsTrackerCommand": {
+          "name": "Friend tracker",
+          "description": "  /tracker (un)track/interval [username*|int]"
+        }
       }
     },
     "hudWidget": {
