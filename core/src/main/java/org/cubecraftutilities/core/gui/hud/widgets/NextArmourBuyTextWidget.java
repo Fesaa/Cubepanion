@@ -8,10 +8,10 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import org.cubecraftutilities.core.config.CCUManager;
-import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 
 public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfig> {
 

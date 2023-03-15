@@ -1,11 +1,11 @@
-package org.cubecraftutilities.core.utils.imp.base;
+package org.cubecraftutilities.core.utils.eggwarsmaps.base;
 
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextColor;
-import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class GenLayout {
 

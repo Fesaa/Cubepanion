@@ -8,9 +8,9 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
+import org.cubecraftutilities.core.managers.CCUManager;
 
 public class StatsTracker {
 

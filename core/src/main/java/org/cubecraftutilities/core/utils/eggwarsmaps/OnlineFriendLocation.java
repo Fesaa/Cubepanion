@@ -1,8 +1,8 @@
-package org.cubecraftutilities.core.utils.imp;
+package org.cubecraftutilities.core.utils.eggwarsmaps;
 
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
-import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class OnlineFriendLocation {
 

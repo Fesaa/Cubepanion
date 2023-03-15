@@ -12,7 +12,6 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.util.MethodOrder;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 
-@SuppressWarnings("FieldMayBeFinal")
 public class StatsTrackerSubConfig extends Config {
 
   @ParentSwitch

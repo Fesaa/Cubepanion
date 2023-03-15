@@ -5,10 +5,10 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.event.HoverEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.CCUconfig;
-import org.cubecraftutilities.core.config.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class OnlineFriendTrackerCommand extends Command {
 

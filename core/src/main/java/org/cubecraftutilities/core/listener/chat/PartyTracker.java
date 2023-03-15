@@ -6,7 +6,7 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.submanagers.PartyManager;
+import org.cubecraftutilities.core.managers.submanagers.PartyManager;
 
 public class PartyTracker {
 

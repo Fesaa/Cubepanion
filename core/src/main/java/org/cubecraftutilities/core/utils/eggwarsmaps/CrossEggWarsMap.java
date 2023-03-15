@@ -1,12 +1,11 @@
-package org.cubecraftutilities.core.utils.imp;
+package org.cubecraftutilities.core.utils.eggwarsmaps;
 
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.utils.ColourConverters;
-import org.cubecraftutilities.core.utils.imp.base.EggWarsMap;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout;
+import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout;
 
 public class CrossEggWarsMap implements EggWarsMap {
 
@@ -71,14 +70,14 @@ public class CrossEggWarsMap implements EggWarsMap {
   @Override
   public String getPartyMessage() {
     return "@Left: "
-        + ColourConverters.colourToCubeColour(this.teamLeft)
-        + ColourConverters.colourToCubeColourString(this.teamLeft)
+        + Colours.colourToCubeColour(this.teamLeft)
+        + Colours.colourToCubeColourString(this.teamLeft)
         + "&r. Right: "
-        + ColourConverters.colourToCubeColour(this.teamRight)
-        + ColourConverters.colourToCubeColourString(this.teamRight)
+        + Colours.colourToCubeColour(this.teamRight)
+        + Colours.colourToCubeColourString(this.teamRight)
         + "&r. In Front: "
-        + ColourConverters.colourToCubeColour(this.teamBefore)
-        + ColourConverters.colourToCubeColourString(this.teamBefore)
+        + Colours.colourToCubeColour(this.teamBefore)
+        + Colours.colourToCubeColourString(this.teamBefore)
         + "&r.";
   }
 

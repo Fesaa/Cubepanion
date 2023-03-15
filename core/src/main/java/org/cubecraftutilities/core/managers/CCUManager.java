@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.config;
+package org.cubecraftutilities.core.managers;
 
 import java.util.Objects;
 import net.labymod.api.client.component.Component;
@@ -9,11 +9,11 @@ import net.labymod.api.client.scoreboard.Scoreboard;
 import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import net.labymod.api.client.scoreboard.ScoreboardScore;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.submanagers.DurabilityManager;
-import org.cubecraftutilities.core.config.submanagers.EggWarsMapInfoManager;
-import org.cubecraftutilities.core.config.submanagers.FriendTrackerManager;
-import org.cubecraftutilities.core.config.submanagers.PartyManager;
-import org.cubecraftutilities.core.config.submanagers.SpawnProtectionManager;
+import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
+import org.cubecraftutilities.core.managers.submanagers.EggWarsMapInfoManager;
+import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.managers.submanagers.PartyManager;
+import org.cubecraftutilities.core.managers.submanagers.SpawnProtectionManager;
 import org.jetbrains.annotations.NotNull;
 
 public class CCUManager {

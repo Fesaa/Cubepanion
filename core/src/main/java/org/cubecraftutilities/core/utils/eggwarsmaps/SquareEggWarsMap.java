@@ -1,12 +1,11 @@
-package org.cubecraftutilities.core.utils.imp;
+package org.cubecraftutilities.core.utils.eggwarsmaps;
 
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubecraftutilities.core.Colours;
-import org.cubecraftutilities.core.utils.ColourConverters;
-import org.cubecraftutilities.core.utils.imp.base.EggWarsMap;
-import org.cubecraftutilities.core.utils.imp.base.GenLayout;
+import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout;
 
 public class SquareEggWarsMap implements EggWarsMap {
 
@@ -70,14 +69,14 @@ public class SquareEggWarsMap implements EggWarsMap {
   @Override
   public String getPartyMessage() {
     return "@Side: "
-        + ColourConverters.colourToCubeColour(this.teamSide)
-        + ColourConverters.colourToCubeColourString(this.teamSide)
+        + Colours.colourToCubeColour(this.teamSide)
+        + Colours.colourToCubeColourString(this.teamSide)
         + "&r. Across: "
-        + ColourConverters.colourToCubeColour(this.teamAcross)
-        + ColourConverters.colourToCubeColourString(this.teamAcross)
+        + Colours.colourToCubeColour(this.teamAcross)
+        + Colours.colourToCubeColourString(this.teamAcross)
         + "&r. Across Side: "
-        + ColourConverters.colourToCubeColour(this.teamAcrossSide)
-        + ColourConverters.colourToCubeColourString(this.teamAcrossSide)
+        + Colours.colourToCubeColour(this.teamAcrossSide)
+        + Colours.colourToCubeColourString(this.teamAcrossSide)
         + "&r.";
   }
 
@@ -104,7 +103,6 @@ public class SquareEggWarsMap implements EggWarsMap {
     }
   }
 
-  @SuppressWarnings("DuplicatedCode")
   public IndexPair getIndex(String member) {
 
     int leftRight = 0;

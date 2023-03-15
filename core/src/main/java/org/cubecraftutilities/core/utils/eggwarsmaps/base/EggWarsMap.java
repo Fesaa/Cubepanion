@@ -1,7 +1,7 @@
-package org.cubecraftutilities.core.utils.imp.base;
+package org.cubecraftutilities.core.utils.eggwarsmaps.base;
 
 import net.labymod.api.client.component.Component;
-import org.cubecraftutilities.core.utils.ColourConverters;
+import org.cubecraftutilities.core.utils.Colours;
 
 public interface EggWarsMap {
 
@@ -17,7 +17,7 @@ public interface EggWarsMap {
   void setCurrentTeamColour(String teamColour);
 
   default Component getTeamFiller(String colour) {
-    return Component.text("||||||", ColourConverters.colourToNamedTextColor(colour));
+    return Component.text("||||||", Colours.colourToNamedTextColor(colour));
   }
 
 }

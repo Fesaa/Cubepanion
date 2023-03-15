@@ -6,8 +6,8 @@ import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
+import org.cubecraftutilities.core.utils.Colours;
 
 public class AppealSiteCommand extends Command {
 

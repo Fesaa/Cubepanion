@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.config.submanagers;
+package org.cubecraftutilities.core.managers.submanagers;
 
 public class DurabilityManager {
 

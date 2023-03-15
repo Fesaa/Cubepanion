@@ -25,7 +25,7 @@ public class RespawnTags extends NameTag {
       return null;
     }
 
-    if (!this.addon.configuration().getRespawnTimer().get()) {
+    if (!this.addon.configuration().getQolConfig().getRespawnTimer().get()) {
       return null;
     }
 

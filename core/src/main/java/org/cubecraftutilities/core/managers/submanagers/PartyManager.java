@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core.config.submanagers;
+package org.cubecraftutilities.core.managers.submanagers;
 
 import java.util.ArrayList;
 import java.util.List;

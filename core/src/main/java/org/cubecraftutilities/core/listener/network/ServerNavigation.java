@@ -12,10 +12,9 @@ import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubecraftutilities.core.utils.AutoVote;
+import org.cubecraftutilities.core.managers.CCUManager;
 import org.jetbrains.annotations.NotNull;
 
 public class ServerNavigation {
@@ -86,7 +85,7 @@ public class ServerNavigation {
   }
 
   private void executeWhereAmI() {
-    if (this.addon.configuration().displayWhereAmI().get()) {
+    if (this.addon.configuration().getAutomationConfig().displayWhereAmI().get()) {
       this.addon.labyAPI().minecraft().chatExecutor().chat("/whereami", false);
     }
   }
@@ -107,10 +106,6 @@ public class ServerNavigation {
 
   public void onServerSwitchAfterScoreboardLoad(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
     this.manager.registerNewDivision(scoreboard, scoreboardObjective);
-
-    if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
-      AutoVote.vote(this.addon);
-    }
     this.addon.rpcManager.updateRPC();
   }
 }

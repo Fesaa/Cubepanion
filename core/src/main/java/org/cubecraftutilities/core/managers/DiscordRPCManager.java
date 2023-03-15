@@ -1,4 +1,4 @@
-package org.cubecraftutilities.core;
+package org.cubecraftutilities.core.managers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.thirdparty.discord.DiscordActivity;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
+import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.DiscordRichPresenceSubConfig;
 
 public class DiscordRPCManager {

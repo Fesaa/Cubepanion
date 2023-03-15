@@ -7,7 +7,7 @@ import net.labymod.api.client.entity.player.tag.tags.NameTag;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.render.font.RenderableComponent;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.Colours;
+import org.cubecraftutilities.core.utils.Colours;
 import org.jetbrains.annotations.Nullable;
 
 public class PingTags extends NameTag {
@@ -25,7 +25,7 @@ public class PingTags extends NameTag {
       return null;
     }
 
-    if (!this.addon.configuration().getPingInNameTag().get()) {
+    if (!this.addon.configuration().getQolConfig().getPingInNameTag().get()) {
       return null;
     }
 

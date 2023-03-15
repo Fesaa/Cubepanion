@@ -30,14 +30,14 @@ public class KeyEventListener {
     }
 
     // Copy Server ID
-    if (keyEvent.key().equals(this.addon.configuration().getCopyServerID().get())) {
+    if (keyEvent.key().equals(this.addon.configuration().getAutomationConfig().getCopyServerID().get())) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.labyAPI().minecraft().setClipboard(this.addon.getManager().getServerID());
       }
     }
 
     // Copy Bungeecord
-    if (keyEvent.key().equals(this.addon.configuration().getCopyBungeecord().get())) {
+    if (keyEvent.key().equals(this.addon.configuration().getAutomationConfig().getCopyBungeecord().get())) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.labyAPI().minecraft().setClipboard(this.addon.getManager().getBungeecord());
       }

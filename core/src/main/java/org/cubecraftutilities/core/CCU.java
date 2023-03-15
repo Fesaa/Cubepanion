@@ -10,7 +10,6 @@ import org.cubecraftutilities.core.commands.FriendListCommand;
 import org.cubecraftutilities.core.commands.OnlineFriendTrackerCommand;
 import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
-import org.cubecraftutilities.core.config.CCUManager;
 import org.cubecraftutilities.core.config.CCUconfig;
 import org.cubecraftutilities.core.gui.hud.nametags.PingTags;
 import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
@@ -22,6 +21,10 @@ import org.cubecraftutilities.core.listener.chat.PartyTracker;
 import org.cubecraftutilities.core.listener.chat.StatsTracker;
 import org.cubecraftutilities.core.listener.network.PlayerInfo;
 import org.cubecraftutilities.core.listener.network.ServerNavigation;
+import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.managers.DiscordRPCManager;
+import org.cubecraftutilities.core.managers.WidgetManager;
+import org.cubecraftutilities.core.utils.Colours;
 
 @AddonMain
 public class CCU extends LabyAddon<CCUconfig> {
