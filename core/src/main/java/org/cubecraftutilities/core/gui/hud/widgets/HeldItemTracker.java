@@ -16,7 +16,10 @@ public class HeldItemTracker extends CustomItemHudWidget {
     this.bindCategory(category);
   }
 
-  public void onTick() {
+  public void onTick(boolean inEditor) {
+    if (inEditor) {
+      return;
+    }
     ClientPlayer p = this.labyAPI.minecraft().getClientPlayer();
     if (p == null) {
       this.itemStack = null;

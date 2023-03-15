@@ -15,7 +15,10 @@ public class CounterItemHudWidget extends CustomItemHudWidget {
     this.bindCategory(category);
   }
 
-  public void onTick() {
+  public void onTick(boolean inEditor) {
+    if (inEditor) {
+      return;
+    }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
     if (player != null) {
       ItemStack offHandItem = player.getOffHandItemStack();

@@ -22,7 +22,10 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
     this.bindCategory(category);
   }
 
-  public void onTick() {
+  public void onTick(boolean inEditor) {
+    if (inEditor) {
+      return;
+    }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
     if (player == null) {
       return;

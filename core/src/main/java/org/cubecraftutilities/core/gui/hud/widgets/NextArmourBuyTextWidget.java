@@ -34,7 +34,10 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     this.nextArmourBuy = super.createLine("Next armour to run out", "");
   }
 
-  public void onTick() {
+  public void onTick(boolean inEditor) {
+    if (inEditor) {
+      return;
+    }
     DurabilityManager durabilityManager = this.manager.getDurabilityManager();
     int totalHelmetDurability = durabilityManager.getTotalHelmetDurability();
     int totalChestPlateDurability = durabilityManager.getTotalChestPlateDurability();

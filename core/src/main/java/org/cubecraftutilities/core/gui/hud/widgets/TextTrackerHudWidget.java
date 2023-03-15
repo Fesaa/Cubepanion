@@ -37,7 +37,10 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
     this.HUDLine = super.createLine(this.text, "");
   }
 
-  public void onTick() {
+  public void onTick(boolean inEditor) {
+    if (inEditor) {
+      return;
+    }
     this.HUDLine.updateAndFlush(this.valueSupplier.get());
     this.HUDLine.setVisible(this.visibleSupplier.get());
   }

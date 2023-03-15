@@ -32,7 +32,7 @@ public class OnlineFriendLocation {
     if (this.map.equals("")) {
       return this.game;
     }
-    return this.game + " in " + this.map;
+    return this.game + " (" + this.map + ")";
   }
 
   public boolean hasMoved(OnlineFriendLocation newLocation) {
