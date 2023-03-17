@@ -6,9 +6,9 @@ import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.Item;
 import net.labymod.api.client.world.item.ItemStack;
-import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemHudWidget;
+import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemWidget;
 
-public class HeldItemTracker extends CustomItemHudWidget {
+public class HeldItemTracker extends CustomItemWidget {
 
   public HeldItemTracker(HudWidgetCategory category) {
     super("held_item_tracker", "", 4, 1);
@@ -18,43 +18,33 @@ public class HeldItemTracker extends CustomItemHudWidget {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
+      this.updateItemName(Component.text("1"));
       return;
     }
     ClientPlayer p = this.labyAPI.minecraft().getClientPlayer();
     if (p == null) {
-      this.itemStack = null;
-      this.updateItemStack(null);
-      this.updateItemName(null);
       return;
     }
 
     Inventory inv = p.inventory();
     if (inv == null) {
-      this.itemStack = null;
-      this.updateItemStack(null);
-      this.updateItemName(null);
       return;
     }
 
-    Item heldItem = p.getMainHandItemStack().getAsItem();
+    ItemStack heldItemStack = p.getMainHandItemStack();
+    Item heldItem = heldItemStack.getAsItem();
     if (heldItem.isAir()) {
-      this.itemStack = p.getMainHandItemStack();
-      this.updateItemStack(null);
-      this.updateItemName(null);
       return;
     }
 
     this.counter = 0;
     for (int i = 0; i < 46; i++) {
       ItemStack itemStack = inv.itemStackAt(i);
-
       if (itemStack.getAsItem().equals(heldItem)) {
         this.counter += itemStack.getSize();
       }
     }
-
-    this.itemStack = p.getMainHandItemStack();
-    this.updateItemStack(this.itemStack);
+    this.updateItemStack(heldItemStack);
     this.updateItemName(Component.text(this.counter));
   }
 }

@@ -1,17 +1,16 @@
 package org.cubecraftutilities.core.gui.hud.widgets;
 
-import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
-import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemHudWidget;
+import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemWidget;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 
-public class DurabilityItemHudWidget extends CustomItemHudWidget {
+public class DurabilityItemHudWidget extends CustomItemWidget {
 
   private final CCUManager manager;
 
@@ -24,6 +23,7 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
+      this.updateItemName(Component.text("1"));
       return;
     }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
@@ -59,25 +59,9 @@ public class DurabilityItemHudWidget extends CustomItemHudWidget {
     if (this.inventoryItemMatches(boots, -1, selectedEntry)) {
       this.counter += (boots.getMaximumDamage() - boots.getCurrentDamageValue());
     }
-
-    this.updateItemStack(this.itemStack);
     this.updateItemName(Component.text(this.counter));
 
     this.updateCCUInternalConfig();
-  }
-
-  @Override
-  public boolean isVisibleInGame() {
-    Minecraft minecraft = this.labyAPI.minecraft();
-    if (minecraft == null) {
-      return false;
-    }
-
-    ClientPlayer player = minecraft.getClientPlayer();
-    if (player == null) {
-      return false;
-    }
-    return (this.counter > 0) && (!this.config.getOnlyDisplayWhenHeld().get() || this.itemIsHeld);
   }
 
   private void updateCCUInternalConfig() {
