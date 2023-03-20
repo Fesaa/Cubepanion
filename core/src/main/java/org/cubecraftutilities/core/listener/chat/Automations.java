@@ -23,6 +23,7 @@ public class Automations {
   private final CCU addon;
   private final CCUManager manager;
 
+  private final ResourceLocation orbPickupSound = ResourceLocation.create("minecraft", "entity.experience_orb.pickup");
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
@@ -47,8 +48,7 @@ public class Automations {
     // Friend Message Sound
     if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
-        this.addon.labyAPI().minecraft().sounds().playSound(
-            ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1000, 1);
+        this.addon.labyAPI().minecraft().sounds().playSound(this.orbPickupSound, 1000, 1);
         return;
       }
     }
