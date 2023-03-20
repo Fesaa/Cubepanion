@@ -35,7 +35,8 @@ public class EndGameSubConfig extends Config {
     GG("gg"),
     WP("wp"),
     GOOD_GAME("Good game"),
-    WELL_PLAYED("Well played")
+    WELL_PLAYED("Well played"),
+    NONE("")
     ;
     public final String msg;
     gameEndMessages(String s) {

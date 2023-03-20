@@ -13,6 +13,7 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
+import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.gameEndMessages;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
@@ -77,7 +78,10 @@ public class Automations {
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = p.getName() + " has been eliminated from the game.";
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
-        this.addon.labyAPI().minecraft().chatExecutor().chat(config.getGameEndMessage().get().msg, false);
+        gameEndMessages gameEndMessage = config.getGameEndMessage().get();
+        if (gameEndMessage != gameEndMessages.NONE) {
+          this.addon.labyAPI().minecraft().chatExecutor().chat(gameEndMessage.msg, false);
+        }
         if (!config.getCustomMessage().isDefaultValue()) {
           this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
         }
