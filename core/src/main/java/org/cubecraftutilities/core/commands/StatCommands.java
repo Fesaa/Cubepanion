@@ -67,28 +67,28 @@ public class StatCommands extends Command {
 
     switch (arguments.length) {
       case 0: {
-        this.displayMessage(gameStatsTracker.getDisplayComponent(this.addon));
+        this.displayMessage(gameStatsTracker.getDisplayComponent());
         return true;
       }
       case 1: {
         if (this.timeFormat.matcher(arguments[0]).matches()) {
           GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-          this.displayMessage(snapShot.getDisplayComponent(this.addon));
+          this.displayMessage(snapShot.getDisplayComponent());
         } else if (arguments[0].equals("help")) {
           this.helpCommand();
         } else {
-          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(this.addon, arguments[0]));
+          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
         }
         return true;
       }
       case 2: {
         if (this.timeFormat.matcher(arguments[0]).matches()) {
           GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-          this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[1]));
+          this.displayMessage(snapShot.getUserStatsDisplayComponent(arguments[1]));
           return true;
         } else if (this.timeFormat.matcher(arguments[1]).matches()) {
             GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[1]);
-            this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[0]));
+            this.displayMessage(snapShot.getUserStatsDisplayComponent(arguments[0]));
           return true;
         } else if (arguments[0].equals("help")) {
           this.helpCommand();

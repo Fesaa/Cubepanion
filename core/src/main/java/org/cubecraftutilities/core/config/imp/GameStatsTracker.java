@@ -277,16 +277,14 @@ public class GameStatsTracker {
   }
 
   // Component generators
-  public Component getUserStatsDisplayComponent(CCU addon, String name) {
+  public Component getUserStatsDisplayComponent(String name) {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);
 
-    Component userStatsDisplayComponent = addon.prefix()
-        .append(Component.text("------- Interaction stats with " + name + " -------", Colours.Title));
+    Component userStatsDisplayComponent = Component.text("------- Interaction stats with " + name + " -------", Colours.Title);
 
     if (kills == null && deaths == null) {
-      return addon.prefix()
-          .append(Component.text("No interaction stats available in " + this.game + " with " + name, Colours.Error));
+      return Component.text("No interaction stats available in " + this.game + " with " + name, Colours.Error);
     }
 
     return userStatsDisplayComponent
@@ -311,9 +309,8 @@ public class GameStatsTracker {
     return comp;
   }
 
-  public Component getDisplayComponent(CCU addon) {
-    return addon.prefix()
-        .append(Component.text("------ Game Stats For " + game + " ------", Colours.Title))
+  public Component getDisplayComponent() {
+    return Component.text("------ Game Stats For " + game + " ------", Colours.Title)
         .append(Component.text("\nTotal games played: ", Colours.Primary))
         .append(Component.text(this.getAllTimePlayed(), Colours.Secondary))
         .append(Component.text("\nToday's games played: ", Colours.Primary))
