@@ -19,11 +19,13 @@ import org.cubecraftutilities.core.utils.eggwarsmaps.base.GenLayout.MapGenerator
 public class EggWarsMapInfoManager {
 
   private final CCU addon;
+  private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig;
 
   private final HashMap<String, EggWarsMap> eggWarsMapLayouts;
 
   public EggWarsMapInfoManager(CCU addon) {
     this.addon = addon;
+    this.eggWarsMapInfoSubConfig = addon.configuration().getEggWarsMapInfoSubConfig();
 
     this.eggWarsMapLayouts = new HashMap<>();
     this.registerEggWarsMaps();
@@ -169,7 +171,7 @@ public class EggWarsMapInfoManager {
         .append(Component.text("------- Map Info For " + map.getName() + " -------", Colours.Title));
 
     Component mapLayout = map.getMapLayoutComponent();
-    if (mapLayout != null) {
+    if (mapLayout != null && this.eggWarsMapInfoSubConfig.getMapLayout().get()) {
       display = display
           .append(Component.newline())
           .append(Component.text("Map Layout;", Colours.Primary))
@@ -178,7 +180,7 @@ public class EggWarsMapInfoManager {
     }
 
     Component buildLimit = map.getBuildLimitMessage();
-    if (buildLimit != null) {
+    if (buildLimit != null && this.eggWarsMapInfoSubConfig.getBuildLimit().get()) {
       display = display
           .append(Component.newline())
           .append(Component.newline())
