@@ -83,6 +83,9 @@
         },
         "players": {
           "name": "Show number of remaining players"
+        },
+        "gameImage": {
+          "name": "Display game art instead of CubeCraft Logo"
         }
       },
      "statsTrackerSubConfig": {

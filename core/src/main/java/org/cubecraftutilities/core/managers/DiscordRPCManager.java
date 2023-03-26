@@ -54,6 +54,7 @@ public class DiscordRPCManager {
     DiscordActivity current = this.addon.labyAPI().thirdPartyService().discord().getDisplayedActivity();
 
     Builder builder = DiscordActivity.builder(this);
+    CCUManager manager = this.addon.getManager();
 
     if (current != null) {
       builder.start(current.getStartTime());
@@ -62,18 +63,18 @@ public class DiscordRPCManager {
     String details;
     String state;
 
-    String division = this.addon.getManager().getDivisionName();
+    String division = manager.getDivisionName();
 
     if (division.equals("CubeCraft") || division.equals("sidebar")) {
       details = "In the Lobby";
       state = "Choosing a game...";
     } else {
       details = "Playing " + division;
-      if (this.addon.getManager().isInPreLobby()) {
+      if (manager.isInPreLobby()) {
         state = "Waiting...";
       } else {
-        if (RPCConfig.map().get() && !this.addon.getManager().getMapName().equals("")) {
-          state = "On " + this.addon.getManager().getMapName();
+        if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
+          state = "On " + manager.getMapName();
         } else {
           state = "In game";
         }
@@ -87,7 +88,11 @@ public class DiscordRPCManager {
     builder.details(details);
     builder.state(state);
 
-    builder.largeAsset(Asset.of("https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808", "CubeCraft"));
+    if (RPCConfig.getGameImage().get()) {
+      builder.largeAsset(this.getGameAsset(division));
+    } else {
+      builder.largeAsset(Asset.of("https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808", "CubeCraft"));
+    }
 
     this.addon.labyAPI().thirdPartyService().discord().displayActivity(builder.build());
     this.busy = false;
