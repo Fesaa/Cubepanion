@@ -22,6 +22,10 @@ public class GameStatsTracker {
 
   private final HashMap<String, GameStatsTracker> historicalData;
 
+  public String getGame() {
+    return game;
+  }
+
   public static boolean shouldMakeGameStatsTracker(String game) {
     return (game.equals("Solo SkyWars")
         || game.equals("Team EggWars")
