@@ -48,9 +48,9 @@ public class ServerNavigation {
   @Subscribe
   public void onServerDisconnectEvent(ServerDisconnectEvent e) {
     if (this.manager.onCubeCraft()) {
+      register_game_leave();
       this.manager.reset();
       this.addon.rpcManager.removeCustomRPC();
-      register_game_leave();
     }
   }
 
