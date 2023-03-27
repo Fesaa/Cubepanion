@@ -329,7 +329,7 @@ public class GameStatsTracker {
         .append(Component.text(this.getDailyKills(), Colours.Secondary))
         .append(Component.text("\nToday's deaths: ", Colours.Primary))
         .append(Component.text(this.getDailyDeaths(), Colours.Secondary))
-        .append(Component.text("------ All time's game Stats For " + game + " ------", Colours.Title))
+        .append(Component.text("\n------ All time's game Stats For " + game + " ------", Colours.Title))
         .append(Component.text("\nTotal games played: ", Colours.Primary))
         .append(Component.text(this.getAllTimePlayed(), Colours.Secondary))
         .append(Component.text("\nHighest all time win streak: ", Colours.Primary))
