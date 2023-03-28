@@ -11,6 +11,7 @@ import org.cubecraftutilities.core.gui.hud.widgets.HeldItemTracker;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.TextTrackerHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CCUWidgetCategory;
+import java.util.Date;
 
 //TODO: Maybe! Add ...
 // Custom text widget
@@ -79,6 +80,35 @@ public class WidgetManager {
           return "";
         },
         this::booleanSupplier, 2, 1));
+
+    // Game Timer
+    hudWidgetRegistry.register(new TextTrackerHudWidget(category, "elapsed_time_tracker", "Game Timer",
+    () -> {
+      long timeDifference = (new Date()).getTime() -  this.addon.getManager().getGameStartTime();
+      return this.timeDifferenceToReadable(timeDifference);
+    }, () -> !this.addon.getManager().isInPreLobby(), 5, 1));
+  }
+
+  private String timeDifferenceToReadable(long timeDifference) {
+    long seconds = timeDifference / 1000;
+    long minutes = seconds / 60;
+    long hours = minutes / 60;
+
+    String readableString = "";
+
+    if (hours > 0) {
+      readableString += hours + "hour" + (hours != 1 ? "s ": " ");
+      minutes %= 60;
+    }
+    if (minutes > 0) {
+      readableString += minutes + " minute" + (minutes != 1 ? "s " : " ");
+      seconds %= 60;
+    }
+    if (seconds > 0) {
+      readableString += seconds + " second" + (seconds != 1 ? "s" : "");
+    }
+
+    return readableString;
   }
 
   private boolean booleanSupplier() {

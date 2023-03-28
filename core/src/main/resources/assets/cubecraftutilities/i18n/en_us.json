@@ -240,8 +240,11 @@
       },
       "daily_wins_tracker": {
         "name": "Daily Wins"
+      },
+      "elapsed_time_tracker": {
+        "name": "Game Timer"
       }
-    },
+      },
     "hudWidgetCategory": {
       "CCU": {
         "name": "CubeCraft Utilities",

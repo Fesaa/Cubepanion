@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.listener.chat;
 
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -56,6 +57,7 @@ public class Automations {
     // Start of game
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
+      this.manager.setGameStartTime((new Date()).getTime());
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
           this.manager.updateTeamColour();
@@ -83,7 +85,7 @@ public class Automations {
           this.addon.labyAPI().minecraft().chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
+          this.addon.labyAPI().minecraft().chatExecutor().chat(this.manager.getPartyManager().isInParty() ? "!" : "" + config.getCustomMessage().get(), false);
         }
         manager.setEliminated(true);
         return;
