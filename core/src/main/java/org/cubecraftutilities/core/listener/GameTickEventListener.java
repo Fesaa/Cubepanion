@@ -141,13 +141,13 @@ public class GameTickEventListener {
   private Component EquipmentSpotToComponent(EquipmentSpot spot) {
     switch (spot) {
       case HEAD:
-        return Component.text("helmet", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error));
+        return Component.text("helmet", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error).undecorate(TextDecoration.BOLD));
       case CHEST:
-        return Component.text("chestplate", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error));
+        return Component.text("chestplate", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error).undecorate(TextDecoration.BOLD));
       case LEGS:
-        return Component.text("leggings", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error));
+        return Component.text("leggings", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error).undecorate(TextDecoration.BOLD));
       case FEET:
-        return Component.text("boots", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error));
+        return Component.text("boots", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error).undecorate(TextDecoration.BOLD));
       default:
         return Component.text("??? is");
     }
