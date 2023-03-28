@@ -14,12 +14,13 @@
             "description": "Send your messages of choice when eliminated. Will not send again when winning."
           },
           "gameEndMessage": {
-            "name": "Auto GG text",
+            "name": "Auto text",
             "entries": {
-              "GG": "gg",
+              "gg": "gg",
               "wp": "wp",
               "goodGame": "Good game",
-              "wellPlayed": "Well played"
+              "wellPlayed": "Well played",
+              "none": "Nothing"
             }
           },
           "customMessage":{
@@ -30,7 +31,7 @@
           "name": "Play sound on friend message"
         },
         "friendMessageSoundId": {
-          "name": "Choose which sound to playe"
+          "name": "Choose which sound to play"
         },
         "whereAmI": {
           "name": "/whereami on server switch"
