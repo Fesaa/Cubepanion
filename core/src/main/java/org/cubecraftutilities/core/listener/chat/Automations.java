@@ -13,7 +13,7 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
-import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.gameEndMessages;
+import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
@@ -78,9 +78,9 @@ public class Automations {
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = p.getName() + " has been eliminated from the game.";
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
-        gameEndMessages gameEndMessage = config.getGameEndMessage().get();
-        if (gameEndMessage != gameEndMessages.NONE) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(gameEndMessage.msg, false);
+        GameEndMessage gameEndMessage = config.getGameEndMessage().get();
+        if (gameEndMessage != GameEndMessage.NONE) {
+          this.addon.labyAPI().minecraft().chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
           this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
@@ -158,5 +158,21 @@ public class Automations {
         shortenFriendsList(short_c, child);
       }
     }
+  }
+
+  private String gameEndMessagesToReadable(GameEndMessage gameEndMessage) {
+    switch (gameEndMessage) {
+      case GG:
+        return "gg";
+      case WP:
+        return "wp";
+      case GOOD_GAME:
+        return "Good game";
+      case WELL_PLAYED:
+        return "Well played";
+      case NONE:
+        break;
+    }
+    return "";
   }
 }

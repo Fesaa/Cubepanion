@@ -16,8 +16,8 @@ public class EndGameSubConfig extends Config {
   @SpriteSlot(x = 4, y = 2)
   private final ConfigProperty<Boolean> onElimination = new ConfigProperty<>(false);
   @DropdownSetting
-  @SpriteSlot(x = 2, y = 2)
-  private final ConfigProperty<gameEndMessages> gameEndMessage = new ConfigProperty<>(gameEndMessages.GG);
+  @SpriteSlot(x = 3, y = 2)
+  private final ConfigProperty<GameEndMessage> gameEndMessage = new ConfigProperty<>(GameEndMessage.GG);
   @TextFieldSetting
   @SpriteSlot(x = 3, y = 2)
   private final ConfigProperty<String> customMessage = new ConfigProperty<>("");
@@ -27,21 +27,12 @@ public class EndGameSubConfig extends Config {
 
   public ConfigProperty<Boolean> getOnElimination() {return this.onElimination;}
 
-  public ConfigProperty<gameEndMessages> getGameEndMessage() {return this.gameEndMessage;}
+  public ConfigProperty<GameEndMessage> getGameEndMessage() {return this.gameEndMessage;}
 
   public ConfigProperty<String> getCustomMessage() {return this.customMessage;}
 
-  public enum gameEndMessages {
-    GG("gg"),
-    WP("wp"),
-    GOOD_GAME("Good game"),
-    WELL_PLAYED("Well played"),
-    NONE("")
-    ;
-    public final String msg;
-    gameEndMessages(String s) {
-      this.msg = s;
-    }
+  public enum GameEndMessage {
+    GG, WP, GOOD_GAME, WELL_PLAYED, NONE;
   }
 }
 
