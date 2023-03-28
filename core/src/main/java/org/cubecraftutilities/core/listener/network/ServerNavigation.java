@@ -48,15 +48,15 @@ public class ServerNavigation {
   @Subscribe
   public void onServerDisconnectEvent(ServerDisconnectEvent e) {
     if (this.manager.onCubeCraft()) {
+      register_game_leave();
       this.manager.reset();
       this.addon.rpcManager.removeCustomRPC();
-      register_game_leave();
     }
   }
 
   private void register_game_leave() {
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && !this.manager.isWon() && !this.manager.isInPreLobby()) {
+    if (statsTrackerSubConfig.isEnabled() && this.manager.hasLost() && !this.manager.isInPreLobby()) {
       GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.manager.getDivisionName());
       if (gameStatsTracker != null) {
         gameStatsTracker.registerLoss();

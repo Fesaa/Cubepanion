@@ -27,6 +27,10 @@ public class FriendTrackerManager {
     this.runningLoops = new ArrayList<>();
   }
 
+  public int getUpdateInterVal() {
+    return updateInterVal;
+  }
+
   public Set<String> getTracking() {
     return this.tracking;
   }
@@ -56,6 +60,8 @@ public class FriendTrackerManager {
   public void resetTrackers() {
     this.tracking.clear();
     this.friendLocations.clear();
+    this.endCurrentLoop();
+    this.runningLoops.clear();
   }
 
   public void updateFriendLocation(OnlineFriendLocation friendLocation) {

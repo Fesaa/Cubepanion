@@ -30,10 +30,19 @@ public class StatCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return false;
+    }
     CommandSystemSubConfig commandSystemSubConfig = this.addon.configuration().getCommandSystemSubConfig();
 
     if (!commandSystemSubConfig.getStatsCommand().get() || !commandSystemSubConfig.getEnabled().get()) {
       return false;
+    }
+
+    if (arguments.length > 0
+    && arguments[0].equalsIgnoreCase("help")) {
+      this.helpCommand();
+      return true;
     }
 
 
@@ -51,14 +60,13 @@ public class StatCommands extends Command {
     }
 
     if (gameStatsTracker == null) {
-      if (!arguments[0].equals("help")) {
-        this.displayMessage(Component.text(" Could not find the specified game. Possible options are ", Colours.Error)
-            .append(this.gamesList().color(Colours.Error)));
-        return false;
-      } else {
-        this.helpCommand();
-        return true;
-      }
+      this.displayMessage(
+          Component.text("Could not find the specified game. Possible options are ", Colours.Error)
+              .hoverEvent(HoverEvent.showText(
+                  Component.text("Stats Tracking has to be enabled in the addon setting for this command to display data.", Colours.Hover)
+              ))
+          .append(this.gamesList().color(Colours.Error)));
+      return false;
     }
 
     if (gameName != null) {
@@ -67,36 +75,45 @@ public class StatCommands extends Command {
 
     switch (arguments.length) {
       case 0: {
-        this.displayMessage(gameStatsTracker.getDisplayComponent(this.addon));
+        this.displayMessage(gameStatsTracker.getDisplayComponent());
         return true;
       }
       case 1: {
         if (this.timeFormat.matcher(arguments[0]).matches()) {
           GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-          this.displayMessage(snapShot.getDisplayComponent(this.addon));
-        } else if (arguments[0].equals("help")) {
-          this.helpCommand();
+          if (snapShot == null) {
+            this.displayMessage(Component.text("No stats for " + gameStatsTracker.getGame() + " on " + arguments[0], Colours.Error));
+          } else {
+            this.displayMessage(snapShot.getDisplayComponent());
+          }
         } else {
-          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(this.addon, arguments[0]));
+          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
         }
         return true;
       }
       case 2: {
+
+        String date;
+        String userName;
+
         if (this.timeFormat.matcher(arguments[0]).matches()) {
-          GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-          this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[1]));
-          return true;
+          date = arguments[0];
+          userName = arguments[1];
         } else if (this.timeFormat.matcher(arguments[1]).matches()) {
-            GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[1]);
-            this.displayMessage(snapShot.getUserStatsDisplayComponent(this.addon, arguments[0]));
-          return true;
-        } else if (arguments[0].equals("help")) {
-          this.helpCommand();
+          date = arguments[1];
+          userName = arguments[0];
+        } else {
+          break;
+        }
+
+        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(date);
+        if (snapShot == null) {
+          this.displayMessage(Component.text("No stats for " + gameStatsTracker.getGame() + " on " + date, Colours.Error));
+        } else {
+          this.displayMessage(snapShot.getUserStatsDisplayComponent(userName));
         }
       }
     }
-
-
     return false;
   }
 
@@ -117,7 +134,7 @@ public class StatCommands extends Command {
         .append(Component.text(" Displays your stats in a game on a certain day with a player (Omit real 0's).", Colours.Secondary)
             .hoverEvent(HoverEvent.showText(Component.text("  This has to be enabled in settings.", Colours.Hover))))
         .append(Component.text("\n/stats help", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats ")))
+            .clickEvent(ClickEvent.suggestCommand("/stats help")))
         .append(Component.text(" Displays this message.", Colours.Secondary))
         .append(Component.text("\n\nGames tracked: ", Colours.Primary))
         .append(this.gamesList().color(Colours.Secondary));

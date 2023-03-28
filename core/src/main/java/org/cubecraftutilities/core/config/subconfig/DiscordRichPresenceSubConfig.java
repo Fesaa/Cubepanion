@@ -19,6 +19,9 @@ public class DiscordRichPresenceSubConfig extends Config {
   @SpriteSlot(y = 2)
   private final ConfigProperty<Boolean> players = new ConfigProperty<>(true);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> gameImage = new ConfigProperty<>(false);
+
 
 
   public boolean isEnabled() {return this.enabled.get();}
@@ -27,5 +30,5 @@ public class DiscordRichPresenceSubConfig extends Config {
 
   public ConfigProperty<Boolean> players() {return this.players;}
 
-
+  public ConfigProperty<Boolean> getGameImage() {return gameImage;}
 }

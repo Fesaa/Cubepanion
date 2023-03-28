@@ -29,6 +29,9 @@
         "friendMessageSound": {
           "name": "Play sound on friend message"
         },
+        "friendMessageSoundId": {
+          "name": "Choose which sound to playe"
+        },
         "whereAmI": {
           "name": "/whereami on server switch"
         },
@@ -83,6 +86,9 @@
         },
         "players": {
           "name": "Show number of remaining players"
+        },
+        "gameImage": {
+          "name": "Display game art instead of CubeCraft Logo"
         }
       },
      "statsTrackerSubConfig": {

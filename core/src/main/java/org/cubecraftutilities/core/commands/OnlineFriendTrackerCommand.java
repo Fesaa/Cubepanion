@@ -69,6 +69,12 @@ public class OnlineFriendTrackerCommand extends Command {
           }
           break;
         }
+        case "interval": {
+          reply = reply.append(Component.text("Currently checking with an interval of ", Colours.Primary)
+              .append(Component.text(friendTrackerManager.getUpdateInterVal(), Colours.Secondary)
+                  .append(Component.text(" seconds.", Colours.Primary))));
+          break;
+        }
         default: {
           this.notARecognisedOption();
           return true;
@@ -83,18 +89,22 @@ public class OnlineFriendTrackerCommand extends Command {
         reply = reply.append(Component.text("Started tracking: ", Colours.Primary));
         for (int i = 1; i < arguments.length; i++) {
           friendTrackerManager.addTracking(arguments[i]);
-          reply = reply.append(Component.text(arguments[i], Colours.Secondary)
-              .append(Component.text(",", Colours.Primary)));
+          reply = reply.append(Component.text(arguments[i], Colours.Secondary));
+          if (i != arguments.length - 1) {
+            reply = reply.append(Component.text(",", Colours.Primary));
+          }
         }
         friendTrackerManager.forceUpdate();
         break;
       }
       case "untrack": {
-        reply = reply.append(Component.text("Stopped tracking: ", Colours.Secondary));
+        reply = reply.append(Component.text("Stopped tracking: ", Colours.Primary));
         for (int i = 1; i < arguments.length; i++) {
           friendTrackerManager.unTrack(arguments[i]);
-          reply = reply.append(Component.text(arguments[i], Colours.Primary)
-              .append(Component.text(",", Colours.Secondary)));
+          reply = reply.append(Component.text(arguments[i], Colours.Secondary));
+          if (i != arguments.length - 1) {
+            reply = reply.append(Component.text(",", Colours.Primary));
+          }
         }
         break;
       }
@@ -103,14 +113,14 @@ public class OnlineFriendTrackerCommand extends Command {
         int interval;
         try {
           interval = Integer.parseInt(arguments[1]);
+          interval = Math.max(interval, 10);
+          friendTrackerManager.setUpdateInterVal(interval);
+          reply = Component.text("Set update interval to: ", Colours.Primary)
+              .append(Component.text(interval, Colours.Secondary));
         } catch (NumberFormatException e) {
-          this.displayMessage(Component.text("Second argument is not an integer.", Colours.Error));
-          return true;
+          reply = Component.text("Second argument is not an integer.", Colours.Error);
         }
-        interval = Math.max(interval, 10);
-        friendTrackerManager.setUpdateInterVal(interval);
-        this.displayMessage(Component.text("Set update interval to: " + interval, Colours.Primary));
-        return true;
+        break;
       }
       default: {
         this.notARecognisedOption();
@@ -122,6 +132,6 @@ public class OnlineFriendTrackerCommand extends Command {
   }
 
   private void notARecognisedOption() {
-    this.displayMessage(Component.text("Not a recognised option! /tracker (un)track/interval [username|int]", Colours.Error));
+    this.displayMessage(Component.text("Not a recognised option! /tracker (un)track/interval [username|number]", Colours.Error));
   }
 }

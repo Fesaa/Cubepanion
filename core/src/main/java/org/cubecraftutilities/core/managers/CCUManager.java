@@ -206,8 +206,8 @@ public class CCUManager {
     this.inPreLobby = inPreLobby;
   }
 
-  public boolean isWon() {
-    return won;
+  public boolean hasLost() {
+    return !won;
   }
 
   public void setWon(boolean won) {
