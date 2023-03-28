@@ -66,7 +66,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
         && totalBootsDurability < totalLeggingsDurability) {
       this.nextArmourBuy.updateAndFlush("Boots");
     } else {
-      this.nextArmourBuy.updateAndFlush("N/A");
+      this.nextArmourBuy.updateAndFlush("");
     }
 
     this.nextArmourBuy.setState(this.shouldBeVisible() ? State.VISIBLE : State.HIDDEN);
