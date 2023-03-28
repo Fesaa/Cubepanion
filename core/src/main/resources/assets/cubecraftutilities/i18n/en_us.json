@@ -29,6 +29,9 @@
         "friendMessageSound": {
           "name": "Play sound on friend message"
         },
+        "friendMessageSoundId": {
+          "name": "Choose which sound to playe"
+        },
         "whereAmI": {
           "name": "/whereami on server switch"
         },
