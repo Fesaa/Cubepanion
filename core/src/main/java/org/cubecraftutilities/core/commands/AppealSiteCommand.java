@@ -14,7 +14,7 @@ public class AppealSiteCommand extends Command {
   private final CCU addon;
 
   public AppealSiteCommand(CCU addon) {
-    super("appeal");
+    super("appeal", "appeals", "ap", "aps");
 
     this.addon = addon;
     this.messagePrefix = addon.prefix();
