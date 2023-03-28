@@ -5,12 +5,11 @@ import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.GameMode;
 import net.labymod.api.client.gui.hud.hudwidget.item.ItemHudWidget;
-import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
 
-public class CustomItemWidget extends ItemHudWidget<TextHudWidgetConfig> {
+public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 
   public final String regex;
   public boolean itemIsHeld;
@@ -19,12 +18,11 @@ public class CustomItemWidget extends ItemHudWidget<TextHudWidgetConfig> {
   private final int posY;
 
   protected CustomItemWidget(String id, String regex, int posX, int posY) {
-    super(id);
+    super(id, ItemHudConfig.class);
     this.regex = regex;
     this.posX = posX;
     this.posY = posY;
-
-
+    this.itemIsHeld = false;
 
     ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
@@ -32,6 +30,10 @@ public class CustomItemWidget extends ItemHudWidget<TextHudWidgetConfig> {
 
     ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", id));
     this.updateItemStack(item);
+  }
+
+  public void load(ItemHudConfig config) {
+    super.load(config);
   }
 
   public boolean inventoryItemMatches(ItemStack itemStack, int i, int selectedEntry) {
@@ -52,7 +54,7 @@ public class CustomItemWidget extends ItemHudWidget<TextHudWidgetConfig> {
     } else {
       ClientPlayer player = minecraft.getClientPlayer();
       if (player != null && player.gameMode() != GameMode.SPECTATOR) {
-        return this.counter > 0;
+        return this.counter > 0 && (this.itemIsHeld || !this.config.getOnlyDisplayWhenHeld().get());
       } else {
         return false;
       }

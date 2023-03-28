@@ -5,6 +5,7 @@ import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
+import net.labymod.api.client.gui.hud.hudwidget.text.TextLine.State;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 
@@ -15,11 +16,13 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
   private final int posX;
   private final int posY;
   private final String text;
+  private final String placeholder;
   private TextLine HUDLine;
 
-  public TextTrackerHudWidget(HudWidgetCategory category,String id, String text, Supplier<String> valueSupplier, Supplier<Boolean> visibleSupplier, int posX, int posY) {
+  public TextTrackerHudWidget(HudWidgetCategory category,String id, String text, String placeholder, Supplier<String> valueSupplier, Supplier<Boolean> visibleSupplier, int posX, int posY) {
     super(id);
     this.text = text;
+    this.placeholder = placeholder;
     this.valueSupplier = valueSupplier;
     this.visibleSupplier = visibleSupplier;
     this.posX = posX;
@@ -39,10 +42,11 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
+      this.HUDLine.updateAndFlush(this.placeholder);
       return;
     }
     this.HUDLine.updateAndFlush(this.valueSupplier.get());
-    this.HUDLine.setVisible(this.visibleSupplier.get());
+    this.HUDLine.setState(this.visibleSupplier.get() ? State.VISIBLE : State.HIDDEN);
   }
 
 }

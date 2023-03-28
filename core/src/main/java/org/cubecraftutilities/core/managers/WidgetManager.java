@@ -45,7 +45,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(new NextArmourBuyTextWidget(category,"nextArmourDurability", manager));
 
     // Wins / Played
-    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_wins_tracker", "Wins/Games",
+    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_wins_tracker", "Wins/Games", "7/9",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
@@ -57,7 +57,7 @@ public class WidgetManager {
         this::booleanSupplier, 2, 1));
 
     // Win Streak
-    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"all_time_winstreak_tracker", "Win Streak",
+    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"all_time_winstreak_tracker", "Win Streak", "0",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
@@ -70,7 +70,7 @@ public class WidgetManager {
         this::booleanSupplier, 3, 1));
 
     // Daily Win Streak
-    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_winstreak_tracker", "Daily Win Streak",
+    hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_winstreak_tracker", "Daily Win Streak", "0",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
@@ -82,11 +82,11 @@ public class WidgetManager {
         this::booleanSupplier, 2, 1));
 
     // Game Timer
-    hudWidgetRegistry.register(new TextTrackerHudWidget(category, "elapsed_time_tracker", "Game Timer",
+    hudWidgetRegistry.register(new TextTrackerHudWidget(category, "elapsed_time_tracker", "Game Timer", this.timeDifferenceToReadable(3661000),
     () -> {
       long timeDifference = (new Date()).getTime() -  this.addon.getManager().getGameStartTime();
       return this.timeDifferenceToReadable(timeDifference);
-    }, () -> !this.addon.getManager().isInPreLobby(), 5, 1));
+    }, () -> !this.addon.getManager().isInPreLobby() && this.addon.getManager().onCubeCraft(), 5, 1));
   }
 
   private String timeDifferenceToReadable(long timeDifference) {
@@ -97,7 +97,7 @@ public class WidgetManager {
     String readableString = "";
 
     if (hours > 0) {
-      readableString += hours + "hour" + (hours != 1 ? "s ": " ");
+      readableString += hours + " hour" + (hours != 1 ? "s ": " ");
       minutes %= 60;
     }
     if (minutes > 0) {
