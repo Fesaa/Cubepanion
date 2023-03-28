@@ -30,6 +30,9 @@ public class StatCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return false;
+    }
     CommandSystemSubConfig commandSystemSubConfig = this.addon.configuration().getCommandSystemSubConfig();
 
     if (!commandSystemSubConfig.getStatsCommand().get() || !commandSystemSubConfig.getEnabled().get()) {

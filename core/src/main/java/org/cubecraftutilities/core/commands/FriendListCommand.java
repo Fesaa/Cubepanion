@@ -16,6 +16,10 @@ public class FriendListCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return false;
+    }
+
     if ((
         arguments.length > 0 ?
             this.stringJoiner(arguments) :

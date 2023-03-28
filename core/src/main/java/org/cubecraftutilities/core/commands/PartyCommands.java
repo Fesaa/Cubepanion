@@ -25,6 +25,9 @@ public class PartyCommands extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return false;
+    }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
     if (!config.getPartyCommands().get() || !config.getEnabled().get() || arguments.length == 0) {
