@@ -4,6 +4,7 @@ import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
+import net.labymod.api.client.gui.hud.hudwidget.text.TextLine.State;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -68,7 +69,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
       this.nextArmourBuy.updateAndFlush("N/A");
     }
 
-    this.nextArmourBuy.setVisible(this.shouldBeVisible());
+    this.nextArmourBuy.setState(this.shouldBeVisible() ? State.VISIBLE : State.HIDDEN);
   }
 
   @SuppressWarnings("RedundantIfStatement")

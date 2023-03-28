@@ -33,11 +33,10 @@ public class HeldItemTracker extends CustomItemWidget {
 
     ItemStack heldItemStack = p.getMainHandItemStack();
     Item heldItem = heldItemStack.getAsItem();
+    this.counter = 0;
     if (heldItem.isAir()) {
       return;
     }
-
-    this.counter = 0;
     for (int i = 0; i < 46; i++) {
       ItemStack itemStack = inv.itemStackAt(i);
       if (itemStack.getAsItem().equals(heldItem)) {
