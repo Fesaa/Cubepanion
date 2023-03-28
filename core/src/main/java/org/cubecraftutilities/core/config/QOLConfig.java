@@ -16,13 +16,6 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
 
-  @SpriteSlot(y = 3)
-  @SwitchSetting
-  private final ConfigProperty<Boolean> pingInNameTag = new ConfigProperty<>(true);
-
-
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
   public ConfigProperty<Boolean> getShortFriendsList() {return shortFriendsList;}
-  public ConfigProperty<Boolean> getPingInNameTag() {return pingInNameTag;}
-
 }

@@ -11,7 +11,6 @@ import org.cubecraftutilities.core.commands.OnlineFriendTrackerCommand;
 import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
 import org.cubecraftutilities.core.config.CCUconfig;
-import org.cubecraftutilities.core.gui.hud.nametags.PingTags;
 import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
 import org.cubecraftutilities.core.listener.GameShutdownEventListener;
 import org.cubecraftutilities.core.listener.GameTickEventListener;
@@ -67,7 +66,6 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
 
-    this.labyAPI().tagRegistry().register("ping_tag", PositionType.RIGHT_TO_NAME, new PingTags(this));
     this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 
     this.widgetManager.register();
