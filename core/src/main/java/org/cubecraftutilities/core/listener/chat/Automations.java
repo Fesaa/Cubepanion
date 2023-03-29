@@ -16,6 +16,7 @@ import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
+import org.cubecraftutilities.core.utils.Colours;
 import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class Automations {
@@ -30,6 +31,7 @@ public class Automations {
   private final Pattern onlineFriends = Pattern.compile("\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
 
   private boolean passedOffline = false;
+  private boolean voted = false;
 
   public Automations(CCU addon) {
     this.addon = addon;
@@ -48,7 +50,7 @@ public class Automations {
     if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
         ResourceLocation resourceLocation = ResourceLocation.create("minecraft", this.addon.configuration().getAutomationConfig().getFriendMessageSoundId().get());
-        this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 1000, 1);
+        this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 100, 1);
         return;
       }
     }
@@ -56,6 +58,15 @@ public class Automations {
     // Start of game
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
+      if (!this.voted && this.addon.configuration().getQolConfig().getReminderToVote().get()) {
+        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", "block.basalt.break");
+        this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 100, 1);
+        this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
+            Component.text("Don't forget to vote!", Colours.Primary),
+            true
+        );
+      }
+      this.voted = false;
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
           this.manager.updateTeamColour();
@@ -113,6 +124,11 @@ public class Automations {
       this.manager.setBungeecord(whereAmIMatcher.group(1));
       this.manager.setServerID(whereAmIMatcher.group(2));
       return;
+    }
+
+    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4 votes";
+    if (msg.matches(voteMessage) && this.manager.isInPreLobby()) {
+      this.voted = true;
     }
 
     // Friends list shorter && tracker

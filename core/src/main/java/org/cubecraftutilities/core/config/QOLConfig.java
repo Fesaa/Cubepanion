@@ -16,6 +16,10 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> reminderToVote = new ConfigProperty<>(false);
+
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
   public ConfigProperty<Boolean> getShortFriendsList() {return shortFriendsList;}
+  public ConfigProperty<Boolean> getReminderToVote() {return reminderToVote;}
 }
