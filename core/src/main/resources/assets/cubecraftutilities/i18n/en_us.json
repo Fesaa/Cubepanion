@@ -77,7 +77,7 @@
         },
         "reminderToVote": {
           "name": "Vote reminder",
-          "description": "Plays a sound and dumps a message in chat if you haven't voted when going to the cages!"
+          "description": "Plays a sound and dumps a message in chat if you haven't voted when only five seconds remain!"
         }
       },
       "eggWarsMapInfoSubConfig": {
