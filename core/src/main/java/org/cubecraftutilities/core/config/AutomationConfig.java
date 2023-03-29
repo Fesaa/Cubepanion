@@ -27,6 +27,7 @@ public class AutomationConfig extends Config {
   @TextFieldSetting
   private final ConfigProperty<String> friendMessageSoundId = new ConfigProperty<>("entity.experience_orb.pickup");
 
+  @SpriteSlot(x = 7, y = 2)
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig = new ArmourBreakWarningSubConfig();
 
   @SpriteSlot(x = 5)
