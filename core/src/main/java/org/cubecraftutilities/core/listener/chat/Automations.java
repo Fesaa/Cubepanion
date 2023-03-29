@@ -96,7 +96,7 @@ public class Automations {
           this.addon.labyAPI().minecraft().chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(this.manager.getPartyManager().isInParty() ? "!" : "" + config.getCustomMessage().get(), false);
+          this.addon.labyAPI().minecraft().chatExecutor().chat((this.manager.getPartyManager().isInParty() ? "!" : "") + config.getCustomMessage().get(), false);
         }
         manager.setEliminated(true);
         return;

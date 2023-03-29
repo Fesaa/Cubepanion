@@ -142,3 +142,4 @@ build-data.txt
 .DS_Store
 gradle.properties
 .vscode
+.assetsroot
