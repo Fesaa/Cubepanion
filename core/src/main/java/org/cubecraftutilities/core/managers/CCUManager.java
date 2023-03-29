@@ -46,6 +46,8 @@ public class CCUManager {
 
   private int chestPartyAnnounceCounter;
 
+  private long gameStartTime;
+
   // TEMP
   private boolean changedColour = false;
 
@@ -74,6 +76,7 @@ public class CCUManager {
     this.requestedFullFriendsList = false;
 
     this.chestPartyAnnounceCounter = 0;
+    this.gameStartTime = -1;
   }
 
 
@@ -99,6 +102,7 @@ public class CCUManager {
     this.requestedFullFriendsList = false;
 
     this.chestPartyAnnounceCounter = 0;
+    this.gameStartTime = -1;
 
     this.partyManager.reset();
     this.durabilityManager.reset();
@@ -118,6 +122,7 @@ public class CCUManager {
     this.changedColour = false;
 
     this.chestPartyAnnounceCounter = 0;
+    this.gameStartTime = -1;
 
     this.partyManager.reset();
   }
@@ -126,6 +131,7 @@ public class CCUManager {
     this.eliminated = false;
     this.inPreLobby = true;
     this.changedColour = false;
+    this.gameStartTime = -1;
   }
 
   public void registerNewDivision(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
@@ -260,5 +266,13 @@ public class CCUManager {
 
   public void setRequestedFullFriendsList(boolean requestedFullFriendsList) {
     this.requestedFullFriendsList = requestedFullFriendsList;
+  }
+
+  public long getGameStartTime() {
+    return gameStartTime;
+  }
+
+  public void setGameStartTime(long gameStartTime) {
+    this.gameStartTime = gameStartTime;
   }
 }

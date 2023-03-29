@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.listener.chat;
 
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -58,6 +59,7 @@ public class Automations {
     // Start of game
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
+      this.manager.setGameStartTime((new Date()).getTime());
       if (!this.voted && this.addon.configuration().getQolConfig().getReminderToVote().get()) {
         ResourceLocation resourceLocation = ResourceLocation.create("minecraft", "block.basalt.break");
         this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 100, 1);
@@ -94,7 +96,7 @@ public class Automations {
           this.addon.labyAPI().minecraft().chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(config.getCustomMessage().get(), false);
+          this.addon.labyAPI().minecraft().chatExecutor().chat(this.manager.getPartyManager().isInParty() ? "!" : "" + config.getCustomMessage().get(), false);
         }
         manager.setEliminated(true);
         return;

@@ -38,6 +38,7 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
     ItemStack chestPlate = player.getEquipmentItemStack(EquipmentSpot.CHEST);
     ItemStack leggings = player.getEquipmentItemStack(EquipmentSpot.LEGS);
     ItemStack boots = player.getEquipmentItemStack(EquipmentSpot.FEET);
+    ItemStack offHand = player.getOffHandItemStack();
 
     Inventory inventory = player.inventory();
     int selectedEntry = inventory.getSelectedIndex();
@@ -58,6 +59,9 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
     }
     if (this.inventoryItemMatches(boots, -1, selectedEntry)) {
       this.counter += (boots.getMaximumDamage() - boots.getCurrentDamageValue());
+    }
+    if (this.inventoryItemMatches(offHand, -1, selectedEntry)) {
+      this.counter += (offHand.getMaximumDamage() - offHand.getCurrentDamageValue());
     }
     this.updateItemName(Component.text(this.counter));
 
