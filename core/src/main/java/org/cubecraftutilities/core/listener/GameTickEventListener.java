@@ -1,16 +1,20 @@
 package org.cubecraftutilities.core.listener;
 
+import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
+import net.labymod.api.notification.Notification;
 import org.cubecraftutilities.core.CCU;
+import org.cubecraftutilities.core.config.subconfig.ArmourBreakWarningSubConfig;
 import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.managers.submanagers.SpawnProtectionManager;
 import org.cubecraftutilities.core.utils.Colours;
@@ -20,6 +24,8 @@ public class GameTickEventListener {
   private final CCU addon;
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
+  private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig;
+  private final ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "themes/vanilla/textures.png");
   private int counter = 0;
 
   public GameTickEventListener(CCU addon) {
@@ -27,6 +33,7 @@ public class GameTickEventListener {
 
     this.spawnProtectionManager = addon.getManager().getSpawnProtectionManager();
     this.durabilityManager = this.addon.getManager().getDurabilityManager();
+    this.armourBreakWarningSubConfig = this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig();
   }
 
   @Subscribe
@@ -64,7 +71,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedHelmet();
 
@@ -82,7 +89,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedChestplate();
 
@@ -100,7 +107,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedLeggings();
 
@@ -118,7 +125,7 @@ public class GameTickEventListener {
     }
 
     boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.addon.configuration().getAutomationConfig().getDurabilityWarning().get()
+        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
         && itemStack.getMaximumDamage() > 0;
     boolean hasAlreadyWarned = this.durabilityManager.isWarnedBoots();
 
@@ -132,10 +139,25 @@ public class GameTickEventListener {
 
   private void displayWarning(EquipmentSpot spot) {
     Component warning = Component.text("Your ", Colours.Error).append(EquipmentSpotToComponent(spot)).append(Component.text(" about to break!"));
+    Minecraft minecraft = this.addon.labyAPI().minecraft();
 
-    this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(warning);
-    this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(warning, true);
-    this.addon.labyAPI().minecraft().sounds().playSound(ResourceLocation.create("minecraft", "entity.lightning_bolt.impact"), 100, 1);
+    if (this.armourBreakWarningSubConfig.getNotification().get()) {
+      this.addon.labyAPI().notificationController().push(Notification.builder()
+          .title(Component.text("Warning!", Colours.Error))
+          .text(warning)
+          .duration(3000)
+              .icon(Icon.sprite16(resourceLocation, 7, 2))
+          .build());
+    }
+
+    if (this.armourBreakWarningSubConfig.getChat().get()) {
+      minecraft.chatExecutor().displayClientMessage(warning);
+    }
+
+    if (this.armourBreakWarningSubConfig.getActionbar().get()) {
+      minecraft.chatExecutor().displayClientMessage(warning, true);
+    }
+    minecraft.sounds().playSound(ResourceLocation.create("minecraft", this.armourBreakWarningSubConfig.getSoundId().get()), 100, 1);
   }
 
   private Component EquipmentSpotToComponent(EquipmentSpot spot) {

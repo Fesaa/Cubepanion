@@ -10,6 +10,7 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingRequires;
+import org.cubecraftutilities.core.config.subconfig.ArmourBreakWarningSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
 
 @SpriteTexture("setting_icons.png")
@@ -26,9 +27,7 @@ public class AutomationConfig extends Config {
   @TextFieldSetting
   private final ConfigProperty<String> friendMessageSoundId = new ConfigProperty<>("entity.experience_orb.pickup");
 
-  @SpriteSlot(x = 7, y = 2)
-  @SliderSetting(min = 0, max = 20)
-  private final ConfigProperty<Integer> durabilityWarning = new ConfigProperty<>(10);
+  private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig = new ArmourBreakWarningSubConfig();
 
   @SpriteSlot(x = 5)
   @SwitchSetting
@@ -49,9 +48,6 @@ public class AutomationConfig extends Config {
   public ConfigProperty<Key> getCopyServerID() {return copyServerID;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
   public ConfigProperty<String> getFriendMessageSoundId() {return friendMessageSoundId;}
-  public ConfigProperty<Integer> getDurabilityWarning() {return durabilityWarning;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
-
-
-
+  public ArmourBreakWarningSubConfig getArmourBreakWarningSubConfig() {return armourBreakWarningSubConfig;}
 }

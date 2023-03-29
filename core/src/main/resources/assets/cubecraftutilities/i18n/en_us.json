@@ -42,9 +42,27 @@
         "copyBungeecord": {
           "name": "Copy Bungeecord Instance"
         },
-        "durabilityWarning": {
+        "armourBreakWarningSubConfig": {
           "name": "Durability Warning",
-          "description": "Displays a warning in chat, the action bar and makes a sound when your armour has less durability than specified."
+          "durabilityWarning": {
+            "name": "Durability",
+            "description": "Durability points left when the warning is displayed"
+          },
+          "soundId": {
+            "name": "Sound ID"
+          },
+          "chat": {
+            "name": "Chat",
+            "description": "Display the warning message in chat"
+          },
+          "actionbar": {
+            "name": "Action bar",
+            "description": "Display the warning in the action bar"
+          },
+          "notification": {
+            "name": "Toast notification",
+            "description": "Display the warning as a toast notification (for 3s)"
+          }
         }
       },
       "qolConfig": {
@@ -57,8 +75,9 @@
           "name": "Shorter friends list",
           "description": "  Use /friends list full to display your full friends list"
         },
-        "pingInNameTag": {
-          "name": "Display ping in the nametag"
+        "reminderToVote": {
+          "name": "Vote reminder",
+          "description": "Plays a sound and dumps a message in chat if you haven't voted when going to the cages!"
         }
       },
       "eggWarsMapInfoSubConfig": {
