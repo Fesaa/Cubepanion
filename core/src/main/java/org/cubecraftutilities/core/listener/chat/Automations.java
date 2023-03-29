@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.format.TextColor;
@@ -41,8 +42,9 @@ public class Automations {
 
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
+    Minecraft minecraft = this.addon.labyAPI().minecraft();
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
+    ClientPlayer p = minecraft.getClientPlayer();
     if (p == null) {
       return;
     }
@@ -51,7 +53,7 @@ public class Automations {
     if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
         ResourceLocation resourceLocation = ResourceLocation.create("minecraft", this.addon.configuration().getAutomationConfig().getFriendMessageSoundId().get());
-        this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 100, 1);
+        minecraft.sounds().playSound(resourceLocation, 100, 1);
         return;
       }
     }
@@ -61,12 +63,9 @@ public class Automations {
       this.manager.setInPreLobby(false);
       this.manager.setGameStartTime((new Date()).getTime());
       if (!this.voted && this.addon.configuration().getQolConfig().getReminderToVote().get()) {
-        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", "block.basalt.break");
-        this.addon.labyAPI().minecraft().sounds().playSound(resourceLocation, 100, 1);
-        this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
-            Component.text("Don't forget to vote!", Colours.Primary),
-            true
-        );
+        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", "entity.lightning_bolt.impact");
+        minecraft.sounds().playSound(resourceLocation, 100, 1);
+        minecraft.chatExecutor().displayClientMessage(Component.text("Don't forget to vote!", Colours.Primary));
       }
       this.voted = false;
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
@@ -93,10 +92,10 @@ public class Automations {
       if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
         if (gameEndMessage != GameEndMessage.NONE) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
+          minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          this.addon.labyAPI().minecraft().chatExecutor().chat((this.manager.getPartyManager().isInParty() ? "!" : "") + config.getCustomMessage().get(), false);
+          minecraft.chatExecutor().chat((this.manager.getPartyManager().isInParty() ? "!" : "") + config.getCustomMessage().get(), false);
         }
         manager.setEliminated(true);
         return;
@@ -128,9 +127,10 @@ public class Automations {
       return;
     }
 
-    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4 votes";
+    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4} votes";
     if (msg.matches(voteMessage) && this.manager.isInPreLobby()) {
       this.voted = true;
+      return;
     }
 
     // Friends list shorter && tracker
