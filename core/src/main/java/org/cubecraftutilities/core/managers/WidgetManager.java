@@ -11,7 +11,6 @@ import org.cubecraftutilities.core.gui.hud.widgets.HeldItemTracker;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.TextTrackerHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CCUWidgetCategory;
-import java.util.Date;
 
 //TODO: Maybe! Add ...
 // Custom text widget
@@ -84,7 +83,7 @@ public class WidgetManager {
     // Game Timer
     hudWidgetRegistry.register(new TextTrackerHudWidget(category, "elapsed_time_tracker", "Game Timer", this.timeDifferenceToReadable(3661000),
     () -> {
-      long timeDifference = (new Date()).getTime() -  this.addon.getManager().getGameStartTime();
+      long timeDifference = System.currentTimeMillis() -  this.addon.getManager().getGameStartTime();
       return this.timeDifferenceToReadable(timeDifference);
     }, () -> !this.addon.getManager().isInPreLobby() && this.addon.getManager().onCubeCraft(), 5, 1));
   }
