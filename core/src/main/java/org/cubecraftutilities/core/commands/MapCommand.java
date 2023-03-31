@@ -17,7 +17,7 @@ public class MapCommand extends Command {
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
-    this.displayMessage(this.addon.getManager().getDivisionName());
+    this.displayMessage(this.addon.getManager().getMapName());
     return true;
   }
 }
