@@ -30,7 +30,7 @@ public class Automations {
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
   private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
   private final Pattern onlineFriends = Pattern.compile("\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
-  private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ] is starting in 5 seconds");
+  private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
 
   private boolean passedOffline = false;
   private boolean voted = false;
@@ -61,7 +61,7 @@ public class Automations {
     // 5 seconds remaining
     if (this.fiveSecondsRemaining.matcher(msg).matches()) {
       if (!this.voted && this.addon.configuration().getQolConfig().getReminderToVote().get()) {
-        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", "entity.lightning_bolt.impact");
+        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", this.addon.configuration().getQolConfig().getReminderToVoteSoundId().get());
         minecraft.sounds().playSound(resourceLocation, 100, 1);
         minecraft.chatExecutor().displayClientMessage(Component.text("Don't forget to vote!", Colours.Primary));
       }
