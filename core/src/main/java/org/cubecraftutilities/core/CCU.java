@@ -7,6 +7,7 @@ import net.labymod.api.models.addon.annotation.AddonMain;
 import org.cubecraftutilities.core.commands.AppealSiteCommand;
 import org.cubecraftutilities.core.commands.EggWarsMapInfoCommand;
 import org.cubecraftutilities.core.commands.FriendListCommand;
+import org.cubecraftutilities.core.commands.MapCommand;
 import org.cubecraftutilities.core.commands.OnlineFriendTrackerCommand;
 import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
@@ -56,6 +57,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerCommand(new StatCommands(this));
     this.registerCommand(new FriendListCommand(this));
     this.registerCommand(new OnlineFriendTrackerCommand());
+    this.registerCommand(new MapCommand(this));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));
