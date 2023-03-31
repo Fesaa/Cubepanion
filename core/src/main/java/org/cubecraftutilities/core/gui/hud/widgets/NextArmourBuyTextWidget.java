@@ -32,7 +32,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, 1, 1);
     this.setIcon(icon);
-    this.nextArmourBuy = super.createLine("Next armour to run out", "");
+    this.nextArmourBuy = super.createLine("Next to run out", "");
   }
 
   public void onTick(boolean inEditor) {
@@ -44,31 +44,43 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     int totalChestPlateDurability = durabilityManager.getTotalChestPlateDurability();
     int totalLeggingsDurability = durabilityManager.getTotalLeggingsDurability();
     int totalBootsDurability = durabilityManager.getTotalBootsDurability();
-    
-    
+
+    String newContent;
+    int lowest;
+
     if (totalHelmetDurability < totalChestPlateDurability
         && totalHelmetDurability < totalLeggingsDurability
         && totalHelmetDurability < totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush("Helmet");
+      newContent = "Helmet";
+      lowest = totalHelmetDurability;
     }
     else if (totalChestPlateDurability < totalHelmetDurability
         && totalChestPlateDurability < totalLeggingsDurability
         && totalChestPlateDurability < totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush("Chestplate");
+      newContent = "Chestplate";
+      lowest = totalChestPlateDurability;
     }
     else if (totalLeggingsDurability < totalHelmetDurability
         && totalLeggingsDurability < totalChestPlateDurability
         && totalLeggingsDurability < totalBootsDurability) {
-      this.nextArmourBuy.updateAndFlush("Leggings");
+      newContent = "Leggings";
+      lowest = totalLeggingsDurability;
     }
     else if (totalBootsDurability < totalHelmetDurability
         && totalBootsDurability < totalChestPlateDurability
         && totalBootsDurability < totalLeggingsDurability) {
-      this.nextArmourBuy.updateAndFlush("Boots");
+      newContent = "Boots";
+      lowest = totalBootsDurability;
     } else {
-      this.nextArmourBuy.updateAndFlush("");
+      newContent = "";
+      lowest = 0;
     }
 
+    if (!newContent.equals("")) {
+      newContent += "(" + this.smallestDifference(lowest, totalHelmetDurability, totalChestPlateDurability, totalLeggingsDurability, totalBootsDurability) +  ")";
+    }
+
+    this.nextArmourBuy.updateAndFlush(newContent);
     this.nextArmourBuy.setState(this.shouldBeVisible() ? State.VISIBLE : State.HIDDEN);
   }
 
@@ -117,6 +129,15 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
         this.games = games;
       }
     }
+  }
 
+  private int smallestDifference(int lower, int... values) {
+    int smallest = lower;
+    for (int value : values) {
+      if (value - lower < smallest && value != lower) {
+        smallest = value;
+      }
+    }
+    return smallest;
   }
 }
