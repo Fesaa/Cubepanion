@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.managers;
 
+import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.gui.hud.HudWidgetRegistry;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import org.cubecraftutilities.core.CCU;
@@ -36,10 +37,10 @@ public class WidgetManager {
     hudWidgetRegistry.register(new CounterItemHudWidget(category,"terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", 4, 0));
     hudWidgetRegistry.register(new HeldItemTracker(category));
 
-    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"helmet_durability_counter", "\\w{0,10}_helmet", 5, 0, manager));
-    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"chestplate_durability_counter", "\\w{0,10}_chestplate", 6, 0, manager));
-    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"leggings_durability_counter", "\\w{0,10}_leggings", 7, 0, manager));
-    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"boots_durability_counter", "\\w{0,10}_boots", 0, 1, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"helmet_durability_counter", "helmet", EquipmentSpot.HEAD, 5, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"chestplate_durability_counter", "chestplate", EquipmentSpot.CHEST, 6, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"leggings_durability_counter", "leggings", EquipmentSpot.LEGS, 7, 0, manager));
+    hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"boots_durability_counter", "boots", EquipmentSpot.FEET, 0, 1, manager));
 
     hudWidgetRegistry.register(new NextArmourBuyTextWidget(category,"nextArmourDurability", manager));
 

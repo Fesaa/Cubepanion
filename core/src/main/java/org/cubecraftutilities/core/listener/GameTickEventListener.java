@@ -2,10 +2,9 @@ package org.cubecraftutilities.core.listener;
 
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.NamedTextColor;
-import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
@@ -50,95 +49,107 @@ public class GameTickEventListener {
     if (this.counter % 20 == 0) { // Each second
       this.spawnProtectionManager.getClientPlayerSpawnProtection().update(true);
       this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(true);
-
-      ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
-      if (player != null && this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get()) {
-        this.processHelmetForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.HEAD));
-        this.processChestForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.CHEST));
-        this.processLegsForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.LEGS));
-        this.processFeetForWarningMessage(player.getEquipmentItemStack(EquipmentSpot.FEET));
-      }
     } else if (this.counter % 2 == 0) { // Each two ticks & not on the second
       this.spawnProtectionManager.getClientPlayerSpawnProtection().update(false);
       this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(false);
+      this.durabilityUpdater();
+      this.processForWarningMessage(EquipmentSpot.HEAD);
+      this.processForWarningMessage(EquipmentSpot.CHEST);
+      this.processForWarningMessage(EquipmentSpot.LEGS);
+      this.processForWarningMessage(EquipmentSpot.FEET);
     }
     this.counter++;
   }
 
-  private void processHelmetForWarningMessage(ItemStack itemStack) {
-    if (itemStack.isAir()) {
+  private void durabilityUpdater() {
+    ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (player == null) {
       return;
     }
+    Inventory inventory = player.inventory();
+    int helmet = 0;
+    int chest = 0;
+    int leggings = 0;
+    int boots = 0;
 
-    boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
-        && itemStack.getMaximumDamage() > 0;
-    boolean hasAlreadyWarned = this.durabilityManager.isWarnedHelmet();
+    ItemStack helmetItemStack = player.getEquipmentItemStack(EquipmentSpot.HEAD);
+    ItemStack chestPlateItemStack  = player.getEquipmentItemStack(EquipmentSpot.CHEST);
+    ItemStack leggingsItemStack  = player.getEquipmentItemStack(EquipmentSpot.LEGS);
+    ItemStack bootsItemStack  = player.getEquipmentItemStack(EquipmentSpot.FEET);
+    ItemStack offHand = player.getOffHandItemStack();
 
-    if (threshHoldPassed && !hasAlreadyWarned) {
-      this.displayWarning(EquipmentSpot.HEAD);
-      this.durabilityManager.setWarnedHelmet(true);
-    } else if (!threshHoldPassed) {
-      this.durabilityManager.setWarnedHelmet(false);
+    if (helmetItemStack.getAsItem().toString().contains("helmet")) {
+      helmet += helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
     }
+    if (chestPlateItemStack.getAsItem().toString().contains("chest")) {
+      chest += chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
+    }
+    if (leggingsItemStack.getAsItem().toString().contains("leggings")) {
+      leggings += leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
+    }
+    if (bootsItemStack.getAsItem().toString().contains("boots")) {
+      boots += bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
+    }
+    if (offHand.getAsItem().toString().contains("helmet")) {
+      helmet += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
+    } else if (offHand.getAsItem().toString().contains("chest")) {
+      chest += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
+    } else if (offHand.getAsItem().toString().contains("leggings")) {
+      leggings += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
+    } else if (offHand.getAsItem().toString().contains("boots")) {
+      boots += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
+    }
+
+    for (int i = 0; i < 46; i++) {
+      ItemStack iStack = inventory.itemStackAt(i);
+      if (iStack.isAir()) {
+        continue;
+      }
+      if (iStack.getAsItem().toString().contains("helmet")) {
+        helmet += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
+      }
+      if (iStack.getAsItem().toString().contains("chestplate")) {
+        chest += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
+      }
+      if (iStack.getAsItem().toString().contains("leggings")) {
+        leggings += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
+      }
+      if (iStack.getAsItem().toString().contains("boots")) {
+        boots += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
+      }
+    }
+    this.durabilityManager.resetCache();
+    this.durabilityManager.updateInfo(EquipmentSpot.HEAD, helmet);
+    this.durabilityManager.updateInfo(EquipmentSpot.CHEST, chest);
+    this.durabilityManager.updateInfo(EquipmentSpot.LEGS, leggings);
+    this.durabilityManager.updateInfo(EquipmentSpot.FEET, boots);
   }
 
-  private void processChestForWarningMessage(ItemStack itemStack) {
+  private void processForWarningMessage(EquipmentSpot spot) {
+    ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (player == null) {
+      return;
+    }
+    ItemStack itemStack = player.getEquipmentItemStack(spot);
     if (itemStack.isAir()) {
       return;
     }
 
     boolean threshHoldPassed =
         itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
-        && itemStack.getMaximumDamage() > 0;
-    boolean hasAlreadyWarned = this.durabilityManager.isWarnedChestplate();
+            && itemStack.getMaximumDamage() > 0;
+    boolean hasAlreadyWarned = this.durabilityManager.getWarned(spot);
 
     if (threshHoldPassed && !hasAlreadyWarned) {
-      this.displayWarning(EquipmentSpot.CHEST);
-      this.durabilityManager.setWarnedChestplate(true);
+      this.displayWarning(spot);
+      this.durabilityManager.updateInfo(spot, true);
     } else if (!threshHoldPassed) {
-      this.durabilityManager.setWarnedChestplate(false);
-    }
-  }
-
-  private void processLegsForWarningMessage(ItemStack itemStack) {
-    if (itemStack.isAir()) {
-      return;
-    }
-
-    boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
-        && itemStack.getMaximumDamage() > 0;
-    boolean hasAlreadyWarned = this.durabilityManager.isWarnedLeggings();
-
-    if (threshHoldPassed && !hasAlreadyWarned) {
-      this.displayWarning(EquipmentSpot.LEGS);
-      this.durabilityManager.setWarnedLeggings(true);
-    } else if (!threshHoldPassed) {
-      this.durabilityManager.setWarnedLeggings(false);
-    }
-  }
-
-  private void processFeetForWarningMessage(ItemStack itemStack) {
-    if (itemStack.isAir()) {
-      return;
-    }
-
-    boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
-        && itemStack.getMaximumDamage() > 0;
-    boolean hasAlreadyWarned = this.durabilityManager.isWarnedBoots();
-
-    if (threshHoldPassed && !hasAlreadyWarned) {
-      this.displayWarning(EquipmentSpot.FEET);
-      this.durabilityManager.setWarnedBoots(true);
-    } else if (!threshHoldPassed) {
-      this.durabilityManager.setWarnedBoots(false);
+      this.durabilityManager.updateInfo(spot, false);
     }
   }
 
   private void displayWarning(EquipmentSpot spot) {
-    Component warning = Component.text("Your ", Colours.Error).append(EquipmentSpotToComponent(spot)).append(Component.text(" about to break!"));
+    Component warning = this.durabilityManager.getWarningComponent(spot);
     Minecraft minecraft = this.addon.labyAPI().minecraft();
 
     if (this.armourBreakWarningSubConfig.getNotification().get()) {
@@ -159,20 +170,4 @@ public class GameTickEventListener {
     }
     minecraft.sounds().playSound(ResourceLocation.create("minecraft", this.armourBreakWarningSubConfig.getSoundId().get()), 100, 1);
   }
-
-  private Component EquipmentSpotToComponent(EquipmentSpot spot) {
-    switch (spot) {
-      case HEAD:
-        return Component.text("helmet", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error).undecorate(TextDecoration.BOLD));
-      case CHEST:
-        return Component.text("chestplate", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" is", Colours.Error).undecorate(TextDecoration.BOLD));
-      case LEGS:
-        return Component.text("leggings", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error).undecorate(TextDecoration.BOLD));
-      case FEET:
-        return Component.text("boots", NamedTextColor.GOLD, TextDecoration.BOLD).append(Component.text(" are", Colours.Error).undecorate(TextDecoration.BOLD));
-      default:
-        return Component.text("??? is");
-    }
-  }
-
 }

@@ -1,103 +1,124 @@
 package org.cubecraftutilities.core.managers.submanagers;
 
+import java.util.HashMap;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.TextDecoration;
+import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
+import org.cubecraftutilities.core.utils.Colours;
+
 public class DurabilityManager {
 
-  private int totalHelmetDurability;
-  private int totalChestPlateDurability;
-  private int totalLeggingsDurability;
-  private int totalBootsDurability;
+  private final int BIG_INTEGER = 999999999;
 
-  private boolean warnedHelmet;
-  private boolean warnedChestplate;
-  private boolean warnedLeggings;
-  private boolean warnedBoots;
+  private String lowestString;
+  private int lowestInt;
+  private int secondLowestInt;
+
+  private final HashMap<EquipmentSpot, ArmourInfo> map;
 
   public DurabilityManager() {
-    this.totalHelmetDurability = 0;
-    this.totalChestPlateDurability = 0;
-    this.totalLeggingsDurability = 0;
-    this.totalBootsDurability = 0;
 
-    this.warnedHelmet = false;
-    this.warnedChestplate = false;
-    this.warnedLeggings = false;
-    this.warnedBoots = false;
+    this.lowestInt = BIG_INTEGER;
+    this.secondLowestInt = BIG_INTEGER;
+
+    this.map = new HashMap<>();
+    this.map.put(EquipmentSpot.HEAD, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.CHEST, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.LEGS, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.FEET, new ArmourInfo(false, 0));
   }
 
   public void reset() {
-    this.totalHelmetDurability = 0;
-    this.totalChestPlateDurability = 0;
-    this.totalLeggingsDurability = 0;
-    this.totalBootsDurability = 0;
+    this.lowestInt = BIG_INTEGER;
+    this.secondLowestInt = BIG_INTEGER;
 
-    this.warnedHelmet = false;
-    this.warnedChestplate = false;
-    this.warnedLeggings = false;
-    this.warnedBoots = false;
+    this.map.put(EquipmentSpot.HEAD, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.CHEST, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.LEGS, new ArmourInfo(false, 0));
+    this.map.put(EquipmentSpot.FEET, new ArmourInfo(false, 0));
   }
 
-  public void setTotalLeggingsDurability(int totalLeggingsDurability) {
-    this.totalLeggingsDurability = totalLeggingsDurability;
+  public Component getWarningComponent(EquipmentSpot spot) {
+    return Component.text("Your ", Colours.Error)
+        .append(Component.text(this.spotToString(spot), Colours.Title, TextDecoration.BOLD))
+        .append(Component.text(" will break soon!", Colours.Error).undecorate(TextDecoration.BOLD));
+  }
+  
+  public String nextToBreakWidgetString(boolean inEditor, boolean showDifference) {
+    if (inEditor) {
+      return "Chestplate" + (showDifference ? " (73)" : "");
+    }
+    return this.lowestString + (showDifference ? " (" + (this.secondLowestInt - this.lowestInt) + ")" : "");
   }
 
-  public void setTotalHelmetDurability(int totalHelmetDurability) {
-    this.totalHelmetDurability = totalHelmetDurability;
+  private String spotToString(EquipmentSpot spot) {
+    switch (spot) {
+      case HEAD:
+        return "Helmet";
+      case CHEST:
+        return "Chestplate";
+      case LEGS:
+        return "Leggings";
+      case FEET:
+        return "Boots";
+    }
+    return "Unknown";
   }
 
-  public void setTotalChestPlateDurability(int totalChestPlateDurability) {
-    this.totalChestPlateDurability = totalChestPlateDurability;
+  public void resetCache() {
+    this.lowestInt = BIG_INTEGER;
+    this.secondLowestInt = BIG_INTEGER;
   }
 
-  public void setTotalBootsDurability(int totalBootsDurability) {
-    this.totalBootsDurability = totalBootsDurability;
+  public void updateInfo(EquipmentSpot spot, boolean warned) {
+    this.map.get(spot).setWarned(warned);
   }
 
-  public int getTotalLeggingsDurability() {
-    return totalLeggingsDurability;
+  public void updateInfo(EquipmentSpot spot, int durability) {
+    this.map.get(spot).setDurability(durability);
+    this.updateLowestCache(this.spotToString(spot), durability);
   }
 
-  public int getTotalHelmetDurability() {
-    return totalHelmetDurability;
+  public int getDurability(EquipmentSpot spot) {
+    return this.map.get(spot).getDurability();
   }
 
-  public int getTotalBootsDurability() {
-    return totalBootsDurability;
+  public boolean getWarned(EquipmentSpot spot) {
+    return this.map.get(spot).isWarned();
   }
-
-  public int getTotalChestPlateDurability() {
-    return totalChestPlateDurability;
+  
+  private void updateLowestCache(String key, int value) {
+    if (value < this.lowestInt) {
+      this.lowestString = key;
+      this.lowestInt = value;
+    } else if (value < this.secondLowestInt) {
+      this.secondLowestInt = value;
+    }
   }
+  public static class ArmourInfo {
+    private boolean warned;
+    private int durability;
 
-  public boolean isWarnedBoots() {
-    return warnedBoots;
-  }
+    public int getDurability() {
+      return durability;
+    }
 
-  public boolean isWarnedChestplate() {
-    return warnedChestplate;
-  }
+    public void setDurability(int durability) {
+      this.durability = durability;
+    }
 
-  public boolean isWarnedHelmet() {
-    return warnedHelmet;
-  }
+    public boolean isWarned() {
+      return warned;
+    }
 
-  public boolean isWarnedLeggings() {
-    return warnedLeggings;
-  }
+    public void setWarned(boolean warned) {
+      this.warned = warned;
+    }
 
-  public void setWarnedBoots(boolean warnedBoots) {
-    this.warnedBoots = warnedBoots;
-  }
-
-  public void setWarnedChestplate(boolean warnedChestplate) {
-    this.warnedChestplate = warnedChestplate;
-  }
-
-  public void setWarnedHelmet(boolean warnedHelmet) {
-    this.warnedHelmet = warnedHelmet;
-  }
-
-  public void setWarnedLeggings(boolean warnedLeggings) {
-    this.warnedLeggings = warnedLeggings;
+    public ArmourInfo(boolean warned, int durability) {
+      this.warned = warned;
+      this.durability = durability;
+    }
   }
 }
 

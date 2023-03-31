@@ -6,13 +6,13 @@ import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine.State;
 import net.labymod.api.client.gui.icon.Icon;
+import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
 import org.cubecraftutilities.core.managers.CCUManager;
-import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 
 public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfig> {
 
@@ -36,52 +36,8 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   }
 
   public void onTick(boolean inEditor) {
-    if (inEditor) {
-      return;
-    }
-    DurabilityManager durabilityManager = this.manager.getDurabilityManager();
-    int totalHelmetDurability = durabilityManager.getTotalHelmetDurability();
-    int totalChestPlateDurability = durabilityManager.getTotalChestPlateDurability();
-    int totalLeggingsDurability = durabilityManager.getTotalLeggingsDurability();
-    int totalBootsDurability = durabilityManager.getTotalBootsDurability();
-
-    String newContent;
-    int lowest;
-
-    if (totalHelmetDurability < totalChestPlateDurability
-        && totalHelmetDurability < totalLeggingsDurability
-        && totalHelmetDurability < totalBootsDurability) {
-      newContent = "Helmet";
-      lowest = totalHelmetDurability;
-    }
-    else if (totalChestPlateDurability < totalHelmetDurability
-        && totalChestPlateDurability < totalLeggingsDurability
-        && totalChestPlateDurability < totalBootsDurability) {
-      newContent = "Chestplate";
-      lowest = totalChestPlateDurability;
-    }
-    else if (totalLeggingsDurability < totalHelmetDurability
-        && totalLeggingsDurability < totalChestPlateDurability
-        && totalLeggingsDurability < totalBootsDurability) {
-      newContent = "Leggings";
-      lowest = totalLeggingsDurability;
-    }
-    else if (totalBootsDurability < totalHelmetDurability
-        && totalBootsDurability < totalChestPlateDurability
-        && totalBootsDurability < totalLeggingsDurability) {
-      newContent = "Boots";
-      lowest = totalBootsDurability;
-    } else {
-      newContent = "";
-      lowest = 0;
-    }
-
-    if (!newContent.equals("")) {
-      newContent += "(" + this.smallestDifference(lowest, totalHelmetDurability, totalChestPlateDurability, totalLeggingsDurability, totalBootsDurability) +  ")";
-    }
-
-    this.nextArmourBuy.updateAndFlush(newContent);
-    this.nextArmourBuy.setState(this.shouldBeVisible() ? State.VISIBLE : State.HIDDEN);
+    this.nextArmourBuy.updateAndFlush(this.manager.getDurabilityManager().nextToBreakWidgetString(inEditor, this.config.getShowDifference().get()));
+    this.nextArmourBuy.setState(this.shouldBeVisible() || inEditor ? State.VISIBLE : State.HIDDEN);
   }
 
   @SuppressWarnings("RedundantIfStatement")
@@ -107,8 +63,14 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     @DropdownSetting
     private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(whereToDisplay.EGGWARS);
 
+    @SwitchSetting
+    private final ConfigProperty<Boolean> showDifference = new ConfigProperty<>(false);
+
     public ConfigProperty<whereToDisplay> getWheretoDisplayType() {
       return wheretoDisplayType;
+    }
+    public ConfigProperty<Boolean> getShowDifference() {
+      return showDifference;
     }
 
     public enum whereToDisplay {
@@ -129,15 +91,5 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
         this.games = games;
       }
     }
-  }
-
-  private int smallestDifference(int lower, int... values) {
-    int smallest = lower;
-    for (int value : values) {
-      if (value - lower < smallest && value != lower) {
-        smallest = value;
-      }
-    }
-    return smallest;
   }
 }

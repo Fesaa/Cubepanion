@@ -249,6 +249,10 @@
             "allGames": "All Games",
             "everywhere": "Everywhere"
           }
+        },
+        "showDifference": {
+          "name": "Show Difference",
+          "description": "Shows the durability difference with the next piece to break in brackets"
         }
       },
       "all_time_winstreak_tracker": {
