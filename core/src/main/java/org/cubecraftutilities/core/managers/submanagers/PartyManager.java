@@ -8,17 +8,20 @@ public class PartyManager {
   private List<String> partyMembers;
   private boolean inParty;
   private boolean isPartyOwner;
+  private boolean partyChat;
 
   public PartyManager() {
     this.partyMembers = new ArrayList<>();
     this.inParty = false;
     this.isPartyOwner = false;
+    this.partyChat = false;
   }
 
   public void reset() {
     this.partyMembers = new ArrayList<>();
     this.inParty = false;
     this.isPartyOwner = false;
+    this.partyChat = false;
   }
 
   public boolean isPartyOwner() {
@@ -42,6 +45,7 @@ public class PartyManager {
   public void setEmptyParty() {
     this.partyMembers = new ArrayList<>();
     this.inParty = false;
+    this.partyChat = false;
   }
 
   public boolean isMemberInParty(String username) {
@@ -60,4 +64,11 @@ public class PartyManager {
     this.inParty = inParty;
   }
 
+  public boolean isPartyChat() {
+    return partyChat;
+  }
+
+  public void setPartyChat(boolean partyChat) {
+    this.partyChat = partyChat;
+  }
 }

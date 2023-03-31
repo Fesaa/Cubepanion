@@ -42,6 +42,15 @@ public class PartyTracker {
       return;
     }
 
+    // Party Chat
+    if (msg.equals("Party chat is now enabled!")) {
+      this.partyManager.setPartyChat(true);
+    }
+    if (msg.equals("Party chat is now disabled!")) {
+      this.partyManager.setPartyChat(false);
+    }
+
+
     // Joining
     Matcher playerJoinsPartyMatcher = this.playerJoinsPartyMessage.matcher(msg);
     if (playerJoinsPartyMatcher.matches()) {

@@ -100,7 +100,7 @@ public class Automations {
           minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          minecraft.chatExecutor().chat((this.manager.getPartyManager().isInParty() ? "!" : "") + config.getCustomMessage().get(), false);
+          minecraft.chatExecutor().chat((this.manager.getPartyManager().isPartyChat() ? "!" : "") + config.getCustomMessage().get(), false);
         }
         manager.setEliminated(true);
         return;
