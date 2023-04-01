@@ -125,6 +125,7 @@ public class Automations {
       return;
     }
 
+    // Bungee & serverid matcher
     Matcher whereAmIMatcher = this.WhereAmIOutPut.matcher(msg);
     if (whereAmIMatcher.matches()) {
       this.manager.setBungeecord(whereAmIMatcher.group(1));
@@ -132,7 +133,8 @@ public class Automations {
       return;
     }
 
-    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4} votes";
+    // Vote warn
+    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4} votes?";
     if (msg.matches(voteMessage) && this.manager.isInPreLobby()) {
       this.voted = true;
       return;
