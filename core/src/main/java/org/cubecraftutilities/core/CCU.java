@@ -20,6 +20,7 @@ import org.cubecraftutilities.core.listener.chat.Automations;
 import org.cubecraftutilities.core.listener.chat.PartyTracker;
 import org.cubecraftutilities.core.listener.chat.StatsTracker;
 import org.cubecraftutilities.core.listener.network.PlayerInfo;
+import org.cubecraftutilities.core.listener.network.ScoreboardListener;
 import org.cubecraftutilities.core.listener.network.ServerNavigation;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.DiscordRPCManager;
@@ -67,6 +68,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(new Automations(this));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
+    this.registerListener(new ScoreboardListener(this));
 
     this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 

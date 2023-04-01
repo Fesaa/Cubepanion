@@ -1,12 +1,5 @@
 package org.cubecraftutilities.core.listener.network;
 
-import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import net.labymod.api.client.Minecraft;
-import net.labymod.api.client.scoreboard.DisplaySlot;
-import net.labymod.api.client.scoreboard.Scoreboard;
-import net.labymod.api.client.scoreboard.ScoreboardObjective;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
@@ -15,7 +8,6 @@ import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubecraftutilities.core.managers.CCUManager;
-import org.jetbrains.annotations.NotNull;
 
 public class ServerNavigation {
 
@@ -34,15 +26,8 @@ public class ServerNavigation {
       this.manager.reset();
       return;
     }
-
     this.manager.onCubeJoin();
     this.executeWhereAmI();
-    Minecraft minecraft = this.addon.labyAPI().minecraft();
-    Scoreboard scoreboard = minecraft.getScoreboard();
-    if (scoreboard == null) {
-      return;
-    }
-    this.waitForScoreboard(scoreboard, 5000);
   }
 
   @Subscribe
@@ -71,41 +56,15 @@ public class ServerNavigation {
     if (!this.manager.onCubeCraft()) {
       return;
     }
-
+    this.manager.setHasUpdatedAfterServerSwitch(false);
     register_game_leave();
     this.executeWhereAmI();
     this.manager.onServerSwitch();
-
-    Minecraft minecraft = this.addon.labyAPI().minecraft();
-    Scoreboard scoreboard = minecraft.getScoreboard();
-    if (scoreboard == null) {
-      return;
-    }
-    this.waitForScoreboard(scoreboard, 2000);
   }
 
   private void executeWhereAmI() {
     if (this.addon.configuration().getAutomationConfig().displayWhereAmI().get()) {
       this.addon.labyAPI().minecraft().chatExecutor().chat("/whereami", false);
     }
-  }
-
-  private void waitForScoreboard(@NotNull Scoreboard scoreboard, int maxDelay) {
-    if (maxDelay == 0) {
-      return;
-    }
-    ScoreboardObjective scoreboardObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-    if (scoreboardObjective == null) {
-      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() ->
-              waitForScoreboard(scoreboard, maxDelay-100)
-          , 100, TimeUnit.MILLISECONDS);
-    } else {
-      this.onServerSwitchAfterScoreboardLoad(scoreboard, Objects.requireNonNull(scoreboardObjective));
-    }
-  }
-
-  public void onServerSwitchAfterScoreboardLoad(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
-    this.manager.registerNewDivision(scoreboard, scoreboardObjective);
-    this.addon.rpcManager.updateRPC();
   }
 }

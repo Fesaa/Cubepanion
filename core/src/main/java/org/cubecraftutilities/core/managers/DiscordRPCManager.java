@@ -70,7 +70,7 @@ public class DiscordRPCManager {
       state = "Choosing a game...";
     } else {
       details = "Playing " + division;
-      if (manager.isInPreLobby()) {
+      if (manager.isInPreLobby() && !manager.getDivisionName().equals("FFA")) {
         state = "Waiting...";
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {

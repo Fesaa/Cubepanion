@@ -5,16 +5,12 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.network.NetworkPlayerInfo;
-import net.labymod.api.client.scoreboard.Scoreboard;
-import net.labymod.api.client.scoreboard.ScoreboardObjective;
-import net.labymod.api.client.scoreboard.ScoreboardScore;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.managers.submanagers.PartyManager;
 import org.cubecraftutilities.core.managers.submanagers.SpawnProtectionManager;
-import org.jetbrains.annotations.NotNull;
 
 public class CCUManager {
 
@@ -41,6 +37,7 @@ public class CCUManager {
   private boolean eliminated;
   private boolean inPreLobby;
   private boolean won;
+  private boolean hasUpdatedAfterServerSwitch;
 
   private boolean requestedFullFriendsList;
 
@@ -74,6 +71,7 @@ public class CCUManager {
     this.inPreLobby = false;
     this.won = false;
     this.requestedFullFriendsList = false;
+    this.hasUpdatedAfterServerSwitch = false;
 
     this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
@@ -100,6 +98,7 @@ public class CCUManager {
     this.inPreLobby = false;
     this.won = false;
     this.requestedFullFriendsList = false;
+    this.hasUpdatedAfterServerSwitch = false;
 
     this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
@@ -132,24 +131,8 @@ public class CCUManager {
     this.inPreLobby = true;
     this.changedColour = false;
     this.gameStartTime = -1;
-  }
-
-  public void registerNewDivision(@NotNull Scoreboard scoreboard, @NotNull ScoreboardObjective scoreboardObjective) {
-    this.spawnProtectionManager.resetHasMap();
-
-    this.lastDivisionName = this.divisionName;
-
-    Component title = scoreboardObjective.getTitle();
-
-    if (title.getChildren().size() == 0) { // Prod
-      this.divisionName = ((TextComponent) title).getText();
-    } else { // dev2
-      this.divisionName = ((TextComponent) title.getChildren().get(0)).getText();
-    }
-    this.mapName = getMap(scoreboard, scoreboardObjective);
-
-    this.eliminated = false;
     this.won = false;
+    this.spawnProtectionManager.resetHasMap();
   }
 
   public void updateTeamColour() {
@@ -175,19 +158,6 @@ public class CCUManager {
   public void setTeamColour(String teamColour) {
     this.teamColour = teamColour;
     this.changedColour = true;
-  }
-
-  private String getMap(@NotNull Scoreboard scoreboard, ScoreboardObjective scoreboardObjective) {
-    ScoreboardScore lastEntry = null;
-    for (ScoreboardScore scoreboardScore : scoreboard.getScores(scoreboardObjective)) {
-      if (scoreboardScore.getName().contains("Map:")) {
-        if (lastEntry != null) {
-          return lastEntry.getName().substring(2);
-        }
-      }
-      lastEntry = scoreboardScore;
-    }
-    return "";
   }
 
   public void setChangedColour(boolean changedColour) {this.changedColour = changedColour;}
@@ -220,12 +190,29 @@ public class CCUManager {
     this.won = won;
   }
 
+  public boolean hasUpdatedAfterServerSwitch() {
+    return hasUpdatedAfterServerSwitch;
+  }
+
+  public void setHasUpdatedAfterServerSwitch(boolean hasUpdatedAfterServerSwitch) {
+    this.hasUpdatedAfterServerSwitch = hasUpdatedAfterServerSwitch;
+  }
+
   public int getChestPartyAnnounceCounter() {
     return chestPartyAnnounceCounter;
   }
 
   public String getDivisionName() {
     return divisionName;
+  }
+
+  public void setDivisionName(String divisionName) {
+    this.lastDivisionName = this.divisionName;
+    this.divisionName = divisionName;
+  }
+
+  public void setMapName(String mapName) {
+    this.mapName = mapName;
   }
 
   public String getLastDivisionName() {
