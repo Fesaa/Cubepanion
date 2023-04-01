@@ -168,6 +168,6 @@ public class GameTickEventListener {
     if (this.armourBreakWarningSubConfig.getActionbar().get()) {
       minecraft.chatExecutor().displayClientMessage(warning, true);
     }
-    minecraft.sounds().playSound(ResourceLocation.create("minecraft", this.armourBreakWarningSubConfig.getSoundId().get()), 100, 1);
+    minecraft.sounds().playSound(ResourceLocation.create("minecraft", this.armourBreakWarningSubConfig.getSoundId(spot).get()), 100, 1);
   }
 }

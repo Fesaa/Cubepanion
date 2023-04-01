@@ -48,8 +48,20 @@
             "name": "Durability",
             "description": "Durability points left when the warning is displayed"
           },
-          "soundId": {
-            "name": "Sound ID"
+          "armourBreakSoundsSubConfig": {
+            "name": "Sound IDs",
+            "soundIdHelmet": {
+              "name": "Helmet"
+            },
+            "soundIdChestplate": {
+              "name": "Chestplate"
+            },
+            "soundIdLeggings": {
+              "name": "Leggings"
+            },
+            "soundIdBoots": {
+              "name": "Boots"
+            }
           },
           "chat": {
             "name": "Chat",
