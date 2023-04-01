@@ -23,6 +23,12 @@ public class ScoreboardListener {
 
   @Subscribe
   public void onScoreBoardScoreUpdate(ScoreboardScoreUpdateEvent e) {
+    if (e.score().getName().contains("Map: ")) {
+      if (this.manager.getDivisionName().equals("FFA")) {
+        this.manager.setMapName(e.score().getName().substring(7));
+      }
+      return;
+    }
     Scoreboard scoreboard = this.addon.labyAPI().minecraft().getScoreboard();
     if (scoreboard == null) {
       return;
@@ -30,9 +36,7 @@ public class ScoreboardListener {
     ScoreboardScore lastEntry = null;
     for (ScoreboardScore score : scoreboard.getScores(scoreboard.getObjective(DisplaySlot.SIDEBAR))) {
       if (score.getName().contains("Map:")) {
-        if (this.manager.getDivisionName().equals("FFA")) {
-          this.manager.setMapName(score.getName().substring(7));
-        } else if (lastEntry != null) {
+        if (lastEntry != null) {
           this.manager.setMapName(lastEntry.getName().substring(2));
         }
         this.addon.rpcManager.updateRPC();
