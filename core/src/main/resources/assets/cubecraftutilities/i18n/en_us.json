@@ -277,7 +277,10 @@
         "name": "Daily Wins"
       },
       "elapsed_time_tracker": {
-        "name": "Game Timer"
+        "name": "Game Timer",
+        "layoutString": {
+          "name": "Time layout"
+        }
       }
       },
     "hudWidgetCategory": {

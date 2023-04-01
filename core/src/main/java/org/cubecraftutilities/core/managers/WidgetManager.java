@@ -8,6 +8,7 @@ import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubecraftutilities.core.gui.hud.widgets.CounterItemHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.DurabilityItemHudWidget;
+import org.cubecraftutilities.core.gui.hud.widgets.GameTimerWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.HeldItemTracker;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.TextTrackerHudWidget;
@@ -82,11 +83,7 @@ public class WidgetManager {
         this::booleanSupplier, 2, 1));
 
     // Game Timer
-    hudWidgetRegistry.register(new TextTrackerHudWidget(category, "elapsed_time_tracker", "Game Timer", this.timeDifferenceToReadable(3661000),
-    () -> {
-      long timeDifference = System.currentTimeMillis() -  this.addon.getManager().getGameStartTime();
-      return this.timeDifferenceToReadable(timeDifference);
-    }, () -> !this.addon.getManager().isInPreLobby() && this.addon.getManager().onCubeCraft(), 5, 1));
+    hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker",5, 1));
   }
 
   private String timeDifferenceToReadable(long timeDifference) {
