@@ -109,6 +109,7 @@ public class EggWarsMapInfoManager {
             new MapGenerator(Generator.GOLD, Location.SEMI_MIDDLE, 2, 8),
             new MapGenerator(Generator.IRON, Location.SEMI_MIDDLE, 3, 8),
             new MapGenerator(Generator.DIAMOND, Location.BASE, 0, 1),
+            new MapGenerator(Generator.GOLD, Location.BASE, 1, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 2, 1),
             new MapGenerator(Generator.IRON, Location.BASE, 1, 1)
         );
