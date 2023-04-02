@@ -41,17 +41,20 @@ public class ScoreboardListener {
       return;
     }
     ScoreboardScore lastEntry = null;
+    boolean updated = false;
     for (ScoreboardScore score : scoreboard.getScores(scoreboard.getObjective(DisplaySlot.SIDEBAR))) {
       if (score.getName().contains("Map:")) {
         if (lastEntry != null) {
           this.manager.setMapName(lastEntry.getName().substring(2));
+          updated = true;
         }
-        this.addon.rpcManager.updateRPC();
-        return;
+        break;
       }
       lastEntry = score;
     }
-    this.manager.setMapName("");
+    if (!updated) {
+      this.manager.setMapName("");
+    }
     this.addon.rpcManager.updateRPC();
     this.updatedMap = true;
   }
