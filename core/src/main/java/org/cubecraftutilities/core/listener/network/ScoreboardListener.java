@@ -16,13 +16,20 @@ public class ScoreboardListener {
   private final CCU addon;
   private final CCUManager manager;
 
+  private boolean updatedMap;
+
   public ScoreboardListener(CCU addon) {
     this.addon = addon;
     this.manager = this.addon.getManager();
+    this.updatedMap = false;
   }
 
   @Subscribe
   public void onScoreBoardScoreUpdate(ScoreboardScoreUpdateEvent e) {
+    if (this.updatedMap) {
+      return;
+    }
+
     if (e.score().getName().contains("Map: ")) {
       if (this.manager.getDivisionName().equals("FFA")) {
         this.manager.setMapName(e.score().getName().substring(7));
@@ -46,6 +53,7 @@ public class ScoreboardListener {
     }
     this.manager.setMapName("");
     this.addon.rpcManager.updateRPC();
+    this.updatedMap = true;
   }
 
   @Subscribe
@@ -74,6 +82,7 @@ public class ScoreboardListener {
       }
     }
     this.manager.setHasUpdatedAfterServerSwitch(true);
+    this.updatedMap = false;
   }
 
 }
