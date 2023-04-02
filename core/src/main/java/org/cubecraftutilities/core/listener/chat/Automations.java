@@ -25,7 +25,7 @@ public class Automations {
   private final CCU addon;
   private final CCUManager manager;
 
-  private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
+  private final Pattern playerElimination = Pattern.compile(".{0,5}([a-zA-Z0-9_]{2,16}).{0,5} has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
   private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
@@ -48,6 +48,8 @@ public class Automations {
     if (p == null) {
       return;
     }
+
+    String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
 
     // Friend Message Sound
     if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
@@ -93,8 +95,8 @@ public class Automations {
     // Auto GG
     EndGameSubConfig config = this.addon.configuration().getAutomationConfig().getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
-      String eliminationMessage = p.getName() + " has been eliminated from the game.";
-      if (msg.equals("Congratulations, you win!") || (msg.equals(eliminationMessage) && config.getOnElimination().get())) {
+      String eliminationMessage = playerRegex + " has been eliminated from the game.";
+      if (msg.equals("Congratulations, you win!") || (msg.matches(eliminationMessage) && config.getOnElimination().get())) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
         if (gameEndMessage != GameEndMessage.NONE) {
           minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
@@ -134,7 +136,7 @@ public class Automations {
     }
 
     // Vote warn
-    String voteMessage = p.getName() + " voted for .*\\. \\d{1,4} votes?";
+    String voteMessage = playerRegex + " voted for .*\\. \\d{1,4} votes?";
     if (msg.matches(voteMessage) && this.manager.isInPreLobby()) {
       this.voted = true;
       return;
@@ -142,7 +144,6 @@ public class Automations {
 
     // Friends list shorter && tracker
     if (this.FriendList.matcher(msg).matches()) {
-
       if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
         if (this.manager.hasRequestedFullFriendsList()) {
           this.manager.setRequestedFullFriendsList(false);

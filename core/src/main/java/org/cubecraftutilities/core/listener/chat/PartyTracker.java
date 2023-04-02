@@ -16,7 +16,7 @@ public class PartyTracker {
   private boolean tryingToReadPartyMembers;
   private int partySize;
 
-  private final String userNameRegex = "([a-zA-Z0-9_]{2,16})";
+  private final String userNameRegex = ".{0,5}([a-zA-Z0-9_]{2,16}).{0,5}";
   private final String joinedParty = "You have joined " + this.userNameRegex + "'s party!";
   private final Pattern ownerChange = Pattern.compile("The owner of the party has been changed to " + this.userNameRegex + "!");
   private final Pattern playerJoinsPartyMessage = Pattern.compile("\\[Party\\] \\[\\+\\] " + this.userNameRegex + " joined the party\\.");
