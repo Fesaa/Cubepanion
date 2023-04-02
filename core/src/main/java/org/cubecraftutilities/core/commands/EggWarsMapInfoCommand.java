@@ -1,16 +1,23 @@
 package org.cubecraftutilities.core.commands;
 
 import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
+import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.Colours;
+import java.util.function.Function;
 
 public class EggWarsMapInfoCommand extends Command {
 
   private final CCU addon;
+  private final Function<String, String> keyGetter;
 
   public EggWarsMapInfoCommand(CCU addon) {
     super("eggwarsmap", "ewm");
     this.addon = addon;
+
+    this.keyGetter = i18nNamespaces.commandNameSpaceMaker("EggWarsMapInfoCommand");
   }
 
   @Override
@@ -30,6 +37,16 @@ public class EggWarsMapInfoCommand extends Command {
     } else {
       mapName = String.join(" ", arguments);
     }
-    return this.addon.getManager().getEggWarsMapInfoManager().doEggWarsMapLayout(mapName, false);
+
+    boolean check = this.addon.getManager().getEggWarsMapInfoManager().doEggWarsMapLayout(mapName, false);
+    if (!check) {
+      this.displayMessage(
+          Component.translatable()
+          .key(this.keyGetter.apply("mapNotFound"))
+          .argument(Component.text(mapName))
+          .build()
+          .color(Colours.Error));
+    }
+    return true;
   }
 }

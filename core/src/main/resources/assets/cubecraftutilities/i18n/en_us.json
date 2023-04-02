@@ -318,6 +318,68 @@
         "name": "CubeCraft Utilities",
         "description": "All custom widgets provided by CubeCraft Utilities"
       }
+    },
+    "commands": {
+      "AppealSiteCommand": {
+        "response": "Appeal site link for: ",
+        "hover": "Click to open URL"
+      },
+      "EggWarsMapInfoCommand": {
+        "mapNotFound": "Could not find map with name %s"
+      },
+      "OnlineFriendTrackerCommand": {
+        "error": {
+          "notTrackingAnyOneSuggestion": "Currently not tracking anyone. Track someone with ",
+          "notTrackingAnyOne": "Currently not tracking anyone.",
+          "notAnInteger": "Second argument is not an integer.",
+          "notAValidCommand": "Not a recognised option! /tracker (un)track/interval [username|number]"
+        },
+        "succes": {
+          "currentlyTracking": "Currently tracking: ",
+          "clickToUntrack": "Click to untrack: ",
+          "intervalLengthResponse": "Currently checking each %s seconds.",
+          "setIntervalTo": "Set checking interval to %s",
+          "startedTracking": "Started tracking: ",
+          "stoppedTracking": "Stopped tracking: "
+        }
+      },
+      "PartyCommands": {
+        "error": {
+          "noPermissions": "You need to be party owner to use this command.",
+          "missingArguments": "You are missing required arguments, please try again."
+        },
+        "helpCommand": {
+          "title": "------- Enhanced Party Commands -------",
+          "reinv": " - Will kick and invite the passed usernames if they are in the party.",
+          "remake": {
+            "first": " - Will disband the party and invite everyone",
+            "middle": " except",
+            "last": " the usernames passed."
+          },
+          "kick": " - Will kick all the passed usernames if they are in the party.",
+          "invite": " - Will invite all the passed usernames.",
+          "extra": " - Displays the help message for a command. Omitting the command, displays for all commands."
+        }
+      },
+      "StatCommands": {
+        "error": {
+          "gameNotFound": {
+            "text": "Could not find the specified game. Possible options are ",
+            "hover": "Stats Tracking has to be enabled in the addon setting for this command to display data."
+          },
+          "statsNotFoundOnDate": "No stats available for %s on %s"
+        },
+        "helpCommand": {
+          "title": "------- Enhanced Stats Commands -------",
+          "displayGlobalStats": " - Display your stats for a game, defaults to the game you're currently in.",
+          "displayPlayerStats": " - Display your stats for a game, with a specific player, defaults to the game you're currently in.",
+          "displayGlobalStatsOnDate": " - Display your stats for a game, on a specific day (ex. 2023-1-15), defaults to the game you're currently in.",
+          "displayPlayerStatsOnDate": " - Display your stats for a game, with a specific player, on a specific day (ex. 2023-1-15), defaults to the game you're currently in.",
+          "requiredSetting": "This has to be enabled in settings to work.",
+          "this": " - Display this message.",
+          "tracking": "\n\nGames tracked: "
+        }
+      }
     }
   }
 }

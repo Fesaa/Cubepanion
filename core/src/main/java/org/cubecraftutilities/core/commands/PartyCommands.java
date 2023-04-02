@@ -2,6 +2,7 @@ package org.cubecraftutilities.core.commands;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
@@ -10,17 +11,24 @@ import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
+import org.cubecraftutilities.core.i18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
 
 public class PartyCommands extends Command {
 
   private final CCU addon;
 
+  private final Function<String, Component> errorComponent;
+  private final Function<String, Component> helpComponent;
+
   public PartyCommands(CCU addon) {
     super("party", "p");
 
     this.addon = addon;
     this.messagePrefix = addon.prefix();
+
+    this.errorComponent = i18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
+    this.helpComponent = i18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
   }
 
   @Override
@@ -42,7 +50,7 @@ public class PartyCommands extends Command {
       case "reinvite":
       case "reinv": {
         if (isPartyOwner) {
-          this.reInviteCommand(chat, this.removeFirstN(arguments));
+          this.reInviteCommand(chat, this.removeFirst(arguments));
         } else {
           this.noPermissions();
         }
@@ -50,7 +58,7 @@ public class PartyCommands extends Command {
       }
       case "remake": {
         if (isPartyOwner) {
-          this.reMakeCommand(chat, this.removeFirstN(arguments));
+          this.reMakeCommand(chat, this.removeFirst(arguments));
         } else {
           this.noPermissions();
         }
@@ -58,7 +66,7 @@ public class PartyCommands extends Command {
       }
       case "kick": {
         if (arguments.length > 2 && isPartyOwner) {
-          this.multiKickCommand(chat, this.removeFirstN(arguments));
+          this.multiKickCommand(chat, this.removeFirst(arguments));
           return true;
         }
         return false;
@@ -66,7 +74,7 @@ public class PartyCommands extends Command {
       case "invite":
       case "add": {
         if (arguments.length > 2 && (isPartyOwner || !inParty)) {
-          this.multiInviteCommand(chat, this.removeFirstN(arguments));
+          this.multiInviteCommand(chat, this.removeFirst(arguments));
           return true;
         }
         return false;
@@ -80,15 +88,17 @@ public class PartyCommands extends Command {
   }
 
   private void noPermissions() {
-    this.displayMessage(Component.text("You need to be party owner to use this command.", Colours.Error));
+    this.displayMessage(this.errorComponent.apply("noPermissions").color(Colours.Error));
   }
 
   private void missingArguments() {
-    this.displayMessage(Component.text("You are missing required arguments, please try again.", Colours.Error));
+    this.displayMessage(this.errorComponent.apply("missingArguments").color(Colours.Error));
   }
 
   private void helpCommand(String command) {
-    Component helpComponent = Component.text("------- Enhanced Party Commands -------", Colours.Title);
+    Component helpComponent = this.helpComponent.apply("title")
+        .color(Colours.Title)
+        .decorate(TextDecoration.BOLD);
 
     boolean run = command.equals("extra");
 
@@ -96,36 +106,36 @@ public class PartyCommands extends Command {
       helpComponent = helpComponent
           .append(Component.text("\n/party reinvite <username*>", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party reinvite ")))
-          .append(Component.text(" Will kick and invite the passed usernames if they are in the party.", Colours.Secondary));
+          .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
     }
 
     if (run || command.equals("remake")) {
       helpComponent = helpComponent
           .append(Component.text("\n/party remake [username*]", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party remake ")))
-          .append(Component.text(" Will disband the party and invite everyone ", Colours.Secondary))
-          .append(Component.text(" except ", Colours.Secondary).decorate(TextDecoration.BOLD))
-          .append(Component.text("the usernames passed.", Colours.Secondary));
+          .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
+          .append(this.helpComponent.apply("remake.middle").color(Colours.Primary).decorate(TextDecoration.BOLD))
+          .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
     }
 
     if (run || command.equals("kick")) {
       helpComponent = helpComponent
           .append(Component.text("\n/party kick [username*]", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party kick ")))
-          .append(Component.text(" Will kick all the passed usernames if they are in the party.", Colours.Secondary));
+          .append(this.helpComponent.apply("kick").color(Colours.Secondary));
     }
 
     if (run || command.equals("invite") || command.equals("add") ) {
       helpComponent = helpComponent
           .append(Component.text("\n/party invite [username*]", Colours.Primary)
               .clickEvent(ClickEvent.suggestCommand("/party invite ")))
-          .append(Component.text(" Will invite all the passed usernames.", Colours.Secondary));
+          .append(this.helpComponent.apply("invite").color(Colours.Secondary));
     }
 
     helpComponent = helpComponent
         .append(Component.text("\n/party extra [command]", Colours.Primary)
             .clickEvent(ClickEvent.suggestCommand("/party extra ")))
-        .append(Component.text(" Displays the help message for a command. Omitting the command, displays for all commands.", Colours.Secondary));
+        .append(this.helpComponent.apply("extra").color(Colours.Secondary));
 
     this.displayMessage(helpComponent);
   }
@@ -199,13 +209,12 @@ public class PartyCommands extends Command {
     return false;
   }
 
-  private String[] removeFirstN(String[] array) {
+  private String[] removeFirst(String[] array) {
     if (array.length <= 1) {
       return new String[0];
     }
     String[] slicedArray = new String[array.length - 1];
     System.arraycopy(array, 1, slicedArray, 0, array.length);
-
     return slicedArray;
   }
 
