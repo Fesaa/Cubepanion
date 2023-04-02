@@ -7,7 +7,7 @@ import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
-import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
 import java.util.function.Function;
 
@@ -23,7 +23,7 @@ public class AppealSiteCommand extends Command {
     this.addon = addon;
     this.messagePrefix = addon.prefix();
 
-    this.componentGetter = i18nNamespaces.commandNamespaceTransformer("AppealSiteCommand");
+    this.componentGetter = I18nNamespaces.commandNamespaceTransformer("AppealSiteCommand");
   }
 
 

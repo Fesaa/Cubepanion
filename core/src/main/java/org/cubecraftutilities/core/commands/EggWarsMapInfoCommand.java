@@ -4,7 +4,7 @@ import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
-import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
 import java.util.function.Function;
 
@@ -17,7 +17,7 @@ public class EggWarsMapInfoCommand extends Command {
     super("eggwarsmap", "ewm");
     this.addon = addon;
 
-    this.keyGetter = i18nNamespaces.commandNameSpaceMaker("EggWarsMapInfoCommand");
+    this.keyGetter = I18nNamespaces.commandNameSpaceMaker("EggWarsMapInfoCommand");
   }
 
   @Override

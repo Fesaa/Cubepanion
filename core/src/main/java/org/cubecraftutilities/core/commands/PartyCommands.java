@@ -11,7 +11,7 @@ import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
-import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
 
 public class PartyCommands extends Command {
@@ -27,8 +27,8 @@ public class PartyCommands extends Command {
     this.addon = addon;
     this.messagePrefix = addon.prefix();
 
-    this.errorComponent = i18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
-    this.helpComponent = i18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
+    this.errorComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
+    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
   }
 
   @Override

@@ -157,7 +157,6 @@ public class GameTickEventListener {
           .title(Component.text("Warning!", Colours.Error))
           .text(warning)
           .duration(3000)
-              .icon(Icon.sprite16(resourceLocation, 7, 2))
           .build());
     }
 

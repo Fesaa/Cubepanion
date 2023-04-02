@@ -380,6 +380,20 @@
           "tracking": "\n\nGames tracked: "
         }
       }
+    },
+    "managers": {
+      "DurabilityManager": {
+        "warning": "Your %s will break soon!"
+      },
+      "DiscordRPCManager": {
+        "lobby": "In the lobby",
+        "lobbyState": "Choosing a game...",
+        "playing": "Playing ",
+        "playingOnState": "On %s",
+        "playingHiddenState": "In game",
+        "waitingState": "Waiting...",
+        "alivePlayersState": " [%s/%s alive]"
+      }
     }
   }
 }

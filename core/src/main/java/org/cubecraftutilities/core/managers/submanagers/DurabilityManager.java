@@ -1,14 +1,19 @@
 package org.cubecraftutilities.core.managers.submanagers;
 
 import java.util.HashMap;
+import java.util.function.Function;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
 
 public class DurabilityManager {
 
   private final int BIG_INTEGER = 999999999;
+
+  private final Function<String, Component> componentFunction;
+  private final String mainKey;
 
   private String lowestString;
   private int lowestInt;
@@ -17,6 +22,9 @@ public class DurabilityManager {
   private final HashMap<EquipmentSpot, ArmourInfo> map;
 
   public DurabilityManager() {
+
+    this.componentFunction = I18nNamespaces.managersNamespaceTransformer("DurabilityManager");
+    this.mainKey = I18nNamespaces.managerNameSpace + "DurabilityManager";
 
     this.lowestInt = BIG_INTEGER;
     this.secondLowestInt = BIG_INTEGER;
@@ -39,9 +47,9 @@ public class DurabilityManager {
   }
 
   public Component getWarningComponent(EquipmentSpot spot) {
-    return Component.text("Your ", Colours.Error)
-        .append(Component.text(this.spotToString(spot), Colours.Title, TextDecoration.BOLD))
-        .append(Component.text(" will break soon!", Colours.Error).undecorate(TextDecoration.BOLD));
+    return Component.translatable(this.mainKey + "warning",
+        Component.text(this.spotToString(spot), Colours.Title, TextDecoration.BOLD))
+        .color(Colours.Error).undecorate(TextDecoration.BOLD);
   }
   
   public String nextToBreakWidgetString(boolean inEditor, boolean showDifference) {

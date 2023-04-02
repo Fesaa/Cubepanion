@@ -15,7 +15,7 @@ import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.utils.Colours;
 
@@ -33,9 +33,9 @@ public class StatCommands extends Command {
     this.addon = addon;
     this.messagePrefix = addon.prefix();
 
-    this.errorComponent = i18nNamespaces.commandNamespaceTransformer("StatCommands.error");
-    this.errorKey = i18nNamespaces.commandNameSpaceMaker("StatCommands.error");
-    this.helpComponent = i18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
+    this.errorComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.error");
+    this.errorKey = I18nNamespaces.commandNameSpaceMaker("StatCommands.error");
+    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
   }
 
   @Override

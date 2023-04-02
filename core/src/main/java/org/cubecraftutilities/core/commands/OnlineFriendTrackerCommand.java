@@ -10,7 +10,7 @@ import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.utils.Colours;
 import java.util.Set;
 import java.util.function.Function;
-import org.cubecraftutilities.core.i18nNamespaces;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class OnlineFriendTrackerCommand extends Command {
 
@@ -23,10 +23,10 @@ public class OnlineFriendTrackerCommand extends Command {
     super("tracker", "t");
 
     this.messagePrefix = CCU.get().prefix();
-    this.keyGetter = i18nNamespaces.commandNameSpaceMaker("OnlineFriendTrackerCommand");
-    this.componentGetter = i18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand");
-    this.componentGetterSucces = i18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.succes");
-    this.componentGetterError = i18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.error");
+    this.keyGetter = I18nNamespaces.commandNameSpaceMaker("OnlineFriendTrackerCommand");
+    this.componentGetter = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand");
+    this.componentGetterSucces = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.succes");
+    this.componentGetterError = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.error");
   }
 
   @Override

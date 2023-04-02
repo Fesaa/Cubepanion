@@ -10,12 +10,15 @@ import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.thirdparty.discord.DiscordActivity;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
+import net.labymod.api.util.I18n;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.DiscordRichPresenceSubConfig;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class DiscordRPCManager {
 
   private final CCU addon;
+  private final String mainKey = I18nNamespaces.managerNameSpace + "DiscordRPCManager.";
 
   private boolean busy;
 
@@ -66,21 +69,21 @@ public class DiscordRPCManager {
     String division = manager.getDivisionName();
 
     if (division.equals("CubeCraft") || division.equals("sidebar")) {
-      details = "In the Lobby";
-      state = "Choosing a game...";
+      details = I18n.translate(this.mainKey + "lobby");
+      state = I18n.translate(this.mainKey + "lobbyState");
     } else {
-      details = "Playing " + division;
+      details = I18n.translate(this.mainKey + "playing") + division;
       if (manager.isInPreLobby() && !manager.getDivisionName().equals("FFA")) {
-        state = "Waiting...";
+        state = I18n.translate(this.mainKey + "waitingState");
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
-          state = "On " + manager.getMapName();
+          state = I18n.translate(this.mainKey + "playingOnState", manager.getMapName());
         } else {
-          state = "In game";
+          state = I18n.translate(this.mainKey + "playingHiddenState");
         }
 
         if (RPCConfig.players().get() && this.doPlayerTracking()) {
-          state += " [" + (this.totalPlayers - this.deaths) + "/" + this.totalPlayers + " alive]";
+          state += I18n.translate(this.mainKey + "alivePlayersState", this.totalPlayers - this.deaths, this.totalPlayers);
         }
       }
     }
