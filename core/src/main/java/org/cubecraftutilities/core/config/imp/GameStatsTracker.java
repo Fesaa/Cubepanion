@@ -3,12 +3,16 @@ package org.cubecraftutilities.core.config.imp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.jetbrains.annotations.NotNull;
 
 public class GameStatsTracker {
+
+  private final String mainKey = I18nNamespaces.globalNamespace + ".GameStatsTracker.";
 
   private final String game;
   private final StatsTracker winStreak;
@@ -285,10 +289,10 @@ public class GameStatsTracker {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);
 
-    Component userStatsDisplayComponent = Component.text("------- Interaction stats with " + name + " -------", Colours.Title);
+    Component userStatsDisplayComponent = Component.translatable(this.mainKey + "interactionStats.title", Component.text(name, Colours.Primary)).color(Colours.Title);
 
     if (kills == null && deaths == null) {
-      return Component.text("No interaction stats available in " + this.game + " with " + name, Colours.Error);
+      return Component.translatable(this.mainKey + "interactionStats.notFound", Component.text(this.game), Component.text(name)).color(Colours.Error);
     }
 
     return userStatsDisplayComponent
@@ -300,50 +304,44 @@ public class GameStatsTracker {
   private Component getComponent(StatsTracker statsTracker, String type) {
     Component comp = Component.empty();
     if (statsTracker == null) {
-      comp = comp.append(Component.text("\nNo " + type + " stats available.", Colours.Error));
+      comp = comp.append(Component.translatable(this.mainKey + "interactionStats.notAvailable", Component.text(type)).color(Colours.Error));
     } else {
       comp = comp
-          .append(Component.text("\nTotal " + type +": ", Colours.Primary))
-          .append(Component.text(statsTracker.getAllTime(), Colours.Secondary))
-          .append(Component.text("\nToday's " + type +": ", Colours.Primary))
-          .append(Component.text(statsTracker.getDaily(), Colours.Secondary))
-          .append(Component.text("\nTop Daily " + type +": ", Colours.Primary))
-          .append(Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary));
+          .append(
+              Component.translatable(this.mainKey + "interactionStats.stats",
+              Component.text(type), Component.text(statsTracker.getAllTime(), Colours.Secondary),
+              Component.text(type), Component.text(statsTracker.getDaily(), Colours.Secondary),
+              Component.text(type), Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary))
+              .color(Colours.Primary));
     }
     return comp;
   }
 
   public Component getDisplayComponent() {
-    return Component.text("------ Today's game Stats For " + game + " ------", Colours.Title)
-        .append(Component.text("\nToday's games played: ", Colours.Primary))
-        .append(Component.text(this.getDailyPlayed(), Colours.Secondary))
-        .append(Component.text("\nCurrent all time win streak: ", Colours.Primary))
-        .append(Component.text(this.getWinStreak(), Colours.Secondary))
-        .append(Component.text("\nToday's win streak: ", Colours.Primary))
-        .append(Component.text(this.getDailyWinStreak(), Colours.Secondary))
-        .append(Component.text("\nToday's wins: ", Colours.Primary))
-        .append(Component.text(this.getDailyWins(), Colours.Secondary))
-        .append(Component.text("\nToday's loses: ", Colours.Primary))
-        .append(Component.text(this.getDailyPlayed() - this.getDailyWins(), Colours.Secondary))
-        .append(Component.text("\nToday's kills: ", Colours.Primary))
-        .append(Component.text(this.getDailyKills(), Colours.Secondary))
-        .append(Component.text("\nToday's deaths: ", Colours.Primary))
-        .append(Component.text(this.getDailyDeaths(), Colours.Secondary))
-        .append(Component.text("\n------ All time's game Stats For " + game + " ------", Colours.Title))
-        .append(Component.text("\nTotal games played: ", Colours.Primary))
-        .append(Component.text(this.getAllTimePlayed(), Colours.Secondary))
-        .append(Component.text("\nHighest all time win streak: ", Colours.Primary))
-        .append(Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary))
-        .append(Component.text("\nHighest daily win streak: ", Colours.Primary))
-        .append(Component.text(this.getDailyHighestWinStreak(), Colours.Secondary))
-        .append(Component.text("\nTotal wins: ", Colours.Primary))
-        .append(Component.text(this.getAllTimeWins(), Colours.Secondary))
-        .append(Component.text("\nTotal loses: ", Colours.Primary))
-        .append(Component.text(this.getAllTimePlayed() - this.getAllTimeWins(), Colours.Secondary))
-        .append(Component.text("\nTotal kills: ", Colours.Primary))
-        .append(Component.text(this.getTotalKills(), Colours.Secondary))
-        .append(Component.text("\nTotal deaths: ", Colours.Primary))
-        .append(Component.text(this.getTotalDeaths(), Colours.Secondary))
-        ;
+    return
+        Component.translatable(this.mainKey + "gameStats.titleToday",
+                Component.text(game, Colours.Primary))
+            .color(Colours.Title)
+        .append(Component.translatable(this.mainKey + "gameStats.statsToday",
+            Component.text(this.getDailyPlayed(), Colours.Secondary),
+            Component.text(this.getWinStreak(), Colours.Secondary),
+            Component.text(this.getDailyWinStreak(), Colours.Secondary),
+            Component.text(this.getDailyWins(), Colours.Secondary),
+            Component.text(this.getDailyPlayed() - this.getDailyWins(), Colours.Secondary),
+            Component.text(this.getDailyKills(), Colours.Secondary),
+            Component.text(this.getDailyDeaths(), Colours.Secondary)
+        ).color(Colours.Primary))
+        .append(Component.translatable(this.mainKey + "gameStats.titleAllTime",
+            Component.text(game, Colours.Primary))
+            .color(Colours.Title))
+        .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
+            Component.text(this.getAllTimePlayed(), Colours.Secondary),
+            Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary),
+            Component.text(this.getDailyHighestWinStreak(), Colours.Secondary),
+            Component.text(this.getAllTimeWins(), Colours.Secondary),
+            Component.text(this.getAllTimePlayed() - this.getAllTimeWins(), Colours.Secondary),
+            Component.text(this.getTotalKills(), Colours.Secondary),
+            Component.text(this.getTotalDeaths(), Colours.Secondary)
+        ).color(Colours.Primary));
   }
 }
