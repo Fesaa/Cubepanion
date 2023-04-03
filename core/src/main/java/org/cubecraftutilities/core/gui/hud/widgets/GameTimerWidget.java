@@ -106,7 +106,7 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
         readableString = readableString.replace("%ss", "");
       }
 
-      return readableString;
+      return readableString.trim();
     }
 
   }
