@@ -70,8 +70,8 @@ public class ScoreboardListener {
 
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
-    if (titleText != null && titleText.matches("[a-zA-Z ]*")) {
-      this.manager.setDivisionName(titleText);
+    if (titleText != null && titleText.matches("[a-zA-Z ]*") && titleText.length() > 0) {
+      this.manager.setDivisionName(titleText.trim());
     } else {
       for (Component child : title.getChildren()) {
         String text = ((TextComponent) child).getText();
@@ -79,7 +79,7 @@ public class ScoreboardListener {
           continue;
         }
         if (text.matches("[a-zA-Z ]*")) {
-          this.manager.setDivisionName(text);
+          this.manager.setDivisionName(text.trim());
           break;
         }
       }
