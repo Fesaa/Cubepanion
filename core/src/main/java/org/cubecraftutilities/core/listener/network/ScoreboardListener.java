@@ -1,13 +1,11 @@
 package org.cubecraftutilities.core.listener.network;
 
+import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.scoreboard.DisplaySlot;
-import net.labymod.api.client.scoreboard.Scoreboard;
-import net.labymod.api.client.scoreboard.ScoreboardScore;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardScoreUpdateEvent;
+import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.managers.CCUManager;
 
@@ -16,47 +14,45 @@ public class ScoreboardListener {
   private final CCU addon;
   private final CCUManager manager;
 
+  private String previousText;
   private boolean updatedMap;
 
   public ScoreboardListener(CCU addon) {
     this.addon = addon;
     this.manager = this.addon.getManager();
+
+    this.previousText = "";
     this.updatedMap = false;
   }
 
   @Subscribe
-  public void onScoreBoardScoreUpdate(ScoreboardScoreUpdateEvent e) {
+  public void onScoreboardTeamEntryAddEvent(ScoreboardTeamEntryAddEvent e) {
     if (this.updatedMap) {
       return;
     }
 
-    if (e.score().getName().contains("Map: ")) {
-      if (this.manager.getDivisionName().equals("FFA")) {
-        this.manager.setMapName(e.score().getName().substring(7));
-      }
-      return;
-    }
-    Scoreboard scoreboard = this.addon.labyAPI().minecraft().getScoreboard();
-    if (scoreboard == null) {
-      return;
-    }
-    ScoreboardScore lastEntry = null;
-    boolean updated = false;
-    for (ScoreboardScore score : scoreboard.getScores(scoreboard.getObjective(DisplaySlot.SIDEBAR))) {
-      if (score.getName().contains("Map:")) {
-        if (lastEntry != null) {
-          this.manager.setMapName(lastEntry.getName().substring(2));
-          updated = true;
+    List<Component> children = e.team().getPrefix().getChildren();
+    if (children.size() > 0) {
+      if (this.manager.getDivisionName().equals("Free For All")) {
+        List<Component> ffaComponent = children.get(0).getChildren();
+        if (ffaComponent.size() == 2) {
+          if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
+            this.manager.setMapName(((TextComponent) ffaComponent.get(1)).getText());
+            this.updatedMap = true;
+          }
         }
-        break;
+      } else if (this.manager.getDivisionName().equals("CubeCraft")) {
+        this.manager.setMapName("Main Lobby");
+        this.updatedMap = true;
+      } else {
+        String text = ((TextComponent) children.get(0)).getText();
+        if (this.previousText.equals("Map:")) {
+          this.manager.setMapName(text);
+          this.updatedMap = true;
+        }
+        this.previousText = text;
       }
-      lastEntry = score;
     }
-    if (!updated) {
-      this.manager.setMapName("");
-    }
-    this.addon.rpcManager.updateRPC();
-    this.updatedMap = true;
   }
 
   @Subscribe

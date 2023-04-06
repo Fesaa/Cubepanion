@@ -77,7 +77,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
       EGGWARS(false, false, "Team EggWars"),
       SKYWARS(false, false, "Solo SkyWars"),
       LUCKYISLANDS(false, false, "Lucky Islands"),
-      FFA(false, false, "FFA"),
+      FFA(false, false, "Free For All"),
       ALLGAMES(false, true,""),
       EVERYWHERE(true, true, "");
 

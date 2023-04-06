@@ -3,7 +3,6 @@ package org.cubecraftutilities.core.config.imp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.utils.Colours;
@@ -34,7 +33,7 @@ public class GameStatsTracker {
     return (game.equals("Solo SkyWars")
         || game.equals("Team EggWars")
         || game.equals("Lucky Islands")
-        || game.equals("FFA"));
+        || game.equals("Free For All"));
   }
 
   public GameStatsTracker(String game) {

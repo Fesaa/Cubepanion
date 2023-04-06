@@ -73,7 +73,7 @@ public class DiscordRPCManager {
       state = I18n.translate(this.mainKey + "lobbyState");
     } else {
       details = I18n.translate(this.mainKey + "playing") + division;
-      if (manager.isInPreLobby() && !manager.getDivisionName().equals("FFA")) {
+      if (manager.isInPreLobby() && !manager.getDivisionName().equals("Free For All")) {
         state = I18n.translate(this.mainKey + "waitingState");
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
@@ -160,7 +160,7 @@ public class DiscordRPCManager {
       case "Normal Parkour":
       case "Medium Parkour":
       case "Hard Parkour":
-      case "FFA": {
+      case "Free For All": {
         return false;
       }
       default: {
@@ -183,7 +183,7 @@ public class DiscordRPCManager {
       case "Lucky Islands": {
         return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png", game);
       }
-      case "FFA": {
+      case "Free For All": {
         return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png", game);
       }
       case "Simple Parkour":
