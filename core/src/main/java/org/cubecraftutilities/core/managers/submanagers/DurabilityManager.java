@@ -11,8 +11,6 @@ import org.cubecraftutilities.core.utils.Colours;
 public class DurabilityManager {
 
   private final int BIG_INTEGER = 999999999;
-
-  private final Function<String, Component> componentFunction;
   private final String mainKey;
 
   private String lowestString;
@@ -22,9 +20,7 @@ public class DurabilityManager {
   private final HashMap<EquipmentSpot, ArmourInfo> map;
 
   public DurabilityManager() {
-
-    this.componentFunction = I18nNamespaces.managersNamespaceTransformer("DurabilityManager");
-    this.mainKey = I18nNamespaces.managerNameSpace + "DurabilityManager";
+    this.mainKey = I18nNamespaces.managerNameSpace + "DurabilityManager.";
 
     this.lowestInt = BIG_INTEGER;
     this.secondLowestInt = BIG_INTEGER;

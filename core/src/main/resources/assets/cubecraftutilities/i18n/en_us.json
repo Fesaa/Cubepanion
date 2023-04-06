@@ -90,6 +90,10 @@
         "reminderToVote": {
           "name": "Vote reminder",
           "description": "Plays a sound and dumps a message in chat if you haven't voted when only five seconds remain!"
+        },
+        "reminderToVoteSoundId": {
+          "name": "Sound ID",
+          "description": "The sound played to remind you to vote!"
         }
       },
       "eggWarsMapInfoSubConfig": {
