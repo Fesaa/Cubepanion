@@ -1,10 +1,5 @@
 package org.cubecraftutilities.core.managers;
 
-import java.util.Objects;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.network.NetworkPlayerInfo;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.managers.submanagers.DurabilityManager;
 import org.cubecraftutilities.core.managers.submanagers.EggWarsMapInfoManager;

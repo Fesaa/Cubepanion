@@ -1,12 +1,11 @@
 package org.cubecraftutilities.core.managers.submanagers;
 
 import java.util.HashMap;
-import java.util.function.Function;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
-import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class DurabilityManager {
 

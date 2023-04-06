@@ -1,7 +1,7 @@
 package org.cubecraftutilities.core.utils;
 
-import net.labymod.api.client.component.Component;
 import java.util.function.Function;
+import net.labymod.api.client.component.Component;
 
 public class I18nNamespaces {
 

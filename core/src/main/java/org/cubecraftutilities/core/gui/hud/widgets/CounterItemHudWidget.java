@@ -8,7 +8,6 @@ import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.util.Color;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemWidget;
-import java.awt.*;
 
 public class CounterItemHudWidget extends CustomItemWidget {
 

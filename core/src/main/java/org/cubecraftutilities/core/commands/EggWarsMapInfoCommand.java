@@ -1,12 +1,12 @@
 package org.cubecraftutilities.core.commands;
 
+import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
-import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
-import java.util.function.Function;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class EggWarsMapInfoCommand extends Command {
 

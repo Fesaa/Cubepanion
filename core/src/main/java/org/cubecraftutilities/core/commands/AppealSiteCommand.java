@@ -1,5 +1,6 @@
 package org.cubecraftutilities.core.commands;
 
+import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
@@ -7,9 +8,8 @@ import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
-import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.utils.Colours;
-import java.util.function.Function;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class AppealSiteCommand extends Command {
 

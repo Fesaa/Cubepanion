@@ -15,9 +15,9 @@ import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class StatCommands extends Command {
 

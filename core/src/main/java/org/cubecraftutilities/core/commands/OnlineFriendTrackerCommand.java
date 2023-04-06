@@ -1,5 +1,7 @@
 package org.cubecraftutilities.core.commands;
 
+import java.util.Set;
+import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
@@ -8,8 +10,6 @@ import org.cubecraftutilities.core.config.CCUconfig;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.utils.Colours;
-import java.util.Set;
-import java.util.function.Function;
 import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class OnlineFriendTrackerCommand extends Command {
