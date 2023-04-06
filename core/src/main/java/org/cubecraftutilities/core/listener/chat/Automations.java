@@ -76,7 +76,6 @@ public class Automations {
       this.manager.setGameStartTime(System.currentTimeMillis());
       Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
         if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
-          this.manager.updateTeamColour();
           this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
         }
         this.addon.rpcManager.startOfGame();

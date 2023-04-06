@@ -135,26 +135,6 @@ public class CCUManager {
     this.spawnProtectionManager.resetHasMap();
   }
 
-  public void updateTeamColour() {
-    if (this.changedColour) {
-      return;
-    }
-    ClientPlayer clientPlayer = this.addon.labyAPI().minecraft().getClientPlayer();
-    if (clientPlayer == null) {
-      return;
-    }
-    NetworkPlayerInfo playerInfo = clientPlayer.networkPlayerInfo();
-    if (playerInfo == null) {
-      return;
-    }
-    for (Component component : playerInfo.getTeam().formatDisplayName(playerInfo.displayName()).getChildren()) {
-      if (!((TextComponent) component).getText().equals("")) {
-        teamColour = Objects.requireNonNull(component.getColor()).toString();
-        return;
-      }
-    }
-  }
-
   public void setTeamColour(String teamColour) {
     this.teamColour = teamColour;
     this.changedColour = true;
