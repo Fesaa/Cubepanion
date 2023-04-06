@@ -10,7 +10,7 @@ version = "1.0.0"
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 labyMod {
-    defaultPackageName = "org.example" //change this to your main package name (used by all modules)
+    defaultPackageName = "org.cubecraftutilities" //change this to your main package name (used by all modules)
     addonInfo {
         namespace = "cubecraftutilities"
         displayName = "CubeCraft Utilities"
@@ -22,9 +22,6 @@ labyMod {
 
     minecraft {
         registerVersions(
-                "1.8.9",
-                "1.17.1",
-                "1.18.2",
                 "1.19.2",
                 "1.19.3",
                 "23w04a"
@@ -62,6 +59,10 @@ fun configureRun(provider: net.labymod.gradle.core.minecraft.provider.VersionPro
         jvmArgs("-Dmixin.debug=true")
         jvmArgs("-Dnet.labymod.debugging.all=true")
         jvmArgs("-Dmixin.env.disableRefMap=true")
+
+        if (org.gradle.internal.os.OperatingSystem.current() == org.gradle.internal.os.OperatingSystem.MAC_OS) {
+            jvmArgs("-XstartOnFirstThread")
+        }
 
         args("--tweakClass", "net.labymod.core.loader.vanilla.launchwrapper.LabyModLaunchWrapperTweaker")
         args("--labymod-dev-environment", "true")
