@@ -28,11 +28,10 @@ public class Automations {
   private final Pattern playerElimination = Pattern.compile(".{0,5}([a-zA-Z0-9_]{2,16}).{0,5} has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
-  private final Pattern FriendList = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------\n([a-zA-Z0-9_]{2,16} - .{0,200}\n?)*Offline:\n([a-zA-Z0-9_]{2,16},? ?)*");
-  private final Pattern onlineFriends = Pattern.compile("\n(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?) (?:in|#\\d{1,2}) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
+   private final Pattern FriendListTop = Pattern.compile("\"------- Friends \\\\(\\\\d{1,10}\\\\/\\\\d{1,10}\\\\) -------");
+  private final Pattern FriendListOffline = Pattern.compile("^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
+  private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
-
-  private boolean passedOffline = false;
   private boolean voted = false;
 
   public Automations(CCU addon) {
@@ -143,45 +142,48 @@ public class Automations {
     }
 
     // Friends list shorter && tracker
-    if (this.FriendList.matcher(msg).matches()) {
-      if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
-        if (this.manager.hasRequestedFullFriendsList()) {
-          this.manager.setRequestedFullFriendsList(false);
-        } else  {
-          Component shorterFriendsList = Component.empty();
-          this.passedOffline = false;
-          shortenFriendsList(shorterFriendsList, e.message());
-
-          e.setMessage(shorterFriendsList);
-        }
+    FriendTrackerManager friendTrackerManager = this.manager.getFriendTrackerManager();
+    if (friendTrackerManager.isUpdating()) {
+      if (this.FriendListTop.matcher(msg).matches()) {
+        e.setCancelled(true);
+        return;
       }
 
-      FriendTrackerManager friendTrackerManager = this.manager.getFriendTrackerManager();
-      if (friendTrackerManager.isUpdating()) {
-        Matcher onlineFriends = this.onlineFriends.matcher(msg);
-
-        while (onlineFriends.find()) {
-          friendTrackerManager.updateFriendLocation(
-              new OnlineFriendLocation(
-                  onlineFriends.group("username"),
-                  onlineFriends.group("game"),
-                  onlineFriends.group("map")));
-        }
-        friendTrackerManager.setUpdating(false);
+      Matcher onlineFriends = this.onlineFriends.matcher(msg);
+      if (onlineFriends.matches()) {
+        friendTrackerManager.updateFriendLocation(
+            new OnlineFriendLocation(
+                onlineFriends.group("username"),
+                onlineFriends.group("game"),
+                onlineFriends.group("map")));
         e.setCancelled(true);
+        return;
+      }
+
+      if (msg.equals("Offline: ")) {
+        e.setCancelled(true);
+        return;
+      }
+
+      if (this.FriendListOffline.matcher(msg).matches()) {
+        e.setCancelled(true);
+        return;
       }
     }
-  }
 
-  private void shortenFriendsList(Component short_c, Component long_c) {
-    for (Component child : long_c.getChildren()) {
-      TextComponent textComponent = (TextComponent) child;
-      if (textComponent.getText().contains("Offline")) {
-        this.passedOffline = true;
+    if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
+      if (msg.equals("Offline: ") && !this.manager.hasRequestedFullFriendsList()) {
+        e.setCancelled(true);
+        return;
       }
-      if (!this.passedOffline) {
-        short_c.append(child);
-        shortenFriendsList(short_c, child);
+
+      if (this.FriendListOffline.matcher(msg).matches()) {
+        if (this.manager.hasRequestedFullFriendsList()) {
+          this.manager.setRequestedFullFriendsList(false);
+        } else {
+          e.setCancelled(true);
+          return;
+        }
       }
     }
   }
