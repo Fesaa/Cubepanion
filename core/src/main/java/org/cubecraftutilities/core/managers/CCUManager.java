@@ -40,10 +40,6 @@ public class CCUManager {
 
   private long gameStartTime;
 
-  // TEMP
-  private boolean changedColour = false;
-
-
 
   public CCUManager(CCU addon) {
     this.addon = addon;
@@ -113,7 +109,6 @@ public class CCUManager {
 
     this.eliminated = false;
     this.inPreLobby = true;
-    this.changedColour = false;
 
     this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
@@ -124,7 +119,6 @@ public class CCUManager {
   public void onServerSwitch() {
     this.eliminated = false;
     this.inPreLobby = true;
-    this.changedColour = false;
     this.gameStartTime = -1;
     this.won = false;
     this.spawnProtectionManager.resetHasMap();
@@ -132,10 +126,7 @@ public class CCUManager {
 
   public void setTeamColour(String teamColour) {
     this.teamColour = teamColour;
-    this.changedColour = true;
   }
-
-  public void setChangedColour(boolean changedColour) {this.changedColour = changedColour;}
 
   public boolean onCubeCraft() {
     return this.serverIP.equals("play.cubecraft.net");
