@@ -8,6 +8,7 @@ import org.cubecraftutilities.core.commands.AppealSiteCommand;
 import org.cubecraftutilities.core.commands.DivisionCommand;
 import org.cubecraftutilities.core.commands.EggWarsMapInfoCommand;
 import org.cubecraftutilities.core.commands.FriendListCommand;
+import org.cubecraftutilities.core.commands.FriendLocationCommand;
 import org.cubecraftutilities.core.commands.MapCommand;
 import org.cubecraftutilities.core.commands.OnlineFriendTrackerCommand;
 import org.cubecraftutilities.core.commands.PartyCommands;
@@ -63,8 +64,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerCommand(new MapCommand(this));
     this.registerCommand(new TeamColourCommand(this));
     this.registerCommand(new DivisionCommand(this));
-
-
+    this.registerCommand(new FriendLocationCommand(this));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));

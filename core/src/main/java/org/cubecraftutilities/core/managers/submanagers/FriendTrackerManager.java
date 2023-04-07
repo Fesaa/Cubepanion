@@ -2,6 +2,7 @@ package org.cubecraftutilities.core.managers.submanagers;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,14 @@ public class FriendTrackerManager {
     this.tracking = new HashSet<>();
     this.friendLocations = new HashMap<>();
     this.runningLoops = new ArrayList<>();
+  }
+
+  public HashMap<String, OnlineFriendLocation> getFriendLocations() {
+    return friendLocations;
+  }
+
+  public Collection<OnlineFriendLocation> getOnlineFriendLocations() {
+    return this.friendLocations.values();
   }
 
   public int getUpdateInterVal() {

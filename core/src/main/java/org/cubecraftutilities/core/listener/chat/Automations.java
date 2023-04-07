@@ -27,7 +27,7 @@ public class Automations {
   private final Pattern playerElimination = Pattern.compile(".{0,5}([a-zA-Z0-9_]{2,16}).{0,5} has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
-   private final Pattern FriendListTop = Pattern.compile("\"------- Friends \\\\(\\\\d{1,10}\\\\/\\\\d{1,10}\\\\) -------");
+   private final Pattern FriendListTop = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile("^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
   private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
