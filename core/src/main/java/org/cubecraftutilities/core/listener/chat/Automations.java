@@ -1,12 +1,12 @@
 package org.cubecraftutilities.core.listener.chat;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
@@ -115,13 +115,12 @@ public class Automations {
     // TeamColour Tracker
     Matcher teamColourMatcher = this.EggWarsTeamJoin.matcher(msg);
     if (teamColourMatcher.matches()) {
-      TextColor colour = e.chatMessage().component().getChildren().get(0).getChildren().get(1).getColor();
-      if (colour == null) {
+      List<Component> children = e.chatMessage().component().getChildren();
+      if (children.size() == 0) {
         this.manager.setTeamColour("yellow");
       } else {
-        this.manager.setTeamColour(colour.toString());
+        this.manager.setTeamColour(children.get(0).getColor().toString());
       }
-      return;
     }
 
     // Bungee & serverid matcher
