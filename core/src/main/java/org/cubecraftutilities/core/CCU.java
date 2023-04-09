@@ -15,10 +15,12 @@ import org.cubecraftutilities.core.commands.PartyCommands;
 import org.cubecraftutilities.core.commands.StatCommands;
 import org.cubecraftutilities.core.commands.TeamColourCommand;
 import org.cubecraftutilities.core.config.CCUconfig;
+import org.cubecraftutilities.core.generated.DefaultReferenceStorage;
 import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
 import org.cubecraftutilities.core.listener.GameShutdownEventListener;
 import org.cubecraftutilities.core.listener.GameTickEventListener;
 import org.cubecraftutilities.core.listener.KeyEventListener;
+import org.cubecraftutilities.core.listener.VotingTests;
 import org.cubecraftutilities.core.listener.chat.Automations;
 import org.cubecraftutilities.core.listener.chat.PartyTracker;
 import org.cubecraftutilities.core.listener.chat.StatsTracker;
@@ -49,6 +51,9 @@ public class CCU extends LabyAddon<CCUconfig> {
   @Override
   protected void enable() {
     this.registerSettingCategory();
+
+    DefaultReferenceStorage storage = this.getReferenceStorageAccessor();
+    this.registerListener(new VotingTests(storage.getVotingInterface(), this));
 
     this.manager = new CCUManager(this);
 
