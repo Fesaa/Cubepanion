@@ -5,6 +5,7 @@ import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.format.TextDecoration;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.CCUconfig;
 import org.cubecraftutilities.core.managers.CCUManager;
@@ -15,18 +16,18 @@ import org.cubecraftutilities.core.utils.I18nNamespaces;
 public class OnlineFriendTrackerCommand extends Command {
 
   private final Function<String, String> keyGetter;
-  private final Function<String, Component> componentGetter;
   private final Function<String, Component> componentGetterSucces;
   private final Function<String, Component> componentGetterError;
+  private final Function<String, Component> helpComponent;
 
   public OnlineFriendTrackerCommand() {
-    super("tracker", "t");
+    super("friendTracker", "ft");
 
     this.messagePrefix = CCU.get().prefix();
     this.keyGetter = I18nNamespaces.commandNameSpaceMaker("OnlineFriendTrackerCommand");
-    this.componentGetter = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand");
     this.componentGetterSucces = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.succes");
     this.componentGetterError = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.error");
+    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.helpCommand");
   }
 
   @Override
@@ -44,12 +45,26 @@ public class OnlineFriendTrackerCommand extends Command {
     Component reply = Component.empty();
     if (arguments.length == 1) {
       switch (arguments[0]) {
+        case "help": {
+          reply = reply.append(
+              this.helpComponent.apply("title")
+                  .color(Colours.Title)
+                  .append(this.helpComponent.apply("description").color(Colours.Secondary)
+                      .decorate(TextDecoration.ITALIC))
+                  .append(Component.text("\n/friendTracking track [names*]", Colours.Primary)
+                      .undecorate(TextDecoration.ITALIC))
+                  .append(this.helpComponent.apply("track").color(Colours.Secondary))
+                  .append(Component.text("\n/friendTracking untrack [names*]", Colours.Primary))
+                  .append(this.helpComponent.apply("untrack").color(Colours.Secondary))
+          );
+          break;
+        }
         case "track": {
           if (friendTrackerManager.getTracking().size() == 0) {
             reply = reply.append(
                 this.componentGetterError.apply("notTrackingAnyOneSuggestion").color(Colours.Primary)
-                    .append(Component.text("/tracker track <username>", Colours.Secondary)
-                        .clickEvent(ClickEvent.suggestCommand("/tracker track "))));
+                    .append(Component.text("/friendTracking track [username*]", Colours.Secondary)
+                        .clickEvent(ClickEvent.suggestCommand("/friendTracking track "))));
             break;
           }
 
@@ -57,7 +72,7 @@ public class OnlineFriendTrackerCommand extends Command {
           for (String username : friendTrackerManager.getTracking()) {
             reply = reply
                 .append(Component.text(username, Colours.Secondary)
-                        .clickEvent(ClickEvent.suggestCommand("/t untrack " + username)))
+                        .clickEvent(ClickEvent.suggestCommand("/friendTracking untrack " + username)))
                 .append(Component.text(",", Colours.Primary));
           }
           break;
@@ -75,7 +90,7 @@ public class OnlineFriendTrackerCommand extends Command {
           for (String username : tracking) {
             reply = reply
                 .append(Component.text(username, Colours.Secondary)
-                        .clickEvent(ClickEvent.runCommand("/t untrack " + username)));
+                        .clickEvent(ClickEvent.runCommand("/friendTracking untrack " + username)));
             if (i != size) {
               reply = reply .append(Component.text(",", Colours.Primary));
             }

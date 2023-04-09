@@ -97,8 +97,7 @@ public class PartyCommands extends Command {
 
   private void helpCommand(String command) {
     Component helpComponent = this.helpComponent.apply("title")
-        .color(Colours.Title)
-        .decorate(TextDecoration.BOLD);
+        .color(Colours.Title);
 
     boolean run = command.equals("extra");
 

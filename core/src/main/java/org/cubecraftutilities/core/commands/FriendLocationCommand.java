@@ -28,8 +28,7 @@ public class FriendLocationCommand extends Command {
     }
     Component component = Component.empty();
     OnlineFriendLocation[] onlineFriendLocations = this.manager
-        .getOnlineFriendLocations()
-        .toArray(new OnlineFriendLocation[0]);
+        .getOnlineFriendLocations().toArray(new OnlineFriendLocation[0]);
 
     for (int i = 0; i < onlineFriendLocations.length; i++) {
       if (i != 0) {

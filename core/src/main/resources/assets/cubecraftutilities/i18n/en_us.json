@@ -345,6 +345,12 @@
           "setIntervalTo": "Set checking interval to %s",
           "startedTracking": "Started tracking: ",
           "stoppedTracking": "Stopped tracking: "
+        },
+        "helpCommand": {
+          "title": "------- Friend Tracker Commands -------\n",
+          "description": "Track your friends movements through CubeCraft. Checks the friends list every n seconds for updates. ",
+          "track": " - Display everyone you're currently tracking, or add new friends to be tracked",
+          "untrack": " - Display everyone you're currently tracking, click to untrack. Or remove friends."
         }
       },
       "PartyCommands": {

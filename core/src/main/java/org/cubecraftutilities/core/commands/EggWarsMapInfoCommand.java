@@ -11,13 +11,10 @@ import org.cubecraftutilities.core.utils.I18nNamespaces;
 public class EggWarsMapInfoCommand extends Command {
 
   private final CCU addon;
-  private final Function<String, String> keyGetter;
 
   public EggWarsMapInfoCommand(CCU addon) {
     super("eggwarsmap", "ewm");
     this.addon = addon;
-
-    this.keyGetter = I18nNamespaces.commandNameSpaceMaker("EggWarsMapInfoCommand");
   }
 
   @Override
@@ -42,7 +39,7 @@ public class EggWarsMapInfoCommand extends Command {
     if (!check) {
       this.displayMessage(
           Component.translatable()
-          .key(this.keyGetter.apply("mapNotFound"))
+          .key(I18nNamespaces.commandNamespace + "EggWarsMapInfoCommand." + "mapNotFound")
           .argument(Component.text(mapName))
           .build()
           .color(Colours.Error));
