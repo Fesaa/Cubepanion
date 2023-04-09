@@ -6,6 +6,7 @@ import java.util.Map;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.CubeGame;
 import org.cubecraftutilities.core.utils.I18nNamespaces;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ public class GameStatsTracker {
 
   private final String mainKey = I18nNamespaces.globalNamespace + ".GameStatsTracker.";
 
-  private final String game;
+  private final CubeGame game;
   private final StatsTracker winStreak;
   private final StatsTracker wins;
   private final StatsTracker played;
@@ -25,18 +26,18 @@ public class GameStatsTracker {
 
   private final HashMap<String, GameStatsTracker> historicalData;
 
-  public String getGame() {
+  public CubeGame getGame() {
     return game;
   }
 
-  public static boolean shouldMakeGameStatsTracker(String game) {
-    return (game.equals("Solo SkyWars")
-        || game.equals("Team EggWars")
-        || game.equals("Lucky Islands")
-        || game.equals("Free For All"));
+  public static boolean shouldMakeGameStatsTracker(CubeGame game) {
+    return (game.equals(CubeGame.SOLO_SKYWARS)
+        || game.equals(CubeGame.TEAM_EGGWARS)
+        || game.equals(CubeGame.SOLO_LUCKYISLANDS)
+        || game.equals(CubeGame.FFA));
   }
 
-  public GameStatsTracker(String game) {
+  public GameStatsTracker(CubeGame game) {
     this.game = game;
     this.wins = new StatsTracker();
     this.played = new StatsTracker();
@@ -48,7 +49,7 @@ public class GameStatsTracker {
     this.historicalData = new HashMap<>();
   }
 
-  private GameStatsTracker(String game, StatsTracker wins, StatsTracker played, StatsTracker winStreak, StatsTracker kills, StatsTracker deaths, HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker>perPlayerDeaths) {
+  private GameStatsTracker(CubeGame game, StatsTracker wins, StatsTracker played, StatsTracker winStreak, StatsTracker kills, StatsTracker deaths, HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker>perPlayerDeaths) {
     this.game = game;
     this.wins = wins;
     this.played = played;

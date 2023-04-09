@@ -145,8 +145,8 @@ public class StatsTracker {
         GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
         if (gameStatsTracker != null) {
           gameStatsTracker.registerWin();
-        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision().getString())) {
-          gameStatsTracker = new GameStatsTracker(manager.getDivision().getString());
+        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
+          gameStatsTracker = new GameStatsTracker(manager.getDivision());
           gameStatsTracker.registerWin();
           statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
         }
