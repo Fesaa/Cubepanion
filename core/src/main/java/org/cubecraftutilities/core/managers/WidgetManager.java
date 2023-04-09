@@ -49,7 +49,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_wins_tracker", "Wins/Games", "7/9",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
           if (gameStatsTracker != null) {
             return gameStatsTracker.getDailyWins() + "/" + gameStatsTracker.getDailyPlayed();
           }
@@ -62,7 +62,7 @@ public class WidgetManager {
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
           GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
-              manager.getDivisionName());
+              manager.getDivision());
           if (gameStatsTracker != null) {
             return String.valueOf(gameStatsTracker.getWinStreak());
           }
@@ -74,7 +74,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_winstreak_tracker", "Daily Win Streak", "0",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
           if (gameStatsTracker != null) {
             return String.valueOf(gameStatsTracker.getDailyWinStreak());
           }
@@ -110,7 +110,7 @@ public class WidgetManager {
 
   private boolean booleanSupplier() {
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.addon.getManager().getDivisionName());
+    GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.addon.getManager().getDivision());
     return gameStatsTracker != null;
   }
 

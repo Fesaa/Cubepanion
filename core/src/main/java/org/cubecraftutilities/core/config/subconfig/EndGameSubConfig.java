@@ -32,7 +32,7 @@ public class EndGameSubConfig extends Config {
   public ConfigProperty<String> getCustomMessage() {return this.customMessage;}
 
   public enum GameEndMessage {
-    GG, WP, GOOD_GAME, WELL_PLAYED, NONE;
+    GG, WP, GOOD_GAME, WELL_PLAYED, NONE
   }
 }
 

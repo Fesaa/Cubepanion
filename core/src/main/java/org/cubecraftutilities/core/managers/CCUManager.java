@@ -6,11 +6,9 @@ import org.cubecraftutilities.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.managers.submanagers.PartyManager;
 import org.cubecraftutilities.core.managers.submanagers.SpawnProtectionManager;
+import org.cubecraftutilities.core.utils.CubeGame;
 
 public class CCUManager {
-
-  private final CCU addon;
-
   // Sub Managers
 
   private final PartyManager partyManager;
@@ -22,8 +20,8 @@ public class CCUManager {
   // Own fields
 
   private String serverIP;
-  private String divisionName;
-  private String lastDivisionName;
+  private CubeGame division;
+  private CubeGame lastDivision;
   private String mapName;
   private String teamColour;
   private String bungeecord;
@@ -42,8 +40,6 @@ public class CCUManager {
 
 
   public CCUManager(CCU addon) {
-    this.addon = addon;
-
     this.partyManager = new PartyManager();
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
     this.spawnProtectionManager = new SpawnProtectionManager(addon);
@@ -51,8 +47,8 @@ public class CCUManager {
     this.friendTrackerManager = new FriendTrackerManager();
 
     this.serverIP = "";
-    this.divisionName = "";
-    this.lastDivisionName = "";
+    this.division = CubeGame.NONE;
+    this.lastDivision = CubeGame.NONE;
     this.mapName = "";
     this.teamColour = "";
     this.bungeecord = "";
@@ -78,8 +74,8 @@ public class CCUManager {
 
   public void reset() {
     this.serverIP = "";
-    this.lastDivisionName = "";
-    this.divisionName = "";
+    this.lastDivision = CubeGame.NONE;
+    this.division = CubeGame.NONE;
     this.teamColour = "";
     this.mapName = "";
     this.bungeecord = "";
@@ -102,8 +98,8 @@ public class CCUManager {
 
   public void onCubeJoin() {
     this.serverIP = "play.cubecraft.net";
-    this.divisionName = "CubeCraft";
-    this.lastDivisionName = this.divisionName;
+    this.division = CubeGame.LOBBY;
+    this.lastDivision = this.division;
     this.mapName = "Lobby";
     this.teamColour = "";
 
@@ -168,21 +164,21 @@ public class CCUManager {
     return chestPartyAnnounceCounter;
   }
 
-  public String getDivisionName() {
-    return divisionName;
+  public CubeGame getDivision() {
+    return division;
   }
 
-  public void setDivisionName(String divisionName) {
-    this.lastDivisionName = this.divisionName;
-    this.divisionName = divisionName;
+  public void setDivision(CubeGame division) {
+    this.lastDivision = this.division;
+    this.division = division;
   }
 
   public void setMapName(String mapName) {
     this.mapName = mapName;
   }
 
-  public String getLastDivisionName() {
-    return lastDivisionName;
+  public CubeGame getLastDivision() {
+    return lastDivision;
   }
 
   public String getMapName() {

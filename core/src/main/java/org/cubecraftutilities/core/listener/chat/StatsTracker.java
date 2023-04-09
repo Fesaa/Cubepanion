@@ -142,13 +142,13 @@ public class StatsTracker {
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled()) {
       if (msg.equals("Congratulations, you win!")) {
-        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
+        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
         if (gameStatsTracker != null) {
           gameStatsTracker.registerWin();
-        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())) {
-          gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
+        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision().getString())) {
+          gameStatsTracker = new GameStatsTracker(manager.getDivision().getString());
           gameStatsTracker.registerWin();
-          statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
+          statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
         }
         manager.setWon(true);
         return;
@@ -214,25 +214,25 @@ public class StatsTracker {
 
   private void registerCustomDeath(String reason) {
     CCUManager manager = this.addon.getManager();
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivisionName());
+    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerDeath(reason);
-    } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())){
-      gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
+    } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())){
+      gameStatsTracker = new GameStatsTracker(manager.getDivision());
       gameStatsTracker.registerDeath(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
+      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
     }
   }
 
   private void registerCustomKill(String reason) {
     CCUManager manager = this.addon.getManager();
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivisionName());
+    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerKill(reason);
-    } else  if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivisionName())) {
-      gameStatsTracker = new GameStatsTracker(manager.getDivisionName());
+    } else  if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
+      gameStatsTracker = new GameStatsTracker(manager.getDivision());
       gameStatsTracker.registerKill(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivisionName(), gameStatsTracker);
+      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
     }
   }
 }

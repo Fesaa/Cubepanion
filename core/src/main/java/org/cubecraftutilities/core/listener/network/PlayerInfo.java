@@ -6,6 +6,7 @@ import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent.UpdateType;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.utils.CubeGame;
 
 public class PlayerInfo {
 
@@ -19,7 +20,7 @@ public class PlayerInfo {
 
   @Subscribe
   public void onPlayerInfoRemoveEvent(PlayerInfoRemoveEvent e) {
-    if (!this.manager.isInPreLobby() && this.manager.getDivisionName().equals("Team EggWars")) {
+    if (!this.manager.isInPreLobby() && this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
       this.addon.rpcManager.registerDeath(e.playerInfo());
     }
   }
@@ -29,13 +30,13 @@ public class PlayerInfo {
     if (e.type().equals(UpdateType.GAME_MODE)) {
       switch (e.playerInfo().gameMode()) {
         case SURVIVAL: {
-          if (this.manager.getDivisionName().equals("Team EggWars") && !this.manager.isInPreLobby()) {
+          if (this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS) && !this.manager.isInPreLobby()) {
             this.manager.getSpawnProtectionManager().registerDeath(e.playerInfo().profile().getUniqueId());
           }
           break;
         }
         case SPECTATOR: {
-          if (!this.manager.getDivisionName().equals("Team EggWars")) {
+          if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
             this.addon.rpcManager.registerDeath(e.playerInfo());
           }
           break;
