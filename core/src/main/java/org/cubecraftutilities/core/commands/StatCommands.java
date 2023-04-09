@@ -17,6 +17,7 @@ import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.CubeGame;
 import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class StatCommands extends Command {
@@ -58,15 +59,15 @@ public class StatCommands extends Command {
 
     CCUManager manager = this.addon.getManager();
     StatsTrackerSubConfig config = this.addon.configuration().getStatsTrackerSubConfig();
-    HashMap<String, GameStatsTracker> allGameStatsTrackers = config.getGameStatsTrackers();
+    HashMap<CubeGame, GameStatsTracker> allGameStatsTrackers = config.getGameStatsTrackers();
 
     String gameName = this.getGameString(arguments);
 
     GameStatsTracker gameStatsTracker;
     if (gameName == null) {
-       gameStatsTracker = allGameStatsTrackers.get(manager.getDivisionName());
+       gameStatsTracker = allGameStatsTrackers.get(manager.getDivision());
     } else {
-      gameStatsTracker = allGameStatsTrackers.get(gameName);
+      gameStatsTracker = allGameStatsTrackers.get(CubeGame.stringToGame(gameName));
     }
 
     if (gameStatsTracker == null) {
@@ -167,12 +168,12 @@ public class StatCommands extends Command {
 
   private Component gamesList() {
     Component comp = Component.empty();
-    Set<String> keySet = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().keySet();
-    List<String> keys = new ArrayList<>(keySet);
+    Set<CubeGame> keySet = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().keySet();
+    List<CubeGame> keys = new ArrayList<>(keySet);
     for (int i = 0; i < keys.size(); i++) {
-      String game = keys.get(i);
+      CubeGame game = keys.get(i);
       comp = comp
-          .append(Component.text(game)
+          .append(Component.text(game.getString())
               .clickEvent(ClickEvent.suggestCommand("/stats " + game + " ")));
       if (i != keys.size() - 1) {
         comp = comp.append(Component.text(", "));
@@ -210,7 +211,7 @@ public class StatCommands extends Command {
       game = (game + " " + arg).trim();
 
       GameStatsTracker tracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers()
-          .get(game);
+          .get(CubeGame.stringToGame(game));
 
       if (tracker != null) {
         return game;

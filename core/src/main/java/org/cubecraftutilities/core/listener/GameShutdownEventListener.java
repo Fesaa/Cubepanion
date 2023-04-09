@@ -18,7 +18,7 @@ public class GameShutdownEventListener {
     CCUManager manager = this.addon.getManager();
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivisionName());
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
       if (gameStatsTracker != null) {
         gameStatsTracker.registerLoss();
         gameStatsTracker.registerDeath("leave");

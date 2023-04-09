@@ -13,6 +13,7 @@ import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
 import net.labymod.api.util.I18n;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.DiscordRichPresenceSubConfig;
+import org.cubecraftutilities.core.utils.CubeGame;
 import org.cubecraftutilities.core.utils.I18nNamespaces;
 
 public class DiscordRPCManager {
@@ -66,14 +67,14 @@ public class DiscordRPCManager {
     String details;
     String state;
 
-    String division = manager.getDivisionName();
+    CubeGame division = manager.getDivision();
 
-    if (division.equals("CubeCraft") || division.equals("sidebar")) {
+    if (division.equals(CubeGame.LOBBY)) {
       details = I18n.translate(this.mainKey + "lobby");
       state = I18n.translate(this.mainKey + "lobbyState");
     } else {
       details = I18n.translate(this.mainKey + "playing") + division;
-      if (manager.isInPreLobby() && !manager.getDivisionName().equals("Free For All")) {
+      if (manager.isInPreLobby() && !manager.getDivision().equals(CubeGame.FFA)) {
         state = I18n.translate(this.mainKey + "waitingState");
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
@@ -154,13 +155,13 @@ public class DiscordRPCManager {
   }
 
   private boolean doPlayerTracking() {
-    switch (this.addon.getManager().getDivisionName()) {
-      case "Skyblock":
-      case "Simple Parkour":
-      case "Normal Parkour":
-      case "Medium Parkour":
-      case "Hard Parkour":
-      case "Free For All": {
+    switch (this.addon.getManager().getDivision()) {
+      case SKYBLOCK:
+      case SIMPLE_PARKOUR:
+      case NORMAL_PARKOUR:
+      case MEDIUM_PARKOUR:
+      case HARD_PARKOUR:
+      case FFA: {
         return false;
       }
       default: {
@@ -169,28 +170,28 @@ public class DiscordRPCManager {
     }
   }
 
-  private Asset getGameAsset(String game) {
+  private Asset getGameAsset(CubeGame game) {
     switch (game) {
-      case "Skyblock": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png", game);
+      case SKYBLOCK: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png", game.getString());
       }
-      case "Team EggWars": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png", game);
+      case TEAM_EGGWARS: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png", game.getString());
       }
-      case "Solo SkyWars": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png", game);
+      case SOLO_SKYWARS: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png", game.getString());
       }
-      case "Lucky Islands": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png", game);
+      case SOLO_LUCKYISLANDS: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png", game.getString());
       }
-      case "Free For All": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png", game);
+      case FFA: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png", game.getString());
       }
-      case "Simple Parkour":
-      case "Normal Parkour":
-      case "Medium Parkour":
-      case "Hard Parkour": {
-        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png", game);
+      case SIMPLE_PARKOUR:
+      case NORMAL_PARKOUR:
+      case MEDIUM_PARKOUR:
+      case HARD_PARKOUR: {
+        return Asset.of("https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png", game.getString());
       }
       default: {
         return Asset.of("https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808", "CubeCraft");

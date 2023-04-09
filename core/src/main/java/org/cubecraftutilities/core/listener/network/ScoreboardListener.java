@@ -8,6 +8,7 @@ import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.managers.CCUManager;
+import org.cubecraftutilities.core.utils.CubeGame;
 
 public class ScoreboardListener {
 
@@ -33,7 +34,7 @@ public class ScoreboardListener {
 
     List<Component> children = e.team().getPrefix().getChildren();
     if (children.size() > 0) {
-      if (this.manager.getDivisionName().equals("Free For All")) {
+      if (this.manager.getDivision().equals(CubeGame.FFA)) {
         List<Component> ffaComponent = children.get(0).getChildren();
         if (ffaComponent.size() == 2) {
           if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
@@ -41,7 +42,7 @@ public class ScoreboardListener {
             this.updatedMap = true;
           }
         }
-      } else if (this.manager.getDivisionName().equals("CubeCraft")) {
+      } else if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
         this.manager.setMapName("Main Lobby");
         this.updatedMap = true;
       } else {
@@ -67,7 +68,7 @@ public class ScoreboardListener {
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
     if (titleText != null && titleText.matches("[a-zA-Z ]*") && titleText.length() > 0) {
-      this.manager.setDivisionName(titleText.trim());
+      this.manager.setDivision(CubeGame.stringToGame(titleText.trim()));
     } else {
       for (Component child : title.getChildren()) {
         String text = ((TextComponent) child).getText();
@@ -75,7 +76,7 @@ public class ScoreboardListener {
           continue;
         }
         if (text.matches("[a-zA-Z ]*")) {
-          this.manager.setDivisionName(text.trim());
+          this.manager.setDivision(CubeGame.stringToGame(text.trim()));
           break;
         }
       }

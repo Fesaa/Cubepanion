@@ -11,6 +11,7 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.util.MethodOrder;
 import org.cubecraftutilities.core.config.imp.GameStatsTracker;
+import org.cubecraftutilities.core.utils.CubeGame;
 
 public class StatsTrackerSubConfig extends Config {
 
@@ -64,7 +65,7 @@ public class StatsTrackerSubConfig extends Config {
     }
   }
 
-  private final ConfigProperty<HashMap<String, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
+  private final ConfigProperty<HashMap<CubeGame, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
 
   private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
 
@@ -72,7 +73,7 @@ public class StatsTrackerSubConfig extends Config {
     return enabled.get();
   }
 
-  public HashMap<String, GameStatsTracker> getGameStatsTrackers() {
+  public HashMap<CubeGame, GameStatsTracker> getGameStatsTrackers() {
     return gameStatsTrackers.get();
   }
   public ConfigProperty<Boolean> keepPlayerStats() {

@@ -1,6 +1,5 @@
 package org.cubecraftutilities.core.commands;
 
-import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import org.cubecraftutilities.core.CCU;
