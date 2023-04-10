@@ -6,6 +6,7 @@ import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import org.cubecraftutilities.core.config.subconfig.AutoVoteSubConfig;
 import org.cubecraftutilities.core.config.subconfig.CommandSystemSubConfig;
 import org.cubecraftutilities.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EggWarsMapInfoSubConfig;
@@ -21,6 +22,8 @@ public class CCUconfig extends AddonConfig {
   private final AutomationConfig automationConfig = new AutomationConfig();
 
   private final QOLConfig qolConfig = new QOLConfig();
+
+  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
 
   @SpriteSlot()
   private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
@@ -38,6 +41,7 @@ public class CCUconfig extends AddonConfig {
 
   public AutomationConfig getAutomationConfig() {return automationConfig;}
   public QOLConfig getQolConfig() {return qolConfig;}
+  public AutoVoteSubConfig getAutoVoteSubConfig() {return autoVoteSubConfig;}
   public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}
