@@ -21,7 +21,7 @@ public class VotingTests {
   public void onKeyEvent(KeyEvent e) {
 
     if (e.key().equals(Key.L) && e.state() == State.PRESS) {
-      this.votingInterface.vote(this.addon.getManager().getDivisionName(), 0, 0, 0);
+      this.votingInterface.vote(this.addon.getManager().getDivision(), 15, -1, 13);
     }
 
   }
