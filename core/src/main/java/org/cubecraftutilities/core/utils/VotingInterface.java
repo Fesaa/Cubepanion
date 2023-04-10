@@ -20,7 +20,7 @@ public abstract class VotingInterface {
         this.voteSkyWars(left, middle, right);
         break;
     }
-  };
+  }
 
   public abstract void voteEggWars(int mode, int health);
   public abstract void voteSkyWars(int mode, int projectiles, int time);

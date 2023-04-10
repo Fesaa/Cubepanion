@@ -40,7 +40,7 @@ public class VersionedVotingInterface extends VotingInterface {
   @Inject
   public VersionedVotingInterface() {
     instance = this;
-  };
+  }
 
   public static VersionedVotingInterface getInstance() {
     return instance;

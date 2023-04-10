@@ -127,6 +127,66 @@
           "name": "Display game art instead of CubeCraft Logo"
         }
       },
+      "autoVoteSubConfig": {
+        "name": "Auto Vote",
+        "eggWarsHealth": {
+          "name": "EggWars Health",
+          "entries": {
+            "left": "Half",
+            "middle": "Normal",
+            "right": "Double"
+          }
+        },
+        "eggWarsItems": {
+          "name": "EggWars Items",
+          "entries": {
+            "left": "Hardcore",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsChests": {
+          "name": "SkyWars Chests",
+          "entries": {
+            "left": "Basic",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsProjectiles": {
+          "name": "SkyWars Projectiles",
+          "entries": {
+            "left": "No Projectiles",
+            "middle": "Normal Projectiles",
+            "right": "Soft Blocks"
+          }
+        },
+        "skyWarsTime": {
+          "name": "SkyWars Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsTime": {
+          "name": "Lucky Islands Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsBlocks": {
+          "name": "Lucky Islands Blocks",
+          "entries": {
+            "left": "Blessed",
+            "middleLeft": "Normal",
+            "middleRight": "Overpowered",
+            "right": "Crazy"
+          }
+        }
+      },
      "statsTrackerSubConfig": {
         "name": "Stats Trackers",
         "autoReset": {
