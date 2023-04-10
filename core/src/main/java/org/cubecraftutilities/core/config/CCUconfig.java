@@ -41,6 +41,7 @@ public class CCUconfig extends AddonConfig {
 
   public AutomationConfig getAutomationConfig() {return automationConfig;}
   public QOLConfig getQolConfig() {return qolConfig;}
+  public AutoVoteSubConfig getAutoVoteSubConfig() {return autoVoteSubConfig;}
   public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}

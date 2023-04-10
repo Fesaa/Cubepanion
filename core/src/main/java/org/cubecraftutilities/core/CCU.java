@@ -76,7 +76,7 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this));
-    this.registerListener(new Automations(this));
+    this.registerListener(new Automations(this, storage.getVotingInterface()));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));

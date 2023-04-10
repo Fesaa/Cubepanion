@@ -84,9 +84,9 @@ public class AutoVoteSubConfig extends Config {
   }
 
   public enum ThreeOptionsMode {
-    LEFT(10),
+    LEFT(11),
     MIDDLE(13),
-    RIGHT(16);
+    RIGHT(15);
     public final int slot;
     ThreeOptionsMode(int slot) {
       this.slot = slot;

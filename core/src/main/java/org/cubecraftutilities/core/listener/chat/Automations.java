@@ -1,6 +1,8 @@
 package org.cubecraftutilities.core.listener.chat;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -11,18 +13,26 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import net.labymod.api.util.concurrent.task.Task;
 import org.cubecraftutilities.core.CCU;
+import org.cubecraftutilities.core.config.subconfig.AutoVoteSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.submanagers.FriendTrackerManager;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.CubeGame;
+import org.cubecraftutilities.core.utils.VotingInterface;
 import org.cubecraftutilities.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class Automations {
 
-  private final CCU addon;
-  private final CCUManager manager;
+  private CCU addon;
+  private CCUManager manager;
+  private VotingInterface votingInterface;
+  private final Task autoVoteTask = Task.builder(() -> {
+    this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+  }).delay(1000, TimeUnit.MILLISECONDS).build();
 
   private final Pattern playerElimination = Pattern.compile(".{0,5}([a-zA-Z0-9_]{2,16}).{0,5} has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
@@ -33,9 +43,10 @@ public class Automations {
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private boolean voted = false;
 
-  public Automations(CCU addon) {
+  public Automations(CCU addon, VotingInterface votingInterface) {
     this.addon = addon;
     this.manager = addon.getManager();
+    this.votingInterface = votingInterface;
   }
 
   @Subscribe
@@ -181,6 +192,23 @@ public class Automations {
           e.setCancelled(true);
           return;
         }
+      }
+    }
+
+    if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
+      String joinRegex = "\\[\\+\\]" + playerRegex + " joined your game \\(\\d{1,3}/\\d{1,3}\\)\\.";
+      if (msg.matches(joinRegex)) {
+        Task toRun = this.autoVoteTask;
+        Timer timer = new Timer("waitingForNoneLobbyDivision");
+        timer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            if (!CCU.get().getManager().getDivision().equals(CubeGame.LOBBY)) {
+              timer.cancel();
+              toRun.run();
+            }
+          }
+        }, 100, 100);
       }
     }
   }
