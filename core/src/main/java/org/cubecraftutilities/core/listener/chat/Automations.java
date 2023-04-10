@@ -15,7 +15,6 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
 import org.cubecraftutilities.core.CCU;
-import org.cubecraftutilities.core.config.subconfig.AutoVoteSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig;
 import org.cubecraftutilities.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubecraftutilities.core.managers.CCUManager;
@@ -31,7 +30,9 @@ public class Automations {
   private CCUManager manager;
   private VotingInterface votingInterface;
   private final Task autoVoteTask = Task.builder(() -> {
-    this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+    if (this.votingInterface != null) {
+      this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+    }
   }).delay(1000, TimeUnit.MILLISECONDS).build();
 
   private final Pattern playerElimination = Pattern.compile(".{0,5}([a-zA-Z0-9_]{2,16}).{0,5} has been eliminated from the game\\.");

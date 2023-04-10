@@ -2,6 +2,7 @@ package org.cubecraftutilities.core.config.subconfig;
 
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
+import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownEntryTranslationPrefix;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
@@ -17,6 +18,7 @@ public class EndGameSubConfig extends Config {
   private final ConfigProperty<Boolean> onElimination = new ConfigProperty<>(false);
   @DropdownSetting
   @SpriteSlot(x = 3, y = 2)
+  @DropdownEntryTranslationPrefix("cubecraftutilities.settings.automationConfig.endGameSubConfig.gameEndMessage.entries")
   private final ConfigProperty<GameEndMessage> gameEndMessage = new ConfigProperty<>(GameEndMessage.GG);
   @TextFieldSetting
   @SpriteSlot(x = 3, y = 2)

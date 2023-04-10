@@ -20,7 +20,6 @@ import org.cubecraftutilities.core.gui.hud.nametags.RespawnTags;
 import org.cubecraftutilities.core.listener.GameShutdownEventListener;
 import org.cubecraftutilities.core.listener.GameTickEventListener;
 import org.cubecraftutilities.core.listener.KeyEventListener;
-import org.cubecraftutilities.core.listener.VotingTests;
 import org.cubecraftutilities.core.listener.chat.Automations;
 import org.cubecraftutilities.core.listener.chat.PartyTracker;
 import org.cubecraftutilities.core.listener.chat.StatsTracker;
@@ -31,6 +30,7 @@ import org.cubecraftutilities.core.managers.CCUManager;
 import org.cubecraftutilities.core.managers.DiscordRPCManager;
 import org.cubecraftutilities.core.managers.WidgetManager;
 import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.VotingInterface;
 
 @AddonMain
 public class CCU extends LabyAddon<CCUconfig> {
@@ -53,7 +53,10 @@ public class CCU extends LabyAddon<CCUconfig> {
     this.registerSettingCategory();
 
     DefaultReferenceStorage storage = this.getReferenceStorageAccessor();
-    this.registerListener(new VotingTests(storage.getVotingInterface(), this));
+    VotingInterface votingInterface = storage.getVotingInterface();
+    if (votingInterface == null) {
+      this.logger().error("VotingInterface is NULL :sob:");
+    }
 
     this.manager = new CCUManager(this);
 

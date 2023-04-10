@@ -16,7 +16,7 @@ labyMod {
         displayName = "CubeCraft Utilities"
         author = "Fesa"
         description = "A CubeCraft focused LabyMod addon that provides a ton of useful features!\nNot affiliated with Ziax/CubeCraft in any way."
-        minecraftVersion = "*"
+        minecraftVersion = "1.19<*"
         version = System.getenv().getOrDefault("VERSION", "0.0.1")
     }
 
@@ -24,7 +24,7 @@ labyMod {
         registerVersions(
                 "1.19.2",
                 "1.19.3",
-                "23w04a"
+                "1.19.4"
         ) { version, provider ->
             configureRun(provider, version)
         }
