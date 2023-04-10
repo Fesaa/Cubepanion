@@ -1,7 +1,6 @@
 package org.cubecraftutilities.core.utils;
 
 import net.labymod.api.reference.annotation.Referenceable;
-import net.labymod.api.util.concurrent.task.Task;
 import org.cubecraftutilities.core.config.subconfig.AutoVoteSubConfig;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,50 +8,107 @@ import org.jetbrains.annotations.Nullable;
 @Referenceable
 public abstract class VotingInterface {
 
+  public final int returnIndex = 31;
+
+  protected int hotbarSlotIndex;
+  protected int leftChoiceIndex;
+  protected int leftVoteIndex;
+  protected int middleChoiceIndex;
+  protected int middleVoteIndex;
+  protected int rightChoiceIndex;
+  protected int rightVoteIndex;
+
+  public int getNextChoiceIndex() {
+    int temp;
+    if (this.leftChoiceIndex != -1) {
+      temp = this.leftChoiceIndex;
+      this.leftChoiceIndex = -1;
+    } else if (this.middleChoiceIndex != -1) {
+      temp = this.middleChoiceIndex;
+      this.middleChoiceIndex = -1;
+    } else {
+      temp = this.rightChoiceIndex;
+      this.rightChoiceIndex = -1;
+    }
+    return temp;
+  }
+
+  public int getNextVoteIndex() {
+    int temp;
+    if (this.leftVoteIndex != -1) {
+      temp = this.leftVoteIndex;
+      this.leftVoteIndex = -1;
+    } else if (this.middleVoteIndex != -1) {
+      temp = this.middleVoteIndex;
+      this.middleVoteIndex = -1;
+    } else {
+      temp = this.rightVoteIndex;
+      this.rightVoteIndex = -1;
+    }
+    return temp;
+  }
+
+
   public void vote(CubeGame division, AutoVoteSubConfig autoVoteConfig) {
+    System.out.println("Calling outvote in division: " + division);
     switch (division) {
       case SOLO_SKYWARS:
-        this.vote(
-            division,
+        this.voteSkyWars(
             autoVoteConfig.getSkyWarsChests().get().slot,
             autoVoteConfig.getSkyWarsProjectiles().get().slot,
             autoVoteConfig.getSkyWarsTime().get().slot
         );
         break;
       case SOLO_LUCKYISLANDS:
-        this.vote(
-            division,
+        this.voteLuckyIslands(
             autoVoteConfig.getLuckyIslandsBlocks().get().slot,
-            0,
             autoVoteConfig.getLuckyIslandsTime().get().slot
         );
         break;
       case TEAM_EGGWARS:
-        this.vote(
-            division,
-            autoVoteConfig.getEggWarsItems().get().slot,
-            0,
+        this.voteEggWars(autoVoteConfig.getEggWarsItems().get().slot,
             autoVoteConfig.getEggWarsHealth().get().slot
         );
     }
   }
-  private void vote(CubeGame division, int left, int middle, int right) {
-    switch (division) {
-      case TEAM_EGGWARS:
-        this.voteEggWars(left, right);
-        break;
-      case SOLO_LUCKYISLANDS:
-        this.voteLuckyIslands(left, right);
-        break;
-      case SOLO_SKYWARS:
-        this.voteSkyWars(left, middle, right);
-        break;
-    }
+
+  public void voteEggWars(int mode, int health) {
+    this.hotbarSlotIndex = 2;
+    this.leftChoiceIndex = 12;
+    this.leftVoteIndex = mode;
+    this.middleChoiceIndex = -1;
+    this.middleVoteIndex = -1;
+    this.rightChoiceIndex = 14;
+    this.rightVoteIndex = health;
+
+    this.startAutoVote();
   }
 
-  public abstract void voteEggWars(int mode, int health);
-  public abstract void voteSkyWars(int mode, int projectiles, int time);
-  public abstract void voteLuckyIslands(int mode, int time);
+  public void voteSkyWars(int mode, int projectiles, int time) {
+    this.hotbarSlotIndex = 1;
+    this.leftChoiceIndex = 11;
+    this.leftVoteIndex = mode;
+    this.middleChoiceIndex = 13;
+    this.middleVoteIndex = projectiles;
+    this.rightChoiceIndex = 15;
+    this.rightVoteIndex = time;
+
+    this.startAutoVote();
+  }
+
+  public void voteLuckyIslands(int mode, int time) {
+    this.hotbarSlotIndex = 1;
+    this.leftChoiceIndex = 12;
+    this.leftVoteIndex = mode;
+    this.middleChoiceIndex = -1;
+    this.middleVoteIndex = -1;
+    this.rightChoiceIndex = 14;
+    this.rightVoteIndex = time;
+
+    this.startAutoVote();
+  }
+
+  public abstract void startAutoVote();
 
 
 }

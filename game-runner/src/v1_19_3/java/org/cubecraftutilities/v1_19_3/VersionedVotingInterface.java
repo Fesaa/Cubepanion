@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
-import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,24 +21,15 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
 @Implements(VotingInterface.class)
 public class VersionedVotingInterface extends VotingInterface {
-  private int hotbarSlotIndex;
-  private int leftChoiceIndex;
-  private int leftVoteIndex;
-  private int middleChoiceIndex;
-  private int middleVoteIndex;
-  private int rightChoiceIndex;
-  private int rightVoteIndex;
 
-  public ItemStack lastClickedItem;
-  public int lastIndex;
   private LocalPlayer player = null;
-
-  private static VersionedVotingInterface instance;
+  public ItemStack returnItemStack;
 
   private final Task starter = Task.builder(() -> {
     this.openVotingMenu(player, this.hotbarSlotIndex);
@@ -47,53 +38,13 @@ public class VersionedVotingInterface extends VotingInterface {
 
   @Inject
   public VersionedVotingInterface() {
-    instance = this;
-  }
-
-  public static VersionedVotingInterface getInstance() {
-    return instance;
   }
 
   @Override
-  public void voteEggWars(int mode, int health) {
-    this.hotbarSlotIndex = 2;
-    this.leftChoiceIndex = 12;
-    this.leftVoteIndex = mode;
-    this.middleChoiceIndex = -1;
-    this.middleVoteIndex = -1;
-    this.rightChoiceIndex = 14;
-    this.rightVoteIndex = health;
-
-    this.startAutoVote();
-  }
-
-  @Override
-  public void voteSkyWars(int mode, int projectiles, int time) {
-    this.hotbarSlotIndex = 1;
-    this.leftChoiceIndex = 11;
-    this.leftVoteIndex = mode;
-    this.middleChoiceIndex = 13;
-    this.middleVoteIndex = projectiles;
-    this.rightChoiceIndex = 15;
-    this.rightVoteIndex = time;
-
-    this.startAutoVote();
-  }
-
-  @Override
-  public void voteLuckyIslands(int mode, int time) {
-    this.hotbarSlotIndex = 1;
-    this.leftChoiceIndex = 12;
-    this.leftVoteIndex = mode;
-    this.middleChoiceIndex = -1;
-    this.middleVoteIndex = -1;
-    this.rightChoiceIndex = 14;
-    this.rightVoteIndex = time;
-
-    this.startAutoVote();
-  }
-
-  private void startAutoVote() {
+  public void startAutoVote() {
+    System.out.println("Starting outvote with " +
+        String.format("Hotbar: %s, LeftChoice: %s, MiddleChoice: %s, RightChoice: %s, LeftVote: %s, MiddleVote: %s, RightVote: %s",
+            this.hotbarSlotIndex, this.leftChoiceIndex, this.middleChoiceIndex, this.rightChoiceIndex, this.leftVoteIndex, this.middleVoteIndex, this.rightVoteIndex));
     Minecraft minecraft = Minecraft.getInstance();
     LocalPlayer player = minecraft.player;
     if (player == null) {
@@ -101,7 +52,6 @@ public class VersionedVotingInterface extends VotingInterface {
     }
     this.player = player;
     this.starter.run();
-
 
   }
 
@@ -115,42 +65,46 @@ public class VersionedVotingInterface extends VotingInterface {
     if (voteIndex == -1) {
       return;
     }
-    VersionedVotingInterface votingInterface = VersionedVotingInterface.getInstance();
+    VersionedVotingInterface votingInterface = this;
     timer.schedule(new TimerTask() {
 
       private int count = 0;
       @Override
       public void run() {
-        AbstractContainerMenu menu = player.containerMenu;
-        if (menu instanceof ChestMenu) {
-          Slot slot = menu.getSlot(choiceIndex);
-          boolean success = votingInterface.clickOnSlot((ChestMenu) menu, slot);
-          timer.cancel();
-          if (success) {
-            votingInterface.lastClickedItem = slot.getItem();
-            votingInterface.lastIndex = slot.index;
-            votingInterface.waitForNewSlotAndClick(player, voteIndex, false);
-          }
-        }
         if (count == 10) {
+          System.out.println("waitForMenuOpenAndMakeFirstChoice canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
+        AbstractContainerMenu menu = player.containerMenu;
+        if (menu instanceof ChestMenu) {
+          Slot slot = menu.getSlot(choiceIndex);
+          if (votingInterface.clickOnSlot((ChestMenu) menu, slot)) {
+            votingInterface.returnItemStack = menu.getSlot(votingInterface.returnIndex).getItem();
+            votingInterface.waitForNewSlotAndClick(player, voteIndex, false);
+          }
+          timer.cancel();
+        }
       }
     }, 100, 100);
   }
 
   private void waitForNewSlotAndClick(@NotNull LocalPlayer player, int index, boolean choice) {
     Timer timer = new Timer("waitForNewSlotAndClick");
-    VersionedVotingInterface votingInterface = VersionedVotingInterface.getInstance();
+    VersionedVotingInterface votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
       @Override
       public void run() {
+        if (count == 10) {
+          System.out.println("waitForNewSlotAndClick canceled after 10 repetitions.");
+          timer.cancel();
+        }
+        count++;
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
-          Slot slot = menu.getSlot(votingInterface.lastIndex);
-          if (slot.getItem().sameItem(votingInterface.lastClickedItem)) {
+          Slot slot = menu.getSlot(votingInterface.returnIndex);
+          if (slot.getItem().getDisplayName().equals(votingInterface.returnItemStack.getDisplayName())) {
             return;
           }
 
@@ -158,7 +112,7 @@ public class VersionedVotingInterface extends VotingInterface {
           if (!votingInterface.clickOnSlot((ChestMenu) menu, menu.getSlot(index))) {
             return;
           }
-          votingInterface.lastClickedItem = slot.getItem();
+          votingInterface.returnItemStack = slot.getItem();
           if (!votingInterface.clickReturn((ChestMenu) menu)) {
             return;
           }
@@ -175,10 +129,6 @@ public class VersionedVotingInterface extends VotingInterface {
             votingInterface.waitForNewSlotAndClick(player, nextIndex, !choice);
           }
         }
-        if (count == 10) {
-          timer.cancel();
-        }
-        count++;
       }
     }, 100, 100);
   }
@@ -186,25 +136,26 @@ public class VersionedVotingInterface extends VotingInterface {
   private void gracefulShutDown(@NotNull LocalPlayer player, @NotNull ChestMenu chest) {
     this.clickReturn(chest);
     Timer timer = new Timer("gracefulShutDown");
-    VersionedVotingInterface votingInterface = VersionedVotingInterface.getInstance();
+    VersionedVotingInterface votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
       @Override
       public void run() {
+        if (count == 10) {
+          System.out.println("gracefulShutDown canceled after 10 repetitions.");
+          timer.cancel();
+        }
+        count++;
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
-          Slot slot = menu.getSlot(votingInterface.lastIndex);
-          if (slot.getItem().sameItem(votingInterface.lastClickedItem)) {
+          Slot slot = menu.getSlot(votingInterface.returnIndex);
+          if (slot.getItem().getDisplayName().equals(votingInterface.returnItemStack.getDisplayName())) {
             return;
           }
           votingInterface.clickReturn((ChestMenu) menu);
           timer.cancel();
 
         }
-        if (count == 10) {
-          timer.cancel();
-        }
-        count++;
       }
     }, 200, 10);
   }
@@ -235,47 +186,14 @@ public class VersionedVotingInterface extends VotingInterface {
   private void openVotingMenu(@NotNull LocalPlayer player, int index) {
     Inventory inventory = player.getInventory();
     inventory.selected = index;
-    Timer timer = new Timer();
-    timer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        ClientPacketListener connection = Minecraft.getInstance().getConnection();
-        if (connection == null) {
-          return;
-        }
-        connection.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
-        timer.cancel();
-      }
-    }, 500, 1);
-  }
-
-  private int getNextChoiceIndex() {
-    int temp;
-    if (this.leftChoiceIndex != -1) {
-      temp = this.leftChoiceIndex;
-      this.leftChoiceIndex = -1;
-    } else if (this.middleChoiceIndex != -1) {
-      temp = this.middleChoiceIndex;
-      this.middleVoteIndex = -1;
-    } else {
-      temp = this.rightChoiceIndex;
-      this.rightChoiceIndex = -1;
-    }
-    return temp;
-  }
-
-  private int getNextVoteIndex() {
-    int temp;
-    if (this.leftVoteIndex != -1) {
-      temp = this.leftVoteIndex;
-      this.leftVoteIndex = -1;
-    } else if (this.middleVoteIndex != -1) {
-      temp = this.middleVoteIndex;
-      this.middleVoteIndex = -1;
-    } else {
-      temp = this.rightVoteIndex;
-      this.rightVoteIndex = -1;
-    }
-    return temp;
+    Executors.newScheduledThreadPool(
+            Runtime.getRuntime().availableProcessors())
+        .schedule(() -> {
+          ClientPacketListener connection = Minecraft.getInstance().getConnection();
+          if (connection == null) {
+            return;
+          }
+          connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
+        },200, TimeUnit.MILLISECONDS);
   }
 }
