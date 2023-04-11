@@ -64,7 +64,7 @@ public class Automations {
 
     // Friend Message Sound
     if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
-      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me: .*")) {
+      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me : .*")) {
         ResourceLocation resourceLocation = ResourceLocation.create("minecraft", this.addon.configuration().getAutomationConfig().getFriendMessageSoundId().get());
         minecraft.sounds().playSound(resourceLocation, 100, 1);
         return;
