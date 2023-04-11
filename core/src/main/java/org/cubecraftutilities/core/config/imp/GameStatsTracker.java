@@ -320,7 +320,7 @@ public class GameStatsTracker {
   public Component getDisplayComponent() {
     return
         Component.translatable(this.mainKey + "gameStats.titleToday",
-                Component.text(game, Colours.Primary))
+                Component.text(game.getString(), Colours.Primary))
             .color(Colours.Title)
         .append(Component.translatable(this.mainKey + "gameStats.statsToday",
             Component.text(this.getDailyPlayed(), Colours.Secondary),
@@ -332,7 +332,7 @@ public class GameStatsTracker {
             Component.text(this.getDailyDeaths(), Colours.Secondary)
         ).color(Colours.Primary))
         .append(Component.translatable(this.mainKey + "gameStats.titleAllTime",
-            Component.text(game, Colours.Primary))
+            Component.text(game.getString(), Colours.Primary))
             .color(Colours.Title))
         .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
             Component.text(this.getAllTimePlayed(), Colours.Secondary),
