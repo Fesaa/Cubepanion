@@ -188,22 +188,20 @@ public class Automations {
         return;
       }
 
-      if (!this.friendListBeingSend) {
-        return;
-      }
-
-      if (msg.equals("Offline: ") && !this.manager.hasRequestedFullFriendsList()) {
-        e.setCancelled(true);
-        return;
-      }
-
-      if (this.FriendListOffline.matcher(msg).matches()) {
-        this.friendListBeingSend = false;
-        if (this.manager.hasRequestedFullFriendsList()) {
-          this.manager.setRequestedFullFriendsList(false);
-        } else {
+      if (this.friendListBeingSend) {
+        if (msg.equals("Offline: ") && !this.manager.hasRequestedFullFriendsList()) {
           e.setCancelled(true);
           return;
+        }
+
+        if (this.FriendListOffline.matcher(msg).matches()) {
+          this.friendListBeingSend = false;
+          if (this.manager.hasRequestedFullFriendsList()) {
+            this.manager.setRequestedFullFriendsList(false);
+          } else {
+            e.setCancelled(true);
+            return;
+          }
         }
       }
     }
@@ -214,8 +212,14 @@ public class Automations {
         Task toRun = this.autoVoteTask;
         Timer timer = new Timer("waitingForNoneLobbyDivision");
         timer.schedule(new TimerTask() {
+          private int count = 0;
           @Override
           public void run() {
+            count++;
+            if (count == 10) {
+              timer.cancel();
+              System.out.println("waitingForNoneLobbyDivision canceled after 10 tries");
+            }
             if (!CCU.get().getManager().getDivision().equals(CubeGame.LOBBY)) {
               timer.cancel();
               toRun.run();
