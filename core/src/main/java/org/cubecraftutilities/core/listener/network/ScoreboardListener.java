@@ -75,7 +75,7 @@ public class ScoreboardListener {
         if (text == null) {
           continue;
         }
-        if (text.matches("[a-zA-Z ]*")) {
+        if (text.matches("[a-zA-Z ]+")) {
           this.manager.setDivision(CubeGame.stringToGame(text.trim()));
           break;
         }

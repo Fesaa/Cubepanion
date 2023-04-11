@@ -58,6 +58,9 @@ public enum CubeGame {
       case "Hard Parkour": {
         return CubeGame.HARD_PARKOUR;
       }
+      case "CubeCraft": {
+        return CubeGame.LOBBY;
+      }
       default: {
         return CubeGame.NONE;
       }
