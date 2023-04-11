@@ -11,8 +11,8 @@ import org.cubecraftutilities.core.gui.hud.widgets.base.CustomItemWidget;
 
 public class CounterItemHudWidget extends CustomItemWidget {
 
-  public CounterItemHudWidget(HudWidgetCategory category, String id, String regex, int posX, int posY) {
-    super(id, regex, posX, posY);
+  public CounterItemHudWidget(HudWidgetCategory category, String id, String regex, String itemName, int posX, int posY) {
+    super(id, regex,  itemName, posX, posY);
 
     this.bindCategory(category);
   }
@@ -27,7 +27,6 @@ public class CounterItemHudWidget extends CustomItemWidget {
     }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
     if (player != null) {
-      ItemStack itemStack = null;
       ItemStack offHandItem = player.getOffHandItemStack();
       Inventory inventory = player.inventory();
       int selectedEntry = inventory.getSelectedIndex();
@@ -38,14 +37,12 @@ public class CounterItemHudWidget extends CustomItemWidget {
         ItemStack iStack = inventory.itemStackAt(i);
         if (this.inventoryItemMatches(iStack, i, selectedEntry)) {
           this.counter += iStack.getSize();
-          itemStack = iStack;
         }
       }
 
       if (this.inventoryItemMatches(offHandItem, -1, selectedEntry)) {
         this.counter += offHandItem.getSize();
       }
-      this.updateItemStack(itemStack);
       Color colour = this.config.getTextColour().get();
       this.updateItemName(Component.text(this.counter,
           TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())));

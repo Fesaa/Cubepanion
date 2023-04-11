@@ -9,7 +9,6 @@ import org.cubecraftutilities.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubecraftutilities.core.gui.hud.widgets.CounterItemHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.DurabilityItemHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.GameTimerWidget;
-import org.cubecraftutilities.core.gui.hud.widgets.HeldItemTracker;
 import org.cubecraftutilities.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.TextTrackerHudWidget;
 import org.cubecraftutilities.core.gui.hud.widgets.base.CCUWidgetCategory;
@@ -31,12 +30,11 @@ public class WidgetManager {
     HudWidgetCategory category = new CCUWidgetCategory("CCU");
     hudWidgetRegistry.categoryRegistry().register(category);
     
-    hudWidgetRegistry.register(new CounterItemHudWidget(category, "emerald_counter","emerald", 3, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category,"diamond_counter","diamond", 1, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category,"iron_ingot_counter","iron_ingot", 0, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category,"gold_ingot_counter","gold_ingot", 2, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category,"terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", 4, 0));
-    hudWidgetRegistry.register(new HeldItemTracker(category));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "emerald_counter","emerald", "emerald", 3, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category,"diamond_counter","diamond", "diamond", 1, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category,"iron_ingot_counter","iron_ingot", "iron_ingot", 0, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category,"gold_ingot_counter","gold_ingot", "gold_ingot", 2, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category,"terracotta_counter","(\\w{0,10}\\_{0,1}){0,2}terracotta", "white_terracotta", 4, 0));
 
     hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"helmet_durability_counter", "helmet", EquipmentSpot.HEAD, 5, 0, manager));
     hudWidgetRegistry.register(new DurabilityItemHudWidget(category,"chestplate_durability_counter", "chestplate", EquipmentSpot.CHEST, 6, 0, manager));

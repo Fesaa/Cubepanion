@@ -16,7 +16,7 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
   private final EquipmentSpot equipmentSpot;
 
   public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex, EquipmentSpot spot, int posX, int posY, CCUManager manager) {
-    super(id, regex, posX, posY);
+    super(id, regex,"", posX, posY);
     this.manager = manager;
     this.equipmentSpot = spot;
 

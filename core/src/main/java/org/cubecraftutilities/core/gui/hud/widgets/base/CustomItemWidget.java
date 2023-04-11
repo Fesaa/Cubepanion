@@ -17,7 +17,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
   private final int posX;
   private final int posY;
 
-  protected CustomItemWidget(String id, String regex, int posX, int posY) {
+  protected CustomItemWidget(String id, String regex, String itemName, int posX, int posY) {
     super(id, ItemHudConfig.class);
     this.regex = regex;
     this.posX = posX;
@@ -28,8 +28,10 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
-    ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", id));
-    this.updateItemStack(item);
+    // Uncommenting this bricks the scoreboard
+
+    //ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", itemName));
+    //this.updateItemStack(item);
   }
 
   public void load(ItemHudConfig config) {
