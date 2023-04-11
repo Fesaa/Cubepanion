@@ -43,6 +43,7 @@ public class Automations {
   private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private boolean voted = false;
+  private boolean friendListBeingSend = false;
 
   public Automations(CCU addon, VotingInterface votingInterface) {
     this.addon = addon;
@@ -181,12 +182,23 @@ public class Automations {
     }
 
     if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
+
+      if (this.FriendListTop.matcher(msg).matches()) {
+        this.friendListBeingSend = true;
+        return;
+      }
+
+      if (!this.friendListBeingSend) {
+        return;
+      }
+
       if (msg.equals("Offline: ") && !this.manager.hasRequestedFullFriendsList()) {
         e.setCancelled(true);
         return;
       }
 
       if (this.FriendListOffline.matcher(msg).matches()) {
+        this.friendListBeingSend = false;
         if (this.manager.hasRequestedFullFriendsList()) {
           this.manager.setRequestedFullFriendsList(false);
         } else {
