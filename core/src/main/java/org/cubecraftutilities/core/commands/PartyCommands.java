@@ -64,21 +64,6 @@ public class PartyCommands extends Command {
         }
         return true;
       }
-      case "kick": {
-        if (arguments.length > 2 && isPartyOwner) {
-          this.multiKickCommand(chat, this.removeFirst(arguments));
-          return true;
-        }
-        return false;
-      }
-      case "invite":
-      case "add": {
-        if (arguments.length > 2 && (isPartyOwner || !inParty)) {
-          this.multiInviteCommand(chat, this.removeFirst(arguments));
-          return true;
-        }
-        return false;
-      }
       case "extra": {
         this.helpCommand(arguments[arguments.length-1]);
         return true;
@@ -117,52 +102,12 @@ public class PartyCommands extends Command {
           .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
     }
 
-    if (run || command.equals("kick")) {
-      helpComponent = helpComponent
-          .append(Component.text("\n/party kick [username*]", Colours.Primary)
-              .clickEvent(ClickEvent.suggestCommand("/party kick ")))
-          .append(this.helpComponent.apply("kick").color(Colours.Secondary));
-    }
-
-    if (run || command.equals("invite") || command.equals("add") ) {
-      helpComponent = helpComponent
-          .append(Component.text("\n/party invite [username*]", Colours.Primary)
-              .clickEvent(ClickEvent.suggestCommand("/party invite ")))
-          .append(this.helpComponent.apply("invite").color(Colours.Secondary));
-    }
-
     helpComponent = helpComponent
         .append(Component.text("\n/party extra [command]", Colours.Primary)
             .clickEvent(ClickEvent.suggestCommand("/party extra ")))
         .append(this.helpComponent.apply("extra").color(Colours.Secondary));
 
     this.displayMessage(helpComponent);
-  }
-
-  private void multiInviteCommand(ChatExecutor chat, String[] usernames) {
-    int multiplier = 1;
-
-    for (String username : usernames) {
-      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
-          () -> chat.chat("/p invite " + username, false),
-          100L * multiplier,
-          TimeUnit.MILLISECONDS
-      );
-      multiplier++;
-    }
-  }
-
-  private void multiKickCommand(ChatExecutor chat, String[] usernames) {
-    int multiplier = 1;
-
-    for (String username : usernames) {
-      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
-          () -> chat.chat("/p kick " + username, false),
-          100L * multiplier,
-          TimeUnit.MILLISECONDS
-      );
-      multiplier++;
-    }
   }
 
   private void reMakeCommand(ChatExecutor chat, String[] excludedUsernames) {
