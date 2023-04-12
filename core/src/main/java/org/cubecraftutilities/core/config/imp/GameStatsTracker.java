@@ -292,7 +292,7 @@ public class GameStatsTracker {
     Component userStatsDisplayComponent = Component.translatable(this.mainKey + "interactionStats.title", Component.text(name, Colours.Primary)).color(Colours.Title);
 
     if (kills == null && deaths == null) {
-      return Component.translatable(this.mainKey + "interactionStats.notFound", Component.text(this.game), Component.text(name)).color(Colours.Error);
+      return Component.translatable(this.mainKey + "interactionStats.notFound", Component.text(this.game.getString()), Component.text(name)).color(Colours.Error);
     }
 
     return userStatsDisplayComponent
