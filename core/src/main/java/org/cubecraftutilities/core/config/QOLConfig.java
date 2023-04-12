@@ -13,6 +13,9 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> noDropSkyBlock = new ConfigProperty<>(false);
+
   @SpriteSlot(x = 3, y = 1)
   @SwitchSetting
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
@@ -27,4 +30,5 @@ public class QOLConfig extends Config {
   public ConfigProperty<Boolean> getShortFriendsList() {return shortFriendsList;}
   public ConfigProperty<Boolean> getReminderToVote() {return reminderToVote;}
   public ConfigProperty<String> getReminderToVoteSoundId() {return reminderToVoteSoundId;}
+  public ConfigProperty<Boolean> getNoDropSkyBlock() {return noDropSkyBlock;}
 }

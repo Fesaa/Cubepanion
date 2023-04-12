@@ -1,18 +1,26 @@
 package org.cubecraftutilities.core.listener;
 
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.entity.player.Player;
+import net.labymod.api.client.options.MinecraftInputMapping;
+import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.input.KeyEvent;
 import net.labymod.api.event.client.input.KeyEvent.State;
 import org.cubecraftutilities.core.CCU;
 import org.cubecraftutilities.core.config.subconfig.EggWarsMapInfoSubConfig;
+import org.cubecraftutilities.core.utils.Colours;
+import org.cubecraftutilities.core.utils.CubeGame;
 
 public class KeyEventListener {
 
   private final CCU addon;
+  private final MinecraftInputMapping dropKey;
 
 
   public KeyEventListener(CCU addon) {
     this.addon = addon;
+    this.dropKey = this.addon.labyAPI().minecraft().options().getInputMapping("key.drop");
   }
 
   @Subscribe
@@ -43,7 +51,68 @@ public class KeyEventListener {
       }
     }
 
+    // No drop SkyBlock
+    if (this.addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)
+    && this.addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
+      if (this.dropKey.getKeyCode() != keyEvent.key().getId()) {
+        return;
+      }
 
+      Player player = this.addon.labyAPI().minecraft().getClientPlayer();
+      if (player == null) {
+        return;
+      }
+
+      ItemStack mainHand = player.getMainHandItemStack();
+      if (this.isTool(mainHand)) {
+        keyEvent.setCancelled(true);
+        this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
+            Component.text("Prevented you from dropping a tool!", Colours.Error),
+            true
+        );
+      }
+    }
+  }
+
+  public boolean isTool(ItemStack itemStack) {
+
+    if (itemStack.isSword()) {
+      return true;
+    }
+
+    String itemString = itemStack.getAsItem().toString();
+
+
+    if (itemString.contains("_pickaxe")) {
+      return true;
+    }
+    if (itemString.contains("_axe")) {
+      return true;
+    }
+    if (itemString.contains("_shovel")) {
+      return true;
+    }
+    if (itemString.contains("_hoe")) {
+      return true;
+    }
+    if (itemString.contains("bow")) {
+      return true;
+    }
+
+    if (itemString.contains("_helmet")) {
+      return true;
+    }
+    if (itemString.contains("_chestplate")) {
+      return true;
+    }
+    if (itemString.contains("_leggings")) {
+      return true;
+    }
+    if (itemString.contains("_boots")) {
+      return true;
+    }
+
+    return false;
   }
 
 }
