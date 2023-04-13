@@ -18,7 +18,7 @@ public class EndGameSubConfig extends Config {
   private final ConfigProperty<Boolean> onElimination = new ConfigProperty<>(false);
   @DropdownSetting
   @SpriteSlot(x = 3, y = 2)
-  @DropdownEntryTranslationPrefix("cubecraftutilities.settings.automationConfig.endGameSubConfig.gameEndMessage.entries")
+  @DropdownEntryTranslationPrefix("cubepanion.settings.automationConfig.endGameSubConfig.gameEndMessage.entries")
   private final ConfigProperty<GameEndMessage> gameEndMessage = new ConfigProperty<>(GameEndMessage.GG);
   @TextFieldSetting
   @SpriteSlot(x = 3, y = 2)

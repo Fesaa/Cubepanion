@@ -23,7 +23,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     this.posY = posY;
     this.itemIsHeld = false;
 
-    ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
@@ -64,7 +64,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 
   @Override
   public Icon createPlaceholderIcon() {
-    ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
     return Icon.sprite16(resourceLocation, this.posX, this.posY);
   }
 }

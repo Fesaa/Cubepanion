@@ -44,7 +44,7 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
   public void load(GameTimerConfig config) {
     super.load(config);
 
-    ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "sprites.png");
+    ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
     Icon icon = Icon.sprite16(resourceLocation, this.posX, this.posY);
     this.setIcon(icon);
     this.HUDLine = super.createLine("Game Timer", "");

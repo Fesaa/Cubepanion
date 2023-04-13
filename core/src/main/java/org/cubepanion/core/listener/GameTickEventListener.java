@@ -23,7 +23,7 @@ public class GameTickEventListener {
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig;
-  private final ResourceLocation resourceLocation = ResourceLocation.create("cubecraftutilities", "themes/vanilla/textures.png");
+  private final ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "themes/vanilla/textures.png");
   private int counter = 0;
 
   public GameTickEventListener(Cubepanion addon) {

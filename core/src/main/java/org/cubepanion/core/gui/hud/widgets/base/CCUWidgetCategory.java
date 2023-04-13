@@ -12,11 +12,11 @@ public class CCUWidgetCategory extends HudWidgetCategory {
 
   @NotNull
   public Component title() {
-    return Component.translatable("cubecraftutilities.hudWidgetCategory." + this.id + ".name");
+    return Component.translatable("cubepanion.hudWidgetCategory." + this.id + ".name");
   }
 
   @NotNull
   public Component description() {
-    return Component.translatable("cubecraftutilities.hudWidgetCategory." + this.id + ".description");
+    return Component.translatable("cubepanion.hudWidgetCategory." + this.id + ".description");
   }
 }

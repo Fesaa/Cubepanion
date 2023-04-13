@@ -383,8 +383,8 @@
       },
     "hudWidgetCategory": {
       "CCU": {
-        "name": "CubeCraft Utilities",
-        "description": "All custom widgets provided by CubeCraft Utilities"
+        "name": "Cubepanion",
+        "description": "All custom widgets provided by Cubepanion"
       }
     },
     "commands": {
