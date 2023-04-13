@@ -1,0 +1,487 @@
+{
+  "cubepanion": {
+    "settings": {
+      "name": "Cubepanion",
+      "enabled": {
+        "name": "Enabled"
+      },
+      "automationConfig": {
+        "name": "Automation",
+        "endGameSubConfig": {
+          "name": "Game End Message (AutoGG)",
+          "onElimination": {
+            "name": "On elimination",
+            "description": "Send your messages of choice when eliminated. Will not send again when winning."
+          },
+          "gameEndMessage": {
+            "name": "Auto text",
+            "entries": {
+              "gg": "gg",
+              "wp": "wp",
+              "goodGame": "Good game",
+              "wellPlayed": "Well played",
+              "none": "Nothing"
+            }
+          },
+          "customMessage":{
+            "name": "Extra custom message"
+          }
+        },
+        "friendMessageSound": {
+          "name": "Play sound on friend message"
+        },
+        "friendMessageSoundId": {
+          "name": "Choose which sound to play"
+        },
+        "whereAmI": {
+          "name": "/whereami on server switch"
+        },
+        "copyServerID": {
+          "name": "Copy Server ID"
+        },
+        "copyBungeecord": {
+          "name": "Copy Bungeecord Instance"
+        },
+        "armourBreakWarningSubConfig": {
+          "name": "Durability Warning",
+          "durabilityWarning": {
+            "name": "Durability",
+            "description": "Durability points left when the warning is displayed"
+          },
+          "armourBreakSoundsSubConfig": {
+            "name": "Sound IDs",
+            "soundIdHelmet": {
+              "name": "Helmet"
+            },
+            "soundIdChestplate": {
+              "name": "Chestplate"
+            },
+            "soundIdLeggings": {
+              "name": "Leggings"
+            },
+            "soundIdBoots": {
+              "name": "Boots"
+            }
+          },
+          "chat": {
+            "name": "Chat",
+            "description": "Display the warning message in chat"
+          },
+          "actionbar": {
+            "name": "Action bar",
+            "description": "Display the warning in the action bar"
+          },
+          "notification": {
+            "name": "Toast notification",
+            "description": "Display the warning as a toast notification (for 3s)"
+          }
+        }
+      },
+      "qolConfig": {
+        "name": "QOL features",
+        "respawnTimer": {
+          "name": "Respawn timer",
+          "description": "  Adds to a countdown timer to a players name tag while respawning in EggWars."
+        },
+        "shortFriendsList": {
+          "name": "Shorter friends list",
+          "description": "  Use /friends list full to display your full friends list"
+        },
+        "reminderToVote": {
+          "name": "Vote reminder",
+          "description": "Plays a sound and dumps a message in chat if you haven't voted when only five seconds remain!"
+        },
+        "reminderToVoteSoundId": {
+          "name": "Sound ID",
+          "description": "The sound played to remind you to vote!"
+        },
+        "noDropSkyBlock": {
+          "name": "Don't drop tools",
+          "description": "Prevents you from dropping tools & armour in Skyblock with the drop key."
+        }
+      },
+      "eggWarsMapInfoSubConfig": {
+        "name": "EggWars Map Info",
+        "mapLayout": {
+          "name": "Display map layout on start"
+        },
+        "buildLimit": {
+          "name": "Display build limit on start"
+        },
+        "logInParty": {
+          "name": "Send map layout in party"
+        },
+        "key": {
+          "name": "Displays your current maps layout"
+        },
+        "genLayout": {
+          "name": "Displays maps gen layout",
+          "description": "  Only when using /eggwarsmaps <map name>"
+        }
+      },
+      "discordRichPresenceSubConfig": {
+        "name": "Discord Rich Presence",
+        "map": {
+          "name": "Show the map you're playing"
+        },
+        "players": {
+          "name": "Show number of remaining players"
+        },
+        "gameImage": {
+          "name": "Display game art instead of CubeCraft Logo"
+        }
+      },
+      "autoVoteSubConfig": {
+        "name": "Auto Vote",
+        "eggWarsHealth": {
+          "name": "EggWars Health",
+          "entries": {
+            "left": "Half",
+            "middle": "Normal",
+            "right": "Double"
+          }
+        },
+        "eggWarsItems": {
+          "name": "EggWars Items",
+          "entries": {
+            "left": "Ultra Hardcore",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsChests": {
+          "name": "SkyWars Chests",
+          "entries": {
+            "left": "Basic",
+            "middle": "Normal",
+            "right": "Overpowered"
+          }
+        },
+        "skyWarsProjectiles": {
+          "name": "SkyWars Projectiles",
+          "entries": {
+            "left": "No Projectiles",
+            "middle": "Normal Projectiles",
+            "right": "Soft Blocks"
+          }
+        },
+        "skyWarsTime": {
+          "name": "SkyWars Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsTime": {
+          "name": "Lucky Islands Time",
+          "entries": {
+            "left": "Day",
+            "middle": "Night",
+            "right": "Sunset"
+          }
+        },
+        "luckyIslandsBlocks": {
+          "name": "Lucky Islands Blocks",
+          "entries": {
+            "left": "Blessed",
+            "middleLeft": "Normal",
+            "middleRight": "Overpowered",
+            "right": "Crazy"
+          }
+        }
+      },
+     "statsTrackerSubConfig": {
+        "name": "Stats Trackers",
+        "autoReset": {
+          "name": "Auto reset current period"
+        },
+        "resetTime": {
+          "name": "Reset current period at"
+        },
+        "keepPlayerStats": {
+          "name": "Keep kills & deaths per player",
+          "description": "  This might use a lot of data."
+        },
+        "keepSnapshots": {
+          "name": "Keep a snapshot of your stats per day"
+        },
+        "keepPerPlayerSnapshots": {
+          "name": "Keep snapshots of per player data",
+          "description": "  This might use a lot of data."
+        },
+        "minEntry": {
+          "name": "Player importance",
+          "description": "  Minimum amount of kills/deaths needed to not be cleaned up"
+        },
+        "clearStatsTrackers": {
+          "name": "Clear up Game Stats Trackers",
+          "description": "  Will remove all player data with less kills/deaths than specified.\nThis action is irreversible.",
+          "text": "Clear"
+        },
+        "clearAllHistoricalPlayerData": {
+          "name": "Remove all historical player data",
+          "description": "  This action is irreversible.",
+          "text": "Clear"
+        },
+        "clearAllPlayerData": {
+          "name": "Remove all player data",
+          "description": "  This action is irreversible.",
+          "text": "Clear"
+        }
+      },
+      "commandSystemSubConfig": {
+        "name": "Custom Commands",
+        "description": "  Disabling the setting, disables all commands.",
+        "appealSiteCommand": {
+          "name": "Appeal Site",
+          "description": "  /appeal [mco/]<name>."
+        },
+        "EggWarsMapInfoCommand": {
+          "name": "EggWars Map Info",
+          "description": "  /eggwarsmap <Map Name>."
+        },
+        "PartyCommands": {
+          "name": "Party Commands",
+          "description": "  /party extra for all information."
+        },
+        "StatsCommand": {
+          "name": "Stats Commands",
+          "description": "  /stats help for all information."
+        },
+        "friendsTrackerCommand": {
+          "name": "Friend tracker",
+          "description": "  /tracker (un)track/interval [username*|int]"
+        }
+      }
+    },
+    "hudWidget": {
+      "diamond_counter": {
+        "name": "#Diamond",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "gold_ingot_counter": {
+        "name": "#Gold",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "iron_ingot_counter": {
+        "name": "#Iron",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "emerald_counter": {
+        "name": "#Emerald",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "terracotta_counter": {
+        "name": "#Terracotta blocks",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "held_item_tracker": {
+        "name": "#Held item",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held",
+          "description": "  This setting is useless and an artifact of the underlying implementation."
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "helmet_durability_counter": {
+        "name": "#Helmet durability",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "chestplate_durability_counter": {
+        "name": "#Chestplate durability",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "leggings_durability_counter": {
+        "name": "#Leggings durability",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "boots_durability_counter": {
+        "name": "#Boots durability",
+        "onlyDisplayWhenHeld": {
+          "name": "Only display item when being held"
+        },
+        "textColour": {
+          "name": "Text Colour"
+        }
+      },
+      "nextArmourDurability": {
+        "name": "Next armour to break",
+        "wheretoDisplayType": {
+          "name": "Display in",
+          "entries": {
+            "eggWars": "EggWars",
+            "skyWars": "SkyWars",
+            "luckyIslands": "Lucky Islands",
+            "ffa": "Free For All",
+            "allGames": "All Games",
+            "everywhere": "Everywhere"
+          }
+        },
+        "showDifference": {
+          "name": "Show Difference",
+          "description": "Shows the durability difference with the next piece to break in brackets"
+        }
+      },
+      "all_time_winstreak_tracker": {
+        "name": "All Time Winstreak"
+      },
+      "daily_winstreak_tracker": {
+        "name": "Daily Winstreak"
+      },
+      "daily_wins_tracker": {
+        "name": "Daily Wins"
+      },
+      "elapsed_time_tracker": {
+        "name": "Game Timer",
+        "layoutString": {
+          "name": "Time layout"
+        }
+      }
+      },
+    "hudWidgetCategory": {
+      "CCU": {
+        "name": "CubeCraft Utilities",
+        "description": "All custom widgets provided by CubeCraft Utilities"
+      }
+    },
+    "commands": {
+      "AppealSiteCommand": {
+        "response": "Appeal site link for: ",
+        "hover": "Click to open URL"
+      },
+      "EggWarsMapInfoCommand": {
+        "mapNotFound": "Could not find map with name %s"
+      },
+      "OnlineFriendTrackerCommand": {
+        "error": {
+          "notTrackingAnyOneSuggestion": "Currently not tracking anyone. Track someone with ",
+          "notTrackingAnyOne": "Currently not tracking anyone.",
+          "notAnInteger": "Second argument is not an integer.",
+          "notAValidCommand": "Not a recognised option! /tracker (un)track/interval [username|number]"
+        },
+        "succes": {
+          "currentlyTracking": "Currently tracking: ",
+          "clickToUntrack": "Click to untrack: ",
+          "intervalLengthResponse": "Currently checking each %s seconds.",
+          "setIntervalTo": "Set checking interval to %s",
+          "startedTracking": "Started tracking: ",
+          "stoppedTracking": "Stopped tracking: "
+        },
+        "helpCommand": {
+          "title": "------- Friend Tracker Commands -------\n",
+          "description": "Track your friends movements through CubeCraft. Checks the friends list every n seconds for updates. ",
+          "track": " - Display everyone you're currently tracking, or add new friends to be tracked",
+          "untrack": " - Display everyone you're currently tracking, click to untrack. Or remove friends."
+        }
+      },
+      "PartyCommands": {
+        "error": {
+          "noPermissions": "You need to be party owner to use this command.",
+          "missingArguments": "You are missing required arguments, please try again."
+        },
+        "helpCommand": {
+          "title": "------- Enhanced Party Commands -------",
+          "reinv": " - Will kick and invite the passed usernames if they are in the party.",
+          "remake": {
+            "first": " - Will disband the party and invite everyone",
+            "middle": " except",
+            "last": " the usernames passed."
+          },
+          "kick": " - Will kick all the passed usernames if they are in the party.",
+          "invite": " - Will invite all the passed usernames.",
+          "extra": " - Displays the help message for a command. Omitting the command, displays for all commands."
+        }
+      },
+      "StatCommands": {
+        "error": {
+          "gameNotFound": {
+            "text": "Could not find the specified game. Possible options are ",
+            "hover": "Stats Tracking has to be enabled in the addon setting for this command to display data."
+          },
+          "statsNotFoundOnDate": "No stats available for %s on %s"
+        },
+        "helpCommand": {
+          "title": "------- Enhanced Stats Commands -------",
+          "displayGlobalStats": " - Display your stats for a game, defaults to the game you're currently in.",
+          "displayPlayerStats": " - Display your stats for a game, with a specific player, defaults to the game you're currently in.",
+          "displayGlobalStatsOnDate": " - Display your stats for a game, on a specific day (ex. 2023-1-15), defaults to the game you're currently in.",
+          "displayPlayerStatsOnDate": " - Display your stats for a game, with a specific player, on a specific day (ex. 2023-1-15), defaults to the game you're currently in.",
+          "requiredSetting": "This has to be enabled in settings to work.",
+          "this": " - Display this message.",
+          "tracking": "\n\nGames tracked: "
+        }
+      }
+    },
+    "managers": {
+      "DurabilityManager": {
+        "warning": "Your %s will break soon!"
+      },
+      "DiscordRPCManager": {
+        "lobby": "In the lobby",
+        "lobbyState": "Choosing a game...",
+        "playing": "Playing ",
+        "playingOnState": "On %s",
+        "playingHiddenState": "In game",
+        "waitingState": "Waiting...",
+        "alivePlayersState": " [%s/%s alive]"
+      }
+    },
+    "GameStatsTracker": {
+      "interactionStats": {
+        "title": "------- Interaction stats with %s -------",
+        "notFound": "No interaction stats available in %s with %s",
+        "notAvailable": "\nNo %s stats available.",
+        "stats": "\nTotal %s: %s\nToday's %s: %s\nTop Daily %s: %s"
+      },
+      "gameStats": {
+        "titleToday": "------ Today's game stats for %s ------",
+        "statsToday": "\n- Games played: %s\n- Total win streak: %s\n- Win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s",
+        "titleAllTime": "\n------ All time's game Stats For %s ------",
+        "statsAllTime": "\n- Games played: %s\n- Highest win streak: %s\n- Highest daily win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s"
+      }
+    }
+  }
+}

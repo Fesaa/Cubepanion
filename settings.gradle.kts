@@ -1,4 +1,4 @@
-rootProject.name = "CubeCraft-Utilities"
+rootProject.name = "Cubepanion"
 
 pluginManagement {
     val labyGradlePluginVersion = "0.3.20"

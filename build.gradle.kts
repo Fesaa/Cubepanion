@@ -10,10 +10,10 @@ version = "1.0.0"
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 labyMod {
-    defaultPackageName = "org.cubecraftutilities" //change this to your main package name (used by all modules)
+    defaultPackageName = "org.cubepanion" //change this to your main package name (used by all modules)
     addonInfo {
-        namespace = "cubecraftutilities"
-        displayName = "CubeCraft Utilities"
+        namespace = "cubepanion"
+        displayName = "Cubepanion"
         author = "Fesa"
         description = "A CubeCraft focused LabyMod addon that provides a ton of useful features!\nNot affiliated with Ziax/CubeCraft in any way."
         minecraftVersion = "1.19<*"
