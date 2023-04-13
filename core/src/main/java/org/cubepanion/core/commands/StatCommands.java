@@ -15,7 +15,7 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
@@ -57,7 +57,7 @@ public class StatCommands extends Command {
     }
 
 
-    CCUManager manager = this.addon.getManager();
+    CubepanionManager manager = this.addon.getManager();
     StatsTrackerSubConfig config = this.addon.configuration().getStatsTrackerSubConfig();
     HashMap<CubeGame, GameStatsTracker> allGameStatsTrackers = config.getGameStatsTrackers();
 

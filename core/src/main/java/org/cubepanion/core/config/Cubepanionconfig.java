@@ -14,7 +14,7 @@ import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")
-public class CCUconfig extends AddonConfig {
+public class Cubepanionconfig extends AddonConfig {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);

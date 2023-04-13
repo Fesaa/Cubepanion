@@ -17,7 +17,7 @@ import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
@@ -27,7 +27,7 @@ import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
 public class Automations {
 
   private Cubepanion addon;
-  private CCUManager manager;
+  private CubepanionManager manager;
   private VotingInterface votingInterface;
   private final Task autoVoteTask = Task.builder(() -> {
     if (this.votingInterface != null) {

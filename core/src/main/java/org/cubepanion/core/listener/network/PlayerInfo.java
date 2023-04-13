@@ -5,13 +5,13 @@ import net.labymod.api.event.client.network.playerinfo.PlayerInfoRemoveEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent.UpdateType;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.CubeGame;
 
 public class PlayerInfo {
 
   private final Cubepanion addon;
-  private final CCUManager manager;
+  private final CubepanionManager manager;
 
   public PlayerInfo(Cubepanion addon) {
     this.addon = addon;

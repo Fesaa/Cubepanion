@@ -10,12 +10,12 @@ import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class StatsTracker {
 
   private final Cubepanion addon;
-  private final CCUManager manager;
+  private final CubepanionManager manager;
 
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|)";
@@ -213,7 +213,7 @@ public class StatsTracker {
   }
 
   private void registerCustomDeath(String reason) {
-    CCUManager manager = this.addon.getManager();
+    CubepanionManager manager = this.addon.getManager();
     GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerDeath(reason);
@@ -225,7 +225,7 @@ public class StatsTracker {
   }
 
   private void registerCustomKill(String reason) {
-    CCUManager manager = this.addon.getManager();
+    CubepanionManager manager = this.addon.getManager();
     GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().get(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerKill(reason);

@@ -7,12 +7,12 @@ import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class ServerNavigation {
 
   private final Cubepanion addon;
-  private final CCUManager manager;
+  private final CubepanionManager manager;
 
   public ServerNavigation(Cubepanion addon) {
     this.addon = addon;

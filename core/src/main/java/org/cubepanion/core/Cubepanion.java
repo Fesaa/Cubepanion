@@ -14,7 +14,7 @@ import org.cubepanion.core.commands.OnlineFriendTrackerCommand;
 import org.cubepanion.core.commands.PartyCommands;
 import org.cubepanion.core.commands.StatCommands;
 import org.cubepanion.core.commands.TeamColourCommand;
-import org.cubepanion.core.config.CCUconfig;
+import org.cubepanion.core.config.Cubepanionconfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
 import org.cubepanion.core.listener.GameShutdownEventListener;
@@ -26,17 +26,17 @@ import org.cubepanion.core.listener.chat.StatsTracker;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
 import org.cubepanion.core.listener.network.ServerNavigation;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordRPCManager;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.VotingInterface;
 
 @AddonMain
-public class Cubepanion extends LabyAddon<CCUconfig> {
+public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;
-  private CCUManager manager;
+  private CubepanionManager manager;
 
   private static Cubepanion instance;
 
@@ -58,7 +58,7 @@ public class Cubepanion extends LabyAddon<CCUconfig> {
       this.logger().error("VotingInterface is NULL :sob:");
     }
 
-    this.manager = new CCUManager(this);
+    this.manager = new CubepanionManager(this);
 
     this.rpcManager = new DiscordRPCManager(this);
     this.widgetManager = new WidgetManager(this);
@@ -91,7 +91,7 @@ public class Cubepanion extends LabyAddon<CCUconfig> {
     this.logger().info("CubeCraft-Utilities has successfully registered all her components.");
   }
 
-  public CCUManager getManager() {
+  public CubepanionManager getManager() {
     return this.manager;
   }
 
@@ -102,7 +102,7 @@ public class Cubepanion extends LabyAddon<CCUconfig> {
   }
 
   @Override
-  protected Class<CCUconfig> configurationClass() {
-    return CCUconfig.class;
+  protected Class<Cubepanionconfig> configurationClass() {
+    return Cubepanionconfig.class;
   }
 }

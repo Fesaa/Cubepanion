@@ -7,13 +7,13 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.CubeGame;
 
 public class ScoreboardListener {
 
   private final Cubepanion addon;
-  private final CCUManager manager;
+  private final CubepanionManager manager;
 
   private String previousText;
   private boolean updatedMap;

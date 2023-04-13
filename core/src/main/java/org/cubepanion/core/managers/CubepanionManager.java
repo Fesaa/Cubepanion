@@ -8,7 +8,7 @@ import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 
-public class CCUManager {
+public class CubepanionManager {
   // Sub Managers
 
   private final PartyManager partyManager;
@@ -39,7 +39,7 @@ public class CCUManager {
   private long gameStartTime;
 
 
-  public CCUManager(Cubepanion addon) {
+  public CubepanionManager(Cubepanion addon) {
     this.partyManager = new PartyManager();
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
     this.spawnProtectionManager = new SpawnProtectionManager(addon);

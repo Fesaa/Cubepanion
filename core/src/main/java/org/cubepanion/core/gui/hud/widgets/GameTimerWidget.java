@@ -11,13 +11,13 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
   private final int posX;
   private final int posY;
-  private final CCUManager manager;
+  private final CubepanionManager manager;
 
   private TextLine HUDLine;
 

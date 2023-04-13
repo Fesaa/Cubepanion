@@ -4,9 +4,9 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import org.jetbrains.annotations.NotNull;
 
-public class CCUWidgetCategory extends HudWidgetCategory {
+public class CubepanionWidgetCategory extends HudWidgetCategory {
 
-  public CCUWidgetCategory(String id) {
+  public CubepanionWidgetCategory(String id) {
     super(id);
   }
 

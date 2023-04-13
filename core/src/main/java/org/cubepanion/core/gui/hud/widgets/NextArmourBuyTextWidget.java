@@ -13,14 +13,14 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
 import org.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfig> {
 
-  private final CCUManager manager;
+  private final CubepanionManager manager;
   private TextLine nextArmourBuy;
 
-  public NextArmourBuyTextWidget(HudWidgetCategory category, String id, CCUManager manager) {
+  public NextArmourBuyTextWidget(HudWidgetCategory category, String id, CubepanionManager manager) {
     super(id, NextArmourBuyHudConfig.class);
     this.manager = manager;
 

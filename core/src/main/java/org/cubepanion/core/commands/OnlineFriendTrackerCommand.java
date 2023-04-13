@@ -7,8 +7,8 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.CCUconfig;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.config.Cubepanionconfig;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
@@ -32,8 +32,8 @@ public class OnlineFriendTrackerCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    CCUManager manager = Cubepanion.get().getManager();
-    CCUconfig config = Cubepanion.get().configuration();
+    CubepanionManager manager = Cubepanion.get().getManager();
+    Cubepanionconfig config = Cubepanion.get().configuration();
     if (!config.getCommandSystemSubConfig().getFriendsTrackerCommand().get()
     || !config.getCommandSystemSubConfig().getEnabled().get()
     || !manager.onCubeCraft()

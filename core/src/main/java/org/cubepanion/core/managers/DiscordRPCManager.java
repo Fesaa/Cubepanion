@@ -58,7 +58,7 @@ public class DiscordRPCManager {
     DiscordActivity current = this.addon.labyAPI().thirdPartyService().discord().getDisplayedActivity();
 
     Builder builder = DiscordActivity.builder(this);
-    CCUManager manager = this.addon.getManager();
+    CubepanionManager manager = this.addon.getManager();
 
     if (current != null) {
       builder.start(current.getStartTime());

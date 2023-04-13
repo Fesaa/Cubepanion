@@ -3,27 +3,27 @@ package org.cubepanion.core.commands;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class FriendLocationCommand extends Command {
 
-  private final CCUManager ccuManager;
+  private final CubepanionManager cubepanionManager;
   private final FriendTrackerManager manager;
 
   public FriendLocationCommand(Cubepanion addon) {
     super("friendlocations");
 
-    this.ccuManager = addon.getManager();
-    this.manager = this.ccuManager.getFriendTrackerManager();
+    this.cubepanionManager = addon.getManager();
+    this.manager = this.cubepanionManager.getFriendTrackerManager();
 
     this.messagePrefix = addon.prefix();
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!this.ccuManager.onCubeCraft()) {
+    if (!this.cubepanionManager.onCubeCraft()) {
       return false;
     }
     Component component = Component.empty();

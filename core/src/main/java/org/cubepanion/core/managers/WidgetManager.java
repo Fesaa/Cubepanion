@@ -11,7 +11,7 @@ import org.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget;
 import org.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
-import org.cubepanion.core.gui.hud.widgets.base.CCUWidgetCategory;
+import org.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
 
 //TODO: Maybe! Add ...
 // Custom text widget
@@ -24,10 +24,10 @@ public class WidgetManager {
   public WidgetManager(Cubepanion addon) {this.addon = addon;}
   
   public void register() {
-    CCUManager manager = this.addon.getManager();
+    CubepanionManager manager = this.addon.getManager();
     HudWidgetRegistry hudWidgetRegistry = this.addon.labyAPI().hudWidgetRegistry();
 
-    HudWidgetCategory category = new CCUWidgetCategory("CCU");
+    HudWidgetCategory category = new CubepanionWidgetCategory("Cubepanion");
     hudWidgetRegistry.categoryRegistry().register(category);
     
     hudWidgetRegistry.register(new CounterItemHudWidget(category, "emerald_counter","emerald", "emerald", 3, 0));

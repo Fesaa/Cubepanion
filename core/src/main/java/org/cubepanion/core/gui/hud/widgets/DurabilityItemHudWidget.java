@@ -8,14 +8,14 @@ import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.util.Color;
 import org.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
-import org.cubepanion.core.managers.CCUManager;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class DurabilityItemHudWidget extends CustomItemWidget {
 
-  private final CCUManager manager;
+  private final CubepanionManager manager;
   private final EquipmentSpot equipmentSpot;
 
-  public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex, EquipmentSpot spot, int posX, int posY, CCUManager manager) {
+  public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex, EquipmentSpot spot, int posX, int posY, CubepanionManager manager) {
     super(id, regex,"", posX, posY);
     this.manager = manager;
     this.equipmentSpot = spot;
