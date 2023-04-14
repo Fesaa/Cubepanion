@@ -20,7 +20,7 @@ public class AutoVoteSubConfig extends Config {
   @DropdownSetting
   @SpriteSlot(x = 7)
   @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.eggWarsHealth.entries")
-  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(ThreeOptionsMode.LEFT);
+  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(ThreeOptionsMode.MIDDLE);
 
   @DropdownSetting
   @SpriteSlot(y = 1)
@@ -30,22 +30,22 @@ public class AutoVoteSubConfig extends Config {
   @DropdownSetting
   @SpriteSlot(x = 2, y = 1)
   @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.skyWarsProjectiles.entries")
-  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
+  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
   @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.skyWarsTime.entries")
-  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
+  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 4, y = 1)
   @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.luckyIslandsBlocks.entries")
-  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(FourOptionsMode.LEFT);
+  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(FourOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
   @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.luckyIslandsTime.entries")
-  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(ThreeOptionsMode.MIDDLE);
+  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
 
   public boolean isEnabled() {
