@@ -47,7 +47,7 @@ public class ScoreboardListener {
         this.updatedMap = true;
       } else {
         String text = ((TextComponent) children.get(0)).getText();
-        if (this.previousText.equals("Map:")) {
+        if (this.previousText.equals("Map:") || this.previousText.equals("Dimension:")) {
           this.manager.setMapName(text);
           this.updatedMap = true;
         }

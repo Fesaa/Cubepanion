@@ -74,7 +74,7 @@ public class DiscordRPCManager {
       state = I18n.translate(this.mainKey + "lobbyState");
     } else {
       details = I18n.translate(this.mainKey + "playing") + division.getString();
-      if (manager.isInPreLobby() && !division.equals(CubeGame.FFA)) {
+      if (manager.isInPreLobby() && !division.equals(CubeGame.FFA) && !division.equals(CubeGame.SKYBLOCK)) {
         state = I18n.translate(this.mainKey + "waitingState");
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
