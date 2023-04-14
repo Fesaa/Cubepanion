@@ -98,7 +98,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public Component prefix() {
     return Component.text("[", Colours.Title)
         .append(Component.text("Cubepanion", Colours.Primary))
-        .append(Component.text("] ", Colours.Title));
+        .append(Component.text("]", Colours.Title));
   }
 
   @Override

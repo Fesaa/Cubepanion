@@ -73,7 +73,7 @@ public class OnlineFriendTrackerCommand extends Command {
             reply = reply
                 .append(Component.text(username, Colours.Secondary)
                         .clickEvent(ClickEvent.suggestCommand("/friendTracking untrack " + username)))
-                .append(Component.text(",", Colours.Primary));
+                .append(Component.text(", ", Colours.Primary));
           }
           break;
         }
@@ -92,7 +92,7 @@ public class OnlineFriendTrackerCommand extends Command {
                 .append(Component.text(username, Colours.Secondary)
                         .clickEvent(ClickEvent.runCommand("/friendTracking untrack " + username)));
             if (i != size) {
-              reply = reply .append(Component.text(",", Colours.Primary));
+              reply = reply .append(Component.text(", ", Colours.Primary));
             }
             i++;
           }
