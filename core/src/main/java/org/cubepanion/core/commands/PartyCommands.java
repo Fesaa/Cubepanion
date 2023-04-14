@@ -111,14 +111,14 @@ public class PartyCommands extends Command {
   }
 
   private void reMakeCommand(ChatExecutor chat, String[] excludedUsernames) {
+    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (p == null) {
+      return;
+    }
     chat.chat("/p disband", false);
-    int multiplier = 1;
+    int multiplier = 0;
 
     for (String username : this.addon.getManager().getPartyManager().getPartyMembers()) {
-      ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
-      if (p == null) {
-        return;
-      }
       if (!this.inArray(excludedUsernames, username) && !username.equals(p.getName())) {
         Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
             () -> chat.chat("/p invite " + username, false),
@@ -131,15 +131,23 @@ public class PartyCommands extends Command {
   }
 
   private void reInviteCommand(ChatExecutor chat, String[] Usernames) {
-
     if (Usernames.length == 0) {
       this.missingArguments();
     }
-
+    int multiplier = 0;
     for (String username : Usernames) {
       if (this.addon.getManager().getPartyManager().isMemberInParty(username)) {
-        chat.chat("/p kick " + username, false);
-        chat.chat("/p invite " + username, false);
+        Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
+            () -> {
+              chat.chat("/p kick " + username, false);
+              chat.chat("/p invite " + username, false);
+            },
+            100L * multiplier,
+            TimeUnit.MILLISECONDS
+        );
+        multiplier++;
+      } else {
+        this.displayMessage(Component.text("Cannot re-invite " + username + " as they were not in the party.", Colours.Error));
       }
     }
   }
@@ -158,7 +166,7 @@ public class PartyCommands extends Command {
       return new String[0];
     }
     String[] slicedArray = new String[array.length - 1];
-    System.arraycopy(array, 1, slicedArray, 0, array.length);
+    System.arraycopy(array, 1, slicedArray, 0, array.length-1);
     return slicedArray;
   }
 
