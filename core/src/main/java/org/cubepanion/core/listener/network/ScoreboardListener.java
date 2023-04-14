@@ -54,6 +54,9 @@ public class ScoreboardListener {
         this.previousText = text;
       }
     }
+    if (this.updatedMap) {
+      this.addon.rpcManager.updateRPC();
+    }
   }
 
   @Subscribe
