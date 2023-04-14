@@ -1,4 +1,4 @@
-package org.cubecraftutilities.v1_19_4;
+package org.cubepanion.v1_19_3;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.labymod.api.models.Implements;
@@ -17,7 +17,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.utils.VotingInterface;
 import org.jetbrains.annotations.NotNull;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Timer;

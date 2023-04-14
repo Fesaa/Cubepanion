@@ -1,4 +1,4 @@
-package org.cubecraftutilities.v1_19_2;
+package org.cubepanion.v1_19_2;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import java.util.Timer;
