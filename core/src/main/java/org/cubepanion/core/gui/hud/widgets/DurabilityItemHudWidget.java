@@ -37,13 +37,11 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
     this.itemIsHeld = false;
     ItemStack mainHand = player.getMainHandItemStack();
     ItemStack offHand = player.getOffHandItemStack();
-    if ((mainHand.getAsItem().toString().contains(this.regex) || offHand.getAsItem().toString().contains(this.regex))) {
+    if ((mainHand.getAsItem().getIdentifier().getPath().contains(this.regex) || offHand.getAsItem().getIdentifier().getPath().contains(this.regex))) {
       this.itemIsHeld = true;
     }
     this.counter = this.manager.getDurabilityManager().getDurability(this.equipmentSpot);
-    Color colour = this.config.getTextColour().get();
-    this.updateItemName(Component.text(this.counter,
-        TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())));
+    this.updateItemName(Component.text(this.counter, this.config.getTextColor()));
 
   }
 

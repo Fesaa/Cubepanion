@@ -20,8 +20,8 @@ public class StatsTracker {
   private final Pattern mightBeKillMessage = Pattern.compile(this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
   private final String userNameRegex = "(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|)";
   private final String assistRegex = "(\\s{0,5}\\(\\+\\d{1,2} assists?\\))?";
-  private final HashMap<Pattern, Integer> customKillMessages = new HashMap<>();
-  private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>();
+  private final HashMap<Pattern, Integer> customKillMessages = new HashMap<>(69);
+  private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>(8);
 
   public StatsTracker(Cubepanion addon) {
     this.addon = addon;

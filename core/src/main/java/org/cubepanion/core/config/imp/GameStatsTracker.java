@@ -1,5 +1,6 @@
 package org.cubepanion.core.config.imp;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +21,9 @@ public class GameStatsTracker {
   private final StatsTracker played;
   private final StatsTracker kills;
   private final StatsTracker deaths;
-  private HashMap<String, StatsTracker> perPlayerKills;
+  private final HashMap<String, StatsTracker> perPlayerKills;
 
-  private HashMap<String, StatsTracker> perPlayerDeaths;
+  private final HashMap<String, StatsTracker> perPlayerDeaths;
 
   private final HashMap<String, GameStatsTracker> historicalData;
 
@@ -241,26 +242,26 @@ public class GameStatsTracker {
 
   // Cleanup functions
   public void cleanUp(int minEntry) {
-    HashMap<String, StatsTracker> toRemove = new HashMap<>();
+    ArrayList<String> toRemove = new ArrayList<>();
     for (Map.Entry<String, StatsTracker> set : this.perPlayerKills.entrySet()) {
       if (set.getValue().getAllTime() < minEntry) {
-        toRemove.put(set.getKey(), set.getValue());
+        toRemove.add(set.getKey());
       }
     }
 
-    for (Map.Entry<String, StatsTracker> set : toRemove.entrySet()) {
-      this.perPlayerKills.remove(set.getKey(), set.getValue());
+    for (String key : toRemove) {
+      this.perPlayerKills.remove(key);
     }
 
-    toRemove = new HashMap<>();
+    toRemove.clear();
     for (Map.Entry<String, StatsTracker> set : this.perPlayerDeaths.entrySet()) {
       if (set.getValue().getAllTime() < minEntry) {
-        toRemove.put(set.getKey(), set.getValue());
+        toRemove.add(set.getKey());
       }
     }
 
-    for (Map.Entry<String, StatsTracker> set : toRemove.entrySet()) {
-      this.perPlayerDeaths.remove(set.getKey(), set.getValue());
+    for (String key : toRemove) {
+      this.perPlayerDeaths.remove(key);
     }
 
     for (GameStatsTracker historicalGameStatsTracker : this.historicalData.values()) {
@@ -272,15 +273,15 @@ public class GameStatsTracker {
   public void cleanUpPerPlayerHistorical() {
     for (String date : this.historicalData.keySet()) {
       GameStatsTracker gameStatsTracker = this.historicalData.get(date);
-      gameStatsTracker.perPlayerKills = new HashMap<>();
-      gameStatsTracker.perPlayerDeaths = new HashMap<>();
+      gameStatsTracker.perPlayerKills.clear();
+      gameStatsTracker.perPlayerDeaths.clear();
       this.historicalData.put(date, gameStatsTracker);
     }
   }
 
   public void resetAllPlayerStats() {
-    this.perPlayerKills = new HashMap<>();
-    this.perPlayerDeaths = new HashMap<>();
+    this.perPlayerKills.clear();
+    this.perPlayerDeaths.clear();
     this.cleanUpPerPlayerHistorical();
   }
 

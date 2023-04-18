@@ -1,5 +1,6 @@
 package org.cubepanion.core.managers;
 
+import java.util.function.BooleanSupplier;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.gui.hud.HudWidgetRegistry;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
@@ -43,6 +44,8 @@ public class WidgetManager {
 
     hudWidgetRegistry.register(new NextArmourBuyTextWidget(category,"nextArmourDurability", manager));
 
+    BooleanSupplier statsTrackerEnabled = () -> this.addon.configuration().getStatsTrackerSubConfig().isEnabled();
+
     // Wins / Played
     hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_wins_tracker", "Wins/Games", "7/9",
         () -> {
@@ -53,20 +56,19 @@ public class WidgetManager {
           }
           return "";
         },
-        this::booleanSupplier, 2, 1));
+        this::booleanSupplier, 2, 1, statsTrackerEnabled));
 
     // Win Streak
     hudWidgetRegistry.register(new TextTrackerHudWidget(category,"all_time_winstreak_tracker", "Win Streak", "0",
         () -> {
           StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(
-              manager.getDivision());
+          GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(manager.getDivision());
           if (gameStatsTracker != null) {
             return String.valueOf(gameStatsTracker.getWinStreak());
           }
           return "";
         },
-        this::booleanSupplier, 3, 1));
+        this::booleanSupplier, 3, 1, statsTrackerEnabled));
 
     // Daily Win Streak
     hudWidgetRegistry.register(new TextTrackerHudWidget(category,"daily_winstreak_tracker", "Daily Win Streak", "0",
@@ -78,32 +80,10 @@ public class WidgetManager {
           }
           return "";
         },
-        this::booleanSupplier, 2, 1));
+        this::booleanSupplier, 2, 1, statsTrackerEnabled));
 
     // Game Timer
     hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker",5, 1));
-  }
-
-  private String timeDifferenceToReadable(long timeDifference) {
-    long seconds = timeDifference / 1000;
-    long minutes = seconds / 60;
-    long hours = minutes / 60;
-
-    String readableString = "";
-
-    if (hours > 0) {
-      readableString += hours + " hour" + (hours != 1 ? "s ": " ");
-      minutes %= 60;
-    }
-    if (minutes > 0) {
-      readableString += minutes + " minute" + (minutes != 1 ? "s " : " ");
-      seconds %= 60;
-    }
-    if (seconds > 0) {
-      readableString += seconds + " second" + (seconds != 1 ? "s" : "");
-    }
-
-    return readableString;
   }
 
   private boolean booleanSupplier() {

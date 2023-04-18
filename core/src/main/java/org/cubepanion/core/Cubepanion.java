@@ -48,6 +48,10 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     return instance;
   }
 
+  public static void updateRPC() {
+    instance.rpcManager.updateRPC();
+  }
+
   @Override
   protected void enable() {
     this.registerSettingCategory();

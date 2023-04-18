@@ -4,6 +4,7 @@ import net.labymod.api.client.gui.screen.key.Key;
 import net.labymod.api.client.gui.screen.widget.widgets.input.KeybindWidget.KeyBindSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
+import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
@@ -14,6 +15,16 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 
 @SpriteTexture("setting_icons.png")
 public class AutomationConfig extends Config {
+
+  private ResourceLocation friendMessageResourceLocation;
+
+  public AutomationConfig() {
+    this.friendMessageResourceLocation = ResourceLocation.create("minecraft", this.friendMessageSoundId.get());
+
+    this.friendMessageSoundId.addChangeListener((type, oldValue, newValue) -> {
+      this.friendMessageResourceLocation = ResourceLocation.create("minecraft", newValue);
+    });
+  }
 
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
@@ -47,7 +58,7 @@ public class AutomationConfig extends Config {
   public ConfigProperty<Key> getCopyBungeecord() {return copyBungeecord;}
   public ConfigProperty<Key> getCopyServerID() {return copyServerID;}
   public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
-  public ConfigProperty<String> getFriendMessageSoundId() {return friendMessageSoundId;}
+  public ResourceLocation getFriendMessageSoundId() {return friendMessageResourceLocation;}
   public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
   public ArmourBreakWarningSubConfig getArmourBreakWarningSubConfig() {return armourBreakWarningSubConfig;}
 }

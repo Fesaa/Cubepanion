@@ -18,17 +18,29 @@ public class PartyCommands extends Command {
 
   private final Cubepanion addon;
 
-  private final Function<String, Component> errorComponent;
-  private final Function<String, Component> helpComponent;
+  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
+  private final Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
+
+  private final Component noPermissionComponent = this.errorComponent.apply("noPermissions").color(Colours.Error);
+  private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments").color(Colours.Error);
+  private final Component helpTitleComponent = this.helpComponent.apply("title").color(Colours.Title);
+  private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>", Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party reinvite "))
+      .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
+  private final Component helpRemakeComponent = Component.text("\n/party remake [username*]", Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party remake "))
+      .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
+      .append(this.helpComponent.apply("remake.middle").color(Colours.Primary).decorate(TextDecoration.BOLD))
+      .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
+  private final Component helpExtraComponent = Component.text("\n/party extra [command]", Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party extra "))
+      .append(this.helpComponent.apply("extra").color(Colours.Secondary));
 
   public PartyCommands(Cubepanion addon) {
     super("party", "p");
 
     this.addon = addon;
     this.messagePrefix = addon.prefix();
-
-    this.errorComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
-    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
   }
 
   @Override
@@ -73,41 +85,26 @@ public class PartyCommands extends Command {
   }
 
   private void noPermissions() {
-    this.displayMessage(this.errorComponent.apply("noPermissions").color(Colours.Error));
+    this.displayMessage(this.noPermissionComponent);
   }
 
   private void missingArguments() {
-    this.displayMessage(this.errorComponent.apply("missingArguments").color(Colours.Error));
+    this.displayMessage(this.missingArgumentsComponent);
   }
 
   private void helpCommand(String command) {
-    Component helpComponent = this.helpComponent.apply("title")
-        .color(Colours.Title);
+    Component helpComponent = this.helpTitleComponent;
 
     boolean run = command.equals("extra");
 
     if (run || command.equals("reinvite") || command.equals("reinv")) {
-      helpComponent = helpComponent
-          .append(Component.text("\n/party reinvite <username*>", Colours.Primary)
-              .clickEvent(ClickEvent.suggestCommand("/party reinvite ")))
-          .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
+      helpComponent = helpComponent.append(this.helpReInviteComponent);
     }
 
     if (run || command.equals("remake")) {
-      helpComponent = helpComponent
-          .append(Component.text("\n/party remake [username*]", Colours.Primary)
-              .clickEvent(ClickEvent.suggestCommand("/party remake ")))
-          .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
-          .append(this.helpComponent.apply("remake.middle").color(Colours.Primary).decorate(TextDecoration.BOLD))
-          .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
+      helpComponent = helpComponent.append(this.helpRemakeComponent);
     }
-
-    helpComponent = helpComponent
-        .append(Component.text("\n/party extra [command]", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/party extra ")))
-        .append(this.helpComponent.apply("extra").color(Colours.Secondary));
-
-    this.displayMessage(helpComponent);
+    this.displayMessage(helpComponent.append(this.helpExtraComponent));
   }
 
   private void reMakeCommand(ChatExecutor chat, String[] excludedUsernames) {
@@ -147,7 +144,7 @@ public class PartyCommands extends Command {
         );
         multiplier++;
       } else {
-        this.displayMessage(Component.text("Cannot re-invite " + username + " as they were not in the party.", Colours.Error));
+        this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "PartyCommands.error.cannotReinvite", Component.text(username)));
       }
     }
   }

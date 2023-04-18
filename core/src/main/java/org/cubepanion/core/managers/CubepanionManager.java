@@ -171,6 +171,11 @@ public class CubepanionManager {
   public void setDivision(CubeGame division) {
     this.lastDivision = this.division;
     this.division = division;
+
+    if (this.division.equals(CubeGame.SKYBLOCK)) {
+      this.inPreLobby = false;
+      this.gameStartTime = System.currentTimeMillis();
+    }
   }
 
   public void setMapName(String mapName) {

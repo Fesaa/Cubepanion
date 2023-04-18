@@ -42,7 +42,7 @@ public class ScoreboardListener {
             this.updatedMap = true;
           }
         }
-      } else if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
+      } else if (this.manager.getDivision().equals(CubeGame.LOBBY) && this.manager.hasUpdatedAfterServerSwitch()) {
         this.manager.setMapName("Main Lobby");
         this.updatedMap = true;
       } else {

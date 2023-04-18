@@ -10,7 +10,7 @@ public class SpawnProtectionManager {
 
   private final Cubepanion addon;
 
-  private HashMap<UUID, SpawnProtectionComponent> uuidSpawnProtectionComponentHashMap;
+  private final HashMap<UUID, SpawnProtectionComponent> uuidSpawnProtectionComponentHashMap;
   private final ClientPlayerSpawnProtection clientPlayerSpawnProtection;
 
   public SpawnProtectionManager(Cubepanion addon) {
@@ -39,7 +39,7 @@ public class SpawnProtectionManager {
   }
 
   public void resetHasMap() {
-    this.uuidSpawnProtectionComponentHashMap = new HashMap<>();
+    this.uuidSpawnProtectionComponentHashMap.clear();
   }
 
   public ClientPlayerSpawnProtection getClientPlayerSpawnProtection() {

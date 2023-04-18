@@ -38,7 +38,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
   }
 
   public boolean inventoryItemMatches(ItemStack itemStack, int i, int selectedEntry) {
-    if (itemStack.getAsItem().toString().matches(this.regex)) {
+    if (itemStack.getAsItem().getIdentifier().getPath().matches(this.regex)) {
       if (selectedEntry == i) {
         this.itemIsHeld = true;
       }

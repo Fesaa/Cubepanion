@@ -21,22 +21,50 @@ import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
 
 public class StatCommands extends Command {
-
   private final Cubepanion addon;
   private final Pattern timeFormat = Pattern.compile("\\b(20[0-9]{2})-([1-9]|1[1-2])-(1[0-9]|2[0-9]|3[0-1]|[1-9])\\b");
 
-  private final Function<String, Component> errorComponent;
-  private final Function<String, String> errorKey;
-  private final Function<String, Component> helpComponent;
+  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.error");
+  private final Function<String, String> errorKey = I18nNamespaces.commandNameSpaceMaker("StatCommands.error");
+  private final Function<String, Component> helpComponentGetter = I18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
+
+  private final Component gameNotFoundComponent = this.errorComponent.apply("gameNotFound.text").color(Colours.Error)
+      .hoverEvent(HoverEvent.showText(this.errorComponent.apply("gameNotFound.text").color(Colours.Hover)));
+  private final Component helpComponent = this.helpComponentGetter.apply("title")
+      .color(Colours.Title)
+      .decorate(TextDecoration.BOLD)
+
+      .append(Component.text("\n/stats <game>", Colours.Primary)
+          .clickEvent(ClickEvent.suggestCommand("/stats ")))
+      .append(this.helpComponentGetter.apply("displayGlobalStats").color(Colours.Secondary))
+
+      .append(Component.text("\n/stats <game> [username]", Colours.Primary)
+          .clickEvent(ClickEvent.suggestCommand("/stats ")))
+      .append(this.helpComponentGetter.apply("displayPlayerStats").color(Colours.Secondary))
+
+      .append(Component.text("\n/stats <game> <YYYY-MM-DD>", Colours.Primary)
+          .clickEvent(ClickEvent.suggestCommand("/stats ")))
+      .append(this.helpComponentGetter.apply("displayGlobalStatsOnDate").color(Colours.Secondary))
+
+      .append(Component.text("\n/stats <game> <YYYY-MM-DD> <username>", Colours.Primary)
+          .clickEvent(ClickEvent.suggestCommand("/stats "))
+          .hoverEvent(HoverEvent.showText(this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
+      .append(this.helpComponentGetter.apply("displayPlayerStatsOnDate").color(Colours.Secondary)
+          .hoverEvent(HoverEvent.showText(this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
+
+      .append(Component.text("\n/stats help", Colours.Primary)
+          .clickEvent(ClickEvent.suggestCommand("/stats help")))
+      .append(this.helpComponentGetter.apply("this").color(Colours.Secondary))
+
+      .append(this.helpComponentGetter.apply("tracking").color(Colours.Primary))
+      .append(this.gamesList().color(Colours.Secondary));
+
+
   public StatCommands(Cubepanion addon) {
     super("stats");
 
     this.addon = addon;
     this.messagePrefix = addon.prefix();
-
-    this.errorComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.error");
-    this.errorKey = I18nNamespaces.commandNameSpaceMaker("StatCommands.error");
-    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
   }
 
   @Override
@@ -71,9 +99,7 @@ public class StatCommands extends Command {
     }
 
     if (gameStatsTracker == null) {
-      this.displayMessage(this.errorComponent.apply("gameNotFound.text").color(Colours.Error)
-          .hoverEvent(HoverEvent.showText(this.errorComponent.apply("gameNotFound.text").color(Colours.Hover)))
-          .append(this.gamesList().color(Colours.Error)));
+      this.displayMessage(this.gameNotFoundComponent.append(this.gamesList().color(Colours.Error)));
       return false;
     }
 
@@ -134,40 +160,14 @@ public class StatCommands extends Command {
   }
 
   private void helpCommand() {
-    Component helpComponent = this.helpComponent.apply("title")
-        .color(Colours.Title)
-        .decorate(TextDecoration.BOLD)
-
-        .append(Component.text("\n/stats <game>", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats ")))
-        .append(this.helpComponent.apply("displayGlobalStats").color(Colours.Secondary))
-
-        .append(Component.text("\n/stats <game> [username]", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats ")))
-        .append(this.helpComponent.apply("displayPlayerStats").color(Colours.Secondary))
-
-        .append(Component.text("\n/stats <game> <YYYY-MM-DD>", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats ")))
-        .append(this.helpComponent.apply("displayGlobalStatsOnDate").color(Colours.Secondary))
-
-        .append(Component.text("\n/stats <game> <YYYY-MM-DD> <username>", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats "))
-            .hoverEvent(HoverEvent.showText(this.helpComponent.apply("requiredSetting").color(Colours.Hover))))
-        .append(this.helpComponent.apply("displayPlayerStatsOnDate").color(Colours.Secondary)
-            .hoverEvent(HoverEvent.showText(this.helpComponent.apply("requiredSetting").color(Colours.Hover))))
-
-        .append(Component.text("\n/stats help", Colours.Primary)
-            .clickEvent(ClickEvent.suggestCommand("/stats help")))
-        .append(this.helpComponent.apply("this").color(Colours.Secondary))
-
-        .append(this.helpComponent.apply("tracking").color(Colours.Primary))
-        .append(this.gamesList().color(Colours.Secondary));
-
-    this.displayMessage(helpComponent);
+    this.displayMessage(this.helpComponent);
   }
 
   private Component gamesList() {
     Component comp = Component.empty();
+    if (this.addon == null) {
+      return comp;
+    }
     Set<CubeGame> keySet = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().keySet();
     List<CubeGame> keys = new ArrayList<>(keySet);
     for (int i = 0; i < keys.size(); i++) {

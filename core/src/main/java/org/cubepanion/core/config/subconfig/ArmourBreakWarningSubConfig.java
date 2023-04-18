@@ -4,6 +4,7 @@ package org.cubepanion.core.config.subconfig;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
+import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
@@ -37,7 +38,7 @@ public class ArmourBreakWarningSubConfig extends Config {
   public ConfigProperty<Boolean> getActionbar() {return actionbar;}
   public ConfigProperty<Boolean> getChat() {return chat;}
   public ConfigProperty<Boolean> getNotification() {return notification;}
-  public ConfigProperty<String> getSoundId(EquipmentSpot spot) {
+  public ResourceLocation getMinecraftSoundResourceLocation(EquipmentSpot spot) {
     switch (spot) {
       case FEET:
         return armourBreakSoundsSubConfig.getSoundIdBoots();

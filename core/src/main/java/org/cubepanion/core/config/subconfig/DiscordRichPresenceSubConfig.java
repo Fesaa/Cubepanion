@@ -5,8 +5,16 @@ import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import org.cubepanion.core.Cubepanion;
 
 public class DiscordRichPresenceSubConfig extends Config {
+
+  public DiscordRichPresenceSubConfig() {
+    this.enabled.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
+    this.players.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
+    this.gameImage.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
+    this.map.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
+  }
 
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);

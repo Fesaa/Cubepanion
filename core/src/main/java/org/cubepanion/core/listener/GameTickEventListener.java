@@ -5,7 +5,6 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
-import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
@@ -23,7 +22,6 @@ public class GameTickEventListener {
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig;
-  private final ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "themes/vanilla/textures.png");
   private int counter = 0;
 
   public GameTickEventListener(Cubepanion addon) {
@@ -52,10 +50,12 @@ public class GameTickEventListener {
       this.spawnProtectionManager.getClientPlayerSpawnProtection().update(false);
       this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(false);
       this.durabilityUpdater();
-      this.processForWarningMessage(EquipmentSpot.HEAD);
-      this.processForWarningMessage(EquipmentSpot.CHEST);
-      this.processForWarningMessage(EquipmentSpot.LEGS);
-      this.processForWarningMessage(EquipmentSpot.FEET);
+      if (this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get()) {
+        this.processForWarningMessage(EquipmentSpot.HEAD);
+        this.processForWarningMessage(EquipmentSpot.CHEST);
+        this.processForWarningMessage(EquipmentSpot.LEGS);
+        this.processForWarningMessage(EquipmentSpot.FEET);
+      }
     }
     this.counter++;
   }
@@ -77,25 +77,25 @@ public class GameTickEventListener {
     ItemStack bootsItemStack  = player.getEquipmentItemStack(EquipmentSpot.FEET);
     ItemStack offHand = player.getOffHandItemStack();
 
-    if (helmetItemStack.getAsItem().toString().contains("helmet")) {
+    if (helmetItemStack.getAsItem().getIdentifier().getPath().contains("helmet")) {
       helmet += helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
     }
-    if (chestPlateItemStack.getAsItem().toString().contains("chest")) {
+    if (chestPlateItemStack.getAsItem().getIdentifier().getPath().contains("chest")) {
       chest += chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
     }
-    if (leggingsItemStack.getAsItem().toString().contains("leggings")) {
+    if (leggingsItemStack.getAsItem().getIdentifier().getPath().contains("leggings")) {
       leggings += leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
     }
-    if (bootsItemStack.getAsItem().toString().contains("boots")) {
+    if (bootsItemStack.getAsItem().getIdentifier().getPath().contains("boots")) {
       boots += bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
     }
-    if (offHand.getAsItem().toString().contains("helmet")) {
+    if (offHand.getAsItem().getIdentifier().getPath().contains("helmet")) {
       helmet += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
-    } else if (offHand.getAsItem().toString().contains("chest")) {
+    } else if (offHand.getAsItem().getIdentifier().getPath().contains("chest")) {
       chest += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
-    } else if (offHand.getAsItem().toString().contains("leggings")) {
+    } else if (offHand.getAsItem().getIdentifier().getPath().contains("leggings")) {
       leggings += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
-    } else if (offHand.getAsItem().toString().contains("boots")) {
+    } else if (offHand.getAsItem().getIdentifier().getPath().contains("boots")) {
       boots += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
     }
 
@@ -104,16 +104,13 @@ public class GameTickEventListener {
       if (iStack.isAir()) {
         continue;
       }
-      if (iStack.getAsItem().toString().contains("helmet")) {
+      if (iStack.getAsItem().getIdentifier().getPath().contains("helmet")) {
         helmet += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
-      }
-      if (iStack.getAsItem().toString().contains("chestplate")) {
+      } else if (iStack.getAsItem().getIdentifier().getPath().contains("chestplate")) {
         chest += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
-      }
-      if (iStack.getAsItem().toString().contains("leggings")) {
+      } else if (iStack.getAsItem().getIdentifier().getPath().contains("leggings")) {
         leggings += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
-      }
-      if (iStack.getAsItem().toString().contains("boots")) {
+      } else if (iStack.getAsItem().getIdentifier().getPath().contains("boots")) {
         boots += iStack.getMaximumDamage() - iStack.getCurrentDamageValue();
       }
     }
@@ -166,6 +163,6 @@ public class GameTickEventListener {
     if (this.armourBreakWarningSubConfig.getActionbar().get()) {
       minecraft.chatExecutor().displayClientMessage(warning, true);
     }
-    minecraft.sounds().playSound(ResourceLocation.create("minecraft", this.armourBreakWarningSubConfig.getSoundId(spot).get()), 100, 1);
+    minecraft.sounds().playSound(this.armourBreakWarningSubConfig.getMinecraftSoundResourceLocation(spot), 100, 1);
   }
 }

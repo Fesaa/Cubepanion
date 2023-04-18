@@ -376,8 +376,12 @@
       },
       "elapsed_time_tracker": {
         "name": "Game Timer",
-        "layoutString": {
-          "name": "Time layout"
+        "layout": {
+          "name": "Time layout",
+          "entries":{
+            "words": "5 hours 4 minutes 1 second",
+            "colon": "5:42:01"
+          }
         }
       }
       },
@@ -420,7 +424,8 @@
       "PartyCommands": {
         "error": {
           "noPermissions": "You need to be party owner to use this command.",
-          "missingArguments": "You are missing required arguments, please try again."
+          "missingArguments": "You are missing required arguments, please try again.",
+          "cannotReinvite": "Cannot re-invite %s as they were not in the party."
         },
         "helpCommand": {
           "title": "------- Enhanced Party Commands -------",

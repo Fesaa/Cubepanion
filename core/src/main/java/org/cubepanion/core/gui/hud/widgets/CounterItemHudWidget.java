@@ -1,12 +1,10 @@
 package org.cubepanion.core.gui.hud.widgets;
 
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
-import net.labymod.api.util.Color;
 import org.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
 
 public class CounterItemHudWidget extends CustomItemWidget {
@@ -20,9 +18,7 @@ public class CounterItemHudWidget extends CustomItemWidget {
   @Override
   public void onTick(boolean inEditor) {
     if (inEditor) {
-      Color colour = this.config.getTextColour().get();
-      this.updateItemName(Component.text("1",
-          TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())));
+      this.updateItemName(Component.text("1", this.config.getTextColor()));
       return;
     }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
@@ -43,9 +39,7 @@ public class CounterItemHudWidget extends CustomItemWidget {
       if (this.inventoryItemMatches(offHandItem, -1, selectedEntry)) {
         this.counter += offHandItem.getSize();
       }
-      Color colour = this.config.getTextColour().get();
-      this.updateItemName(Component.text(this.counter,
-          TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())));
+      this.updateItemName(Component.text(this.counter, this.config.getTextColor()));
     }
   }
 
