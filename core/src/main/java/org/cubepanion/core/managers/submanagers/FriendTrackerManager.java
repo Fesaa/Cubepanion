@@ -7,25 +7,40 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
+import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class FriendTrackerManager {
 
-  private final Set<String> tracking;
-  private final HashMap<String, OnlineFriendLocation> friendLocations;
-  private final List<Integer> runningLoops;
+  private final Set<String> tracking  = new HashSet<>();
+  private final HashMap<String, OnlineFriendLocation> friendLocations  = new HashMap<>();
+  private final List<Integer> runningLoops = new ArrayList<>();
 
   private boolean isUpdating = false;
   private int currentLoop;
   private int updateInterVal = 30;
 
+  private Task friendTrackerLoopTask = Task.builder(() -> {
+    if (this.runningLoops.contains(this.currentLoop)) {
+      this.isUpdating = true;
+      Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
+      this.friendTrackerLoopTask.execute();
+    }
+  }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
+
   public FriendTrackerManager() {
-    this.tracking = new HashSet<>();
-    this.friendLocations = new HashMap<>();
-    this.runningLoops = new ArrayList<>();
+  }
+
+  private void updateFriendTrackerLoopTask() {
+    this.friendTrackerLoopTask = Task.builder(() -> {
+      if (this.runningLoops.contains(this.currentLoop)) {
+        this.isUpdating = true;
+        Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
+        this.friendTrackerLoopTask.execute();
+      }
+    }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
   }
 
   public HashMap<String, OnlineFriendLocation> getFriendLocations() {
@@ -99,9 +114,7 @@ public class FriendTrackerManager {
 
     this.currentLoop = loopID;
     this.runningLoops.add(this.currentLoop);
-    Executors.newScheduledThreadPool(
-            Runtime.getRuntime().availableProcessors())
-        .schedule(this::loop,5, TimeUnit.SECONDS);
+    this.friendTrackerLoopTask.execute();
   }
 
   public void endCurrentLoop() {
@@ -116,16 +129,7 @@ public class FriendTrackerManager {
 
   public void setUpdateInterVal(int i) {
     this.updateInterVal = i;
-  }
-
-  private void loop() {
-    if (this.runningLoops.contains(this.currentLoop)) {
-      this.isUpdating = true;
-      Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
-      Executors.newScheduledThreadPool(
-          Runtime.getRuntime().availableProcessors())
-          .schedule(this::loop,this.updateInterVal, TimeUnit.SECONDS);
-    }
+    this.updateFriendTrackerLoopTask();
   }
 
   public void forceUpdate() {

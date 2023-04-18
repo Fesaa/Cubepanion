@@ -1,6 +1,12 @@
 package org.cubepanion.v1_19_4;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
 import net.labymod.api.util.concurrent.task.Task;
 import net.minecraft.client.Minecraft;
@@ -18,13 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.utils.VotingInterface;
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 @Singleton
 @Implements(VotingInterface.class)
 public class VersionedVotingInterface extends VotingInterface {
@@ -35,7 +34,14 @@ public class VersionedVotingInterface extends VotingInterface {
   private final Task starter = Task.builder(() -> {
     this.openVotingMenu(player, this.hotbarSlotIndex);
     this.waitForMenuOpenAndMakeFirstChoice(player);
-  }).delay(300, TimeUnit.MILLISECONDS).build();
+  }).delay(100, TimeUnit.MILLISECONDS).build();
+  private final Task clickOnMenu = Task.builder(() -> {
+    ClientPacketListener connection = Minecraft.getInstance().getConnection();
+    if (connection == null) {
+      return;
+    }
+    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
+  }).delay(200, TimeUnit.MILLISECONDS).build();
 
   @Inject
   public VersionedVotingInterface() {
@@ -43,16 +49,13 @@ public class VersionedVotingInterface extends VotingInterface {
 
   @Override
   public void startAutoVote() {
-    System.out.println("Starting outvote with " +
-        String.format("Hotbar: %s, LeftChoice: %s, MiddleChoice: %s, RightChoice: %s, LeftVote: %s, MiddleVote: %s, RightVote: %s",
-            this.hotbarSlotIndex, this.leftChoiceIndex, this.middleChoiceIndex, this.rightChoiceIndex, this.leftVoteIndex, this.middleVoteIndex, this.rightVoteIndex));
     Minecraft minecraft = Minecraft.getInstance();
     LocalPlayer player = minecraft.player;
     if (player == null) {
       return;
     }
     this.player = player;
-    this.starter.run();
+    this.starter.execute();
 
   }
 
@@ -73,7 +76,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("waitForMenuOpenAndMakeFirstChoice canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -98,7 +100,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("waitForNewSlotAndClick canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -143,7 +144,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("gracefulShutDown canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -187,14 +187,6 @@ public class VersionedVotingInterface extends VotingInterface {
   private void openVotingMenu(@NotNull LocalPlayer player, int index) {
     Inventory inventory = player.getInventory();
     inventory.selected = index;
-    Executors.newScheduledThreadPool(
-            Runtime.getRuntime().availableProcessors())
-        .schedule(() -> {
-          ClientPacketListener connection = Minecraft.getInstance().getConnection();
-          if (connection == null) {
-            return;
-          }
-          connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
-        },200, TimeUnit.MILLISECONDS);
+    this.clickOnMenu.execute();
   }
 }

@@ -34,7 +34,14 @@ public class VersionedVotingInterface extends VotingInterface {
   private final Task starter = Task.builder(() -> {
     this.openVotingMenu(player, this.hotbarSlotIndex);
     this.waitForMenuOpenAndMakeFirstChoice(player);
-  }).delay(300, TimeUnit.MILLISECONDS).build();
+  }).delay(100, TimeUnit.MILLISECONDS).build();
+  private final Task clickOnMenu = Task.builder(() -> {
+    ClientPacketListener connection = Minecraft.getInstance().getConnection();
+    if (connection == null) {
+      return;
+    }
+    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
+  }).delay(200, TimeUnit.MILLISECONDS).build();
 
   @Inject
   public VersionedVotingInterface() {
@@ -42,16 +49,13 @@ public class VersionedVotingInterface extends VotingInterface {
 
   @Override
   public void startAutoVote() {
-    System.out.println("Starting outvote with " +
-        String.format("Hotbar: %s, LeftChoice: %s, MiddleChoice: %s, RightChoice: %s, LeftVote: %s, MiddleVote: %s, RightVote: %s",
-            this.hotbarSlotIndex, this.leftChoiceIndex, this.middleChoiceIndex, this.rightChoiceIndex, this.leftVoteIndex, this.middleVoteIndex, this.rightVoteIndex));
     Minecraft minecraft = Minecraft.getInstance();
     LocalPlayer player = minecraft.player;
     if (player == null) {
       return;
     }
     this.player = player;
-    this.starter.run();
+    this.starter.execute();
 
   }
 
@@ -72,7 +76,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("waitForMenuOpenAndMakeFirstChoice canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -97,7 +100,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("waitForNewSlotAndClick canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -142,7 +144,6 @@ public class VersionedVotingInterface extends VotingInterface {
       @Override
       public void run() {
         if (count == 10) {
-          System.out.println("gracefulShutDown canceled after 10 repetitions.");
           timer.cancel();
         }
         count++;
@@ -186,14 +187,6 @@ public class VersionedVotingInterface extends VotingInterface {
   private void openVotingMenu(@NotNull LocalPlayer player, int index) {
     Inventory inventory = player.getInventory();
     inventory.selected = index;
-    Executors.newScheduledThreadPool(
-            Runtime.getRuntime().availableProcessors())
-        .schedule(() -> {
-          ClientPacketListener connection = Minecraft.getInstance().getConnection();
-          if (connection == null) {
-            return;
-          }
-          connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
-        },200, TimeUnit.MILLISECONDS);
+    this.clickOnMenu.execute();
   }
 }

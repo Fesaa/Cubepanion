@@ -50,7 +50,6 @@ public abstract class VotingInterface {
 
 
   public void vote(CubeGame division, AutoVoteSubConfig autoVoteConfig) {
-    System.out.println("Calling outvote in division: " + division);
     switch (division) {
       case SOLO_SKYWARS:
         this.voteSkyWars(

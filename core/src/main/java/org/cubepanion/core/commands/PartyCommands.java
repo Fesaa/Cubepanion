@@ -1,14 +1,16 @@
 package org.cubepanion.core.commands;
 
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import net.labymod.api.Laby;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.utils.Colours;
@@ -17,9 +19,32 @@ import org.cubepanion.core.utils.I18nNamespaces;
 public class PartyCommands extends Command {
 
   private final Cubepanion addon;
+  private final ChatExecutor chatExecutor = Laby.labyAPI().minecraft().chatExecutor();
+
+  private final ArrayList<String> toRemake = new ArrayList<>();
+  private final ArrayList<String> toReInv = new ArrayList<>();
 
   private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
   private final Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
+
+  private final Task remakeTask = Task.builder(() -> {
+    if (!this.toRemake.isEmpty()) {
+      String username = this.toRemake.get(0);
+      this.toRemake.remove(0);
+      this.chatExecutor.chat("/p invite " + username, false);
+      this.remakeTask.execute();
+    }
+  }).delay(500, TimeUnit.MILLISECONDS).build();
+
+  private final Task reInviteTask = Task.builder(() -> {
+    if (!this.toReInv.isEmpty()) {
+      String username = this.toReInv.get(0);
+      this.toReInv.remove(0);
+      this.chatExecutor.chat("/p kick " + username, false);
+      this.chatExecutor.chat("/p invite " + username, false);
+      this.reInviteTask.execute();
+    }
+  }).delay(500, TimeUnit.MILLISECONDS).build();
 
   private final Component noPermissionComponent = this.errorComponent.apply("noPermissions").color(Colours.Error);
   private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments").color(Colours.Error);
@@ -56,13 +81,12 @@ public class PartyCommands extends Command {
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
     boolean isPartyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
-    boolean inParty = this.addon.getManager().getPartyManager().isInParty();
 
     switch (arguments[0]) {
       case "reinvite":
       case "reinv": {
         if (isPartyOwner) {
-          this.reInviteCommand(chat, this.removeFirst(arguments));
+          this.reInviteCommand(this.removeFirst(arguments));
         } else {
           this.noPermissions();
         }
@@ -113,40 +137,28 @@ public class PartyCommands extends Command {
       return;
     }
     chat.chat("/p disband", false);
-    int multiplier = 0;
-
+    this.toRemake.clear();
     for (String username : this.addon.getManager().getPartyManager().getPartyMembers()) {
       if (!this.inArray(excludedUsernames, username) && !username.equals(p.getName())) {
-        Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
-            () -> chat.chat("/p invite " + username, false),
-            100L * multiplier,
-            TimeUnit.MILLISECONDS
-        );
-        multiplier++;
+        this.toRemake.add(username);
       }
     }
+    this.remakeTask.execute();
   }
 
-  private void reInviteCommand(ChatExecutor chat, String[] Usernames) {
+  private void reInviteCommand(String[] Usernames) {
     if (Usernames.length == 0) {
       this.missingArguments();
     }
-    int multiplier = 0;
+    this.toReInv.clear();
     for (String username : Usernames) {
       if (this.addon.getManager().getPartyManager().isMemberInParty(username)) {
-        Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(
-            () -> {
-              chat.chat("/p kick " + username, false);
-              chat.chat("/p invite " + username, false);
-            },
-            100L * multiplier,
-            TimeUnit.MILLISECONDS
-        );
-        multiplier++;
+        this.toReInv.add(username);
       } else {
         this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "PartyCommands.error.cannotReinvite", Component.text(username)));
       }
     }
+    this.reInviteTask.execute();
   }
 
   private boolean inArray(String[] array, String member) {

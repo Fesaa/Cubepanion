@@ -3,18 +3,17 @@ package org.cubepanion.core.listener.chat;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.config.Cubepanionconfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
@@ -30,18 +29,27 @@ public class Automations {
   private CubepanionManager manager;
   private VotingInterface votingInterface;
   private final Task autoVoteTask = Task.builder(() -> {
-    System.out.println(System.currentTimeMillis());
     if (this.votingInterface != null) {
       this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
     }
   }).delay(1000, TimeUnit.MILLISECONDS).build();
+
+  private final Task startOfGameTask = Task.builder(() -> {
+    if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
+      this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
+    }
+    this.addon.rpcManager.startOfGame();
+    this.addon.rpcManager.updateRPC();
+  }).delay(1000, TimeUnit.MILLISECONDS).build();
+
+  private final Component voteReminderComponent = Component.translatable("cubepanion.messages.voteReminder", Colours.Primary);
 
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
    private final Pattern FriendListTop = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile("^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|) (?:map|\\[[A-Z]{2}\\]) ?(?<map>[a-zA-Z]*)?");
+  private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private boolean voted = false;
   private boolean friendListBeingSend = false;
@@ -61,22 +69,23 @@ public class Automations {
       return;
     }
 
+    Cubepanionconfig mainConfig = this.addon.configuration();
+
     String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
 
     // Friend Message Sound
-    if (this.addon.configuration().getAutomationConfig().friendMessageSound().get()) {
+    if (mainConfig.getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me : .*")) {
-         minecraft.sounds().playSound(this.addon.configuration().getAutomationConfig().getFriendMessageSoundId(), 100, 1);
+         minecraft.sounds().playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
         return;
       }
     }
 
     // 5 seconds remaining
     if (this.fiveSecondsRemaining.matcher(msg).matches()) {
-      if (!this.voted && this.addon.configuration().getQolConfig().getReminderToVote().get()) {
-        ResourceLocation resourceLocation = ResourceLocation.create("minecraft", this.addon.configuration().getQolConfig().getReminderToVoteSoundId().get());
-        minecraft.sounds().playSound(resourceLocation, 100, 1);
-        minecraft.chatExecutor().displayClientMessage(Component.text("Don't forget to vote!", Colours.Primary));
+      if (!this.voted && mainConfig.getQolConfig().getReminderToVote().get()) {
+        minecraft.sounds().playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
+        minecraft.chatExecutor().displayClientMessage(this.voteReminderComponent);
       }
       this.voted = false;
       return;
@@ -86,13 +95,7 @@ public class Automations {
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
       this.manager.setGameStartTime(System.currentTimeMillis());
-      Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()).schedule(() -> {
-        if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
-          this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
-        }
-        this.addon.rpcManager.startOfGame();
-        this.addon.rpcManager.updateRPC();
-      },1000, TimeUnit.MILLISECONDS);
+      this.startOfGameTask.execute();
       return;
     }
 
@@ -181,7 +184,7 @@ public class Automations {
       }
     }
 
-    if (this.addon.configuration().getQolConfig().getShortFriendsList().get()) {
+    if (mainConfig.getQolConfig().getShortFriendsList().get()) {
 
       if (this.FriendListTop.matcher(msg).matches()) {
         this.friendListBeingSend = true;
@@ -206,7 +209,7 @@ public class Automations {
       }
     }
 
-    if (this.addon.configuration().getAutoVoteSubConfig().isEnabled()) {
+    if (mainConfig.getAutoVoteSubConfig().isEnabled()) {
       String joinRegex = "\\[\\+\\]" + playerRegex + " joined your game \\(\\d{1,3}/\\d{1,3}\\)\\.";
       if (msg.matches(joinRegex)) {
         Task toRun = this.autoVoteTask;
@@ -218,12 +221,10 @@ public class Automations {
             count++;
             if (count == 10) {
               timer.cancel();
-              System.out.println("waitingForNoneLobbyDivision canceled after 10 tries");
             }
             if (!Cubepanion.get().getManager().getDivision().equals(CubeGame.LOBBY)) {
               timer.cancel();
-              System.out.println(System.currentTimeMillis());
-              toRun.run();
+              toRun.execute();
             }
           }
         }, 100, 100);

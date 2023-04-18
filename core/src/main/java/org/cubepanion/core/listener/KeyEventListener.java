@@ -67,9 +67,7 @@ public class KeyEventListener {
       if (this.isTool(mainHand)) {
         keyEvent.setCancelled(true);
         this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
-            Component.text("Prevented you from dropping a tool!", Colours.Error),
-            true
-        );
+            Component.translatable("cubepanion.messages.preventedDrop").color(Colours.Error), true);
       }
     }
   }
@@ -80,7 +78,7 @@ public class KeyEventListener {
       return true;
     }
 
-    String itemString = itemStack.getAsItem().toString();
+    String itemString = itemStack.getAsItem().getIdentifier().getPath();
 
 
     if (itemString.contains("_pickaxe")) {

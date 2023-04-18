@@ -2,6 +2,7 @@ package org.cubepanion.core.config;
 
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
+import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
@@ -9,6 +10,16 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 @SpriteTexture("setting_icons.png")
 public class QOLConfig extends Config {
+
+  private ResourceLocation reminderToVoteResourceLocation;
+
+  public QOLConfig() {
+    this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft", this.reminderToVoteSoundId.get());
+
+    this.reminderToVoteSoundId.addChangeListener((type, oldValue, newValue) -> {
+      this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft", newValue);
+    });
+  }
 
   @SwitchSetting
   private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
@@ -29,6 +40,6 @@ public class QOLConfig extends Config {
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}
   public ConfigProperty<Boolean> getShortFriendsList() {return shortFriendsList;}
   public ConfigProperty<Boolean> getReminderToVote() {return reminderToVote;}
-  public ConfigProperty<String> getReminderToVoteSoundId() {return reminderToVoteSoundId;}
+  public ResourceLocation getVoteReminderResourceLocation() {return reminderToVoteResourceLocation;}
   public ConfigProperty<Boolean> getNoDropSkyBlock() {return noDropSkyBlock;}
 }
