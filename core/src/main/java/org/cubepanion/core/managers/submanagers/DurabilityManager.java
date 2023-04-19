@@ -1,6 +1,5 @@
 package org.cubepanion.core.managers.submanagers;
 
-import java.util.HashMap;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -16,7 +15,10 @@ public class DurabilityManager {
   private int lowestInt;
   private int secondLowestInt;
 
-  private final HashMap<EquipmentSpot, ArmourInfo> map;
+  private ArmourInfo helmetInfo;
+  private ArmourInfo chestplateInfo;
+  private ArmourInfo leggignsInfo;
+  private ArmourInfo bootsInfo;
 
   public DurabilityManager() {
     this.mainKey = I18nNamespaces.managerNameSpace + "DurabilityManager.";
@@ -24,21 +26,20 @@ public class DurabilityManager {
     this.lowestInt = BIG_INTEGER;
     this.secondLowestInt = BIG_INTEGER;
 
-    this.map = new HashMap<>();
-    this.map.put(EquipmentSpot.HEAD, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.CHEST, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.LEGS, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.FEET, new ArmourInfo(false, 0));
+    this.helmetInfo = new ArmourInfo(false, 0);
+    this.chestplateInfo = new ArmourInfo(false, 0);
+    this.leggignsInfo = new ArmourInfo(false, 0);
+    this.bootsInfo = new ArmourInfo(false, 0);
   }
 
   public void reset() {
     this.lowestInt = BIG_INTEGER;
     this.secondLowestInt = BIG_INTEGER;
 
-    this.map.put(EquipmentSpot.HEAD, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.CHEST, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.LEGS, new ArmourInfo(false, 0));
-    this.map.put(EquipmentSpot.FEET, new ArmourInfo(false, 0));
+    this.helmetInfo = new ArmourInfo(false, 0);
+    this.chestplateInfo = new ArmourInfo(false, 0);
+    this.leggignsInfo = new ArmourInfo(false, 0);
+    this.bootsInfo = new ArmourInfo(false, 0);
   }
 
   public Component getWarningComponent(EquipmentSpot spot) {
@@ -74,20 +75,58 @@ public class DurabilityManager {
   }
 
   public void updateInfo(EquipmentSpot spot, boolean warned) {
-    this.map.get(spot).setWarned(warned);
+    switch (spot) {
+      case HEAD:
+        this.helmetInfo.setWarned(warned);
+      case CHEST:
+        this.chestplateInfo.setWarned(warned);
+      case LEGS:
+        this.leggignsInfo.setWarned(warned);
+      case FEET:
+        this.bootsInfo.setWarned(warned);
+    }
   }
 
   public void updateInfo(EquipmentSpot spot, int durability) {
-    this.map.get(spot).setDurability(durability);
+    switch (spot) {
+      case HEAD:
+        this.helmetInfo.setDurability(durability);
+      case CHEST:
+        this.chestplateInfo.setDurability(durability);
+      case LEGS:
+        this.leggignsInfo.setDurability(durability);
+      case FEET:
+        this.bootsInfo.setDurability(durability);
+    }
     this.updateLowestCache(this.spotToString(spot), durability);
   }
 
   public int getDurability(EquipmentSpot spot) {
-    return this.map.get(spot).getDurability();
+    switch (spot) {
+      case HEAD:
+        return this.helmetInfo.getDurability();
+      case CHEST:
+        return this.chestplateInfo.getDurability();
+      case LEGS:
+        return this.leggignsInfo.getDurability();
+      case FEET:
+        return this.bootsInfo.getDurability();
+    }
+    return 0;
   }
 
   public boolean getWarned(EquipmentSpot spot) {
-    return this.map.get(spot).isWarned();
+    switch (spot) {
+      case HEAD:
+        return this.helmetInfo.isWarned();
+      case CHEST:
+        return this.chestplateInfo.isWarned();
+      case LEGS:
+        return this.leggignsInfo.isWarned();
+      case FEET:
+        return this.bootsInfo.isWarned();
+    }
+    return false;
   }
   
   private void updateLowestCache(String key, int value) {

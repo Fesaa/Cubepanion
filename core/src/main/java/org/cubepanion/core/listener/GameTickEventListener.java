@@ -37,30 +37,21 @@ public class GameTickEventListener {
     if (gameTickEvent.phase() == Phase.POST) {
       return;
     }
-
     int ticksInAMinute = 20 * 60;
     if (this.counter % ticksInAMinute == 0) {
       this.addon.configuration().getStatsTrackerSubConfig().checkForResets();
       this.addon.saveConfiguration();
     }
-    if (this.counter % 20 == 0) { // Each second
-      this.spawnProtectionManager.getClientPlayerSpawnProtection().update(true);
-      this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(true);
-    } else if (this.counter % 2 == 0) { // Each two ticks & not on the second
-      this.spawnProtectionManager.getClientPlayerSpawnProtection().update(false);
-      this.spawnProtectionManager.updateSpawnProtectionComponentHashMap(false);
-      this.durabilityUpdater();
-      if (this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get()) {
-        this.processForWarningMessage(EquipmentSpot.HEAD);
-        this.processForWarningMessage(EquipmentSpot.CHEST);
-        this.processForWarningMessage(EquipmentSpot.LEGS);
-        this.processForWarningMessage(EquipmentSpot.FEET);
-      }
+    if (this.counter % 2 == 0) { // Each two ticks
+      this.durabilityUpdater(this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get());
+      this.spawnProtectionManager.getClientPlayerSpawnProtection().update();
     }
     this.counter++;
   }
 
-  private void durabilityUpdater() {
+  private void durabilityUpdater(boolean warning) {
+    int threshHold = this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getDurabilityWarning().get();
+
     ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
     if (player == null) {
       return;
@@ -78,17 +69,38 @@ public class GameTickEventListener {
     ItemStack offHand = player.getOffHandItemStack();
 
     if (helmetItemStack.getAsItem().getIdentifier().getPath().contains("helmet")) {
-      helmet += helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
+      int durabilityLeft = helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
+      helmet += durabilityLeft;
+
+      if (warning) {
+        this.processForWarningMessage(EquipmentSpot.HEAD, durabilityLeft < threshHold);
+      }
     }
     if (chestPlateItemStack.getAsItem().getIdentifier().getPath().contains("chest")) {
-      chest += chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
+      int durabilityLeft = chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
+      chest += durabilityLeft;
+
+      if (warning) {
+        this.processForWarningMessage(EquipmentSpot.CHEST, durabilityLeft < threshHold);
+      }
     }
     if (leggingsItemStack.getAsItem().getIdentifier().getPath().contains("leggings")) {
-      leggings += leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
+      int durabilityLeft = leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
+      leggings += durabilityLeft;
+
+      if (warning) {
+        this.processForWarningMessage(EquipmentSpot.LEGS, durabilityLeft < threshHold);
+      }
     }
     if (bootsItemStack.getAsItem().getIdentifier().getPath().contains("boots")) {
-      boots += bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
+      int durabilityLeft = bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
+      boots += durabilityLeft;
+
+      if (warning) {
+        this.processForWarningMessage(EquipmentSpot.FEET, durabilityLeft < threshHold);
+      }
     }
+
     if (offHand.getAsItem().getIdentifier().getPath().contains("helmet")) {
       helmet += offHand.getMaximumDamage() - offHand.getCurrentDamageValue();
     } else if (offHand.getAsItem().getIdentifier().getPath().contains("chest")) {
@@ -121,22 +133,12 @@ public class GameTickEventListener {
     this.durabilityManager.updateInfo(EquipmentSpot.FEET, boots);
   }
 
-  private void processForWarningMessage(EquipmentSpot spot) {
+  private void processForWarningMessage(EquipmentSpot spot, boolean threshHoldPassed) {
     ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
     if (player == null) {
       return;
     }
-    ItemStack itemStack = player.getEquipmentItemStack(spot);
-    if (itemStack.isAir()) {
-      return;
-    }
-
-    boolean threshHoldPassed =
-        itemStack.getMaximumDamage() - itemStack.getCurrentDamageValue() < this.armourBreakWarningSubConfig.getDurabilityWarning().get()
-            && itemStack.getMaximumDamage() > 0;
-    boolean hasAlreadyWarned = this.durabilityManager.getWarned(spot);
-
-    if (threshHoldPassed && !hasAlreadyWarned) {
+    if (threshHoldPassed && !this.durabilityManager.getWarned(spot)) {
       this.displayWarning(spot);
       this.durabilityManager.updateInfo(spot, true);
     } else if (!threshHoldPassed) {

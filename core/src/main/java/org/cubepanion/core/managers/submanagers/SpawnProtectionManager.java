@@ -22,7 +22,7 @@ public class SpawnProtectionManager {
 
   public void registerDeath(UUID uuid) {
     SpawnProtectionComponent spawnProtectionComponent = new SpawnProtectionComponent(this.addon);
-    spawnProtectionComponent.enable();
+    spawnProtectionComponent.enable(false);
     this.uuidSpawnProtectionComponentHashMap.put(uuid, spawnProtectionComponent);
   }
 
@@ -30,12 +30,8 @@ public class SpawnProtectionManager {
     return this.uuidSpawnProtectionComponentHashMap.get(uuid);
   }
 
-  public void updateSpawnProtectionComponentHashMap(boolean endOfSecond) {
-    for (SpawnProtectionComponent spawnProtectionComponentGen : this.uuidSpawnProtectionComponentHashMap.values()) {
-      if (spawnProtectionComponentGen != null) {
-        spawnProtectionComponentGen.update(endOfSecond);
-      }
-    }
+  public void removeSpawnProtectionComponent(UUID uuid) {
+    this.uuidSpawnProtectionComponentHashMap.remove(uuid);
   }
 
   public void resetHasMap() {

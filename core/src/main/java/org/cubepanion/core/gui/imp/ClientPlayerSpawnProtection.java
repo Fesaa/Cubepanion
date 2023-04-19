@@ -1,26 +1,26 @@
 package org.cubepanion.core.gui.imp;
 
+import net.labymod.api.client.chat.ChatExecutor;
 import org.cubepanion.core.Cubepanion;
 
 public class ClientPlayerSpawnProtection {
 
-  private final Cubepanion addon;
+  private final ChatExecutor chatExecutor;
 
   private final SpawnProtectionComponent actionBarComponent;
 
   public ClientPlayerSpawnProtection(Cubepanion addon) {
-    this.addon = addon;
-    this.actionBarComponent = new SpawnProtectionComponent(addon, 7, 5);
+    this.chatExecutor = addon.labyAPI().minecraft().chatExecutor();
+    this.actionBarComponent = new SpawnProtectionComponent(addon);
   }
 
   public void registerDeath() {
-    this.actionBarComponent.enable();
+    this.actionBarComponent.enable(true);
   }
 
-  public void update(boolean endOfSecond) {
+  public void update() {
     if (this.actionBarComponent.isEnabled()) {
-      this.actionBarComponent.update(endOfSecond);
-      this.addon.labyAPI().minecraft().chatExecutor().displayClientMessage(this.actionBarComponent.getComponent(), true);
+      this.chatExecutor.displayClientMessage(this.actionBarComponent.getComponent(System.currentTimeMillis()), true);
     }
   }
 

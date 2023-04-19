@@ -8,84 +8,64 @@ import org.cubepanion.core.Cubepanion;
 public class SpawnProtectionComponent {
 
   private final Cubepanion addon;
-  private int second;
-  private int precisionSecond;
   private boolean inUse;
 
-  private final int startSecond = 7;
-  private final int startPrecisionSecond = 5;
+  private long creation;
+
+  private final int totalSecond;
+  private final int totalMilliSecond;
 
   public SpawnProtectionComponent(Cubepanion addon) {
     this.addon = addon;
-    this.second = this.startSecond;
-    this.precisionSecond = this.startPrecisionSecond;
     this.inUse = false;
-  }
-
-  public SpawnProtectionComponent(Cubepanion addon, int startSecond, int startPrecisionSecond) {
-    this.addon = addon;
-    this.second = startSecond;
-    this.precisionSecond = startPrecisionSecond;
-    this.inUse = false;
+    this.creation = System.currentTimeMillis();
+    this.totalSecond = 7;
+    this.totalMilliSecond = 5;
   }
 
   public boolean isEnabled() {
     return this.inUse;
   }
 
-  public void enable() {
+  public void enable(boolean resetCreation) {
     if (!this.addon.configuration().getQolConfig().getRespawnTimer().get()) {
       return;
     }
     this.inUse = true;
+    this.creation = System.currentTimeMillis();
   }
 
-  private void tryToDisable() {
-    if (this.second == 0 && this.precisionSecond == 0) {
-      this.second = this.startSecond;
-      this.precisionSecond = this.startPrecisionSecond;
+  public Component getComponent(long currentTime) {
+    long difference = currentTime - this.creation;
+
+    long actualDifference = this.totalSecond*1000L + this.totalMilliSecond * 100L - difference;
+
+    long milliSeconds = Math.floorMod(actualDifference, 1000);
+    long seconds = (actualDifference - milliSeconds) / 1000;
+
+    if (!this.inUse || seconds < 0) {
       this.inUse = false;
-    }
-  }
-
-  private void lowerCount(boolean endOfSecond) {
-    if (endOfSecond) {
-      this.second--;
-      this.precisionSecond = 9;
-    } else {
-      this.precisionSecond--;
-    }
-  }
-
-  public void update(boolean endOfSecond) {
-    this.tryToDisable();
-    this.lowerCount(endOfSecond);
-  }
-
-  public Component getComponent() {
-    if (!this.inUse) {
       return Component.empty();
     }
-    return Component.text(second + ":" + precisionSecond, this.getColour(this.second));
+
+    int actualSeconds = (int) seconds;
+    int actualMilliSeconds = (int) (milliSeconds / 100);
+
+    return Component.text(actualSeconds + ":" + actualMilliSeconds, this.getColour(actualSeconds));
   }
 
   private TextColor getColour(int i) {
     switch (i) {
-      case 7:
-      case 6:
-      case 5:{
+      case 7, 6, 5 -> {
         return NamedTextColor.DARK_GREEN;
       }
-      case 4:
-      case 3:
-      case 2:{
+      case 4, 3, 2 -> {
         return NamedTextColor.RED;
       }
-      case 1:
-      case 0:{
+      case 1, 0 -> {
         return NamedTextColor.DARK_RED;
       }
-      default: {
+      default -> {
         return NamedTextColor.GREEN;
       }
     }

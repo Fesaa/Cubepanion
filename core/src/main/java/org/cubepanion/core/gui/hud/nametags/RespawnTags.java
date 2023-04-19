@@ -39,8 +39,9 @@ public class RespawnTags extends NameTag {
       return null;
     }
 
-    Component spawnProtectionComponent = spawnProtectionComponentGen.getComponent();
+    Component spawnProtectionComponent = spawnProtectionComponentGen.getComponent(System.currentTimeMillis());
     if (spawnProtectionComponent == Component.empty() || ((TextComponent) spawnProtectionComponent).getText().equals(Component.empty().getText())) {
+      this.addon.getManager().getSpawnProtectionManager().removeSpawnProtectionComponent(uuid);
       return null;
     }
 
