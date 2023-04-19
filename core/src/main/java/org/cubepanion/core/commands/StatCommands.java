@@ -107,55 +107,55 @@ public class StatCommands extends Command {
       arguments = this.removeGameNameFromArguments(arguments, gameName);
     }
 
-    switch (arguments.length) {
-      case 0: {
-        this.displayMessage(gameStatsTracker.getDisplayComponent());
-        return true;
-      }
-      case 1: {
-        if (this.timeFormat.matcher(arguments[0]).matches()) {
-          GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-          if (snapShot == null) {
-            this.displayMessage(Component.translatable(
-                    this.errorKey.apply("statsNotFoundOnDate"),
-                    Component.text(gameStatsTracker.getGame()),
-                    Component.text(arguments[0]))
-                    .color(Colours.Error));
-          } else {
-            this.displayMessage(snapShot.getDisplayComponent());
+      switch (arguments.length) {
+          case 0 -> {
+              this.displayMessage(gameStatsTracker.getDisplayComponent());
+              return true;
           }
-        } else {
-          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
-        }
-        return true;
+          case 1 -> {
+              if (this.timeFormat.matcher(arguments[0]).matches()) {
+                  GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
+                  if (snapShot == null) {
+                      this.displayMessage(Component.translatable(
+                                      this.errorKey.apply("statsNotFoundOnDate"),
+                                      Component.text(gameStatsTracker.getGame()),
+                                      Component.text(arguments[0]))
+                              .color(Colours.Error));
+                  } else {
+                      this.displayMessage(snapShot.getDisplayComponent());
+                  }
+              } else {
+                  this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
+              }
+              return true;
+          }
+          case 2 -> {
+
+              String date;
+              String userName;
+
+              if (this.timeFormat.matcher(arguments[0]).matches()) {
+                  date = arguments[0];
+                  userName = arguments[1];
+              } else if (this.timeFormat.matcher(arguments[1]).matches()) {
+                  date = arguments[1];
+                  userName = arguments[0];
+              } else {
+                  break;
+              }
+
+              GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(date);
+              if (snapShot == null) {
+                  this.displayMessage(Component.translatable(
+                                  this.errorKey.apply("statsNotFoundOnDate"),
+                                  Component.text(gameStatsTracker.getGame()),
+                                  Component.text(date))
+                          .color(Colours.Error));
+              } else {
+                  this.displayMessage(snapShot.getUserStatsDisplayComponent(userName));
+              }
+          }
       }
-      case 2: {
-
-        String date;
-        String userName;
-
-        if (this.timeFormat.matcher(arguments[0]).matches()) {
-          date = arguments[0];
-          userName = arguments[1];
-        } else if (this.timeFormat.matcher(arguments[1]).matches()) {
-          date = arguments[1];
-          userName = arguments[0];
-        } else {
-          break;
-        }
-
-        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(date);
-        if (snapShot == null) {
-          this.displayMessage(Component.translatable(
-                  this.errorKey.apply("statsNotFoundOnDate"),
-                  Component.text(gameStatsTracker.getGame()),
-                  Component.text(date))
-              .color(Colours.Error));
-        } else {
-          this.displayMessage(snapShot.getUserStatsDisplayComponent(userName));
-        }
-      }
-    }
     return false;
   }
 

@@ -3,11 +3,15 @@ package org.cubepanion.core.utils.eggwarsmaps;
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.util.I18n;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class CrossEggWarsMap implements EggWarsMap {
+
+  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
 
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
@@ -63,19 +67,22 @@ public class CrossEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.text("Build limit: ", Colours.Primary)
+    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
   @Override
   public String getPartyMessage() {
-    return "@Left: "
+    return "@"
+        + I18n.translate(this.mainKey + "left")
         + Colours.colourToCubeColour(this.teamLeft)
         + Colours.colourToCubeColourString(this.teamLeft)
-        + "&r. Right: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "right")
         + Colours.colourToCubeColour(this.teamRight)
         + Colours.colourToCubeColourString(this.teamRight)
-        + "&r. In Front: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "front")
         + Colours.colourToCubeColour(this.teamBefore)
         + Colours.colourToCubeColourString(this.teamBefore)
         + "&r.";

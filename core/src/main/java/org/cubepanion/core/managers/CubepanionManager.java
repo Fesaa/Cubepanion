@@ -172,7 +172,7 @@ public class CubepanionManager {
     this.lastDivision = this.division;
     this.division = division;
 
-    if (this.division.equals(CubeGame.SKYBLOCK)) {
+    if (this.division.equals(CubeGame.SKYBLOCK) || this.division.equals(CubeGame.FFA)) {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }

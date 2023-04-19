@@ -25,22 +25,12 @@ import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class Automations {
 
-  private Cubepanion addon;
-  private CubepanionManager manager;
-  private VotingInterface votingInterface;
-  private final Task autoVoteTask = Task.builder(() -> {
-    if (this.votingInterface != null) {
-      this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
-    }
-  }).delay(1000, TimeUnit.MILLISECONDS).build();
+  private final Cubepanion addon;
+  private final CubepanionManager manager;
+  private final VotingInterface votingInterface;
+  private final Task autoVoteTask;
 
-  private final Task startOfGameTask = Task.builder(() -> {
-    if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
-      this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
-    }
-    this.addon.rpcManager.startOfGame();
-    this.addon.rpcManager.updateRPC();
-  }).delay(1000, TimeUnit.MILLISECONDS).build();
+  private final Task startOfGameTask;
 
   private final Component voteReminderComponent = Component.translatable("cubepanion.messages.voteReminder", Colours.Primary);
 
@@ -58,6 +48,20 @@ public class Automations {
     this.addon = addon;
     this.manager = addon.getManager();
     this.votingInterface = votingInterface;
+
+    this.autoVoteTask  = Task.builder(() -> {
+      if (this.votingInterface != null) {
+        this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+      }
+    }).delay(1000, TimeUnit.MILLISECONDS).build();
+
+    this.startOfGameTask  = Task.builder(() -> {
+      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
+        this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
+      }
+      this.addon.rpcManager.startOfGame();
+      this.addon.rpcManager.updateRPC();
+    }).delay(1000, TimeUnit.MILLISECONDS).build();
   }
 
   @Subscribe

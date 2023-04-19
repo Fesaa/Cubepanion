@@ -56,17 +56,12 @@ public class DurabilityManager {
   }
 
   private String spotToString(EquipmentSpot spot) {
-    switch (spot) {
-      case HEAD:
-        return "Helmet";
-      case CHEST:
-        return "Chestplate";
-      case LEGS:
-        return "Leggings";
-      case FEET:
-        return "Boots";
-    }
-    return "Unknown";
+    return switch (spot) {
+      case HEAD -> "Helmet";
+      case CHEST -> "Chestplate";
+      case LEGS -> "Leggings";
+      case FEET -> "Boots";
+    };
   }
 
   public void resetCache() {
@@ -102,31 +97,21 @@ public class DurabilityManager {
   }
 
   public int getDurability(EquipmentSpot spot) {
-    switch (spot) {
-      case HEAD:
-        return this.helmetInfo.getDurability();
-      case CHEST:
-        return this.chestplateInfo.getDurability();
-      case LEGS:
-        return this.leggignsInfo.getDurability();
-      case FEET:
-        return this.bootsInfo.getDurability();
-    }
-    return 0;
+    return switch (spot) {
+      case HEAD -> this.helmetInfo.getDurability();
+      case CHEST -> this.chestplateInfo.getDurability();
+      case LEGS -> this.leggignsInfo.getDurability();
+      case FEET -> this.bootsInfo.getDurability();
+    };
   }
 
   public boolean getWarned(EquipmentSpot spot) {
-    switch (spot) {
-      case HEAD:
-        return this.helmetInfo.isWarned();
-      case CHEST:
-        return this.chestplateInfo.isWarned();
-      case LEGS:
-        return this.leggignsInfo.isWarned();
-      case FEET:
-        return this.bootsInfo.isWarned();
-    }
-    return false;
+    return switch (spot) {
+      case HEAD -> this.helmetInfo.isWarned();
+      case CHEST -> this.chestplateInfo.isWarned();
+      case LEGS -> this.leggignsInfo.isWarned();
+      case FEET -> this.bootsInfo.isWarned();
+    };
   }
   
   private void updateLowestCache(String key, int value) {

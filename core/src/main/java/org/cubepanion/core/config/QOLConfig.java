@@ -16,9 +16,7 @@ public class QOLConfig extends Config {
   public QOLConfig() {
     this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft", this.reminderToVoteSoundId.get());
 
-    this.reminderToVoteSoundId.addChangeListener((type, oldValue, newValue) -> {
-      this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
+    this.reminderToVoteSoundId.addChangeListener((type, oldValue, newValue) -> this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft", newValue));
   }
 
   @SwitchSetting

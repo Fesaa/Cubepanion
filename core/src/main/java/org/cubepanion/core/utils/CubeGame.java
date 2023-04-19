@@ -33,37 +33,40 @@ public enum CubeGame {
   }
 
   public static CubeGame stringToGame(String s) {
-    switch (s) {
-      case "Skyblock": {
-        return CubeGame.SKYBLOCK;
+      switch (s) {
+          case "Skyblock" -> {
+              return CubeGame.SKYBLOCK;
+          }
+          case "Team EggWars" -> {
+              return CubeGame.TEAM_EGGWARS;
+          }
+          case "Solo SkyWars" -> {
+              return CubeGame.SOLO_SKYWARS;
+          }
+          case "Lucky Islands" -> {
+              return CubeGame.SOLO_LUCKYISLANDS;
+          }
+          case "Free For All" -> {
+              return CubeGame.FFA;
+          }
+          case "Simple Parkour" -> {
+              return CubeGame.SIMPLE_PARKOUR;
+          }
+          case "Normal Parkour" -> {
+              return CubeGame.NORMAL_PARKOUR;
+          }
+          case "Medium Parkour" -> {
+              return CubeGame.MEDIUM_PARKOUR;
+          }
+          case "Hard Parkour" -> {
+              return CubeGame.HARD_PARKOUR;
+          }
+          case "CubeCraft" -> {
+              return CubeGame.LOBBY;
+          }
+          default -> {
+              return CubeGame.NONE;
+          }
       }
-      case "Team EggWars": {
-        return CubeGame.TEAM_EGGWARS;
-      }
-      case "Solo SkyWars": {
-        return CubeGame.SOLO_SKYWARS;
-      }
-      case "Lucky Islands": {
-        return CubeGame.SOLO_LUCKYISLANDS;
-      }
-      case "Free For All": {
-        return CubeGame.FFA;
-      }
-      case "Simple Parkour":
-        return CubeGame.SIMPLE_PARKOUR;
-      case "Normal Parkour":
-        return CubeGame.NORMAL_PARKOUR;
-      case "Medium Parkour":
-        return CubeGame.MEDIUM_PARKOUR;
-      case "Hard Parkour": {
-        return CubeGame.HARD_PARKOUR;
-      }
-      case "CubeCraft": {
-        return CubeGame.LOBBY;
-      }
-      default: {
-        return CubeGame.NONE;
-      }
-    }
   }
 }

@@ -3,12 +3,15 @@ package org.cubepanion.core.utils.eggwarsmaps;
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.util.I18n;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class DoubleCrossEggWarsMap implements EggWarsMap {
 
+  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
@@ -87,28 +90,32 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.text("Build limit: ", Colours.Primary)
+    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
   @Override
   public String getPartyMessage() {
-    return "@Side: "
+    return "@"
+        + I18n.translate(this.mainKey + "side")
         + Colours.colourToCubeColour(this.teamSide)
         + Colours.colourToCubeColourString(this.teamSide)
-        + "&r. Left: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "left")
         + Colours.colourToCubeColour(this.teamLeftLeft)
         + Colours.colourToCubeColourString(this.teamLeftLeft)
         + "&r &"
         + Colours.colourToCubeColour(this.teamLeftRight)
         + Colours.colourToCubeColourString(this.teamLeftRight)
-        + "&r. Right: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "right")
         + Colours.colourToCubeColour(this.teamRightLeft)
         + Colours.colourToCubeColourString(this.teamRightLeft)
         + "&r &"
         + Colours.colourToCubeColour(this.teamRightRight)
         + Colours.colourToCubeColourString(this.teamRightRight)
-        + "&r. Across: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "across")
         + Colours.colourToCubeColour(this.teamAcrossLeft)
         + Colours.colourToCubeColourString(this.teamAcrossLeft)
         + "&r &"

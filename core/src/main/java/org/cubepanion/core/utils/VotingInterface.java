@@ -51,23 +51,18 @@ public abstract class VotingInterface {
 
   public void vote(CubeGame division, AutoVoteSubConfig autoVoteConfig) {
     switch (division) {
-      case SOLO_SKYWARS:
-        this.voteSkyWars(
-            autoVoteConfig.getSkyWarsChests().get().slot,
-            autoVoteConfig.getSkyWarsProjectiles().get().slot,
-            autoVoteConfig.getSkyWarsTime().get().slot
-        );
-        break;
-      case SOLO_LUCKYISLANDS:
-        this.voteLuckyIslands(
-            autoVoteConfig.getLuckyIslandsBlocks().get().slot,
-            autoVoteConfig.getLuckyIslandsTime().get().slot
-        );
-        break;
-      case TEAM_EGGWARS:
-        this.voteEggWars(autoVoteConfig.getEggWarsItems().get().slot,
-            autoVoteConfig.getEggWarsHealth().get().slot
-        );
+      case SOLO_SKYWARS -> this.voteSkyWars(
+          autoVoteConfig.getSkyWarsChests().get().slot,
+          autoVoteConfig.getSkyWarsProjectiles().get().slot,
+          autoVoteConfig.getSkyWarsTime().get().slot
+      );
+      case SOLO_LUCKYISLANDS -> this.voteLuckyIslands(
+          autoVoteConfig.getLuckyIslandsBlocks().get().slot,
+          autoVoteConfig.getLuckyIslandsTime().get().slot
+      );
+      case TEAM_EGGWARS -> this.voteEggWars(autoVoteConfig.getEggWarsItems().get().slot,
+          autoVoteConfig.getEggWarsHealth().get().slot
+      );
     }
   }
 

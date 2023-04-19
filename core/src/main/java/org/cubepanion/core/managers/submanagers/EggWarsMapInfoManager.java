@@ -7,6 +7,7 @@ import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
@@ -20,6 +21,8 @@ public class EggWarsMapInfoManager {
 
   private final Cubepanion addon;
   private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig;
+
+  private final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.";
 
   private final HashMap<String, EggWarsMap> eggWarsMapLayouts;
 
@@ -169,13 +172,13 @@ public class EggWarsMapInfoManager {
     map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
 
     Component display = this.addon.prefix()
-        .append(Component.text("------- Map Info For " + map.getName() + " -------", Colours.Title));
+        .append(Component.translatable(this.mainKey + "title", Component.text(map.getName())).color(Colours.Title));
 
     Component mapLayout = map.getMapLayoutComponent();
     if (mapLayout != null && this.eggWarsMapInfoSubConfig.getMapLayout().get()) {
       display = display
           .append(Component.newline())
-          .append(Component.text("Map Layout;", Colours.Primary))
+          .append(Component.translatable(this.mainKey + "mapLayout", Colours.Primary))
           .append(Component.newline())
           .append(mapLayout);
     }

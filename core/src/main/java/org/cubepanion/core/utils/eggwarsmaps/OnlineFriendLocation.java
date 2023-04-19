@@ -4,28 +4,12 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.Colours;
 
-public class OnlineFriendLocation {
-
-  private final String username;
-  private final String game;
-  private final String map;
+public record OnlineFriendLocation(String username, String game, String map) {
 
   public OnlineFriendLocation(String username, String game, String map) {
     this.username = username;
     this.game = game;
     this.map = map != null ? map : "";
-  }
-
-  public String getGame() {
-    return game;
-  }
-
-  public String getMap() {
-    return map;
-  }
-
-  public String getUsername() {
-    return username;
   }
 
   public String getLocationString() {
@@ -37,9 +21,9 @@ public class OnlineFriendLocation {
 
   public boolean hasMoved(OnlineFriendLocation newLocation) {
     return
-        !(this.username.equals(newLocation.getUsername())
-        && this.game.equals(newLocation.getGame())
-        && this.map.equals(newLocation.getMap()));
+        !(this.username.equals(newLocation.username())
+            && this.game.equals(newLocation.game())
+            && this.map.equals(newLocation.map()));
   }
 
   public void broadcastMove(OnlineFriendLocation newLocation) {

@@ -3,12 +3,15 @@ package org.cubepanion.core.utils.eggwarsmaps;
 import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.util.I18n;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class SquareEggWarsMap implements EggWarsMap {
 
+  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
 
@@ -62,19 +65,22 @@ public class SquareEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.text("Build limit: ", Colours.Primary)
+    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
   @Override
   public String getPartyMessage() {
-    return "@Side: "
+    return "@"
+        + I18n.translate(this.mainKey + "side")
         + Colours.colourToCubeColour(this.teamSide)
         + Colours.colourToCubeColourString(this.teamSide)
-        + "&r. Across: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "across")
         + Colours.colourToCubeColour(this.teamAcross)
         + Colours.colourToCubeColourString(this.teamAcross)
-        + "&r. Across Side: "
+        + "&r. "
+        + I18n.translate(this.mainKey + "across_side")
         + Colours.colourToCubeColour(this.teamAcrossSide)
         + Colours.colourToCubeColourString(this.teamAcrossSide)
         + "&r.";
@@ -84,16 +90,16 @@ public class SquareEggWarsMap implements EggWarsMap {
   public void setCurrentTeamColour(String teamColour) {
     IndexPair indexPair = this.getIndex(teamColour);
 
-    if (indexPair.getSide() == -1 || indexPair.getLeftRight() == -1) {
+    if (indexPair.side() == -1 || indexPair.leftRight() == -1) {
       return;
     }
 
     this.currentTeamColour = teamColour;
-    this.teamSide = this.teamColours.get(indexPair.getSide()).get((indexPair.getLeftRight() + 1) % 2);
-    this.teamAcross = this.teamColours.get((indexPair.getSide() + 1) % 2).get((indexPair.getLeftRight() + 1) % 2);
-    this.teamAcrossSide = this.teamColours.get((indexPair.getSide() + 1) % 2).get(indexPair.getLeftRight());
+    this.teamSide = this.teamColours.get(indexPair.side()).get((indexPair.leftRight() + 1) % 2);
+    this.teamAcross = this.teamColours.get((indexPair.side() + 1) % 2).get((indexPair.leftRight() + 1) % 2);
+    this.teamAcrossSide = this.teamColours.get((indexPair.side() + 1) % 2).get(indexPair.leftRight());
 
-    if (indexPair.getLeftRight() == 1) {
+    if (indexPair.leftRight() == 1) {
       this.currentTeamColour = this.teamSide;
       this.teamSide = teamColour;
 
@@ -123,21 +129,7 @@ public class SquareEggWarsMap implements EggWarsMap {
     return new IndexPair(-1, -1);
   }
 
-  static final class IndexPair {
-    private final int leftRight;
-    private final int side;
+  record IndexPair(int leftRight, int side) {
 
-    public IndexPair(int leftRight, int side) {
-      this.leftRight = leftRight;
-      this.side = side;
-    }
-
-    public int getLeftRight() {
-      return leftRight;
-    }
-
-    public int getSide() {
-      return side;
-    }
   }
 }

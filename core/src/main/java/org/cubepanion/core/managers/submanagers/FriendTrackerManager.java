@@ -89,12 +89,12 @@ public class FriendTrackerManager {
   }
 
   public void updateFriendLocation(OnlineFriendLocation friendLocation) {
-    if (!this.isTracking(friendLocation.getUsername())) {
+    if (!this.isTracking(friendLocation.username())) {
       return;
     }
 
-    OnlineFriendLocation currentFriendLocation = this.friendLocations.get(friendLocation.getUsername());
-    this.friendLocations.put(friendLocation.getUsername(), friendLocation);
+    OnlineFriendLocation currentFriendLocation = this.friendLocations.get(friendLocation.username());
+    this.friendLocations.put(friendLocation.username(), friendLocation);
     if (currentFriendLocation == null) {
       return;
     }

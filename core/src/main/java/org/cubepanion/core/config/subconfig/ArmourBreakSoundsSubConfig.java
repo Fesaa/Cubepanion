@@ -20,18 +20,10 @@ public class ArmourBreakSoundsSubConfig extends Config {
     this.leggingsResourceLocation = ResourceLocation.create("minecraft", this.soundIdLeggings.get());
     this.bootsResourceLocation = ResourceLocation.create("minecraft", this.soundIdBoots.get());
 
-    this.soundIdHelmet.addChangeListener((type, oldValue, newValue) -> {
-      this.helmetResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
-    this.soundIdChestplate.addChangeListener((type, oldValue, newValue) -> {
-      this.chestplateResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
-    this.soundIdLeggings.addChangeListener((type, oldValue, newValue) -> {
-      this.leggingsResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
-    this.soundIdBoots.addChangeListener((type, oldValue, newValue) -> {
-      this.bootsResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
+    this.soundIdHelmet.addChangeListener((type, oldValue, newValue) -> this.helmetResourceLocation = ResourceLocation.create("minecraft", newValue));
+    this.soundIdChestplate.addChangeListener((type, oldValue, newValue) -> this.chestplateResourceLocation = ResourceLocation.create("minecraft", newValue));
+    this.soundIdLeggings.addChangeListener((type, oldValue, newValue) -> this.leggingsResourceLocation = ResourceLocation.create("minecraft", newValue));
+    this.soundIdBoots.addChangeListener((type, oldValue, newValue) -> this.bootsResourceLocation = ResourceLocation.create("minecraft", newValue));
   }
 
   @TextFieldSetting

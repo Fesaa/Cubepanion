@@ -83,8 +83,7 @@ public class PartyCommands extends Command {
     boolean isPartyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
 
     switch (arguments[0]) {
-      case "reinvite":
-      case "reinv": {
+      case "reinvite", "reinv" -> {
         if (isPartyOwner) {
           this.reInviteCommand(this.removeFirst(arguments));
         } else {
@@ -92,7 +91,7 @@ public class PartyCommands extends Command {
         }
         return true;
       }
-      case "remake": {
+      case "remake" -> {
         if (isPartyOwner) {
           this.reMakeCommand(chat, this.removeFirst(arguments));
         } else {
@@ -100,8 +99,8 @@ public class PartyCommands extends Command {
         }
         return true;
       }
-      case "extra": {
-        this.helpCommand(arguments[arguments.length-1]);
+      case "extra" -> {
+        this.helpCommand(arguments[arguments.length - 1]);
         return true;
       }
     }

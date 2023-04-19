@@ -39,16 +39,11 @@ public class ArmourBreakWarningSubConfig extends Config {
   public ConfigProperty<Boolean> getChat() {return chat;}
   public ConfigProperty<Boolean> getNotification() {return notification;}
   public ResourceLocation getMinecraftSoundResourceLocation(EquipmentSpot spot) {
-    switch (spot) {
-      case FEET:
-        return armourBreakSoundsSubConfig.getSoundIdBoots();
-      case LEGS:
-        return armourBreakSoundsSubConfig.getSoundIdLeggings();
-      case CHEST:
-        return armourBreakSoundsSubConfig.getSoundIdChestplate();
-      case HEAD:
-        return armourBreakSoundsSubConfig.getSoundIdHelmet();
-    }
-    return armourBreakSoundsSubConfig.getSoundIdHelmet();
+    return switch (spot) {
+      case FEET -> armourBreakSoundsSubConfig.getSoundIdBoots();
+      case LEGS -> armourBreakSoundsSubConfig.getSoundIdLeggings();
+      case CHEST -> armourBreakSoundsSubConfig.getSoundIdChestplate();
+      case HEAD -> armourBreakSoundsSubConfig.getSoundIdHelmet();
+    };
   }
 }
