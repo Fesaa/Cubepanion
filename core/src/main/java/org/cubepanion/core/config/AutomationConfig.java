@@ -21,9 +21,7 @@ public class AutomationConfig extends Config {
   public AutomationConfig() {
     this.friendMessageResourceLocation = ResourceLocation.create("minecraft", this.friendMessageSoundId.get());
 
-    this.friendMessageSoundId.addChangeListener((type, oldValue, newValue) -> {
-      this.friendMessageResourceLocation = ResourceLocation.create("minecraft", newValue);
-    });
+    this.friendMessageSoundId.addChangeListener((type, oldValue, newValue) -> this.friendMessageResourceLocation = ResourceLocation.create("minecraft", newValue));
   }
 
   @SpriteSlot(x = 2)
@@ -35,6 +33,7 @@ public class AutomationConfig extends Config {
 
   @SpriteSlot(x = 6)
   @TextFieldSetting
+  @SettingRequires(value = "friendMessageSound")
   private final ConfigProperty<String> friendMessageSoundId = new ConfigProperty<>("entity.experience_orb.pickup");
 
   @SpriteSlot(x = 7, y = 2)

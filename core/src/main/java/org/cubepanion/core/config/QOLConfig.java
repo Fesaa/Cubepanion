@@ -7,6 +7,7 @@ import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.configuration.settings.annotation.SettingRequires;
 
 @SpriteTexture("setting_icons.png")
 public class QOLConfig extends Config {
@@ -33,6 +34,7 @@ public class QOLConfig extends Config {
   private final ConfigProperty<Boolean> reminderToVote = new ConfigProperty<>(false);
 
   @TextFieldSetting
+  @SettingRequires(value = "reminderToVote")
   private final ConfigProperty<String> reminderToVoteSoundId = new ConfigProperty<>("entity.lightning_bolt.impact");
 
   public ConfigProperty<Boolean> getRespawnTimer() {return this.respawnTimer;}

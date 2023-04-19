@@ -10,6 +10,7 @@ import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.configuration.settings.annotation.SettingRequires;
 
 @SpriteTexture("setting_icons.png")
 public class ArmourBreakWarningSubConfig extends Config {
@@ -19,17 +20,22 @@ public class ArmourBreakWarningSubConfig extends Config {
 
   @SpriteSlot(x = 7, y = 2)
   @SliderSetting(min = 0, max = 20)
+  @SettingRequires(value = "enabled")
   private final ConfigProperty<Integer> durabilityWarning = new ConfigProperty<>(10);
 
+  @SettingRequires(value = "enabled")
   private final ArmourBreakSoundsSubConfig armourBreakSoundsSubConfig = new ArmourBreakSoundsSubConfig();
 
   @SwitchSetting
+  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> chat = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> actionbar = new ConfigProperty<>(true);
 
   @SwitchSetting
+  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> notification = new ConfigProperty<>(true);
 
 
