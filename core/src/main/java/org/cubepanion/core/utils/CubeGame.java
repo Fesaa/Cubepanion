@@ -9,6 +9,7 @@ public enum CubeGame {
   NORMAL_PARKOUR("Normal Parkour"),
   MEDIUM_PARKOUR("Medium Parkour"),
   HARD_PARKOUR("Hard Parkour"),
+  PARKOUR("Parkour"),
   SKYBLOCK("Skyblock"),
   LOBBY("Main Lobby"),
   NONE("")
@@ -37,16 +38,16 @@ public enum CubeGame {
           case "Skyblock" -> {
               return CubeGame.SKYBLOCK;
           }
-          case "Team EggWars" -> {
+          case "Team EggWars", "EggWars" -> {
               return CubeGame.TEAM_EGGWARS;
           }
-          case "Solo SkyWars" -> {
+          case "Solo SkyWars", "SkyWars" -> {
               return CubeGame.SOLO_SKYWARS;
           }
           case "Lucky Islands" -> {
               return CubeGame.SOLO_LUCKYISLANDS;
           }
-          case "Free For All" -> {
+          case "Free For All", "FFA" -> {
               return CubeGame.FFA;
           }
           case "Simple Parkour" -> {
@@ -60,6 +61,9 @@ public enum CubeGame {
           }
           case "Hard Parkour" -> {
               return CubeGame.HARD_PARKOUR;
+          }
+          case "Parkour" -> {
+            return CubeGame.PARKOUR;
           }
           case "CubeCraft" -> {
               return CubeGame.LOBBY;
