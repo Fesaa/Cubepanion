@@ -514,7 +514,11 @@
     },
     "messages": {
       "voteReminder": "Don't forget to vote!",
-      "preventedDrop": "Prevented you from dropping a tool!"
+      "preventedDrop": "Prevented you from dropping a tool!",
+      "leaderboardAPI": {
+        "success": "Successfully submitted leaderboard places for %s.",
+        "error": "An error occurred trying to submit to the leaderboardAPI. Try again later."
+      }
     }
   }
 }

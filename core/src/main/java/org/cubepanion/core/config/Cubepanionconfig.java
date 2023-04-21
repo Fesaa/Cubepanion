@@ -36,6 +36,8 @@ public class Cubepanionconfig extends AddonConfig {
 
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
 
+  private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
+
   @Override
   public ConfigProperty<Boolean> enabled() {return this.enabled;}
 
@@ -46,5 +48,5 @@ public class Cubepanionconfig extends AddonConfig {
   public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}
   public StatsTrackerSubConfig getStatsTrackerSubConfig() {return this.statsTrackerSubConfig;}
-
+  public LeaderboardAPIConfig getLeaderboardAPIConfig() {return leaderboardAPIConfig;}
 }

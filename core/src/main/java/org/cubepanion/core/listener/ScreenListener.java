@@ -20,7 +20,8 @@ public class ScreenListener {
   public void onOpenScreen(ScreenOpenEvent e) {
     if (this.addon.getManager().onCubeCraft()
         && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
-      if (this.leaderboardTrackerLink != null) {
+      if (this.leaderboardTrackerLink != null
+      && this.addon.configuration().getLeaderboardAPIConfig().getContributeToDB().get()) {
         this.leaderboardTrackerLink.onScreenOpen();
       }
     }

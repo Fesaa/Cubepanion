@@ -153,10 +153,9 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
           timer.cancel();
 
           if (lbTracker.currentPageNumber == lbTracker.maxPageNumber
-              && lbTracker.recordedPageNumbers.size() == lbTracker.maxPageNumber) {
-            if (lbTracker.submitToApi()) {
-              System.out.println("SUCCES!");
-            }
+              && lbTracker.recordedPageNumbers.size() == lbTracker.maxPageNumber
+              && lbTracker.cachedEntries.size() == 200) {
+            lbTracker.submitToApi();
           }
         }
       }
