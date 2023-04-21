@@ -1,4 +1,4 @@
-package org.cubepanion.v1_19_4;
+package org.cubepanion.v1_19_3;
 
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;

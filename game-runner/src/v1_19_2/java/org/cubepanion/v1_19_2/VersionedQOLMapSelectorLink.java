@@ -1,4 +1,4 @@
-package org.cubepanion.v1_19_4;
+package org.cubepanion.v1_19_2;
 
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
@@ -10,7 +10,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStack.TooltipPart;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.TooltipFlag.Default;
 import net.minecraft.world.level.block.Blocks;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import javax.inject.Inject;
@@ -64,7 +66,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
             if (itemStack.isEmpty()) {
               break;
             }
-            List<Component> hoverText = itemStack.getTooltipLines(player, TooltipFlag.NORMAL);
+            List<Component> hoverText = itemStack.getTooltipLines(player, Default.NORMAL);
             if (hoverText.size() != 4) {
               break;
             }
