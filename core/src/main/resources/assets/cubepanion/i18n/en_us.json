@@ -98,6 +98,10 @@
         "noDropSkyBlock": {
           "name": "Don't drop tools",
           "description": "Prevents you from dropping tools & armour in Skyblock with the drop key."
+        },
+        "mapSelector": {
+          "name": "Map Selector Indicator",
+          "description": "Changes the icon into a red glass paint if the map is not available."
         }
       },
       "eggWarsMapInfoSubConfig": {

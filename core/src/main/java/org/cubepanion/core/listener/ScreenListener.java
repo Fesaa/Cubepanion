@@ -5,15 +5,18 @@ import net.labymod.api.event.client.gui.screen.ScreenOpenEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
+import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 
 public class ScreenListener {
 
   private final Cubepanion addon;
   private final LeaderboardTrackerLink leaderboardTrackerLink;
+  private final QOLMapSelectorLink qolMapSelectorLink;
 
-  public ScreenListener(Cubepanion addon, LeaderboardTrackerLink leaderboardTrackerLink) {
+  public ScreenListener(Cubepanion addon, LeaderboardTrackerLink leaderboardTrackerLink, QOLMapSelectorLink qolMapSelectorLink) {
     this.addon = addon;
     this.leaderboardTrackerLink = leaderboardTrackerLink;
+    this.qolMapSelectorLink = qolMapSelectorLink;
   }
 
   @Subscribe
@@ -23,6 +26,10 @@ public class ScreenListener {
       if (this.leaderboardTrackerLink != null
       && this.addon.configuration().getLeaderboardAPIConfig().getContributeToDB().get()) {
         this.leaderboardTrackerLink.onScreenOpen();
+      }
+      if (this.qolMapSelectorLink != null
+          && this.addon.configuration().getQolConfig().getMapSelector().get()) {
+        this.qolMapSelectorLink.onScreenOpen();
       }
     }
   }

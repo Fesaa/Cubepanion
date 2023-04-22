@@ -33,6 +33,7 @@ import org.cubepanion.core.managers.DiscordRPCManager;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
+import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 
 @AddonMain
@@ -64,11 +65,15 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     DefaultReferenceStorage storage = this.getReferenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
+    QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     if (votingLink == null) {
       this.logger().warn("VotingLink is null. Some features will not work.:");
     }
     if (leaderboardTrackerLink == null) {
       this.logger().warn("LeaderboardTrackerLink is null. Some features will not work.");
+    }
+    if (qolMapSelectorLink == null) {
+      this.logger().warn("QOLMapSelectorLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
@@ -97,7 +102,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));
-    this.registerListener(new ScreenListener(this, leaderboardTrackerLink));
+    this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
 
     this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 

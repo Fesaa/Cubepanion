@@ -24,6 +24,9 @@ public class QOLConfig extends Config {
   private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
 
   @SwitchSetting
+  private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);
+
+  @SwitchSetting
   private final ConfigProperty<Boolean> noDropSkyBlock = new ConfigProperty<>(false);
 
   @SpriteSlot(x = 3, y = 1)
@@ -42,4 +45,5 @@ public class QOLConfig extends Config {
   public ConfigProperty<Boolean> getReminderToVote() {return reminderToVote;}
   public ResourceLocation getVoteReminderResourceLocation() {return reminderToVoteResourceLocation;}
   public ConfigProperty<Boolean> getNoDropSkyBlock() {return noDropSkyBlock;}
+  public ConfigProperty<Boolean> getMapSelector() {return mapSelector;}
 }
