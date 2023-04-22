@@ -71,7 +71,9 @@ public class LeaderboardAPICommands extends Command {
     }
     this.lastUsed = now;
 
-    if (arguments.length == 1) { // User leaderboards
+    Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
+
+    if (arguments.length == 1 && leaderboard.equals(Leaderboard.NONE)) { // User leaderboards
       String userName = arguments[0];
       if (!userName.matches("[a-zA-Z0-9_]{2,16}")) {
         this.displayMessage(Component.translatable(this.mainKey + "invalidUserName", Component.text(userName)).color(Colours.Error));
@@ -126,7 +128,6 @@ public class LeaderboardAPICommands extends Command {
       return true;
     }
 
-    Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
     if (leaderboard.equals(Leaderboard.NONE)) {
       this.displayMessage(Component.translatable(this.mainKey + "invalidLeaderBoard",
           Component.text(String.join(" ", arguments)))
@@ -199,10 +200,10 @@ public class LeaderboardAPICommands extends Command {
 
   private Leaderboard separateLeaderboardAndUserName(String[] arguments) {
     Leaderboard leaderboard = Leaderboard.NONE;
-    String tryForLeaderboard;
+    String tryForLeaderboard = "";
 
     for (String s : arguments) {
-      tryForLeaderboard = (" " + s).trim();
+      tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
       leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
       if (!leaderboard.equals(Leaderboard.NONE)) {
         return leaderboard;

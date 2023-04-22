@@ -22,23 +22,23 @@ public enum Leaderboard {
   }
 
   public static Leaderboard stringToLeaderboard(String s) {
-    switch (s) {
-      case "Team EggWars", "EggWars" -> {
+    switch (s.toLowerCase()) {
+      case "team eggwars", "eggwars", "tew", "ew" -> {
         return Leaderboard.TEAM_EGGWARS;
       }
-      case "EggWars Season 2" -> {
+      case "eggwars season 2", "ew2", "tew2" -> {
         return Leaderboard.TEAM_EGGWARS_SEASON_2;
       }
-      case "Solo SkyWars", "SkyWars" -> {
+      case "solo skywars", "skywars", "sw" -> {
         return Leaderboard.SOLO_SKYWARS;
       }
-      case "Lucky Islands" -> {
+      case "lucky islands", "li" -> {
         return Leaderboard.SOLO_LUCKYISLANDS;
       }
-      case "Free For All", "FFA" -> {
+      case "free for all", "ffa" -> {
         return Leaderboard.FFA;
       }
-      case "Parkour" -> {
+      case "parkour" -> {
         return Leaderboard.PARKOUR;
       }
       default -> {
