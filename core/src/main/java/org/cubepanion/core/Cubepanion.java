@@ -9,6 +9,7 @@ import org.cubepanion.core.commands.DivisionCommand;
 import org.cubepanion.core.commands.EggWarsMapInfoCommand;
 import org.cubepanion.core.commands.FriendListCommand;
 import org.cubepanion.core.commands.FriendLocationCommand;
+import org.cubepanion.core.commands.LeaderboardAPICommands;
 import org.cubepanion.core.commands.MapCommand;
 import org.cubepanion.core.commands.OnlineFriendTrackerCommand;
 import org.cubepanion.core.commands.PartyCommands;
@@ -50,6 +51,8 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     return instance;
   }
 
+  public static String leaderboardAPI = "http://127.0.0.1:8080/";
+
   public static void updateRPC() {
     instance.rpcManager.updateRPC();
   }
@@ -83,6 +86,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     this.registerCommand(new TeamColourCommand(this));
     this.registerCommand(new DivisionCommand(this));
     this.registerCommand(new FriendLocationCommand(this));
+    this.registerCommand(new LeaderboardAPICommands(this));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));
@@ -99,7 +103,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
     this.widgetManager.register();
 
-    this.logger().info("CubeCraft-Utilities has successfully registered all her components.");
+    this.logger().info("Cubepanion has successfully registered all her components.");
   }
 
   public CubepanionManager getManager() {

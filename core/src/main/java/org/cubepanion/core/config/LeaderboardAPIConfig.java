@@ -15,6 +15,9 @@ public class LeaderboardAPIConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> partyCommands = new ConfigProperty<>(false);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> errorInfo = new ConfigProperty<>(false);
+
   public ConfigProperty<Boolean> getContributeToDB() {
     return contributeToDB;
   }
@@ -25,5 +28,9 @@ public class LeaderboardAPIConfig extends Config {
 
   public ConfigProperty<Boolean> getUserCommands() {
     return userCommands;
+  }
+
+  public ConfigProperty<Boolean> getErrorInfo() {
+    return errorInfo;
   }
 }

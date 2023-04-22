@@ -6,8 +6,8 @@ public enum Leaderboard {
   SOLO_LUCKYISLANDS("Lucky Islands"),
   SOLO_SKYWARS("Solo SkyWars"),
   FFA("Free For All"),
-  PARKOUR("Parkour"),
-  NONE("")
+  NONE(""),
+  PARKOUR("Parkour")
   ;
 
 

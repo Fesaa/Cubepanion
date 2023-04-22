@@ -8,7 +8,9 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.reference.annotation.Referenceable;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
+import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.Leaderboard;
 import org.cubepanion.core.utils.LeaderboardEntry;
 import org.jetbrains.annotations.Nullable;
@@ -25,8 +27,10 @@ public abstract class LeaderboardTrackerLink {
   protected Set<Integer> recordedPageNumbers = new HashSet<>();
   protected int currentPageNumber;
   protected int maxPageNumber;
-
   private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();
+
+  private final Component noResponse = Component.translatable(I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
+  private final Component APISubmitError = Component.translatable("cubepanion.messages.leaderboardAPI.error").color(Colours.Error);
 
   public abstract void onScreenOpen();
 
@@ -60,7 +64,7 @@ public abstract class LeaderboardTrackerLink {
     main.add("entries", entries);
 
     Request.ofString()
-        .url("http://127.0.0.1:8080/leaderboard_api")
+        .url(Cubepanion.leaderboardAPI + "leaderboard_api")
         .method(Method.POST)
         .json(main)
         .async()
@@ -76,12 +80,10 @@ public abstract class LeaderboardTrackerLink {
                           .color(Colours.Success));
             } else {
               Laby.labyAPI().minecraft().chatExecutor()
-                  .displayClientMessage(
-                      Component.translatable(
-                              "cubepanion.messages.leaderboardAPI.error",
-                              Component.text(this.currentLeaderboard.getString()))
-                          .color(Colours.Error));
+                  .displayClientMessage(this.APISubmitError);
             }
+          }  else {
+            Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(this.noResponse);
           }
           this.currentLeaderboard = Leaderboard.NONE;
           this.currentPageNumber = -1;
@@ -102,7 +104,4 @@ public abstract class LeaderboardTrackerLink {
         .trim();
     return Leaderboard.stringToLeaderboard(name);
   }
-
-
-
 }
