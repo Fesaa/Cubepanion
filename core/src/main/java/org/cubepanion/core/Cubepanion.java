@@ -52,7 +52,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     return instance;
   }
 
-  public static String leaderboardAPI = "http://127.0.0.1:8080/";
+  public static String leaderboardAPI = "http://128.140.15.196:7070/";
 
   public static void updateRPC() {
     instance.rpcManager.updateRPC();

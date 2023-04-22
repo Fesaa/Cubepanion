@@ -195,7 +195,7 @@
           }
         }
       },
-     "statsTrackerSubConfig": {
+      "statsTrackerSubConfig": {
         "name": "Stats Trackers",
         "autoReset": {
           "name": "Auto reset current period"
@@ -256,6 +256,21 @@
         "friendsTrackerCommand": {
           "name": "Friend tracker",
           "description": "/tracker (un)track/interval [username*|int]"
+        }
+      },
+      "leaderboardAPIConfig": {
+        "name": "Leaderboard API",
+        "contributeToDB": {
+          "name": "Contribute",
+          "description": "When enabled will record the leaderboards and submit them to the database"
+        },
+        "userCommands": {
+          "name": "Slash commands",
+          "description": "/lb for help"
+        },
+        "errorInfo": {
+          "name": "Error info",
+          "description": "More detailed info on errors when using the API"
         }
       }
     },
