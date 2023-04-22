@@ -10,6 +10,7 @@ public class Colours {
   public static final TextColor Secondary = NamedTextColor.WHITE;
   public static final TextColor Error = NamedTextColor.RED;
   public static final TextColor Hover = NamedTextColor.GREEN;
+  public static final TextColor Success = NamedTextColor.GREEN;
 
 
   public static TextColor pingColour(int ping) {

@@ -1,12 +1,13 @@
-package org.cubepanion.core.utils;
+package org.cubepanion.core.versionlinkers;
 
 import net.labymod.api.reference.annotation.Referenceable;
 import org.cubepanion.core.config.subconfig.AutoVoteSubConfig;
+import org.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable
 @Referenceable
-public abstract class VotingInterface {
+public abstract class VotingLink {
 
   public final int returnIndex = 31;
 

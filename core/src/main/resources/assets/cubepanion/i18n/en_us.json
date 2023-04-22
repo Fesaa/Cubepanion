@@ -514,7 +514,37 @@
     },
     "messages": {
       "voteReminder": "Don't forget to vote!",
-      "preventedDrop": "Prevented you from dropping a tool!"
+      "preventedDrop": "Prevented you from dropping a tool!",
+      "leaderboardAPI": {
+        "success": "Successfully submitted leaderboard places for %s.",
+        "error": "An error occurred trying to submit to the leaderboardAPI. Please try again later. (Contact Fesa if this persists)",
+        "noResponse": "The leaderboardAPI did not respond. Please try again later. (Contact Fesa if this persists)",
+        "commands": {
+          "APIError": "The API returned an error. Please try again later. (Contact Fesa if this persists)",
+          "APIError_info": "The API returned an error. Please try again later. %s",
+          "invalidUserName": "%s is not a valid Minecraft username.",
+          "invalidLeaderBoard": "Did not find a leaderboard in your command. %s",
+          "invalidNumber": "%s is not a valid number. Must be between 1 and 200.",
+          "invalidResponse": "The API returned invalid data as a response. Please try again later. (Contact Fesa if this persists)",
+          "noLeaderboards": "%s has no recorded leaderboards. :(",
+          "noPlayers": "No players where found for %s between places %s and %s.",
+          "leaderboards": {
+            "title": "All recorded leaderboards for %s {%s}:",
+            "leaderboardInfo": "\n- %s {%s}: %s"
+          },
+          "places": {
+            "title": "Players on %s between places %s and %s:",
+            "placeInfo": "\n- %s {%s}: %s"
+          },
+          "coolDown": "You are doing this too fast! Please try again in %s second(s).",
+          "help": {
+            "title": "------- LeaderboardAPI commands help -------\n",
+            "info": "Commands can be called with leaderboardAPI,leaderboard or lb",
+            "player": " - Get all leaderboards of a player",
+            "leaderboard": " - Get players from a game's leaderboards in range [start, start+10]. Defaults to 1."
+          }
+        }
+      }
     }
   }
 }

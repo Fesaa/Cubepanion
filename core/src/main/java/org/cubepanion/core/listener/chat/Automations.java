@@ -20,14 +20,14 @@ import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.VotingInterface;
+import org.cubepanion.core.versionlinkers.VotingLink;
 import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
 
 public class Automations {
 
   private final Cubepanion addon;
   private final CubepanionManager manager;
-  private final VotingInterface votingInterface;
+  private final VotingLink votingLink;
   private final Task autoVoteTask;
 
   private final Task startOfGameTask;
@@ -44,14 +44,14 @@ public class Automations {
   private boolean voted = false;
   private boolean friendListBeingSend = false;
 
-  public Automations(Cubepanion addon, VotingInterface votingInterface) {
+  public Automations(Cubepanion addon, VotingLink votingLink) {
     this.addon = addon;
     this.manager = addon.getManager();
-    this.votingInterface = votingInterface;
+    this.votingLink = votingLink;
 
     this.autoVoteTask  = Task.builder(() -> {
-      if (this.votingInterface != null) {
-        this.votingInterface.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+      if (this.votingLink != null) {
+        this.votingLink.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
       }
     }).delay(1000, TimeUnit.MILLISECONDS).build();
 

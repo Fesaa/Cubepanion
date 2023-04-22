@@ -1,4 +1,4 @@
-package org.cubepanion.v1_19_4;
+package org.cubepanion.v1_19_2;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import java.util.Timer;
@@ -20,12 +20,12 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.cubepanion.core.utils.VotingInterface;
+import org.cubepanion.core.versionlinkers.VotingLink;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton
-@Implements(VotingInterface.class)
-public class VersionedVotingInterface extends VotingInterface {
+@Implements(VotingLink.class)
+public class VersionedVotingLink extends VotingLink {
 
   private LocalPlayer player = null;
   public ItemStack returnItemStack;
@@ -43,7 +43,7 @@ public class VersionedVotingInterface extends VotingInterface {
   }).delay(200, TimeUnit.MILLISECONDS).build();
 
   @Inject
-  public VersionedVotingInterface() {
+  public VersionedVotingLink() {
   }
 
   @Override
@@ -68,7 +68,7 @@ public class VersionedVotingInterface extends VotingInterface {
     if (voteIndex == -1) {
       return;
     }
-    VersionedVotingInterface votingInterface = this;
+    VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
 
       private int count = 0;
@@ -93,7 +93,7 @@ public class VersionedVotingInterface extends VotingInterface {
 
   private void waitForNewSlotAndClick(@NotNull LocalPlayer player, int index, boolean choice) {
     Timer timer = new Timer("waitForNewSlotAndClick");
-    VersionedVotingInterface votingInterface = this;
+    VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
       @Override
@@ -137,7 +137,7 @@ public class VersionedVotingInterface extends VotingInterface {
   private void gracefulShutDown(@NotNull LocalPlayer player, @NotNull ChestMenu chest) {
     this.clickReturn(chest);
     Timer timer = new Timer("gracefulShutDown");
-    VersionedVotingInterface votingInterface = this;
+    VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
       @Override
