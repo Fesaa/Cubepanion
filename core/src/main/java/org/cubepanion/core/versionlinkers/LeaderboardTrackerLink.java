@@ -3,6 +3,7 @@ package org.cubepanion.core.versionlinkers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.labymod.api.Laby;
+import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.reference.annotation.Referenceable;
@@ -69,21 +70,28 @@ public abstract class LeaderboardTrackerLink {
         .json(main)
         .async()
         .execute(callBack -> {
+          ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
           if (callBack.isPresent()) {
             int statusCode = callBack.getStatusCode();
             if (statusCode == 202) {
-              Laby.labyAPI().minecraft().chatExecutor()
-                  .displayClientMessage(
+              chat.displayClientMessage(
                       Component.translatable(
                           "cubepanion.messages.leaderboardAPI.success",
                           Component.text(this.currentLeaderboard.getString()))
                           .color(Colours.Success));
             } else {
-              Laby.labyAPI().minecraft().chatExecutor()
-                  .displayClientMessage(this.APISubmitError);
+              if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+                chat.displayClientMessage(
+                    Component.translatable(
+                        I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.APIError_info",
+                            Component.text(callBack.get()))
+                        .color(Colours.Error));
+              } else {
+                chat.displayClientMessage(this.APISubmitError);
+              }
             }
           }  else {
-            Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(this.noResponse);
+            chat.displayClientMessage(this.noResponse);
           }
           this.currentLeaderboard = Leaderboard.NONE;
           this.currentPageNumber = -1;

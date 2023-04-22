@@ -22,12 +22,13 @@ import java.util.stream.IntStream;
 public class LeaderboardAPICommands extends Command {
 
   private long lastUsed = 0;
+  private final Cubepanion addon;
 
   private final String mainKey = I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.";
 
   private final Component APIError = Component.translatable(this.mainKey + "APIError").color(Colours.Error);
   private final Component invalidResponse = Component.translatable(this.mainKey + "invalidResponse").color(Colours.Error);
-  private final Component noResponse = Component.translatable(I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);;
+  private final Component noResponse = Component.translatable(I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
   private final Component helpMessage = Component.translatable(this.mainKey + "help.title", Colours.Title)
       .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary).decorate(TextDecoration.ITALIC))
       .append(Component.text("\n/leaderboardAPI <userName>", Colours.Primary))
@@ -53,11 +54,18 @@ public class LeaderboardAPICommands extends Command {
 
   public LeaderboardAPICommands(Cubepanion addon) {
     super("leaderboardAPI", "leaderboard", "lb");
+    this.addon = addon;
     this.messagePrefix = addon.prefix();
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    if (!this.addon.getManager().onCubeCraft()
+    || !this.addon.configuration().getLeaderboardAPIConfig().getUserCommands().get()) {
+      return false;
+    }
+    
+
     if (arguments.length == 0) {
       this.displayMessage(this.helpMessage);
       return true;
@@ -86,7 +94,14 @@ public class LeaderboardAPICommands extends Command {
           .execute(callBack -> {
             if (callBack.isPresent()) {
               if (callBack.getStatusCode() != 200) {
-                this.displayMessage(this.APIError);
+                if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+                  this.displayMessage(
+                      Component.translatable(this.mainKey + "APIError_info",
+                          Component.text(callBack.get())).color(Colours.Error)
+                  );
+                } else {
+                  this.displayMessage(this.APIError);
+                }
                 return;
               }
               JsonArray leaderboards;
@@ -154,7 +169,14 @@ public class LeaderboardAPICommands extends Command {
         .execute(callBack -> {
           if (callBack.isPresent()) {
             if (callBack.getStatusCode() != 200) {
-              this.displayMessage(this.APIError);
+              if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+                this.displayMessage(
+                    Component.translatable(this.mainKey + "APIError_info",
+                        Component.text(callBack.get())).color(Colours.Error)
+                );
+              } else {
+                this.displayMessage(this.APIError);
+              }
               return;
             }
             JsonArray players;
