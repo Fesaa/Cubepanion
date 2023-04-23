@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.labymod.api.Laby;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.reference.annotation.Referenceable;
 import net.labymod.api.util.io.web.request.Request;
@@ -49,6 +50,12 @@ public abstract class LeaderboardTrackerLink {
 
     long now = System.currentTimeMillis();
     if (now - lastSubmit < 1000*60*5) {
+      Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(
+          Component.translatable("cubepanion.messages.leaderboardAPI.coolDown",
+              Component.text(5 - (now - lastSubmit)/60000, NamedTextColor.DARK_RED))
+              .color(Colours.Error),
+          true
+      );
       return;
     }
     this.lastSubmit.put(this.currentLeaderboard, now);

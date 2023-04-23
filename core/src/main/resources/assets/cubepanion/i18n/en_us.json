@@ -536,6 +536,7 @@
       "preventedDrop": "Prevented you from dropping a tool!",
       "leaderboardAPI": {
         "success": "Successfully submitted leaderboard places for %s.",
+        "coolDown": "You'll be able to submit again in %s minute(s).",
         "error": "An error occurred trying to submit to the leaderboardAPI. Please try again later. (Contact Fesa if this persists)",
         "noResponse": "The leaderboardAPI did not respond. Please try again later. (Contact Fesa if this persists)",
         "commands": {

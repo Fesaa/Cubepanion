@@ -158,7 +158,7 @@ public class LeaderboardAPICommands extends Command {
     } catch (NumberFormatException e) {
       bound = 1;
     }
-    int bound_2 = Math.min(200, bound + 10);
+    int bound_2 = Math.min(200, bound + 9);
     int finalBound = bound;
     Request.ofString()
         .url(Cubepanion.leaderboardAPI + "leaderboard_api/leaderboard/%s/bounded?lower=%d&upper=%d",
