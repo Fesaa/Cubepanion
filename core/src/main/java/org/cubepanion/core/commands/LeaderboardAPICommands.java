@@ -131,7 +131,8 @@ public class LeaderboardAPICommands extends Command {
                     Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
                         Component.text(info.get("game").getAsString()).color(Colours.Primary).decorate(TextDecoration.BOLD),
                         Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
-                            Component.text(info.get("score").getAsInt()).color(Colours.Secondary)
+                            Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
+                        Component.text(this.leaderboardToScoreType(this.separateLeaderboardAndUserName(info.get("game").getAsString().split(" "))))
                     ).color(Colours.Success));
               }
 
@@ -209,7 +210,8 @@ public class LeaderboardAPICommands extends Command {
                   Component.translatable(this.mainKey + "places.placeInfo",
                       Component.text(info.get("player").getAsString()).color(Colours.Primary).decorate(TextDecoration.BOLD),
                       Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
-                      Component.text(info.get("score").getAsInt()).color(Colours.Secondary)
+                      Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
+                      Component.text(this.leaderboardToScoreType(leaderboard))
                   ).color(Colours.Success));
             }
             this.displayMessage(toDisplay);
@@ -233,6 +235,15 @@ public class LeaderboardAPICommands extends Command {
 
     }
     return leaderboard;
+  }
+
+  private String leaderboardToScoreType(Leaderboard leaderboard) {
+    return switch (leaderboard) {
+      case TEAM_EGGWARS, TEAM_EGGWARS_SEASON_2, SOLO_LUCKYISLANDS, SOLO_SKYWARS -> "wins";
+      case FFA -> "kills";
+      case PARKOUR -> "medals";
+      default -> "unknown";
+    };
   }
 
 }

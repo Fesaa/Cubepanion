@@ -549,11 +549,11 @@
           "noPlayers": "No players where found for %s between places %s and %s.",
           "leaderboards": {
             "title": "All recorded leaderboards for %s {%s}:",
-            "leaderboardInfo": "\n- %s {%s}: %s"
+            "leaderboardInfo": "\n- %s {%s}: %s %s"
           },
           "places": {
             "title": "Players on %s between places %s and %s:",
-            "placeInfo": "\n- %s {%s}: %s"
+            "placeInfo": "\n- %s {%s}: %s %s"
           },
           "coolDown": "You are doing this too fast! Please try again in %s second(s).",
           "help": {
