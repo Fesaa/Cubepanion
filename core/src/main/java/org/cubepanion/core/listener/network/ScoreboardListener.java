@@ -64,7 +64,7 @@ public class ScoreboardListener {
     if (!e.objective().getName().equals("sidebar")) {
       return;
     }
-    if (this.manager.hasUpdatedAfterServerSwitch()) {
+    if (this.manager.hasUpdatedAfterServerSwitch() &&!CubeGame.isParkour(this.manager.getDivision())) {
       return;
     }
 
@@ -72,19 +72,22 @@ public class ScoreboardListener {
     String titleText = ((TextComponent) title).getText();
     if (titleText != null && titleText.matches("[a-zA-Z ]*") && titleText.length() > 0) {
       this.manager.setDivision(CubeGame.stringToGame(titleText.trim()));
+      this.manager.setHasUpdatedAfterServerSwitch(true);
     } else {
       for (Component child : title.getChildren()) {
         String text = ((TextComponent) child).getText();
         if (text == null) {
           continue;
         }
+        text = text.replaceAll("[^a-zA-Z \\.]", "").trim();
         if (text.matches("[a-zA-Z ]+")) {
           this.manager.setDivision(CubeGame.stringToGame(text.trim()));
+          this.manager.setHasUpdatedAfterServerSwitch(true);
           break;
         }
       }
     }
-    this.manager.setHasUpdatedAfterServerSwitch(true);
+
     this.updatedMap = false;
   }
 

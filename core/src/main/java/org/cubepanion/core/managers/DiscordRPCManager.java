@@ -156,7 +156,7 @@ public class DiscordRPCManager {
 
   private boolean doPlayerTracking() {
     switch (this.addon.getManager().getDivision()) {
-      case SKYBLOCK, SIMPLE_PARKOUR, NORMAL_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR, FFA -> {
+      case SKYBLOCK, SIMPLE_PARKOUR, EASY_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR, FFA -> {
         return false;
       }
       default -> {
@@ -192,7 +192,7 @@ public class DiscordRPCManager {
             "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png",
             game.getString());
       }
-      case SIMPLE_PARKOUR, NORMAL_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR -> {
+      case SIMPLE_PARKOUR, EASY_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR -> {
         return Asset.of(
             "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png",
             game.getString());

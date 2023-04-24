@@ -6,7 +6,7 @@ public enum CubeGame {
   SOLO_SKYWARS("Solo SkyWars"),
   FFA("Free For All"),
   SIMPLE_PARKOUR("Simple Parkour"),
-  NORMAL_PARKOUR("Normal Parkour"),
+  EASY_PARKOUR("Easy Parkour"),
   MEDIUM_PARKOUR("Medium Parkour"),
   HARD_PARKOUR("Hard Parkour"),
   PARKOUR("Parkour"),
@@ -29,7 +29,7 @@ public enum CubeGame {
   public static boolean isParkour(CubeGame e) {
     return e.equals(CubeGame.HARD_PARKOUR)
         || e.equals(CubeGame.MEDIUM_PARKOUR)
-        || e.equals(CubeGame.NORMAL_PARKOUR)
+        || e.equals(CubeGame.EASY_PARKOUR)
         || e.equals(CubeGame.SIMPLE_PARKOUR);
   }
 
@@ -53,8 +53,8 @@ public enum CubeGame {
           case "Simple Parkour" -> {
               return CubeGame.SIMPLE_PARKOUR;
           }
-          case "Normal Parkour" -> {
-              return CubeGame.NORMAL_PARKOUR;
+          case "Easy Parkour" -> {
+              return CubeGame.EASY_PARKOUR;
           }
           case "Medium Parkour" -> {
               return CubeGame.MEDIUM_PARKOUR;

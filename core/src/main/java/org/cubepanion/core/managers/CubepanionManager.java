@@ -172,7 +172,10 @@ public class CubepanionManager {
     this.lastDivision = this.division;
     this.division = division;
 
-    if (this.division.equals(CubeGame.SKYBLOCK) || this.division.equals(CubeGame.FFA)) {
+    if (this.division.equals(CubeGame.SKYBLOCK)
+        || this.division.equals(CubeGame.FFA)
+        || CubeGame.isParkour(this.division)
+        || this.division.equals(CubeGame.LOBBY)) {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
