@@ -6,7 +6,6 @@ import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine.State;
 import net.labymod.api.client.gui.icon.Icon;
-import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownEntryTranslationPrefix;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
@@ -54,7 +53,6 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
   public static class GameTimerConfig extends TextHudWidgetConfig {
 
     @DropdownSetting
-    @DropdownEntryTranslationPrefix("cubepanion.hudWidget.elapsed_time_tracker.layout.entries")
     private final ConfigProperty<layoutEnum> layout = new ConfigProperty<>(layoutEnum.WORDS);
 
     private String getFormattedString(long timeDifference) {

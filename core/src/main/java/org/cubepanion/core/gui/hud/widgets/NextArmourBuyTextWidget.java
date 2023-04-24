@@ -7,7 +7,6 @@ import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine.State;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
-import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownEntryTranslationPrefix;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
@@ -62,7 +61,6 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   public static class NextArmourBuyHudConfig extends TextHudWidgetConfig {
 
     @DropdownSetting
-    @DropdownEntryTranslationPrefix("cubepanion.settings.hudWidget.nextArmourDurability.wheretoDisplayType.entries")
     private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(whereToDisplay.EGGWARS);
 
     @SwitchSetting

@@ -37,7 +37,7 @@ public class Automations {
   private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
-   private final Pattern FriendListTop = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
+  private final Pattern FriendListTop = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile("^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
   private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
@@ -53,7 +53,7 @@ public class Automations {
       if (this.votingLink != null) {
         this.votingLink.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
       }
-    }).delay(1000, TimeUnit.MILLISECONDS).build();
+    }).delay(100, TimeUnit.MILLISECONDS).build();
 
     this.startOfGameTask  = Task.builder(() -> {
       if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
@@ -80,7 +80,7 @@ public class Automations {
     // Friend Message Sound
     if (mainConfig.getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me : .*")) {
-         minecraft.sounds().playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
+        minecraft.sounds().playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
         return;
       }
     }
@@ -88,7 +88,7 @@ public class Automations {
     // 5 seconds remaining
     if (this.fiveSecondsRemaining.matcher(msg).matches()) {
       if (!this.voted && mainConfig.getQolConfig().getReminderToVote().get()) {
-        minecraft.sounds().playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
+        minecraft.sounds().playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
         minecraft.chatExecutor().displayClientMessage(this.voteReminderComponent);
       }
       this.voted = false;

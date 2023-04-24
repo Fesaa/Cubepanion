@@ -1,6 +1,5 @@
 package org.cubepanion.core.config.subconfig;
 
-import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownEntryTranslationPrefix;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
@@ -14,37 +13,30 @@ public class AutoVoteSubConfig extends Config {
 
   @DropdownSetting
   @SpriteSlot(x = 1, y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.eggWarsItems.entries")
   private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 7)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.eggWarsHealth.entries")
   private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(ThreeOptionsMode.MIDDLE);
 
   @DropdownSetting
   @SpriteSlot(y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.skyWarsChests.entries")
   private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 2, y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.skyWarsProjectiles.entries")
   private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.skyWarsTime.entries")
   private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 4, y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.luckyIslandsBlocks.entries")
   private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(FourOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
-  @DropdownEntryTranslationPrefix("cubepanion.settings.autoVoteSubConfig.luckyIslandsTime.entries")
   private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
 
 
