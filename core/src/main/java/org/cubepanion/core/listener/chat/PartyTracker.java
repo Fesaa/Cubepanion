@@ -36,6 +36,9 @@ public class PartyTracker {
 
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     String msg = e.chatMessage().getPlainText();
     ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
     if (p == null) {

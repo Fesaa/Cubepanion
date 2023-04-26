@@ -15,6 +15,10 @@ public class GameShutdownEventListener {
 
   @Subscribe
   public void onGameShutdownEvent(GameShutdownEvent gameShutdownEvent) {
+    this.addon.saveConfiguration();
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     CubepanionManager manager = this.addon.getManager();
     StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreLobby()) {
@@ -24,7 +28,6 @@ public class GameShutdownEventListener {
         gameStatsTracker.registerDeath("leave");
       }
     }
-    this.addon.saveConfiguration();
   }
 
 }

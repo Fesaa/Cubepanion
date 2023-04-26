@@ -28,7 +28,7 @@ public class ScoreboardListener {
 
   @Subscribe
   public void onScoreboardTeamEntryAddEvent(ScoreboardTeamEntryAddEvent e) {
-    if (this.updatedMap) {
+    if (this.updatedMap || !this.addon.getManager().onCubeCraft()) {
       return;
     }
 
@@ -61,6 +61,9 @@ public class ScoreboardListener {
 
   @Subscribe
   public void onScoreboardObjectiveUpdate(ScoreboardObjectiveUpdateEvent e) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     if (!e.objective().getName().equals("sidebar")) {
       return;
     }

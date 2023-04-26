@@ -20,6 +20,9 @@ public class PlayerInfo {
 
   @Subscribe
   public void onPlayerInfoRemoveEvent(PlayerInfoRemoveEvent e) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     if (!this.manager.isInPreLobby() && this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
       this.addon.rpcManager.registerDeath(e.playerInfo());
     }
@@ -27,6 +30,9 @@ public class PlayerInfo {
 
   @Subscribe
   public void onPlayerInfoUpdateEvent(PlayerInfoUpdateEvent e) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     if (e.type().equals(UpdateType.GAME_MODE)) {
         switch (e.playerInfo().gameMode()) {
             case SURVIVAL -> {

@@ -66,6 +66,9 @@ public class Automations {
 
   @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
     Minecraft minecraft = this.addon.labyAPI().minecraft();
     String msg = e.chatMessage().getPlainText();
     ClientPlayer p = minecraft.getClientPlayer();

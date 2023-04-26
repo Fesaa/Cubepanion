@@ -28,6 +28,9 @@ public class KeyEventListener {
     if (!this.addon.labyAPI().minecraft().isMouseLocked()) {
       return;
     }
+    if (!this.addon.getManager().onCubeCraft()) {
+      return;
+    }
 
     // EggWars Map Info KeyBind
     EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
