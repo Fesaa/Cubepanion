@@ -8,8 +8,7 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class AutoVoteSubConfig extends Config {
 
-  @ParentSwitch
-  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
   @DropdownSetting
   @SpriteSlot(x = 1, y = 1)
