@@ -55,7 +55,9 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public static String leaderboardAPI = "http://ameliah.art:7070/";
 
   public static void updateRPC() {
-    instance.rpcManager.updateRPC();
+    if (instance != null) {
+      instance.rpcManager.updateRPC();
+    }
   }
 
   @Override
