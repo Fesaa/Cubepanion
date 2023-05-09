@@ -121,7 +121,7 @@ public class LeaderboardAPICommands extends Command {
               }
 
               Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-                  Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD),
+                  Component.text(leaderboards.get(0).getAsJsonObject().get("player").getAsString(), Colours.Secondary).decorate(TextDecoration.BOLD),
                   Component.text(leaderboards.size(), Colours.Secondary))
                   .color(Colours.Primary);
 

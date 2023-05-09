@@ -180,8 +180,8 @@
           "name": "SkyWars Time",
           "entries": {
             "left": "Day",
-            "middle": "Night",
-            "right": "Sunset",
+            "middle": "Sunset",
+            "right": "Night",
             "none": "Don't vote"
           }
         },
@@ -189,8 +189,8 @@
           "name": "Lucky Islands Time",
           "entries": {
             "left": "Day",
-            "middle": "Night",
-            "right": "Sunset",
+            "middle": "Sunset",
+            "right": "Night",
             "none": "Don't vote"
           }
         },
