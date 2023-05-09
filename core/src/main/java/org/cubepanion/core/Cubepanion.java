@@ -67,7 +67,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     if (votingLink == null) {
-      this.logger().warn("VotingLink is null. Some features will not work.:");
+      this.logger().warn("VotingLink is null. Some features will not work.");
     }
     if (leaderboardTrackerLink == null) {
       this.logger().warn("LeaderboardTrackerLink is null. Some features will not work.");
