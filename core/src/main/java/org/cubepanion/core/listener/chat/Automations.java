@@ -189,6 +189,7 @@ public class Automations {
         e.setCancelled(true);
         return;
       }
+      friendTrackerManager.setUpdating(false);
     }
 
     if (mainConfig.getQolConfig().getShortFriendsList().get()) {
