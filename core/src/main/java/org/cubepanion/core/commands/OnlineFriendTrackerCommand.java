@@ -35,12 +35,12 @@ public class OnlineFriendTrackerCommand extends Command {
         .color(Colours.Title)
         .append(helpComponent.apply("description").color(Colours.Secondary)
             .decorate(TextDecoration.ITALIC))
-        .append(Component.text("\n/friendTracking track [names*]", Colours.Primary)
+        .append(Component.text("\n/friendTracker track [names*]", Colours.Primary)
             .undecorate(TextDecoration.ITALIC))
         .append(helpComponent.apply("track").color(Colours.Secondary))
-        .append(Component.text("\n/friendTracking untrack [names*]", Colours.Primary))
+        .append(Component.text("\n/friendTracker untrack [names*]", Colours.Primary))
         .append(helpComponent.apply("untrack").color(Colours.Secondary))
-        .append(Component.text("\n/friendTracking interval [int]", Colours.Primary))
+        .append(Component.text("\n/friendTracker interval [int]", Colours.Primary))
         .append(helpComponent.apply("interval").color(Colours.Secondary));
   }
 
@@ -68,8 +68,8 @@ public class OnlineFriendTrackerCommand extends Command {
                 if (friendTrackerManager.getTracking().size() == 0) {
                     reply = reply.append(
                             this.componentGetterError.apply("notTrackingAnyOneSuggestion").color(Colours.Primary)
-                                    .append(Component.text("/friendTracking track [username*]", Colours.Secondary)
-                                            .clickEvent(ClickEvent.suggestCommand("/friendTracking track "))));
+                                    .append(Component.text("/friendTracker track [username*]", Colours.Secondary)
+                                            .clickEvent(ClickEvent.suggestCommand("/friendTracker track "))));
                     break;
                 }
 
@@ -77,7 +77,7 @@ public class OnlineFriendTrackerCommand extends Command {
                 for (String username : friendTrackerManager.getTracking()) {
                     reply = reply
                             .append(Component.text(username, Colours.Secondary)
-                                    .clickEvent(ClickEvent.suggestCommand("/friendTracking untrack " + username)))
+                                    .clickEvent(ClickEvent.suggestCommand("/friendTracker untrack " + username)))
                             .append(Component.text(", ", Colours.Primary));
                 }
             }
@@ -94,7 +94,7 @@ public class OnlineFriendTrackerCommand extends Command {
                 for (String username : tracking) {
                     reply = reply
                             .append(Component.text(username, Colours.Secondary)
-                                    .clickEvent(ClickEvent.runCommand("/friendTracking untrack " + username)));
+                                    .clickEvent(ClickEvent.runCommand("/friendTracker untrack " + username)));
                     if (i != size) {
                         reply = reply.append(Component.text(", ", Colours.Primary));
                     }
@@ -147,7 +147,7 @@ public class OnlineFriendTrackerCommand extends Command {
                   interval = Math.max(interval, 10);
                   friendTrackerManager.setUpdateInterVal(interval);
                   reply = Component.translatable(
-                          this.keyGetter.apply("success@.setIntervalTo"),
+                          this.keyGetter.apply("success.setIntervalTo"),
                           Colours.Primary,
                           Component.text(
                                   friendTrackerManager.getUpdateInterVal(),

@@ -187,9 +187,9 @@ public class Automations {
 
       if (this.FriendListOffline.matcher(msg).matches()) {
         e.setCancelled(true);
+        friendTrackerManager.setUpdating(false);
         return;
       }
-      friendTrackerManager.setUpdating(false);
     }
 
     if (mainConfig.getQolConfig().getShortFriendsList().get()) {
