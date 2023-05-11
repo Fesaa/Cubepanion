@@ -255,7 +255,7 @@
         },
         "friendsTrackerCommand": {
           "name": "Friend tracker",
-          "description": "/tracker (un)track/interval [username*|int]"
+          "description": "/friendTracker help for all information"
         }
       },
       "leaderboardAPIConfig": {
@@ -425,7 +425,7 @@
           "notAnInteger": "Second argument is not an integer.",
           "notAValidCommand": "Not a recognised option! /tracker (un)track/interval [username|number]"
         },
-        "succes": {
+        "success": {
           "currentlyTracking": "Currently tracking: ",
           "clickToUntrack": "Click to untrack: ",
           "intervalLengthResponse": "Currently checking each %s seconds.",
@@ -435,9 +435,10 @@
         },
         "helpCommand": {
           "title": "------- Friend Tracker Commands -------\n",
-          "description": "Track your friends movements through CubeCraft. Checks the friends list every n seconds for updates. ",
-          "track": " - Display everyone you're currently tracking, or add new friends to be tracked",
-          "untrack": " - Display everyone you're currently tracking, click to untrack. Or remove friends."
+          "description": "Track your friends movements through CubeCraft. Checks the friends list every n seconds for updates.",
+          "track": " - Display everyone you're currently tracking, or add new friends to be tracked.",
+          "untrack": " - Display everyone you're currently tracking, click to untrack. Or remove friends.",
+          "interval": " - Set update interval, min 10."
         }
       },
       "PartyCommands": {

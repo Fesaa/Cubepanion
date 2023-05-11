@@ -16,18 +16,32 @@ import org.cubepanion.core.utils.I18nNamespaces;
 public class OnlineFriendTrackerCommand extends Command {
 
   private final Function<String, String> keyGetter;
-  private final Function<String, Component> componentGetterSucces;
+  private final Function<String, Component> componentGetterSuccess;
   private final Function<String, Component> componentGetterError;
-  private final Function<String, Component> helpComponent;
+
+  private final Component help;
 
   public OnlineFriendTrackerCommand() {
     super("friendTracker", "ft");
 
     this.messagePrefix = Cubepanion.get().prefix();
     this.keyGetter = I18nNamespaces.commandNameSpaceMaker("OnlineFriendTrackerCommand");
-    this.componentGetterSucces = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.succes");
+    this.componentGetterSuccess = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.success");
     this.componentGetterError = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.error");
-    this.helpComponent = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.helpCommand");
+    Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer(
+        "OnlineFriendTrackerCommand.helpCommand");
+
+    this.help = helpComponent.apply("title")
+        .color(Colours.Title)
+        .append(helpComponent.apply("description").color(Colours.Secondary)
+            .decorate(TextDecoration.ITALIC))
+        .append(Component.text("\n/friendTracking track [names*]", Colours.Primary)
+            .undecorate(TextDecoration.ITALIC))
+        .append(helpComponent.apply("track").color(Colours.Secondary))
+        .append(Component.text("\n/friendTracking untrack [names*]", Colours.Primary))
+        .append(helpComponent.apply("untrack").color(Colours.Secondary))
+        .append(Component.text("\n/friendTracking interval [int]", Colours.Primary))
+        .append(helpComponent.apply("interval").color(Colours.Secondary));
   }
 
   @Override
@@ -36,28 +50,20 @@ public class OnlineFriendTrackerCommand extends Command {
     Cubepanionconfig config = Cubepanion.get().configuration();
     if (!config.getCommandSystemSubConfig().getFriendsTrackerCommand().get()
     || !config.getCommandSystemSubConfig().getEnabled().get()
-    || !manager.onCubeCraft()
-    || arguments.length == 0) {
+    || !manager.onCubeCraft()) {
       return false;
+    }
+
+    if (arguments.length == 0) {
+      this.displayMessage(this.help);
+      return true;
     }
 
     FriendTrackerManager friendTrackerManager = manager.getFriendTrackerManager();
     Component reply = Component.empty();
     if (arguments.length == 1) {
         switch (arguments[0]) {
-            case "help" -> {
-                reply = reply.append(
-                        this.helpComponent.apply("title")
-                                .color(Colours.Title)
-                                .append(this.helpComponent.apply("description").color(Colours.Secondary)
-                                        .decorate(TextDecoration.ITALIC))
-                                .append(Component.text("\n/friendTracking track [names*]", Colours.Primary)
-                                        .undecorate(TextDecoration.ITALIC))
-                                .append(this.helpComponent.apply("track").color(Colours.Secondary))
-                                .append(Component.text("\n/friendTracking untrack [names*]", Colours.Primary))
-                                .append(this.helpComponent.apply("untrack").color(Colours.Secondary))
-                );
-            }
+            case "help" -> reply = reply.append(this.help);
             case "track" -> {
                 if (friendTrackerManager.getTracking().size() == 0) {
                     reply = reply.append(
@@ -67,7 +73,7 @@ public class OnlineFriendTrackerCommand extends Command {
                     break;
                 }
 
-                reply = reply.append(this.componentGetterSucces.apply("currentlyTracking").color(Colours.Primary));
+                reply = reply.append(this.componentGetterSuccess.apply("currentlyTracking").color(Colours.Primary));
                 for (String username : friendTrackerManager.getTracking()) {
                     reply = reply
                             .append(Component.text(username, Colours.Secondary)
@@ -81,7 +87,7 @@ public class OnlineFriendTrackerCommand extends Command {
                     break;
                 }
 
-                reply = reply.append(this.componentGetterSucces.apply("clickToUntrack").color(Colours.Primary));
+                reply = reply.append(this.componentGetterSuccess.apply("clickToUntrack").color(Colours.Primary));
                 Set<String> tracking = friendTrackerManager.getTracking();
                 int size = tracking.size();
                 int i = 0;
@@ -95,16 +101,14 @@ public class OnlineFriendTrackerCommand extends Command {
                     i++;
                 }
             }
-            case "interval" -> {
-                reply = reply.append(
-                        Component.translatable(
-                                this.keyGetter.apply("succes.intervalLengthResponse"),
-                                Colours.Primary,
-                                Component.text(
-                                        friendTrackerManager.getUpdateInterVal(),
-                                        Colours.Secondary)
-                        ));
-            }
+            case "interval" -> reply = reply.append(
+                    Component.translatable(
+                            this.keyGetter.apply("success.intervalLengthResponse"),
+                            Colours.Primary,
+                            Component.text(
+                                    friendTrackerManager.getUpdateInterVal(),
+                                    Colours.Secondary)
+                    ));
             default -> {
                 this.notARecognisedOption();
                 return true;
@@ -116,7 +120,7 @@ public class OnlineFriendTrackerCommand extends Command {
 
       switch (arguments[0]) {
           case "track" -> {
-              reply = reply.append(this.componentGetterSucces.apply("startedTracking").color(Colours.Primary));
+              reply = reply.append(this.componentGetterSuccess.apply("startedTracking").color(Colours.Primary));
               for (int i = 1; i < arguments.length; i++) {
                   friendTrackerManager.addTracking(arguments[i]);
                   reply = reply.append(Component.text(arguments[i], Colours.Secondary));
@@ -127,7 +131,7 @@ public class OnlineFriendTrackerCommand extends Command {
               friendTrackerManager.forceUpdate();
           }
           case "untrack" -> {
-              reply = reply.append(this.componentGetterSucces.apply("stoppedTracking").color(Colours.Primary));
+              reply = reply.append(this.componentGetterSuccess.apply("stoppedTracking").color(Colours.Primary));
               for (int i = 1; i < arguments.length; i++) {
                   friendTrackerManager.unTrack(arguments[i]);
                   reply = reply.append(Component.text(arguments[i], Colours.Secondary));
@@ -143,7 +147,7 @@ public class OnlineFriendTrackerCommand extends Command {
                   interval = Math.max(interval, 10);
                   friendTrackerManager.setUpdateInterVal(interval);
                   reply = Component.translatable(
-                          this.keyGetter.apply("succes.setIntervalTo"),
+                          this.keyGetter.apply("success@.setIntervalTo"),
                           Colours.Primary,
                           Component.text(
                                   friendTrackerManager.getUpdateInterVal(),
