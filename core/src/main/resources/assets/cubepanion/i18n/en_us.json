@@ -137,12 +137,16 @@
       },
       "autoVoteSubConfig": {
         "name": "Auto Vote",
+        "enabled": {
+          "name": "Global toggle"
+        },
         "eggWarsHealth": {
           "name": "EggWars Health",
           "entries": {
             "left": "Half",
             "middle": "Normal",
-            "right": "Double"
+            "right": "Double",
+            "none": "Don't vote"
           }
         },
         "eggWarsItems": {
@@ -150,7 +154,8 @@
           "entries": {
             "left": "Ultra Hardcore",
             "middle": "Normal",
-            "right": "Overpowered"
+            "right": "Overpowered",
+            "none": "Don't vote"
           }
         },
         "skyWarsChests": {
@@ -158,7 +163,8 @@
           "entries": {
             "left": "Basic",
             "middle": "Normal",
-            "right": "Overpowered"
+            "right": "Overpowered",
+            "none": "Don't vote"
           }
         },
         "skyWarsProjectiles": {
@@ -166,23 +172,26 @@
           "entries": {
             "left": "No Projectiles",
             "middle": "Normal Projectiles",
-            "right": "Soft Blocks"
+            "right": "Soft Blocks",
+            "none": "Don't vote"
           }
         },
         "skyWarsTime": {
           "name": "SkyWars Time",
           "entries": {
             "left": "Day",
-            "middle": "Night",
-            "right": "Sunset"
+            "middle": "Sunset",
+            "right": "Night",
+            "none": "Don't vote"
           }
         },
         "luckyIslandsTime": {
           "name": "Lucky Islands Time",
           "entries": {
             "left": "Day",
-            "middle": "Night",
-            "right": "Sunset"
+            "middle": "Sunset",
+            "right": "Night",
+            "none": "Don't vote"
           }
         },
         "luckyIslandsBlocks": {
@@ -191,7 +200,8 @@
             "left": "Blessed",
             "middleLeft": "Normal",
             "middleRight": "Overpowered",
-            "right": "Crazy"
+            "right": "Crazy",
+            "none": "Don't vote"
           }
         }
       },

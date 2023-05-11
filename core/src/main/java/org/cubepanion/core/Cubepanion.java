@@ -55,7 +55,9 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public static String leaderboardAPI = "http://ameliah.art:7070/";
 
   public static void updateRPC() {
-    instance.rpcManager.updateRPC();
+    if (instance != null) {
+      instance.rpcManager.updateRPC();
+    }
   }
 
   @Override
@@ -67,7 +69,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     if (votingLink == null) {
-      this.logger().warn("VotingLink is null. Some features will not work.:");
+      this.logger().warn("VotingLink is null. Some features will not work.");
     }
     if (leaderboardTrackerLink == null) {
       this.logger().warn("LeaderboardTrackerLink is null. Some features will not work.");

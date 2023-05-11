@@ -68,6 +68,9 @@ public abstract class VotingLink {
   }
 
   public void voteEggWars(int mode, int health) {
+    if (mode == -1 && health == -1) {
+      return;
+    }
     this.hotbarSlotIndex = 2;
     this.leftChoiceIndex = 12;
     this.leftVoteIndex = mode;
@@ -80,6 +83,9 @@ public abstract class VotingLink {
   }
 
   public void voteSkyWars(int mode, int projectiles, int time) {
+    if (mode == -1 && projectiles == -1 && time == -1) {
+      return;
+    }
     this.hotbarSlotIndex = 1;
     this.leftChoiceIndex = 11;
     this.leftVoteIndex = mode;
@@ -92,6 +98,9 @@ public abstract class VotingLink {
   }
 
   public void voteLuckyIslands(int mode, int time) {
+    if (mode == -1 && time == -1) {
+      return;
+    }
     this.hotbarSlotIndex = 1;
     this.leftChoiceIndex = 12;
     this.leftVoteIndex = mode;

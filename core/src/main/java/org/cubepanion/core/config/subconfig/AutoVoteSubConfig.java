@@ -1,13 +1,14 @@
 package org.cubepanion.core.config.subconfig;
 
+import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
-import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class AutoVoteSubConfig extends Config {
 
+  @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
   @DropdownSetting
@@ -75,7 +76,8 @@ public class AutoVoteSubConfig extends Config {
     LEFT(10),
     MIDDLE_LEFT(12),
     MIDDLE_RIGHT(14),
-    RIGHT(16);
+    RIGHT(16),
+    NONE(-1);
     public final int slot;
     FourOptionsMode(int slot) {
       this.slot = slot;
@@ -85,7 +87,8 @@ public class AutoVoteSubConfig extends Config {
   public enum ThreeOptionsMode {
     LEFT(11),
     MIDDLE(13),
-    RIGHT(15);
+    RIGHT(15),
+    NONE(-1);
     public final int slot;
     ThreeOptionsMode(int slot) {
       this.slot = slot;

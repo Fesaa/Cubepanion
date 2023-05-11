@@ -71,27 +71,19 @@ public class DurabilityManager {
 
   public void updateInfo(EquipmentSpot spot, boolean warned) {
     switch (spot) {
-      case HEAD:
-        this.helmetInfo.setWarned(warned);
-      case CHEST:
-        this.chestplateInfo.setWarned(warned);
-      case LEGS:
-        this.leggignsInfo.setWarned(warned);
-      case FEET:
-        this.bootsInfo.setWarned(warned);
+      case HEAD -> this.helmetInfo.setWarned(warned);
+      case CHEST -> this.chestplateInfo.setWarned(warned);
+      case LEGS -> this.leggignsInfo.setWarned(warned);
+      case FEET -> this.bootsInfo.setWarned(warned);
     }
   }
 
   public void updateInfo(EquipmentSpot spot, int durability) {
     switch (spot) {
-      case HEAD:
-        this.helmetInfo.setDurability(durability);
-      case CHEST:
-        this.chestplateInfo.setDurability(durability);
-      case LEGS:
-        this.leggignsInfo.setDurability(durability);
-      case FEET:
-        this.bootsInfo.setDurability(durability);
+      case HEAD -> this.helmetInfo.setDurability(durability);
+      case CHEST -> this.chestplateInfo.setDurability(durability);
+      case LEGS -> this.leggignsInfo.setDurability(durability);
+      case FEET -> this.bootsInfo.setDurability(durability);
     }
     this.updateLowestCache(this.spotToString(spot), durability);
   }
