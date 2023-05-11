@@ -7,20 +7,39 @@ import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.input.KeyEvent;
 import net.labymod.api.event.client.input.KeyEvent.State;
+import net.labymod.api.event.client.input.MouseButtonEvent;
+import net.labymod.api.event.client.input.MouseButtonEvent.Action;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
+import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 
 public class KeyEventListener {
 
   private final Cubepanion addon;
   private final MinecraftInputMapping dropKey;
 
+  private final QOLMapSelectorLink qolMapSelectorLink;
 
-  public KeyEventListener(Cubepanion addon) {
+
+  public KeyEventListener(Cubepanion addon, QOLMapSelectorLink qolMapSelectorLink) {
     this.addon = addon;
     this.dropKey = this.addon.labyAPI().minecraft().options().getInputMapping("key.drop");
+    this.qolMapSelectorLink = qolMapSelectorLink;
+  }
+
+  @Subscribe
+  public void onMouseButtonEvent(MouseButtonEvent e) {
+    if (this.addon.getManager().onCubeCraft()
+        && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)
+        && e.action().equals(Action.CLICK)
+        && this.addon.labyAPI().minecraft().minecraftWindow().isScreenOpened()){
+      if (this.qolMapSelectorLink != null
+          && this.addon.configuration().getQolConfig().getMapSelector().get()) {
+        this.qolMapSelectorLink.onScreenOpen();
+      }
+    }
   }
 
   @Subscribe
