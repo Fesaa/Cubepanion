@@ -2,6 +2,9 @@ package org.cubepanion.core.versionlinkers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import net.labymod.api.Laby;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
@@ -16,9 +19,6 @@ import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.Leaderboard;
 import org.cubepanion.core.utils.LeaderboardEntry;
 import org.jetbrains.annotations.Nullable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 @Nullable
 @Referenceable

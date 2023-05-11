@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import java.util.Objects;
+import java.util.stream.IntStream;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.HoverEvent;
@@ -16,8 +18,6 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.Leaderboard;
-import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class LeaderboardAPICommands extends Command {
 
