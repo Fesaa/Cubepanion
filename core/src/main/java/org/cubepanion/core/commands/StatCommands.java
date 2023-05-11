@@ -28,13 +28,13 @@ public class StatCommands extends Command {
   private final Function<String, String> errorKey = I18nNamespaces.commandNameSpaceMaker("StatCommands.error");
   private final Function<String, Component> helpComponentGetter = I18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
 
-  private final Component gameNotFoundComponent = this.errorComponent.apply("gameNotFound.text").color(Colours.Error)
-      .hoverEvent(HoverEvent.showText(this.errorComponent.apply("gameNotFound.text").color(Colours.Hover)));
+  private final Component gameNotFoundComponent = this.errorComponent.apply("gameNotFound.text").color(Colours.Error);
   private final Component helpComponent = this.helpComponentGetter.apply("title")
       .color(Colours.Title)
       .decorate(TextDecoration.BOLD)
 
       .append(Component.text("\n/stats <game>", Colours.Primary)
+          .undecorate(TextDecoration.BOLD)
           .clickEvent(ClickEvent.suggestCommand("/stats ")))
       .append(this.helpComponentGetter.apply("displayGlobalStats").color(Colours.Secondary))
 
@@ -56,8 +56,7 @@ public class StatCommands extends Command {
           .clickEvent(ClickEvent.suggestCommand("/stats help")))
       .append(this.helpComponentGetter.apply("this").color(Colours.Secondary))
 
-      .append(this.helpComponentGetter.apply("tracking").color(Colours.Primary))
-      .append(this.gamesList().color(Colours.Secondary));
+      .append(this.helpComponentGetter.apply("tracking").color(Colours.Primary));
 
 
   public StatCommands(Cubepanion addon) {
@@ -99,8 +98,8 @@ public class StatCommands extends Command {
     }
 
     if (gameStatsTracker == null) {
-      this.displayMessage(this.gameNotFoundComponent.append(this.gamesList().color(Colours.Error)));
-      return false;
+      this.displayMessage(this.gameNotFoundComponent.copy().append(this.gamesList().color(Colours.Error)));
+      return true;
     }
 
     if (gameName != null) {
@@ -160,7 +159,7 @@ public class StatCommands extends Command {
   }
 
   private void helpCommand() {
-    this.displayMessage(this.helpComponent);
+    this.displayMessage(this.helpComponent.copy().append(this.gamesList().color(Colours.Secondary)));
   }
 
   private Component gamesList() {
@@ -174,7 +173,7 @@ public class StatCommands extends Command {
       CubeGame game = keys.get(i);
       comp = comp
           .append(Component.text(game.getString())
-              .clickEvent(ClickEvent.suggestCommand("/stats " + game + " ")));
+              .clickEvent(ClickEvent.suggestCommand("/stats " + game.getString() + " ")));
       if (i != keys.size() - 1) {
         comp = comp.append(Component.text(", "));
       }

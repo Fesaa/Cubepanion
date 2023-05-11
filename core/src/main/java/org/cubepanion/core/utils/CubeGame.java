@@ -30,42 +30,43 @@ public enum CubeGame {
     return e.equals(CubeGame.HARD_PARKOUR)
         || e.equals(CubeGame.MEDIUM_PARKOUR)
         || e.equals(CubeGame.EASY_PARKOUR)
-        || e.equals(CubeGame.SIMPLE_PARKOUR);
+        || e.equals(CubeGame.SIMPLE_PARKOUR)
+        || e.equals(CubeGame.PARKOUR);
   }
 
   public static CubeGame stringToGame(String s) {
-      switch (s) {
-          case "Skyblock" -> {
+      switch (s.toLowerCase().replace("_", " ")) {
+          case "skyblock" -> {
               return CubeGame.SKYBLOCK;
           }
-          case "Team EggWars", "EggWars" -> {
+          case "team eggwars", "eggwars" -> {
               return CubeGame.TEAM_EGGWARS;
           }
-          case "Solo SkyWars", "SkyWars" -> {
+          case "solo skywars", "skywars" -> {
               return CubeGame.SOLO_SKYWARS;
           }
-          case "Lucky Islands" -> {
+          case "lucky islands", "solo lucky islands" -> {
               return CubeGame.SOLO_LUCKYISLANDS;
           }
-          case "Free For All", "FFA" -> {
+          case "free for all", "ffa" -> {
               return CubeGame.FFA;
           }
-          case "Simple Parkour" -> {
+          case "simple parkour" -> {
               return CubeGame.SIMPLE_PARKOUR;
           }
-          case "Easy Parkour" -> {
+          case "easy parkour" -> {
               return CubeGame.EASY_PARKOUR;
           }
-          case "Medium Parkour" -> {
+          case "medium parkour" -> {
               return CubeGame.MEDIUM_PARKOUR;
           }
-          case "Hard Parkour" -> {
+          case "hard parkour" -> {
               return CubeGame.HARD_PARKOUR;
           }
-          case "Parkour" -> {
+          case "parkour" -> {
             return CubeGame.PARKOUR;
           }
-          case "CubeCraft" -> {
+          case "cubecraft" -> {
               return CubeGame.LOBBY;
           }
           default -> {
