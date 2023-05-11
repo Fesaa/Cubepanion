@@ -60,14 +60,7 @@ public class VersionedVotingLink extends VotingLink {
 
   private void waitForMenuOpenAndMakeFirstChoice(@NotNull LocalPlayer player) {
     Timer timer = new Timer("waitForMenuOpenAndMakeFirstChoice");
-    int choiceIndex = this.getNextChoiceIndex();
-    if (choiceIndex == -1) {
-      return;
-    }
-    int voteIndex = this.getNextVoteIndex();
-    if (voteIndex == -1) {
-      return;
-    }
+    VotePair votePair = this.getNextVotePair();
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
 
@@ -80,10 +73,10 @@ public class VersionedVotingLink extends VotingLink {
         count++;
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
-          Slot slot = menu.getSlot(choiceIndex);
+          Slot slot = menu.getSlot(votePair.choiceIndex());
           if (votingInterface.clickOnSlot((ChestMenu) menu, slot)) {
             votingInterface.returnItemStack = menu.getSlot(votingInterface.returnIndex).getItem();
-            votingInterface.waitForNewSlotAndClick(player, voteIndex, false);
+            votingInterface.waitForNewSlotAndClick(player, votePair, false);
           }
           timer.cancel();
         }
@@ -91,7 +84,8 @@ public class VersionedVotingLink extends VotingLink {
     }, 100, 100);
   }
 
-  private void waitForNewSlotAndClick(@NotNull LocalPlayer player, int index, boolean choice) {
+  private void waitForNewSlotAndClick(@NotNull LocalPlayer player, VotePair votePair, boolean choice) {
+    int index = choice ? votePair.choiceIndex() : votePair.voteIndex();
     Timer timer = new Timer("waitForNewSlotAndClick");
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
@@ -118,16 +112,12 @@ public class VersionedVotingLink extends VotingLink {
             return;
           }
 
-          int nextIndex;
-          if (choice) {
-            nextIndex = votingInterface.getNextVoteIndex();
-          } else {
-            nextIndex = votingInterface.getNextChoiceIndex();
-          }
+          VotePair nextVotePair = choice ? votePair : votingInterface.getNextVotePair();
+          int nextIndex = !choice ? nextVotePair.choiceIndex() : nextVotePair.voteIndex();
           if (nextIndex == -1) {
             votingInterface.gracefulShutDown(player, (ChestMenu) menu);
           } else {
-            votingInterface.waitForNewSlotAndClick(player, nextIndex, !choice);
+            votingInterface.waitForNewSlotAndClick(player, nextVotePair, !choice);
           }
         }
       }
