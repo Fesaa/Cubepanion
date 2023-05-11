@@ -1,5 +1,10 @@
 package org.cubepanion.v1_19_3;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,11 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Blocks;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Singleton
 @Implements(QOLMapSelectorLink.class)

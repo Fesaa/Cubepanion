@@ -19,36 +19,41 @@ public abstract class VotingLink {
   protected int rightChoiceIndex;
   protected int rightVoteIndex;
 
-  public int getNextChoiceIndex() {
-    int temp;
-    if (this.leftChoiceIndex != -1) {
-      temp = this.leftChoiceIndex;
-      this.leftChoiceIndex = -1;
-    } else if (this.middleChoiceIndex != -1) {
-      temp = this.middleChoiceIndex;
-      this.middleChoiceIndex = -1;
-    } else {
-      temp = this.rightChoiceIndex;
-      this.rightChoiceIndex = -1;
-    }
-    return temp;
-  }
-
-  public int getNextVoteIndex() {
-    int temp;
+  public VotePair getNextVotePair() {
+    int voteIndex;
+    int choiceIndex;
     if (this.leftVoteIndex != -1) {
-      temp = this.leftVoteIndex;
+      voteIndex = this.leftVoteIndex;
       this.leftVoteIndex = -1;
-    } else if (this.middleVoteIndex != -1) {
-      temp = this.middleVoteIndex;
-      this.middleVoteIndex = -1;
-    } else {
-      temp = this.rightVoteIndex;
-      this.rightVoteIndex = -1;
+      if (this.leftChoiceIndex != -1) {
+        choiceIndex = this.leftChoiceIndex;
+        this.leftChoiceIndex = -1;
+        return new VotePair(choiceIndex, voteIndex);
+      }
     }
-    return temp;
-  }
 
+    if (this.middleVoteIndex != -1) {
+      voteIndex = this.middleVoteIndex;
+      this.middleVoteIndex = -1;
+      if (this.middleChoiceIndex != -1) {
+        choiceIndex = this.middleChoiceIndex;
+        this.middleChoiceIndex = -1;
+        return new VotePair(choiceIndex, voteIndex);
+      }
+
+    }
+    if (this.rightVoteIndex != -1) {
+      voteIndex = this.rightVoteIndex;
+      this.rightVoteIndex = -1;
+      if (this.rightChoiceIndex != -1) {
+        choiceIndex = this.rightChoiceIndex;
+        this.rightChoiceIndex = -1;
+        return new VotePair(choiceIndex, voteIndex);
+      }
+    }
+
+    return new VotePair(-1, -1);
+  }
 
   public void vote(CubeGame division, AutoVoteSubConfig autoVoteConfig) {
     switch (division) {
@@ -113,6 +118,8 @@ public abstract class VotingLink {
   }
 
   public abstract void startAutoVote();
+
+  public record VotePair(int choiceIndex, int voteIndex) {};
 
 
 }
