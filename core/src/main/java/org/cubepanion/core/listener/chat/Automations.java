@@ -56,7 +56,7 @@ public class Automations {
     }).delay(100, TimeUnit.MILLISECONDS).build();
 
     this.startOfGameTask  = Task.builder(() -> {
-      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()) {
+      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get() && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
         this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
       }
       this.addon.rpcManager.startOfGame();

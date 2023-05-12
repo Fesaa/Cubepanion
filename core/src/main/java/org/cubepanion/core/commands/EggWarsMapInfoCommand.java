@@ -5,6 +5,7 @@ import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
 
 public class EggWarsMapInfoCommand extends Command {
@@ -18,7 +19,7 @@ public class EggWarsMapInfoCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!this.addon.getManager().onCubeCraft()) {
+    if (!this.addon.getManager().onCubeCraft() && !this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
       return false;
     }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
