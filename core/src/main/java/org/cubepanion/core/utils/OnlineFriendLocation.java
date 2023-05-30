@@ -1,8 +1,7 @@
-package org.cubepanion.core.utils.eggwarsmaps;
+package org.cubepanion.core.utils;
 
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
-import org.cubepanion.core.utils.Colours;
 
 public record OnlineFriendLocation(String username, String game, String map) {
 

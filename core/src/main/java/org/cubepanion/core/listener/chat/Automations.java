@@ -20,7 +20,7 @@ import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
+import org.cubepanion.core.utils.OnlineFriendLocation;
 import org.cubepanion.core.versionlinkers.VotingLink;
 
 public class Automations {

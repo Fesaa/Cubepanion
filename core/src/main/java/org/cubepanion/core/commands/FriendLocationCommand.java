@@ -5,7 +5,7 @@ import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
-import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
+import org.cubepanion.core.utils.OnlineFriendLocation;
 
 public class FriendLocationCommand extends Command {
 

@@ -119,7 +119,7 @@ public abstract class VotingLink {
 
   public abstract void startAutoVote();
 
-  public record VotePair(int choiceIndex, int voteIndex) {};
+  public record VotePair(int choiceIndex, int voteIndex) {}
 
 
 }

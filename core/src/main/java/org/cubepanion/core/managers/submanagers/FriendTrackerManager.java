@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
 import net.labymod.api.util.concurrent.task.Task;
-import org.cubepanion.core.utils.eggwarsmaps.OnlineFriendLocation;
+import org.cubepanion.core.utils.OnlineFriendLocation;
 
 public class FriendTrackerManager {
 

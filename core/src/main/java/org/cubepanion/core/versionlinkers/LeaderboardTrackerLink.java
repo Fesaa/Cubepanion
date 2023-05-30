@@ -24,9 +24,9 @@ import org.jetbrains.annotations.Nullable;
 @Referenceable
 public abstract class LeaderboardTrackerLink {
 
-  protected Set<LeaderboardEntry> cachedEntries = new HashSet<>(200);
+  protected final Set<LeaderboardEntry> cachedEntries = new HashSet<>(200);
   protected Leaderboard currentLeaderboard;
-  protected Set<Integer> recordedPageNumbers = new HashSet<>();
+  protected final Set<Integer> recordedPageNumbers = new HashSet<>();
   protected int currentPageNumber;
   protected int maxPageNumber;
   private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();

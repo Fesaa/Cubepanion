@@ -52,7 +52,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     return instance;
   }
 
-  public static String leaderboardAPI = "http://ameliah.art:7070/";
+  public final static String leaderboardAPI = "http://ameliah.art:7070/";
 
   public static void updateRPC() {
     if (instance != null) {
@@ -64,7 +64,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   protected void enable() {
     this.registerSettingCategory();
 
-    DefaultReferenceStorage storage = this.getReferenceStorageAccessor();
+    DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
