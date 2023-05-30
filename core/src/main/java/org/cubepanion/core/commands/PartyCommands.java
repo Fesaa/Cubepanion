@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import net.labymod.api.Laby;
 import net.labymod.api.client.chat.ChatExecutor;
-import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.chat.command.InjectedSubCommand;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
@@ -16,7 +16,7 @@ import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 
-public class PartyCommands extends Command {
+public class PartyCommands extends InjectedSubCommand {
 
   private final Cubepanion addon;
   private final ChatExecutor chatExecutor = Laby.labyAPI().minecraft().chatExecutor();

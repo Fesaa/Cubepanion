@@ -19,7 +19,7 @@ public class EggWarsMapInfoCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!this.addon.getManager().onCubeCraft() && !this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+    if (!this.addon.getManager().onCubeCraft() || !this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
       return false;
     }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
