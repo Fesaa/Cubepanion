@@ -71,8 +71,6 @@ public class PartyCommands extends InjectedSubCommand {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    this.addon.logger().info(prefix);
-    System.out.println(Arrays.toString(arguments));
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
@@ -103,7 +101,7 @@ public class PartyCommands extends InjectedSubCommand {
         return true;
       }
       case "extra" -> {
-        this.helpCommand(arguments[arguments.length - 1]);
+        this.helpCommand(arguments.length == 0 ? "extra" : arguments[arguments.length - 1]);
         return true;
       }
     }
@@ -119,7 +117,7 @@ public class PartyCommands extends InjectedSubCommand {
   }
 
   private void helpCommand(String command) {
-    Component helpComponent = this.helpTitleComponent;
+    Component helpComponent = this.helpTitleComponent.copy();
 
     boolean run = command.equals("extra");
 
