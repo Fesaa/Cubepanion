@@ -83,7 +83,8 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     this.rpcManager = new DiscordRPCManager(this);
     this.widgetManager = new WidgetManager(this);
 
-    this.registerCommand(new PartyCommands(this));
+    this.registerCommand(new PartyCommands("party", this));
+    this.registerCommand(new PartyCommands("p", this));
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new EggWarsMapInfoCommand(this));
     this.registerCommand(new StatCommands(this));

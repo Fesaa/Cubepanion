@@ -1,6 +1,7 @@
 package org.cubepanion.core.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import net.labymod.api.Laby;
@@ -61,8 +62,8 @@ public class PartyCommands extends InjectedSubCommand {
       .clickEvent(ClickEvent.suggestCommand("/party extra "))
       .append(this.helpComponent.apply("extra").color(Colours.Secondary));
 
-  public PartyCommands(Cubepanion addon) {
-    super("party", "p");
+  public PartyCommands(String prefix, Cubepanion addon) {
+    super(prefix, "remake", "extra", "reinv", "reinvite");
 
     this.addon = addon;
     this.messagePrefix = addon.prefix();
@@ -70,22 +71,24 @@ public class PartyCommands extends InjectedSubCommand {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
+    this.addon.logger().info(prefix);
+    System.out.println(Arrays.toString(arguments));
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!config.getPartyCommands().get() || !config.getEnabled().get() || arguments.length == 0) {
+    if (!config.getPartyCommands().get() || !config.getEnabled().get()) {
       return false;
     }
 
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
     boolean isPartyOwner = this.addon.getManager().getPartyManager().isPartyOwner();
 
-    switch (arguments[0]) {
+    switch (prefix) {
       case "reinvite", "reinv" -> {
         if (isPartyOwner) {
-          this.reInviteCommand(this.removeFirst(arguments));
+          this.reInviteCommand(arguments);
         } else {
           this.noPermissions();
         }
@@ -93,7 +96,7 @@ public class PartyCommands extends InjectedSubCommand {
       }
       case "remake" -> {
         if (isPartyOwner) {
-          this.reMakeCommand(chat, this.removeFirst(arguments));
+          this.reMakeCommand(chat, arguments);
         } else {
           this.noPermissions();
         }
@@ -167,15 +170,6 @@ public class PartyCommands extends InjectedSubCommand {
       }
     }
     return false;
-  }
-
-  private String[] removeFirst(String[] array) {
-    if (array.length <= 1) {
-      return new String[0];
-    }
-    String[] slicedArray = new String[array.length - 1];
-    System.arraycopy(array, 1, slicedArray, 0, array.length-1);
-    return slicedArray;
   }
 
 }
