@@ -1,6 +1,7 @@
 package org.cubepanion.core.listener;
 
 import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.gui.screen.ScreenDisplayEvent;
 import net.labymod.api.event.client.gui.screen.ScreenOpenEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.CubeGame;
@@ -20,7 +21,7 @@ public class ScreenListener {
   }
 
   @Subscribe
-  public void onOpenScreen(ScreenOpenEvent e) {
+  public void onDisplayScreen(ScreenDisplayEvent e) {
     if (this.addon.getManager().onCubeCraft()
         && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
       if (this.leaderboardTrackerLink != null
