@@ -1,5 +1,6 @@
 package org.cubepanion.core.gui.hud.widgets.base;
 
+import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.GameMode;
@@ -27,10 +28,8 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
-    // Uncommenting this bricks the scoreboard
-
-    //ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", itemName));
-    //this.updateItemStack(item);
+    ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", itemName));
+    this.updateItemStack(item, false);
   }
 
   public void load(ItemHudConfig config) {
