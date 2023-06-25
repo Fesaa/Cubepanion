@@ -27,7 +27,7 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
     if (inEditor) {
       Color colour = this.config.getTextColour().get();
       this.updateItemName(Component.text("1",
-          TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())));
+          TextColor.color(colour.getRed(), colour.getGreen(), colour.getBlue())), true);
       return;
     }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
@@ -41,7 +41,7 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
       this.itemIsHeld = true;
     }
     this.counter = this.manager.getDurabilityManager().getDurability(this.equipmentSpot);
-    this.updateItemName(Component.text(this.counter, this.config.getTextColor()));
+    this.updateItemName(Component.text(this.counter, this.config.getTextColor()), false);
 
   }
 

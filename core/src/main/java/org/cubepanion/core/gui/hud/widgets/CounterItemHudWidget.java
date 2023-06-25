@@ -18,7 +18,7 @@ public class CounterItemHudWidget extends CustomItemWidget {
   @Override
   public void onTick(boolean inEditor) {
     if (inEditor) {
-      this.updateItemName(Component.text("1", this.config.getTextColor()));
+      this.updateItemName(Component.text("1", this.config.getTextColor()), true);
       return;
     }
     ClientPlayer player = this.labyAPI.minecraft().getClientPlayer();
@@ -39,7 +39,7 @@ public class CounterItemHudWidget extends CustomItemWidget {
       if (this.inventoryItemMatches(offHandItem, -1, selectedEntry)) {
         this.counter += offHandItem.getSize();
       }
-      this.updateItemName(Component.text(this.counter, this.config.getTextColor()));
+      this.updateItemName(Component.text(this.counter, this.config.getTextColor()), false);
     }
   }
 

@@ -2,7 +2,6 @@ package org.cubepanion.core.listener;
 
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.gui.screen.ScreenDisplayEvent;
-import net.labymod.api.event.client.gui.screen.ScreenOpenEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;

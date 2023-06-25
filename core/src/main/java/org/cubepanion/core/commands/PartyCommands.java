@@ -1,7 +1,6 @@
 package org.cubepanion.core.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import net.labymod.api.Laby;
