@@ -1,5 +1,6 @@
 package org.cubepanion.core;
 
+import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.tag.PositionType;
@@ -32,6 +33,7 @@ import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordRPCManager;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
@@ -46,6 +48,8 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
   public Cubepanion() {
     instance = this;
+    LOGGER.init();
+    LOGGER.setDebug(Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment());
   }
 
   public static Cubepanion get() {
@@ -62,6 +66,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
   @Override
   protected void enable() {
+    LOGGER.info(this.getClass(), "Starting Cubepanion");
     this.registerSettingCategory();
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
@@ -69,17 +74,16 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     if (votingLink == null) {
-      this.logger().warn("VotingLink is null. Some features will not work.");
+      LOGGER.warn(this.getClass(), "VotingLink is null. Some features will not work.");
     }
     if (leaderboardTrackerLink == null) {
-      this.logger().warn("LeaderboardTrackerLink is null. Some features will not work.");
+      LOGGER.warn(this.getClass(), "LeaderboardTrackerLink is null. Some features will not work.");
     }
     if (qolMapSelectorLink == null) {
-      this.logger().warn("QOLMapSelectorLink is null. Some features will not work.");
+      LOGGER.warn(this.getClass(), "QOLMapSelectorLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
-
     this.rpcManager = new DiscordRPCManager(this);
     this.widgetManager = new WidgetManager(this);
 
@@ -111,7 +115,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
     this.widgetManager.register();
 
-    this.logger().info("Cubepanion has successfully registered all her components.");
+    LOGGER.info(this.getClass(), "Cubepanion has successfully registered all her components.");
   }
 
   public CubepanionManager getManager() {

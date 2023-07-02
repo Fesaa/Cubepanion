@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.VotingLink;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +40,7 @@ public class VersionedVotingLink extends VotingLink {
     if (connection == null) {
       return;
     }
+    LOGGER.info(true, this.getClass(), "Opening menu");
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
   }).delay(200, TimeUnit.MILLISECONDS).build();
 
@@ -61,6 +63,7 @@ public class VersionedVotingLink extends VotingLink {
   private void waitForMenuOpenAndMakeFirstChoice(@NotNull LocalPlayer player) {
     Timer timer = new Timer("waitForMenuOpenAndMakeFirstChoice");
     VotePair votePair = this.getNextVotePair();
+    LOGGER.info(this.getClass(), "Starting vote with pair:", votePair);
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
 
@@ -113,6 +116,7 @@ public class VersionedVotingLink extends VotingLink {
           }
 
           VotePair nextVotePair = choice ? votePair : votingInterface.getNextVotePair();
+          LOGGER.info(this.getClass(), "Voting with pair:", votePair);
           int nextIndex = !choice ? nextVotePair.choiceIndex() : nextVotePair.voteIndex();
           if (nextIndex == -1) {
             votingInterface.gracefulShutDown(player, (ChestMenu) menu);
@@ -155,6 +159,7 @@ public class VersionedVotingLink extends VotingLink {
     if (connection == null) {
       return false;
     }
+    LOGGER.info(true, this.getClass(), "Clicking on slot", slot, "with item", slot.getItem());
     connection.send(
         new ServerboundContainerClickPacket(
             chest.containerId,

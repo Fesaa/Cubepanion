@@ -282,6 +282,10 @@
           "name": "Error info",
           "description": "More detailed info on errors when using the API"
         }
+      },
+      "debug": {
+        "name": "Debug",
+        "description": "Enables debug messages in console"
       }
     },
     "hudWidget": {
