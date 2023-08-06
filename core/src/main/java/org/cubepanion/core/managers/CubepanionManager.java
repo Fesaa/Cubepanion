@@ -65,12 +65,25 @@ public class CubepanionManager {
   }
 
 
+  public PartyManager getPartyManager() {
+    return this.partyManager;
+  }
 
-  public PartyManager getPartyManager() {return this.partyManager;}
-  public EggWarsMapInfoManager getEggWarsMapInfoManager() {return this.eggWarsMapInfoManager;}
-  public DurabilityManager getDurabilityManager() {return this.durabilityManager;}
-  public SpawnProtectionManager getSpawnProtectionManager() {return spawnProtectionManager;}
-  public FriendTrackerManager getFriendTrackerManager() {return friendTrackerManager;}
+  public EggWarsMapInfoManager getEggWarsMapInfoManager() {
+    return this.eggWarsMapInfoManager;
+  }
+
+  public DurabilityManager getDurabilityManager() {
+    return this.durabilityManager;
+  }
+
+  public SpawnProtectionManager getSpawnProtectionManager() {
+    return spawnProtectionManager;
+  }
+
+  public FriendTrackerManager getFriendTrackerManager() {
+    return friendTrackerManager;
+  }
 
   public void reset() {
     this.serverIP = "";
@@ -94,6 +107,8 @@ public class CubepanionManager {
     this.durabilityManager.reset();
     this.friendTrackerManager.endCurrentLoop();
     this.friendTrackerManager.resetTrackers();
+
+    CubepanionAPIManager.chestLocations.clear();
   }
 
   public void onCubeJoin() {
@@ -110,6 +125,8 @@ public class CubepanionManager {
     this.gameStartTime = -1;
 
     this.partyManager.reset();
+
+    CubepanionAPIManager.updateChestLocations();
   }
 
   public void onServerSwitch() {
@@ -118,10 +135,6 @@ public class CubepanionManager {
     this.gameStartTime = -1;
     this.won = false;
     this.spawnProtectionManager.resetHasMap();
-  }
-
-  public void setTeamColour(String teamColour) {
-    this.teamColour = teamColour;
   }
 
   public boolean onCubeCraft() {
@@ -181,16 +194,16 @@ public class CubepanionManager {
     }
   }
 
-  public void setMapName(String mapName) {
-    this.mapName = mapName;
-  }
-
   public CubeGame getLastDivision() {
     return lastDivision;
   }
 
   public String getMapName() {
     return mapName;
+  }
+
+  public void setMapName(String mapName) {
+    this.mapName = mapName;
   }
 
   public String getServerIP() {
@@ -201,16 +214,20 @@ public class CubepanionManager {
     return teamColour;
   }
 
+  public void setTeamColour(String teamColour) {
+    this.teamColour = teamColour;
+  }
+
   public String getBungeecord() {
     return bungeecord;
   }
 
-  public String getServerID() {
-    return serverID;
-  }
-
   public void setBungeecord(String bungeecord) {
     this.bungeecord = bungeecord;
+  }
+
+  public String getServerID() {
+    return serverID;
   }
 
   public void setServerID(String serverID) {

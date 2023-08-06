@@ -42,6 +42,8 @@ public class FriendLocationCommand extends Command {
 
 
   private Component locationToComponent(OnlineFriendLocation location) {
-    return Component.text("{username: " + location.username() + ", game: " + location.game() + ", map: " + location.map() + "}");
+    return Component.text(
+        "{username: " + location.username() + ", game: " + location.game() + ", map: "
+            + location.map() + "}");
   }
 }

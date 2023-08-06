@@ -33,12 +33,13 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
-      this.HUDLine.updateAndFlush(this.config.getFormattedString((45 + 32*60 + 60*60) * 1000));
+      this.HUDLine.updateAndFlush(this.config.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000));
       return;
     }
-    long timeDifference = System.currentTimeMillis() -  this.manager.getGameStartTime();
+    long timeDifference = System.currentTimeMillis() - this.manager.getGameStartTime();
     this.HUDLine.updateAndFlush(this.config.getFormattedString(timeDifference));
-    this.HUDLine.setState(!this.manager.isInPreLobby() && this.manager.onCubeCraft() ? State.VISIBLE : State.HIDDEN);
+    this.HUDLine.setState(
+        !this.manager.isInPreLobby() && this.manager.onCubeCraft() ? State.VISIBLE : State.HIDDEN);
   }
 
   public void load(GameTimerConfig config) {
@@ -75,7 +76,8 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
         }
         return out;
       } else if (this.layout.get().equals(layoutEnum.COLON)) {
-        return hours + ":" + (minutes < 10 ? "0" : "") +  minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        return hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "")
+            + seconds;
       }
 
       return "";

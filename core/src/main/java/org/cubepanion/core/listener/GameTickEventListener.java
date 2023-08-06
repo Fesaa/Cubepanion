@@ -29,7 +29,8 @@ public class GameTickEventListener {
 
     this.spawnProtectionManager = addon.getManager().getSpawnProtectionManager();
     this.durabilityManager = this.addon.getManager().getDurabilityManager();
-    this.armourBreakWarningSubConfig = this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig();
+    this.armourBreakWarningSubConfig = this.addon.configuration().getAutomationConfig()
+        .getArmourBreakWarningSubConfig();
   }
 
   @Subscribe
@@ -43,14 +44,17 @@ public class GameTickEventListener {
       this.addon.saveConfiguration();
     }
     if (this.counter % 2 == 0) { // Each two ticks
-      this.durabilityUpdater(this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get());
+      this.durabilityUpdater(
+          this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig()
+              .getEnabled().get());
       this.spawnProtectionManager.getClientPlayerSpawnProtection().update();
     }
     this.counter++;
   }
 
   private void durabilityUpdater(boolean warning) {
-    int threshHold = this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getDurabilityWarning().get();
+    int threshHold = this.addon.configuration().getAutomationConfig()
+        .getArmourBreakWarningSubConfig().getDurabilityWarning().get();
 
     ClientPlayer player = this.addon.labyAPI().minecraft().getClientPlayer();
     if (player == null) {
@@ -63,13 +67,14 @@ public class GameTickEventListener {
     int boots = 0;
 
     ItemStack helmetItemStack = player.getEquipmentItemStack(EquipmentSpot.HEAD);
-    ItemStack chestPlateItemStack  = player.getEquipmentItemStack(EquipmentSpot.CHEST);
-    ItemStack leggingsItemStack  = player.getEquipmentItemStack(EquipmentSpot.LEGS);
-    ItemStack bootsItemStack  = player.getEquipmentItemStack(EquipmentSpot.FEET);
+    ItemStack chestPlateItemStack = player.getEquipmentItemStack(EquipmentSpot.CHEST);
+    ItemStack leggingsItemStack = player.getEquipmentItemStack(EquipmentSpot.LEGS);
+    ItemStack bootsItemStack = player.getEquipmentItemStack(EquipmentSpot.FEET);
     ItemStack offHand = player.getOffHandItemStack();
 
     if (helmetItemStack.getAsItem().getIdentifier().getPath().contains("helmet")) {
-      int durabilityLeft = helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
+      int durabilityLeft =
+          helmetItemStack.getMaximumDamage() - helmetItemStack.getCurrentDamageValue();
       helmet += durabilityLeft;
 
       if (warning) {
@@ -77,7 +82,8 @@ public class GameTickEventListener {
       }
     }
     if (chestPlateItemStack.getAsItem().getIdentifier().getPath().contains("chest")) {
-      int durabilityLeft = chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
+      int durabilityLeft =
+          chestPlateItemStack.getMaximumDamage() - chestPlateItemStack.getCurrentDamageValue();
       chest += durabilityLeft;
 
       if (warning) {
@@ -85,7 +91,8 @@ public class GameTickEventListener {
       }
     }
     if (leggingsItemStack.getAsItem().getIdentifier().getPath().contains("leggings")) {
-      int durabilityLeft = leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
+      int durabilityLeft =
+          leggingsItemStack.getMaximumDamage() - leggingsItemStack.getCurrentDamageValue();
       leggings += durabilityLeft;
 
       if (warning) {
@@ -93,7 +100,8 @@ public class GameTickEventListener {
       }
     }
     if (bootsItemStack.getAsItem().getIdentifier().getPath().contains("boots")) {
-      int durabilityLeft = bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
+      int durabilityLeft =
+          bootsItemStack.getMaximumDamage() - bootsItemStack.getCurrentDamageValue();
       boots += durabilityLeft;
 
       if (warning) {
@@ -165,6 +173,8 @@ public class GameTickEventListener {
     if (this.armourBreakWarningSubConfig.getActionbar().get()) {
       minecraft.chatExecutor().displayClientMessage(warning, true);
     }
-    minecraft.sounds().playSound(this.armourBreakWarningSubConfig.getMinecraftSoundResourceLocation(spot), 100, 1);
+    minecraft.sounds()
+        .playSound(this.armourBreakWarningSubConfig.getMinecraftSoundResourceLocation(spot), 100,
+            1);
   }
 }

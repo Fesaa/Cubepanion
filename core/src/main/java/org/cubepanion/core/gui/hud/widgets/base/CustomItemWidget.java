@@ -12,10 +12,10 @@ import net.labymod.api.client.world.item.ItemStack;
 public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 
   public final String regex;
-  public boolean itemIsHeld;
-  public int counter;
   private final int posX;
   private final int posY;
+  public boolean itemIsHeld;
+  public int counter;
 
   protected CustomItemWidget(String id, String regex, String itemName, int posX, int posY) {
     super(id, ItemHudConfig.class);
@@ -28,7 +28,8 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
-    ItemStack item = Laby.references().itemStackFactory().create(ResourceLocation.create("minecraft", itemName));
+    ItemStack item = Laby.references().itemStackFactory()
+        .create(ResourceLocation.create("minecraft", itemName));
     this.updateItemStack(item, false);
   }
 

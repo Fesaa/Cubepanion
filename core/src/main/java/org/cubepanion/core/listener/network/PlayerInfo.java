@@ -34,18 +34,20 @@ public class PlayerInfo {
       return;
     }
     if (e.type().equals(UpdateType.GAME_MODE)) {
-        switch (e.playerInfo().gameMode()) {
-            case SURVIVAL -> {
-                if (this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS) && !this.manager.isInPreLobby()) {
-                    this.manager.getSpawnProtectionManager().registerDeath(e.playerInfo().profile().getUniqueId());
-                }
-            }
-            case SPECTATOR -> {
-                if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
-                    this.addon.rpcManager.registerDeath(e.playerInfo());
-                }
-            }
+      switch (e.playerInfo().gameMode()) {
+        case SURVIVAL -> {
+          if (this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)
+              && !this.manager.isInPreLobby()) {
+            this.manager.getSpawnProtectionManager()
+                .registerDeath(e.playerInfo().profile().getUniqueId());
+          }
         }
+        case SPECTATOR -> {
+          if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+            this.addon.rpcManager.registerDeath(e.playerInfo());
+          }
+        }
+      }
     }
   }
 

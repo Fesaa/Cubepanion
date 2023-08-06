@@ -47,7 +47,8 @@ public class DiscordRPCManager {
       return;
     }
 
-    DiscordRichPresenceSubConfig RPCConfig = this.addon.configuration().getDiscordRichPresenceSubConfig();
+    DiscordRichPresenceSubConfig RPCConfig = this.addon.configuration()
+        .getDiscordRichPresenceSubConfig();
     if (!RPCConfig.isEnabled()) {
       this.addon.labyAPI().thirdPartyService().discord().displayDefaultActivity();
       return;
@@ -55,7 +56,8 @@ public class DiscordRPCManager {
 
     this.busy = true;
 
-    DiscordActivity current = this.addon.labyAPI().thirdPartyService().discord().getDisplayedActivity();
+    DiscordActivity current = this.addon.labyAPI().thirdPartyService().discord()
+        .getDisplayedActivity();
 
     Builder builder = DiscordActivity.builder(this);
     CubepanionManager manager = this.addon.getManager();
@@ -74,7 +76,8 @@ public class DiscordRPCManager {
       state = I18n.translate(this.mainKey + "lobbyState");
     } else {
       details = I18n.translate(this.mainKey + "playing") + division.getString();
-      if (manager.isInPreLobby() && !division.equals(CubeGame.FFA) && !division.equals(CubeGame.SKYBLOCK)) {
+      if (manager.isInPreLobby() && !division.equals(CubeGame.FFA) && !division.equals(
+          CubeGame.SKYBLOCK)) {
         state = I18n.translate(this.mainKey + "waitingState");
       } else {
         if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
@@ -84,7 +87,8 @@ public class DiscordRPCManager {
         }
 
         if (RPCConfig.players().get() && this.doPlayerTracking()) {
-          state += I18n.translate(this.mainKey + "alivePlayersState", this.totalPlayers - this.deaths, this.totalPlayers);
+          state += I18n.translate(this.mainKey + "alivePlayersState",
+              this.totalPlayers - this.deaths, this.totalPlayers);
         }
       }
     }
@@ -95,7 +99,9 @@ public class DiscordRPCManager {
     if (RPCConfig.getGameImage().get()) {
       builder.largeAsset(this.getGameAsset(division));
     } else {
-      builder.largeAsset(Asset.of("https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808", "CubeCraft"));
+      builder.largeAsset(Asset.of(
+          "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808",
+          "CubeCraft"));
     }
 
     this.addon.labyAPI().thirdPartyService().discord().displayActivity(builder.build());
@@ -106,7 +112,7 @@ public class DiscordRPCManager {
     this.deaths = 0;
     this.totalPlayers = this.getTotalPlayers();
     this.removedPlayers = new ArrayList<>();
-    this.removedPlayersUUID =  new ArrayList<>();
+    this.removedPlayersUUID = new ArrayList<>();
 
   }
 
@@ -150,8 +156,9 @@ public class DiscordRPCManager {
 
 
   private int getTotalPlayers() {
-    ClientPacketListener clientPacketListener = this.addon.labyAPI().minecraft().getClientPacketListener();
-    return clientPacketListener == null ?  0 : clientPacketListener.getPlayerCount();
+    ClientPacketListener clientPacketListener = this.addon.labyAPI().minecraft()
+        .getClientPacketListener();
+    return clientPacketListener == null ? 0 : clientPacketListener.getPlayerCount();
   }
 
   private boolean doPlayerTracking() {

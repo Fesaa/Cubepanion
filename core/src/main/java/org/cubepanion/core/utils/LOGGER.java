@@ -26,7 +26,7 @@ public class LOGGER {
   }
 
   private static <T> String formatClass(Class<T> origin) {
-    return "[" +  origin.getSimpleName() + "@" +  origin.getPackageName() + "] ";
+    return "[" + origin.getSimpleName() + "@" + origin.getPackageName() + "] ";
   }
 
   private static String getGameInfo() {
@@ -45,7 +45,7 @@ public class LOGGER {
 
   private static <T> String join(T[] msgs) {
     StringBuilder out = new StringBuilder();
-    for (T msg: msgs) {
+    for (T msg : msgs) {
       out.append(" ").append(msg.toString());
     }
     return out.toString().strip();
@@ -87,7 +87,7 @@ public class LOGGER {
   }
 
   @SafeVarargs
-  public static <T, V> void debug(boolean gameInfo,Class<T> origin, V... msgs) {
+  public static <T, V> void debug(boolean gameInfo, Class<T> origin, V... msgs) {
     if (enabled) {
       log.debug(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
     }

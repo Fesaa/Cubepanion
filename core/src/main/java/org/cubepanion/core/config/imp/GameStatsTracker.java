@@ -27,17 +27,6 @@ public class GameStatsTracker {
 
   private final HashMap<String, GameStatsTracker> historicalData;
 
-  public CubeGame getGame() {
-    return game;
-  }
-
-  public static boolean shouldMakeGameStatsTracker(CubeGame game) {
-    return (game.equals(CubeGame.SOLO_SKYWARS)
-        || game.equals(CubeGame.TEAM_EGGWARS)
-        || game.equals(CubeGame.SOLO_LUCKYISLANDS)
-        || game.equals(CubeGame.FFA));
-  }
-
   public GameStatsTracker(CubeGame game) {
     this.game = game;
     this.wins = new StatsTracker();
@@ -50,7 +39,9 @@ public class GameStatsTracker {
     this.historicalData = new HashMap<>();
   }
 
-  private GameStatsTracker(CubeGame game, StatsTracker wins, StatsTracker played, StatsTracker winStreak, StatsTracker kills, StatsTracker deaths, HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker>perPlayerDeaths) {
+  private GameStatsTracker(CubeGame game, StatsTracker wins, StatsTracker played,
+      StatsTracker winStreak, StatsTracker kills, StatsTracker deaths,
+      HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker> perPlayerDeaths) {
     this.game = game;
     this.wins = wins;
     this.played = played;
@@ -62,11 +53,24 @@ public class GameStatsTracker {
     this.historicalData = new HashMap<>();
   }
 
+  public static boolean shouldMakeGameStatsTracker(CubeGame game) {
+    return (game.equals(CubeGame.SOLO_SKYWARS)
+        || game.equals(CubeGame.TEAM_EGGWARS)
+        || game.equals(CubeGame.SOLO_LUCKYISLANDS)
+        || game.equals(CubeGame.FFA));
+  }
+
+  public CubeGame getGame() {
+    return game;
+  }
+
   private GameStatsTracker Copy(boolean perPlayerSnapshots) {
     if (perPlayerSnapshots) {
-      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, this.perPlayerKills, this.perPlayerDeaths);
+      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills,
+          this.deaths, this.perPlayerKills, this.perPlayerDeaths);
     } else {
-      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills, this.deaths, new HashMap<>(), new HashMap<>());
+      return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills,
+          this.deaths, new HashMap<>(), new HashMap<>());
     }
 
   }
@@ -205,7 +209,8 @@ public class GameStatsTracker {
 
   private String getDate() {
     Calendar cal = Calendar.getInstance();
-    return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+    return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(
+        Calendar.DAY_OF_MONTH);
   }
 
   public void registerKill(String playerName) {
@@ -290,10 +295,13 @@ public class GameStatsTracker {
     StatsTracker kills = this.perPlayerKills.get(name);
     StatsTracker deaths = this.perPlayerDeaths.get(name);
 
-    Component userStatsDisplayComponent = Component.translatable(this.mainKey + "interactionStats.title", Component.text(name, Colours.Primary)).color(Colours.Title);
+    Component userStatsDisplayComponent = Component.translatable(
+            this.mainKey + "interactionStats.title", Component.text(name, Colours.Primary))
+        .color(Colours.Title);
 
     if (kills == null && deaths == null) {
-      return Component.translatable(this.mainKey + "interactionStats.notFound", Component.text(this.game.getString()), Component.text(name)).color(Colours.Error);
+      return Component.translatable(this.mainKey + "interactionStats.notFound",
+          Component.text(this.game.getString()), Component.text(name)).color(Colours.Error);
     }
 
     return userStatsDisplayComponent
@@ -305,15 +313,18 @@ public class GameStatsTracker {
   private Component getComponent(StatsTracker statsTracker, String type) {
     Component comp = Component.empty();
     if (statsTracker == null) {
-      comp = comp.append(Component.translatable(this.mainKey + "interactionStats.notAvailable", Component.text(type)).color(Colours.Error));
+      comp = comp.append(Component.translatable(this.mainKey + "interactionStats.notAvailable",
+          Component.text(type)).color(Colours.Error));
     } else {
       comp = comp
           .append(
               Component.translatable(this.mainKey + "interactionStats.stats",
-              Component.text(type), Component.text(statsTracker.getAllTime(), Colours.Secondary),
-              Component.text(type), Component.text(statsTracker.getDaily(), Colours.Secondary),
-              Component.text(type), Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary))
-              .color(Colours.Primary));
+                      Component.text(type),
+                      Component.text(statsTracker.getAllTime(), Colours.Secondary),
+                      Component.text(type), Component.text(statsTracker.getDaily(), Colours.Secondary),
+                      Component.text(type),
+                      Component.text(statsTracker.getAllTimeDailyMax(), Colours.Secondary))
+                  .color(Colours.Primary));
     }
     return comp;
   }
@@ -323,26 +334,26 @@ public class GameStatsTracker {
         Component.translatable(this.mainKey + "gameStats.titleToday",
                 Component.text(game.getString(), Colours.Primary))
             .color(Colours.Title)
-        .append(Component.translatable(this.mainKey + "gameStats.statsToday",
-            Component.text(this.getDailyPlayed(), Colours.Secondary),
-            Component.text(this.getWinStreak(), Colours.Secondary),
-            Component.text(this.getDailyWinStreak(), Colours.Secondary),
-            Component.text(this.getDailyWins(), Colours.Secondary),
-            Component.text(this.getDailyPlayed() - this.getDailyWins(), Colours.Secondary),
-            Component.text(this.getDailyKills(), Colours.Secondary),
-            Component.text(this.getDailyDeaths(), Colours.Secondary)
-        ).color(Colours.Primary))
-        .append(Component.translatable(this.mainKey + "gameStats.titleAllTime",
-            Component.text(game.getString(), Colours.Primary))
-            .color(Colours.Title))
-        .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
-            Component.text(this.getAllTimePlayed(), Colours.Secondary),
-            Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary),
-            Component.text(this.getDailyHighestWinStreak(), Colours.Secondary),
-            Component.text(this.getAllTimeWins(), Colours.Secondary),
-            Component.text(this.getAllTimePlayed() - this.getAllTimeWins(), Colours.Secondary),
-            Component.text(this.getTotalKills(), Colours.Secondary),
-            Component.text(this.getTotalDeaths(), Colours.Secondary)
-        ).color(Colours.Primary));
+            .append(Component.translatable(this.mainKey + "gameStats.statsToday",
+                Component.text(this.getDailyPlayed(), Colours.Secondary),
+                Component.text(this.getWinStreak(), Colours.Secondary),
+                Component.text(this.getDailyWinStreak(), Colours.Secondary),
+                Component.text(this.getDailyWins(), Colours.Secondary),
+                Component.text(this.getDailyPlayed() - this.getDailyWins(), Colours.Secondary),
+                Component.text(this.getDailyKills(), Colours.Secondary),
+                Component.text(this.getDailyDeaths(), Colours.Secondary)
+            ).color(Colours.Primary))
+            .append(Component.translatable(this.mainKey + "gameStats.titleAllTime",
+                    Component.text(game.getString(), Colours.Primary))
+                .color(Colours.Title))
+            .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
+                Component.text(this.getAllTimePlayed(), Colours.Secondary),
+                Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary),
+                Component.text(this.getDailyHighestWinStreak(), Colours.Secondary),
+                Component.text(this.getAllTimeWins(), Colours.Secondary),
+                Component.text(this.getAllTimePlayed() - this.getAllTimeWins(), Colours.Secondary),
+                Component.text(this.getTotalKills(), Colours.Secondary),
+                Component.text(this.getTotalDeaths(), Colours.Secondary)
+            ).color(Colours.Primary));
   }
 }

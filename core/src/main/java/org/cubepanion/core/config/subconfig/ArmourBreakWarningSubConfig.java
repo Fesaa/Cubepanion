@@ -39,11 +39,26 @@ public class ArmourBreakWarningSubConfig extends Config {
   private final ConfigProperty<Boolean> notification = new ConfigProperty<>(true);
 
 
-  public ConfigProperty<Boolean> getEnabled() {return enabled;}
-  public ConfigProperty<Integer> getDurabilityWarning() {return durabilityWarning;}
-  public ConfigProperty<Boolean> getActionbar() {return actionbar;}
-  public ConfigProperty<Boolean> getChat() {return chat;}
-  public ConfigProperty<Boolean> getNotification() {return notification;}
+  public ConfigProperty<Boolean> getEnabled() {
+    return enabled;
+  }
+
+  public ConfigProperty<Integer> getDurabilityWarning() {
+    return durabilityWarning;
+  }
+
+  public ConfigProperty<Boolean> getActionbar() {
+    return actionbar;
+  }
+
+  public ConfigProperty<Boolean> getChat() {
+    return chat;
+  }
+
+  public ConfigProperty<Boolean> getNotification() {
+    return notification;
+  }
+
   public ResourceLocation getMinecraftSoundResourceLocation(EquipmentSpot spot) {
     return switch (spot) {
       case FEET -> armourBreakSoundsSubConfig.getSoundIdBoots();

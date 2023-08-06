@@ -11,7 +11,8 @@ import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class SquareEggWarsMap implements EggWarsMap {
 
-  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
+  public final String mainKey =
+      I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
 
@@ -28,7 +29,8 @@ public class SquareEggWarsMap implements EggWarsMap {
   private String teamAcrossSide = "";
 
   @SafeVarargs
-  public SquareEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,  List<String>... teamColours) {
+  public SquareEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
+      List<String>... teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
@@ -65,7 +67,8 @@ public class SquareEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
+    return Component.translatable(
+            I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
@@ -96,8 +99,10 @@ public class SquareEggWarsMap implements EggWarsMap {
 
     this.currentTeamColour = teamColour;
     this.teamSide = this.teamColours.get(indexPair.side()).get((indexPair.leftRight() + 1) % 2);
-    this.teamAcross = this.teamColours.get((indexPair.side() + 1) % 2).get((indexPair.leftRight() + 1) % 2);
-    this.teamAcrossSide = this.teamColours.get((indexPair.side() + 1) % 2).get(indexPair.leftRight());
+    this.teamAcross = this.teamColours.get((indexPair.side() + 1) % 2)
+        .get((indexPair.leftRight() + 1) % 2);
+    this.teamAcrossSide = this.teamColours.get((indexPair.side() + 1) % 2)
+        .get(indexPair.leftRight());
 
     if (indexPair.leftRight() == 1) {
       this.currentTeamColour = this.teamSide;
@@ -124,7 +129,6 @@ public class SquareEggWarsMap implements EggWarsMap {
       side++;
       leftRight = 0;
     }
-
 
     return new IndexPair(-1, -1);
   }

@@ -24,10 +24,12 @@ public class PartyCommands extends InjectedSubCommand {
   private final ArrayList<String> toRemake = new ArrayList<>();
   private final ArrayList<String> toReInv = new ArrayList<>();
 
-  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.error");
-  private final Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer("PartyCommands.helpCommand");
-
-  private final Task remakeTask = Task.builder(() -> {
+  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer(
+      "PartyCommands.error");
+  private final Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer(
+      "PartyCommands.helpCommand");
+  private final Component noPermissionComponent = this.errorComponent.apply("noPermissions")
+      .color(Colours.Error);  private final Task remakeTask = Task.builder(() -> {
     if (!this.toRemake.isEmpty()) {
       String username = this.toRemake.get(0);
       this.toRemake.remove(0);
@@ -35,8 +37,8 @@ public class PartyCommands extends InjectedSubCommand {
       this.remakeTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-
-  private final Task reInviteTask = Task.builder(() -> {
+  private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments")
+      .color(Colours.Error);  private final Task reInviteTask = Task.builder(() -> {
     if (!this.toReInv.isEmpty()) {
       String username = this.toReInv.get(0);
       this.toReInv.remove(0);
@@ -45,22 +47,23 @@ public class PartyCommands extends InjectedSubCommand {
       this.reInviteTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-
-  private final Component noPermissionComponent = this.errorComponent.apply("noPermissions").color(Colours.Error);
-  private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments").color(Colours.Error);
-  private final Component helpTitleComponent = this.helpComponent.apply("title").color(Colours.Title);
-  private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>", Colours.Primary)
+  private final Component helpTitleComponent = this.helpComponent.apply("title")
+      .color(Colours.Title);
+  private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>",
+          Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party reinvite "))
       .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
-  private final Component helpRemakeComponent = Component.text("\n/party remake [username*]", Colours.Primary)
+  private final Component helpRemakeComponent = Component.text("\n/party remake [username*]",
+          Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party remake "))
       .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
-      .append(this.helpComponent.apply("remake.middle").color(Colours.Primary).decorate(TextDecoration.BOLD))
+      .append(this.helpComponent.apply("remake.middle").color(Colours.Primary)
+          .decorate(TextDecoration.BOLD))
       .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
-  private final Component helpExtraComponent = Component.text("\n/party extra [command]", Colours.Primary)
+  private final Component helpExtraComponent = Component.text("\n/party extra [command]",
+          Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party extra "))
       .append(this.helpComponent.apply("extra").color(Colours.Secondary));
-
   public PartyCommands(String prefix, Cubepanion addon) {
     super(prefix, "remake", "extra", "reinv", "reinvite");
 
@@ -154,7 +157,9 @@ public class PartyCommands extends InjectedSubCommand {
       if (this.addon.getManager().getPartyManager().isMemberInParty(username)) {
         this.toReInv.add(username);
       } else {
-        this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "PartyCommands.error.cannotReinvite", Component.text(username)));
+        this.displayMessage(Component.translatable(
+            I18nNamespaces.commandNamespace + "PartyCommands.error.cannotReinvite",
+            Component.text(username)));
       }
     }
     this.reInviteTask.execute();
@@ -168,5 +173,9 @@ public class PartyCommands extends InjectedSubCommand {
     }
     return false;
   }
+
+
+
+
 
 }

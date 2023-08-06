@@ -20,20 +20,29 @@ public class EndGameSubConfig extends Config {
   @DropdownSetting
   @SpriteSlot(x = 3, y = 2)
   @SettingRequires(value = "enabled")
-  private final ConfigProperty<GameEndMessage> gameEndMessage = new ConfigProperty<>(GameEndMessage.GG);
+  private final ConfigProperty<GameEndMessage> gameEndMessage = new ConfigProperty<>(
+      GameEndMessage.GG);
   @TextFieldSetting
   @SpriteSlot(x = 3, y = 2)
   @SettingRequires(value = "enabled")
   private final ConfigProperty<String> customMessage = new ConfigProperty<>("");
 
 
-  public ConfigProperty<Boolean> isEnabled() {return this.enabled;}
+  public ConfigProperty<Boolean> isEnabled() {
+    return this.enabled;
+  }
 
-  public ConfigProperty<Boolean> getOnElimination() {return this.onElimination;}
+  public ConfigProperty<Boolean> getOnElimination() {
+    return this.onElimination;
+  }
 
-  public ConfigProperty<GameEndMessage> getGameEndMessage() {return this.gameEndMessage;}
+  public ConfigProperty<GameEndMessage> getGameEndMessage() {
+    return this.gameEndMessage;
+  }
 
-  public ConfigProperty<String> getCustomMessage() {return this.customMessage;}
+  public ConfigProperty<String> getCustomMessage() {
+    return this.customMessage;
+  }
 
   public enum GameEndMessage {
     GG, WP, GOOD_GAME, WELL_PLAYED, NONE

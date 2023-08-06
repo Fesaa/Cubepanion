@@ -19,7 +19,8 @@ public class EggWarsMapInfoCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!this.addon.getManager().onCubeCraft() || !this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+    if (!this.addon.getManager().onCubeCraft() || !this.addon.getManager().getDivision()
+        .equals(CubeGame.TEAM_EGGWARS)) {
       return false;
     }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
@@ -35,14 +36,15 @@ public class EggWarsMapInfoCommand extends Command {
       mapName = String.join(" ", arguments);
     }
 
-    boolean check = this.addon.getManager().getEggWarsMapInfoManager().doEggWarsMapLayout(mapName, false);
+    boolean check = this.addon.getManager().getEggWarsMapInfoManager()
+        .doEggWarsMapLayout(mapName, false);
     if (!check) {
       this.displayMessage(
           Component.translatable()
-          .key(I18nNamespaces.commandNamespace + "EggWarsMapInfoCommand." + "mapNotFound")
-          .argument(Component.text(mapName))
-          .build()
-          .color(Colours.Error));
+              .key(I18nNamespaces.commandNamespace + "EggWarsMapInfoCommand." + "mapNotFound")
+              .argument(Component.text(mapName))
+              .build()
+              .color(Colours.Error));
     }
     return true;
   }

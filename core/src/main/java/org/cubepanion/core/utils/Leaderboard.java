@@ -7,18 +7,13 @@ public enum Leaderboard {
   SOLO_SKYWARS("Solo SkyWars"),
   FFA("Free For All"),
   NONE(""),
-  PARKOUR("Parkour")
-  ;
+  PARKOUR("Parkour");
 
 
   private final String string;
 
   Leaderboard(String s) {
     this.string = s;
-  }
-
-  public String getString() {
-    return string;
   }
 
   public static Leaderboard stringToLeaderboard(String s) {
@@ -45,5 +40,9 @@ public enum Leaderboard {
         return Leaderboard.NONE;
       }
     }
+  }
+
+  public String getString() {
+    return string;
   }
 }

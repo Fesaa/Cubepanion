@@ -21,16 +21,19 @@ import org.cubepanion.core.utils.Leaderboard;
 
 public class LeaderboardAPICommands extends Command {
 
-  private long lastUsed = 0;
   private final Cubepanion addon;
-
-  private final String mainKey = I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.";
-
-  private final Component APIError = Component.translatable(this.mainKey + "APIError").color(Colours.Error);
-  private final Component invalidResponse = Component.translatable(this.mainKey + "invalidResponse").color(Colours.Error);
-  private final Component noResponse = Component.translatable(I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
-  private final Component helpMessage = Component.translatable(this.mainKey + "help.title", Colours.Title)
-      .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary).decorate(TextDecoration.ITALIC))
+  private final String mainKey =
+      I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.";
+  private final Component APIError = Component.translatable(this.mainKey + "APIError")
+      .color(Colours.Error);
+  private final Component invalidResponse = Component.translatable(this.mainKey + "invalidResponse")
+      .color(Colours.Error);
+  private final Component noResponse = Component.translatable(
+      I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
+  private final Component helpMessage = Component.translatable(this.mainKey + "help.title",
+          Colours.Title)
+      .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary)
+          .decorate(TextDecoration.ITALIC))
       .append(Component.text("\n/leaderboardAPI <userName>", Colours.Primary))
       .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
       .append(Component.text("\n/leaderboardAPI ", Colours.Primary))
@@ -38,19 +41,21 @@ public class LeaderboardAPICommands extends Command {
           .hoverEvent(HoverEvent.showText(
               Component.text(String.join("",
                       IntStream.range(0, Leaderboard.values().length)
-                              .mapToObj(i -> {
-                                Leaderboard lb = Leaderboard.values()[i];
-                                if (!lb.equals(Leaderboard.NONE)) {
-                                  return lb.getString() + (i != Leaderboard.values().length - 1 ? "\n" : "");
-                                }
-                                return null;
-                              })
-                              .filter(Objects::nonNull)
-                              .toList()),
+                          .mapToObj(i -> {
+                            Leaderboard lb = Leaderboard.values()[i];
+                            if (!lb.equals(Leaderboard.NONE)) {
+                              return lb.getString() + (i != Leaderboard.values().length - 1 ? "\n"
+                                  : "");
+                            }
+                            return null;
+                          })
+                          .filter(Objects::nonNull)
+                          .toList()),
                   Colours.Hover)
           )))
       .append(Component.text(" [start]", Colours.Primary))
       .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary));
+  private long lastUsed = 0;
 
   public LeaderboardAPICommands(Cubepanion addon) {
     super("leaderboardAPI", "leaderboard", "lb");
@@ -61,10 +66,9 @@ public class LeaderboardAPICommands extends Command {
   @Override
   public boolean execute(String prefix, String[] arguments) {
     if (!this.addon.getManager().onCubeCraft()
-    || !this.addon.configuration().getLeaderboardAPIConfig().getUserCommands().get()) {
+        || !this.addon.configuration().getLeaderboardAPIConfig().getUserCommands().get()) {
       return false;
     }
-    
 
     if (arguments.length == 0) {
       this.displayMessage(this.helpMessage);
@@ -73,8 +77,9 @@ public class LeaderboardAPICommands extends Command {
 
     long now = System.currentTimeMillis();
     if (now - this.lastUsed < 5000) {
-      this.displayMessage(Component.translatable(this.mainKey + "coolDown", Component.text(5 - (now - this.lastUsed)/1000,
-          NamedTextColor.DARK_RED)).color(Colours.Error));
+      this.displayMessage(Component.translatable(this.mainKey + "coolDown",
+          Component.text(5 - (now - this.lastUsed) / 1000,
+              NamedTextColor.DARK_RED)).color(Colours.Error));
       return true;
     }
     this.lastUsed = now;
@@ -84,7 +89,9 @@ public class LeaderboardAPICommands extends Command {
     if (arguments.length == 1 && leaderboard.equals(Leaderboard.NONE)) { // User leaderboards
       String userName = arguments[0];
       if (!userName.matches("[a-zA-Z0-9_]{2,16}")) {
-        this.displayMessage(Component.translatable(this.mainKey + "invalidUserName", Component.text(userName)).color(Colours.Error));
+        this.displayMessage(
+            Component.translatable(this.mainKey + "invalidUserName", Component.text(userName))
+                .color(Colours.Error));
         return true;
       }
       Request.ofString()
@@ -115,24 +122,28 @@ public class LeaderboardAPICommands extends Command {
               if (leaderboards.size() == 0) {
                 this.displayMessage(
                     Component.translatable(this.mainKey + "noLeaderboards",
-                        Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
+                            Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
                         .color(Colours.Primary));
                 return;
               }
 
               Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-                  Component.text(leaderboards.get(0).getAsJsonObject().get("player").getAsString(), Colours.Secondary).decorate(TextDecoration.BOLD),
-                  Component.text(leaderboards.size(), Colours.Secondary))
+                      Component.text(leaderboards.get(0).getAsJsonObject().get("player").getAsString(),
+                          Colours.Secondary).decorate(TextDecoration.BOLD),
+                      Component.text(leaderboards.size(), Colours.Secondary))
                   .color(Colours.Primary);
 
               for (JsonElement element : leaderboards) {
                 JsonObject info = element.getAsJsonObject();
                 toDisplay = toDisplay.append(
                     Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-                        Component.text(info.get("game").getAsString()).color(Colours.Primary).decorate(TextDecoration.BOLD),
+                        Component.text(info.get("game").getAsString()).color(Colours.Primary)
+                            .decorate(TextDecoration.BOLD),
                         Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
-                            Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
-                        Component.text(this.leaderboardToScoreType(this.separateLeaderboardAndUserName(info.get("game").getAsString().split(" "))))
+                        Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
+                        Component.text(this.leaderboardToScoreType(
+                            this.separateLeaderboardAndUserName(
+                                info.get("game").getAsString().split(" "))))
                     ).color(Colours.Success));
               }
 
@@ -146,7 +157,7 @@ public class LeaderboardAPICommands extends Command {
 
     if (leaderboard.equals(Leaderboard.NONE)) {
       this.displayMessage(Component.translatable(this.mainKey + "invalidLeaderBoard",
-          Component.text(String.join(" ", arguments)))
+              Component.text(String.join(" ", arguments)))
           .color(Colours.Error));
       return true;
     }
@@ -191,15 +202,17 @@ public class LeaderboardAPICommands extends Command {
             if (players.size() == 0) {
               this.displayMessage(
                   Component.translatable(this.mainKey + "noPlayers",
-                      Component.text(leaderboard.getString(), Colours.Secondary).decorate(TextDecoration.BOLD),
-                      Component.text(finalBound, Colours.Secondary),
-                      Component.text(bound_2, Colours.Secondary))
+                          Component.text(leaderboard.getString(), Colours.Secondary)
+                              .decorate(TextDecoration.BOLD),
+                          Component.text(finalBound, Colours.Secondary),
+                          Component.text(bound_2, Colours.Secondary))
                       .color(Colours.Primary));
               return;
             }
 
             Component toDisplay = Component.translatable(this.mainKey + "places.title",
-                    Component.text(leaderboard.getString(), Colours.Secondary).decorate(TextDecoration.BOLD),
+                    Component.text(leaderboard.getString(), Colours.Secondary)
+                        .decorate(TextDecoration.BOLD),
                     Component.text(finalBound, Colours.Secondary),
                     Component.text(bound_2, Colours.Secondary))
                 .color(Colours.Primary);
@@ -208,7 +221,8 @@ public class LeaderboardAPICommands extends Command {
               JsonObject info = element.getAsJsonObject();
               toDisplay = toDisplay.append(
                   Component.translatable(this.mainKey + "places.placeInfo",
-                      Component.text(info.get("player").getAsString()).color(Colours.Primary).decorate(TextDecoration.BOLD),
+                      Component.text(info.get("player").getAsString()).color(Colours.Primary)
+                          .decorate(TextDecoration.BOLD),
                       Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
                       Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
                       Component.text(this.leaderboardToScoreType(leaderboard))

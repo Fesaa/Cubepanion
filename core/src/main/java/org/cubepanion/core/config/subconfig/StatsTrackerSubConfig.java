@@ -34,9 +34,13 @@ public class StatsTrackerSubConfig extends Config {
   @SpriteSlot(x = 5, y = 1)
   private final ConfigProperty<Boolean> keepPerPlayerSnapshots = new ConfigProperty<>(false);
 
-  @SliderSetting(min=1, max=20)
+  @SliderSetting(min = 1, max = 20)
   @SpriteSlot(x = 7, y = 1)
   private final ConfigProperty<Integer> minEntry = new ConfigProperty<>(5);
+  private final ConfigProperty<HashMap<CubeGame, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(
+      new HashMap<>());
+  private final ConfigProperty<Long> lastReset = new ConfigProperty<>(
+      Calendar.getInstance().getTime().getTime());
 
   @MethodOrder(after = "minEntry")
   @ButtonSetting
@@ -65,10 +69,6 @@ public class StatsTrackerSubConfig extends Config {
     }
   }
 
-  private final ConfigProperty<HashMap<CubeGame, GameStatsTracker>> gameStatsTrackers = new ConfigProperty<>(new HashMap<>());
-
-  private final ConfigProperty<Long> lastReset = new ConfigProperty<>(Calendar.getInstance().getTime().getTime());
-
   public boolean isEnabled() {
     return enabled.get();
   }
@@ -76,6 +76,7 @@ public class StatsTrackerSubConfig extends Config {
   public HashMap<CubeGame, GameStatsTracker> getGameStatsTrackers() {
     return gameStatsTrackers.get();
   }
+
   public ConfigProperty<Boolean> keepPlayerStats() {
     return this.keepPlayerStats;
   }
@@ -87,9 +88,9 @@ public class StatsTrackerSubConfig extends Config {
     int milliSecondsInAHour = milliSecondsInAMinute * 60;
 
     int milliSecondsThisDay = cal.get(Calendar.HOUR_OF_DAY) * milliSecondsInAHour
-                            + cal.get(Calendar.MINUTE) * milliSecondsInAMinute
-                            + cal.get(Calendar.SECOND) * milliSecondsInASecond
-                            + cal.get(Calendar.MILLISECOND);
+        + cal.get(Calendar.MINUTE) * milliSecondsInAMinute
+        + cal.get(Calendar.SECOND) * milliSecondsInASecond
+        + cal.get(Calendar.MILLISECOND);
 
     long milliSecondsSinceLastReset = cal.getTime().getTime() - this.lastReset.get();
     boolean lastResetWasToday = milliSecondsSinceLastReset < milliSecondsThisDay;
@@ -100,7 +101,8 @@ public class StatsTrackerSubConfig extends Config {
     }
 
     long milliSecondsSinceMidNightToLastReset = milliSecondsThisDay - milliSecondsSinceLastReset;
-    boolean lastResetWasBeforeResetTime = milliSecondsSinceMidNightToLastReset < this.resetTime.get() * milliSecondsInAHour;
+    boolean lastResetWasBeforeResetTime =
+        milliSecondsSinceMidNightToLastReset < this.resetTime.get() * milliSecondsInAHour;
 
     // Already reset today
     if (!lastResetWasBeforeResetTime) {

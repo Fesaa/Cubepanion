@@ -13,31 +13,38 @@ public class AutoVoteSubConfig extends Config {
 
   @DropdownSetting
   @SpriteSlot(x = 1, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
+  private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(
+      ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 7)
-  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(ThreeOptionsMode.MIDDLE);
+  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(
+      ThreeOptionsMode.MIDDLE);
 
   @DropdownSetting
   @SpriteSlot(y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(ThreeOptionsMode.RIGHT);
+  private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(
+      ThreeOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 2, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(ThreeOptionsMode.LEFT);
+  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
+  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
 
   @DropdownSetting
   @SpriteSlot(x = 4, y = 1)
-  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(FourOptionsMode.RIGHT);
+  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(
+      FourOptionsMode.RIGHT);
 
   @DropdownSetting
   @SpriteSlot(x = 3, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(ThreeOptionsMode.LEFT);
+  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
 
 
   public boolean isEnabled() {
@@ -79,6 +86,7 @@ public class AutoVoteSubConfig extends Config {
     RIGHT(16),
     NONE(-1);
     public final int slot;
+
     FourOptionsMode(int slot) {
       this.slot = slot;
     }
@@ -90,6 +98,7 @@ public class AutoVoteSubConfig extends Config {
     RIGHT(15),
     NONE(-1);
     public final int slot;
+
     ThreeOptionsMode(int slot) {
       this.slot = slot;
     }

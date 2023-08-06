@@ -9,6 +9,17 @@ import org.cubepanion.core.Cubepanion;
 
 public class DiscordRichPresenceSubConfig extends Config {
 
+  @ParentSwitch
+  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  @SwitchSetting
+  @SpriteSlot(y = 2, x = 1)
+  private final ConfigProperty<Boolean> map = new ConfigProperty<>(true);
+  @SwitchSetting
+  @SpriteSlot(y = 2)
+  private final ConfigProperty<Boolean> players = new ConfigProperty<>(true);
+  @SwitchSetting
+  private final ConfigProperty<Boolean> gameImage = new ConfigProperty<>(false);
+
   public DiscordRichPresenceSubConfig() {
     this.enabled.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
     this.players.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
@@ -16,27 +27,19 @@ public class DiscordRichPresenceSubConfig extends Config {
     this.map.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
   }
 
-  @ParentSwitch
-  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  public boolean isEnabled() {
+    return this.enabled.get();
+  }
 
-  @SwitchSetting
-  @SpriteSlot(y = 2, x = 1)
-  private final ConfigProperty<Boolean> map = new ConfigProperty<>(true);
+  public ConfigProperty<Boolean> map() {
+    return this.map;
+  }
 
-  @SwitchSetting
-  @SpriteSlot(y = 2)
-  private final ConfigProperty<Boolean> players = new ConfigProperty<>(true);
+  public ConfigProperty<Boolean> players() {
+    return this.players;
+  }
 
-  @SwitchSetting
-  private final ConfigProperty<Boolean> gameImage = new ConfigProperty<>(false);
-
-
-
-  public boolean isEnabled() {return this.enabled.get();}
-
-  public ConfigProperty<Boolean> map() {return this.map;}
-
-  public ConfigProperty<Boolean> players() {return this.players;}
-
-  public ConfigProperty<Boolean> getGameImage() {return gameImage;}
+  public ConfigProperty<Boolean> getGameImage() {
+    return gameImage;
+  }
 }

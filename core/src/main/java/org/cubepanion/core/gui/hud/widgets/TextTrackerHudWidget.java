@@ -21,7 +21,7 @@ public class TextTrackerHudWidget extends TextHudWidget<TextHudWidgetConfig> {
   private final String placeholder;
   private TextLine HUDLine;
 
-  public TextTrackerHudWidget(HudWidgetCategory category,String id, String text,
+  public TextTrackerHudWidget(HudWidgetCategory category, String id, String text,
       String placeholder, Supplier<String> valueSupplier, BooleanSupplier visibleSupplier,
       int posX, int posY, BooleanSupplier availableSupplier) {
     super(id);

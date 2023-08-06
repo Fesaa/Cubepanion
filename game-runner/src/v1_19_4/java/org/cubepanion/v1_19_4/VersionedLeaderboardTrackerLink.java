@@ -40,6 +40,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
     timer.schedule(new TimerTask() {
 
       private int count = 0;
+
       @Override
       public void run() {
         if (count == 10) {
@@ -64,24 +65,24 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
         if (titleSiblings.size() > 1) {
           titleSiblings = titleSiblings.get(0).getSiblings();
           if (titleSiblings.size() > 1) {
-            lbTracker.currentLeaderboard = lbTracker.titelStringToLeaderboard(titleSiblings.get(1).getString());
+            lbTracker.currentLeaderboard = lbTracker.titelStringToLeaderboard(
+                titleSiblings.get(1).getString());
           }
           String pageNumberString = title.getSiblings().get(1).getString().trim();
           String[] pageNumbers = pageNumberString.replace("(", "").replace(")", "").split("/");
           try {
-          lbTracker.currentPageNumber = Integer.parseInt(pageNumbers[0]);
-          lbTracker.maxPageNumber = Integer.parseInt(pageNumbers[1]);
+            lbTracker.currentPageNumber = Integer.parseInt(pageNumbers[0]);
+            lbTracker.maxPageNumber = Integer.parseInt(pageNumbers[1]);
           } catch (NumberFormatException e) {
             return;
           }
         }
 
         if (lbTracker.currentLeaderboard == null
-        || lbTracker.currentPageNumber == -1
-        || lbTracker.maxPageNumber == -1) {
+            || lbTracker.currentPageNumber == -1
+            || lbTracker.maxPageNumber == -1) {
           return;
         }
-
 
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
@@ -137,9 +138,9 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
             }
 
             if (name == null
-            || position == -1
-            || score == -1) {
-             continue;
+                || position == -1
+                || score == -1) {
+              continue;
             }
 
             lbTracker.addLeaderboardEntry(new LeaderboardEntry(

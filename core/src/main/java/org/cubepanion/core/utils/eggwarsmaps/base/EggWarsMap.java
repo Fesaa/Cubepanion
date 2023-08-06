@@ -6,6 +6,7 @@ import org.cubepanion.core.utils.Colours;
 public interface EggWarsMap {
 
   Component getGenLayoutComponent();
+
   Component getMapLayoutComponent();
 
   Component getBuildLimitMessage();

@@ -14,24 +14,22 @@ import org.cubepanion.core.utils.OnlineFriendLocation;
 
 public class FriendTrackerManager {
 
-  private final Set<String> tracking  = new HashSet<>();
-  private final HashMap<String, OnlineFriendLocation> friendLocations  = new HashMap<>();
+  private final Set<String> tracking = new HashSet<>();
+  private final HashMap<String, OnlineFriendLocation> friendLocations = new HashMap<>();
   private final List<Integer> runningLoops = new ArrayList<>();
 
   private boolean isUpdating = false;
   private int currentLoop;
   private int updateInterVal = 30;
 
-  private Task friendTrackerLoopTask = Task.builder(() -> {
+  public FriendTrackerManager() {
+  }  private Task friendTrackerLoopTask = Task.builder(() -> {
     if (this.runningLoops.contains(this.currentLoop)) {
       this.isUpdating = true;
       Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       this.friendTrackerLoopTask.execute();
     }
   }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
-
-  public FriendTrackerManager() {
-  }
 
   private void updateFriendTrackerLoopTask() {
     this.friendTrackerLoopTask = Task.builder(() -> {
@@ -53,6 +51,11 @@ public class FriendTrackerManager {
 
   public int getUpdateInterVal() {
     return updateInterVal;
+  }
+
+  public void setUpdateInterVal(int i) {
+    this.updateInterVal = i;
+    this.updateFriendTrackerLoopTask();
   }
 
   public Set<String> getTracking() {
@@ -93,7 +96,8 @@ public class FriendTrackerManager {
       return;
     }
 
-    OnlineFriendLocation currentFriendLocation = this.friendLocations.get(friendLocation.username());
+    OnlineFriendLocation currentFriendLocation = this.friendLocations.get(
+        friendLocation.username());
     this.friendLocations.put(friendLocation.username(), friendLocation);
     if (currentFriendLocation == null) {
       return;
@@ -118,7 +122,7 @@ public class FriendTrackerManager {
   }
 
   public void endCurrentLoop() {
-    for (int i = 0; i < this.runningLoops.size(); i ++) {
+    for (int i = 0; i < this.runningLoops.size(); i++) {
       if (this.runningLoops.get(i) == this.currentLoop) {
         this.runningLoops.remove(i);
         return;
@@ -126,14 +130,10 @@ public class FriendTrackerManager {
     }
   }
 
-
-  public void setUpdateInterVal(int i) {
-    this.updateInterVal = i;
-    this.updateFriendTrackerLoopTask();
-  }
-
   public void forceUpdate() {
     this.isUpdating = true;
     Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
   }
+
+
 }

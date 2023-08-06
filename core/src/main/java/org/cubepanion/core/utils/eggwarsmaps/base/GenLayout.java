@@ -32,16 +32,22 @@ public class GenLayout {
     for (MapGenerator gen : this.generators) {
       switch (gen.loc()) {
         case BASE -> base = base.append(
-                Component.translatable(mainKey + "count", Component.text(gen.count()), Component.text(gen.level())).color(Colours.Secondary))
-            .append(Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
+                Component.translatable(mainKey + "count", Component.text(gen.count()),
+                    Component.text(gen.level())).color(Colours.Secondary))
+            .append(
+                Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
             .append(Component.translatable(mainKey + "end", Colours.Secondary));
         case MIDDLE -> middle = middle.append(
-                Component.translatable(mainKey + "count", Component.text(gen.count()), Component.text(gen.level())).color(Colours.Secondary))
-            .append(Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
+                Component.translatable(mainKey + "count", Component.text(gen.count()),
+                    Component.text(gen.level())).color(Colours.Secondary))
+            .append(
+                Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
             .append(Component.translatable(mainKey + "end", Colours.Secondary));
         case SEMI_MIDDLE -> semi = semi.append(
-                Component.translatable(mainKey + "count", Component.text(gen.count()), Component.text(gen.level())).color(Colours.Secondary))
-            .append(Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
+                Component.translatable(mainKey + "count", Component.text(gen.count()),
+                    Component.text(gen.level())).color(Colours.Secondary))
+            .append(
+                Component.translatable(mainKey + gen.type().getString(), gen.type().getColour()))
             .append(Component.translatable(mainKey + "end", Colours.Secondary));
       }
     }
@@ -67,16 +73,11 @@ public class GenLayout {
   }
 
 
-  public record MapGenerator(Generator type, Location loc, int level, int count) {
-
-  }
-
   public enum Location {
     MIDDLE,
     SEMI_MIDDLE,
     BASE
   }
-
 
   public enum Generator {
     DIAMOND(NamedTextColor.AQUA, "diamond"),
@@ -98,6 +99,10 @@ public class GenLayout {
     public String getString() {
       return string;
     }
+  }
+
+  public record MapGenerator(Generator type, Location loc, int level, int count) {
+
   }
 
 }

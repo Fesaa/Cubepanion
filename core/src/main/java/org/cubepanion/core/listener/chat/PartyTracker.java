@@ -12,19 +12,22 @@ public class PartyTracker {
 
   private final Cubepanion addon;
   private final PartyManager partyManager;
-
-  private boolean tryingToReadPartyMembers;
-  private int partySize;
-
   private final String userNameRegex = "(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|)";
   private final String joinedParty = "You have joined " + this.userNameRegex + "'s party!";
-  private final Pattern ownerChange = Pattern.compile("The owner of the party has been changed to " + this.userNameRegex + "!");
-  private final Pattern playerJoinsPartyMessage = Pattern.compile("\\[Party\\] \\[\\+\\] " + this.userNameRegex + " joined the party\\.");
-  private final Pattern playerKickedFromPartyMessage = Pattern.compile(this.userNameRegex + " was kicked from the party!");
-  private final Pattern playerLeavesPartyMessage = Pattern.compile("\\[Party\\] \\[-\\] " + this.userNameRegex + " left the party\\.");
-  private final Pattern partyStatusTop = Pattern.compile("------- Party Status \\((\\d{1,2})\\/\\d{1,2}\\) -------");
+  private final Pattern ownerChange = Pattern.compile(
+      "The owner of the party has been changed to " + this.userNameRegex + "!");
+  private final Pattern playerJoinsPartyMessage = Pattern.compile(
+      "\\[Party\\] \\[\\+\\] " + this.userNameRegex + " joined the party\\.");
+  private final Pattern playerKickedFromPartyMessage = Pattern.compile(
+      this.userNameRegex + " was kicked from the party!");
+  private final Pattern playerLeavesPartyMessage = Pattern.compile(
+      "\\[Party\\] \\[-\\] " + this.userNameRegex + " left the party\\.");
+  private final Pattern partyStatusTop = Pattern.compile(
+      "------- Party Status \\((\\d{1,2})\\/\\d{1,2}\\) -------");
   private final Pattern partyOwner = Pattern.compile("Owner: (" + this.userNameRegex + ")");
   private final Pattern partyMember = Pattern.compile(this.userNameRegex + "( - KICK)?");
+  private boolean tryingToReadPartyMembers;
+  private int partySize;
 
   public PartyTracker(Cubepanion addon) {
     this.addon = addon;
@@ -52,7 +55,6 @@ public class PartyTracker {
     if (msg.equals("Party chat is now disabled!")) {
       this.partyManager.setPartyChat(false);
     }
-
 
     // Joining
     Matcher playerJoinsPartyMatcher = this.playerJoinsPartyMessage.matcher(msg);
@@ -92,8 +94,8 @@ public class PartyTracker {
     String kickedFromParty = "You were kicked from your party!";
     String partyDisband = "The party has been disbanded!";
     if (msg.matches(leftParty)
-    ||  msg.matches(partyDisband)
-    ||  msg.matches(kickedFromParty)) {
+        || msg.matches(partyDisband)
+        || msg.matches(kickedFromParty)) {
       this.partyManager.setEmptyParty();
       return;
     }

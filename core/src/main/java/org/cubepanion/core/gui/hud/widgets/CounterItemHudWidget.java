@@ -9,8 +9,9 @@ import org.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
 
 public class CounterItemHudWidget extends CustomItemWidget {
 
-  public CounterItemHudWidget(HudWidgetCategory category, String id, String regex, String itemName, int posX, int posY) {
-    super(id, regex,  itemName, posX, posY);
+  public CounterItemHudWidget(HudWidgetCategory category, String id, String regex, String itemName,
+      int posX, int posY) {
+    super(id, regex, itemName, posX, posY);
 
     this.bindCategory(category);
   }

@@ -36,7 +36,8 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   }
 
   public void onTick(boolean inEditor) {
-    this.nextArmourBuy.updateAndFlush(this.manager.getDurabilityManager().nextToBreakWidgetString(inEditor, this.config.getShowDifference().get()));
+    this.nextArmourBuy.updateAndFlush(this.manager.getDurabilityManager()
+        .nextToBreakWidgetString(inEditor, this.config.getShowDifference().get()));
     this.nextArmourBuy.setState(this.shouldBeVisible() || inEditor ? State.VISIBLE : State.HIDDEN);
   }
 
@@ -52,7 +53,8 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     if (whereToDisplay.games && !this.manager.isInPreLobby()) {
       return true;
     }
-    if (this.manager.getDivision().getString().equals(whereToDisplay.gameName) && !this.manager.isInPreLobby()) {
+    if (this.manager.getDivision().getString().equals(whereToDisplay.gameName)
+        && !this.manager.isInPreLobby()) {
       return true;
     }
     return false;
@@ -61,7 +63,8 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
   public static class NextArmourBuyHudConfig extends TextHudWidgetConfig {
 
     @DropdownSetting
-    private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(whereToDisplay.EGGWARS);
+    private final ConfigProperty<whereToDisplay> wheretoDisplayType = new ConfigProperty<>(
+        whereToDisplay.EGGWARS);
 
     @SwitchSetting
     private final ConfigProperty<Boolean> showDifference = new ConfigProperty<>(false);
@@ -69,6 +72,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     public ConfigProperty<whereToDisplay> getWheretoDisplayType() {
       return wheretoDisplayType;
     }
+
     public ConfigProperty<Boolean> getShowDifference() {
       return showDifference;
     }
@@ -78,7 +82,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
       SKYWARS(false, false, "Solo SkyWars"),
       LUCKYISLANDS(false, false, "Lucky Islands"),
       FFA(false, false, "Free For All"),
-      ALLGAMES(false, true,""),
+      ALLGAMES(false, true, ""),
       EVERYWHERE(true, true, "");
 
       public final boolean everywhere;

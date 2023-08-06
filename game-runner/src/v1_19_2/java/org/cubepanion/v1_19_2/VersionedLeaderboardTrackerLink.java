@@ -40,6 +40,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
     timer.schedule(new TimerTask() {
 
       private int count = 0;
+
       @Override
       public void run() {
         if (count == 10) {
@@ -64,7 +65,8 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
         if (titleSiblings.size() > 1) {
           titleSiblings = titleSiblings.get(0).getSiblings();
           if (titleSiblings.size() > 1) {
-            lbTracker.currentLeaderboard = lbTracker.titelStringToLeaderboard(titleSiblings.get(1).getString());
+            lbTracker.currentLeaderboard = lbTracker.titelStringToLeaderboard(
+                titleSiblings.get(1).getString());
           }
           String pageNumberString = title.getSiblings().get(1).getString().trim();
           String[] pageNumbers = pageNumberString.replace("(", "").replace(")", "").split("/");
@@ -81,7 +83,6 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
             || lbTracker.maxPageNumber == -1) {
           return;
         }
-
 
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {

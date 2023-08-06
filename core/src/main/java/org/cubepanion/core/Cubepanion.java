@@ -29,22 +29,25 @@ import org.cubepanion.core.listener.chat.StatsTracker;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
 import org.cubepanion.core.listener.network.ServerNavigation;
+import org.cubepanion.core.managers.CubepanionAPIManager;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordRPCManager;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.LOGGER;
+import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<Cubepanionconfig> {
+
+  public static String leaderboardAPI = "http://ameliah.art:7070/";
+  private static Cubepanion instance;
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;
   private CubepanionManager manager;
-
-  private static Cubepanion instance;
 
   public Cubepanion() {
     instance = this;
@@ -54,8 +57,6 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public static Cubepanion get() {
     return instance;
   }
-
-  public static String leaderboardAPI = "http://ameliah.art:7070/";
 
   public static void updateRPC() {
     if (instance != null) {
@@ -82,10 +83,13 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
     }
 
+    CubepanionAPIManager.init();
+
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
+    ChestFinderLink chestFinderLink = storage.getChestFinderLink();
     if (votingLink == null) {
       LOGGER.warn(this.getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -94,6 +98,9 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     }
     if (qolMapSelectorLink == null) {
       LOGGER.warn(this.getClass(), "QOLMapSelectorLink is null. Some features will not work.");
+    }
+    if (chestFinderLink == null) {
+      LOGGER.warn(this.getClass(), "ChestFinderLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
@@ -118,13 +125,14 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
-    this.registerListener(new Automations(this, votingLink));
+    this.registerListener(new Automations(this, votingLink, chestFinderLink));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
 
-    this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
+    this.labyAPI().tagRegistry()
+        .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
 
     this.widgetManager.register();
 

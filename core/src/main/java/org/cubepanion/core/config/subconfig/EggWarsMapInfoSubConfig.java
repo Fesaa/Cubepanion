@@ -32,11 +32,28 @@ public class EggWarsMapInfoSubConfig extends Config {
   @SpriteSlot(x = 5, y = 2)
   private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(false);
 
-  public ConfigProperty<Boolean> isEnabled() {return this.enabled;}
-  public ConfigProperty<Key> getKey() {return this.key;}
-  public ConfigProperty<Boolean> getMapLayout() {return this.mapLayout;}
-  public ConfigProperty<Boolean> getBuildLimit() {return this.buildLimit;}
-  public ConfigProperty<Boolean> getGenLayout() {return genLayout;}
-  public ConfigProperty<Boolean> getLogInParty() {return this.logInParty;}
+  public ConfigProperty<Boolean> isEnabled() {
+    return this.enabled;
+  }
+
+  public ConfigProperty<Key> getKey() {
+    return this.key;
+  }
+
+  public ConfigProperty<Boolean> getMapLayout() {
+    return this.mapLayout;
+  }
+
+  public ConfigProperty<Boolean> getBuildLimit() {
+    return this.buildLimit;
+  }
+
+  public ConfigProperty<Boolean> getGenLayout() {
+    return genLayout;
+  }
+
+  public ConfigProperty<Boolean> getLogInParty() {
+    return this.logInParty;
+  }
 
 }

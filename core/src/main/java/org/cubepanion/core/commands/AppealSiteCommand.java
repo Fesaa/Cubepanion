@@ -52,7 +52,8 @@ public class AppealSiteCommand extends Command {
           .append(this.componentGetter.apply("response").color(Colours.Primary))
           .append(Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD)
               .clickEvent(ClickEvent.openUrl(URL))
-              .hoverEvent(HoverEvent.showText(this.componentGetter.apply("hover").color(Colours.Hover))))
+              .hoverEvent(
+                  HoverEvent.showText(this.componentGetter.apply("hover").color(Colours.Hover))))
           .append(Component.newline());
 
       this.displayMessage(appealSiteLink);

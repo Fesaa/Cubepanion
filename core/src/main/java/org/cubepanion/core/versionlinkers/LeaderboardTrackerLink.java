@@ -25,14 +25,15 @@ import org.jetbrains.annotations.Nullable;
 public abstract class LeaderboardTrackerLink {
 
   protected final Set<LeaderboardEntry> cachedEntries = new HashSet<>(200);
-  protected Leaderboard currentLeaderboard;
   protected final Set<Integer> recordedPageNumbers = new HashSet<>();
+  private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();
+  private final Component noResponse = Component.translatable(
+      I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
+  private final Component APISubmitError = Component.translatable(
+      "cubepanion.messages.leaderboardAPI.error").color(Colours.Error);
+  protected Leaderboard currentLeaderboard;
   protected int currentPageNumber;
   protected int maxPageNumber;
-  private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();
-
-  private final Component noResponse = Component.translatable(I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
-  private final Component APISubmitError = Component.translatable("cubepanion.messages.leaderboardAPI.error").color(Colours.Error);
 
   public abstract void onScreenOpen();
 
@@ -49,10 +50,10 @@ public abstract class LeaderboardTrackerLink {
     }
 
     long now = System.currentTimeMillis();
-    if (now - lastSubmit < 1000*60*5) {
+    if (now - lastSubmit < 1000 * 60 * 5) {
       Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(
           Component.translatable("cubepanion.messages.leaderboardAPI.coolDown",
-              Component.text(5 - (now - lastSubmit)/60000, NamedTextColor.DARK_RED))
+                  Component.text(5 - (now - lastSubmit) / 60000, NamedTextColor.DARK_RED))
               .color(Colours.Error),
           true
       );
@@ -82,22 +83,23 @@ public abstract class LeaderboardTrackerLink {
             int statusCode = callBack.getStatusCode();
             if (statusCode == 202) {
               chat.displayClientMessage(
-                      Component.translatable(
+                  Component.translatable(
                           "cubepanion.messages.leaderboardAPI.success",
                           Component.text(this.currentLeaderboard.getString()))
-                          .color(Colours.Success));
+                      .color(Colours.Success));
             } else {
               if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
                 chat.displayClientMessage(
                     Component.translatable(
-                        I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.APIError_info",
+                            I18nNamespaces.globalNamespace
+                                + ".messages.leaderboardAPI.commands.APIError_info",
                             Component.text(callBack.get()))
                         .color(Colours.Error));
               } else {
                 chat.displayClientMessage(this.APISubmitError);
               }
             }
-          }  else {
+          } else {
             chat.displayClientMessage(this.noResponse);
           }
           this.currentLeaderboard = Leaderboard.NONE;

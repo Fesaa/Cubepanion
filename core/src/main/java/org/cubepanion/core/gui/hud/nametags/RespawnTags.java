@@ -34,13 +34,17 @@ public class RespawnTags extends NameTag {
       return null;
     }
     UUID uuid = playerInfo.profile().getUniqueId();
-    SpawnProtectionComponent spawnProtectionComponentGen = this.addon.getManager().getSpawnProtectionManager().getSpawnProtectionComponent(uuid);
+    SpawnProtectionComponent spawnProtectionComponentGen = this.addon.getManager()
+        .getSpawnProtectionManager().getSpawnProtectionComponent(uuid);
     if (spawnProtectionComponentGen == null) {
       return null;
     }
 
-    Component spawnProtectionComponent = spawnProtectionComponentGen.getComponent(System.currentTimeMillis());
-    if (spawnProtectionComponent == Component.empty() || ((TextComponent) spawnProtectionComponent).getText().equals(Component.empty().getText())) {
+    Component spawnProtectionComponent = spawnProtectionComponentGen.getComponent(
+        System.currentTimeMillis());
+    if (spawnProtectionComponent == Component.empty()
+        || ((TextComponent) spawnProtectionComponent).getText()
+        .equals(Component.empty().getText())) {
       this.addon.getManager().getSpawnProtectionManager().removeSpawnProtectionComponent(uuid);
       return null;
     }

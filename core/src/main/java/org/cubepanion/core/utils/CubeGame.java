@@ -12,18 +12,13 @@ public enum CubeGame {
   PARKOUR("Parkour"),
   SKYBLOCK("Skyblock"),
   LOBBY("Main Lobby"),
-  NONE("")
-  ;
+  NONE("");
 
 
   private final String string;
 
-   CubeGame(String s) {
+  CubeGame(String s) {
     this.string = s;
-  }
-
-  public String getString() {
-    return string;
   }
 
   public static boolean isParkour(CubeGame e) {
@@ -35,43 +30,47 @@ public enum CubeGame {
   }
 
   public static CubeGame stringToGame(String s) {
-      switch (s.toLowerCase().replace("_", " ")) {
-          case "skyblock" -> {
-              return CubeGame.SKYBLOCK;
-          }
-          case "team eggwars", "eggwars" -> {
-              return CubeGame.TEAM_EGGWARS;
-          }
-          case "solo skywars", "skywars" -> {
-              return CubeGame.SOLO_SKYWARS;
-          }
-          case "lucky islands", "solo lucky islands" -> {
-              return CubeGame.SOLO_LUCKYISLANDS;
-          }
-          case "free for all", "ffa" -> {
-              return CubeGame.FFA;
-          }
-          case "simple parkour" -> {
-              return CubeGame.SIMPLE_PARKOUR;
-          }
-          case "easy parkour" -> {
-              return CubeGame.EASY_PARKOUR;
-          }
-          case "medium parkour" -> {
-              return CubeGame.MEDIUM_PARKOUR;
-          }
-          case "hard parkour" -> {
-              return CubeGame.HARD_PARKOUR;
-          }
-          case "parkour" -> {
-            return CubeGame.PARKOUR;
-          }
-          case "cubecraft" -> {
-              return CubeGame.LOBBY;
-          }
-          default -> {
-              return CubeGame.NONE;
-          }
+    switch (s.toLowerCase().replace("_", " ")) {
+      case "skyblock" -> {
+        return CubeGame.SKYBLOCK;
       }
+      case "team eggwars", "eggwars" -> {
+        return CubeGame.TEAM_EGGWARS;
+      }
+      case "solo skywars", "skywars" -> {
+        return CubeGame.SOLO_SKYWARS;
+      }
+      case "lucky islands", "solo lucky islands" -> {
+        return CubeGame.SOLO_LUCKYISLANDS;
+      }
+      case "free for all", "ffa" -> {
+        return CubeGame.FFA;
+      }
+      case "simple parkour" -> {
+        return CubeGame.SIMPLE_PARKOUR;
+      }
+      case "easy parkour" -> {
+        return CubeGame.EASY_PARKOUR;
+      }
+      case "medium parkour" -> {
+        return CubeGame.MEDIUM_PARKOUR;
+      }
+      case "hard parkour" -> {
+        return CubeGame.HARD_PARKOUR;
+      }
+      case "parkour" -> {
+        return CubeGame.PARKOUR;
+      }
+      case "cubecraft" -> {
+        return CubeGame.LOBBY;
+      }
+      default -> {
+        return CubeGame.NONE;
+      }
+    }
+  }
+
+  public String getString() {
+    return string;
   }
 }

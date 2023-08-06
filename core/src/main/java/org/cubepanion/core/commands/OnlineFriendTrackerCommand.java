@@ -26,8 +26,10 @@ public class OnlineFriendTrackerCommand extends Command {
 
     this.messagePrefix = Cubepanion.get().prefix();
     this.keyGetter = I18nNamespaces.commandNameSpaceMaker("OnlineFriendTrackerCommand");
-    this.componentGetterSuccess = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.success");
-    this.componentGetterError = I18nNamespaces.commandNamespaceTransformer("OnlineFriendTrackerCommand.error");
+    this.componentGetterSuccess = I18nNamespaces.commandNamespaceTransformer(
+        "OnlineFriendTrackerCommand.success");
+    this.componentGetterError = I18nNamespaces.commandNamespaceTransformer(
+        "OnlineFriendTrackerCommand.error");
     Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer(
         "OnlineFriendTrackerCommand.helpCommand");
 
@@ -49,8 +51,8 @@ public class OnlineFriendTrackerCommand extends Command {
     CubepanionManager manager = Cubepanion.get().getManager();
     Cubepanionconfig config = Cubepanion.get().configuration();
     if (!config.getCommandSystemSubConfig().getFriendsTrackerCommand().get()
-    || !config.getCommandSystemSubConfig().getEnabled().get()
-    || !manager.onCubeCraft()) {
+        || !config.getCommandSystemSubConfig().getEnabled().get()
+        || !manager.onCubeCraft()) {
       return false;
     }
 
@@ -62,105 +64,111 @@ public class OnlineFriendTrackerCommand extends Command {
     FriendTrackerManager friendTrackerManager = manager.getFriendTrackerManager();
     Component reply = Component.empty();
     if (arguments.length == 1) {
-        switch (arguments[0]) {
-            case "help" -> reply = reply.append(this.help);
-            case "track" -> {
-                if (friendTrackerManager.getTracking().size() == 0) {
-                    reply = reply.append(
-                            this.componentGetterError.apply("notTrackingAnyOneSuggestion").color(Colours.Primary)
-                                    .append(Component.text("/friendTracker track [username*]", Colours.Secondary)
-                                            .clickEvent(ClickEvent.suggestCommand("/friendTracker track "))));
-                    break;
-                }
+      switch (arguments[0]) {
+        case "help" -> reply = reply.append(this.help);
+        case "track" -> {
+          if (friendTrackerManager.getTracking().size() == 0) {
+            reply = reply.append(
+                this.componentGetterError.apply("notTrackingAnyOneSuggestion")
+                    .color(Colours.Primary)
+                    .append(Component.text("/friendTracker track [username*]", Colours.Secondary)
+                        .clickEvent(ClickEvent.suggestCommand("/friendTracker track "))));
+            break;
+          }
 
-                reply = reply.append(this.componentGetterSuccess.apply("currentlyTracking").color(Colours.Primary));
-                for (String username : friendTrackerManager.getTracking()) {
-                    reply = reply
-                            .append(Component.text(username, Colours.Secondary)
-                                    .clickEvent(ClickEvent.suggestCommand("/friendTracker untrack " + username)))
-                            .append(Component.text(", ", Colours.Primary));
-                }
-            }
-            case "untrack" -> {
-                if (friendTrackerManager.getTracking().size() == 0) {
-                    reply = reply.append(this.componentGetterError.apply("notTrackingAnyOne").color(Colours.Error));
-                    break;
-                }
-
-                reply = reply.append(this.componentGetterSuccess.apply("clickToUntrack").color(Colours.Primary));
-                Set<String> tracking = friendTrackerManager.getTracking();
-                int size = tracking.size();
-                int i = 0;
-                for (String username : tracking) {
-                    reply = reply
-                            .append(Component.text(username, Colours.Secondary)
-                                    .clickEvent(ClickEvent.runCommand("/friendTracker untrack " + username)));
-                    if (i != size) {
-                        reply = reply.append(Component.text(", ", Colours.Primary));
-                    }
-                    i++;
-                }
-            }
-            case "interval" -> reply = reply.append(
-                    Component.translatable(
-                            this.keyGetter.apply("success.intervalLengthResponse"),
-                            Colours.Primary,
-                            Component.text(
-                                    friendTrackerManager.getUpdateInterVal(),
-                                    Colours.Secondary)
-                    ));
-            default -> {
-                this.notARecognisedOption();
-                return true;
-            }
+          reply = reply.append(
+              this.componentGetterSuccess.apply("currentlyTracking").color(Colours.Primary));
+          for (String username : friendTrackerManager.getTracking()) {
+            reply = reply
+                .append(Component.text(username, Colours.Secondary)
+                    .clickEvent(ClickEvent.suggestCommand("/friendTracker untrack " + username)))
+                .append(Component.text(", ", Colours.Primary));
+          }
         }
+        case "untrack" -> {
+          if (friendTrackerManager.getTracking().size() == 0) {
+            reply = reply.append(
+                this.componentGetterError.apply("notTrackingAnyOne").color(Colours.Error));
+            break;
+          }
+
+          reply = reply.append(
+              this.componentGetterSuccess.apply("clickToUntrack").color(Colours.Primary));
+          Set<String> tracking = friendTrackerManager.getTracking();
+          int size = tracking.size();
+          int i = 0;
+          for (String username : tracking) {
+            reply = reply
+                .append(Component.text(username, Colours.Secondary)
+                    .clickEvent(ClickEvent.runCommand("/friendTracker untrack " + username)));
+            if (i != size) {
+              reply = reply.append(Component.text(", ", Colours.Primary));
+            }
+            i++;
+          }
+        }
+        case "interval" -> reply = reply.append(
+            Component.translatable(
+                this.keyGetter.apply("success.intervalLengthResponse"),
+                Colours.Primary,
+                Component.text(
+                    friendTrackerManager.getUpdateInterVal(),
+                    Colours.Secondary)
+            ));
+        default -> {
+          this.notARecognisedOption();
+          return true;
+        }
+      }
       this.displayMessage(reply);
       return true;
     }
 
-      switch (arguments[0]) {
-          case "track" -> {
-              reply = reply.append(this.componentGetterSuccess.apply("startedTracking").color(Colours.Primary));
-              for (int i = 1; i < arguments.length; i++) {
-                  friendTrackerManager.addTracking(arguments[i]);
-                  reply = reply.append(Component.text(arguments[i], Colours.Secondary));
-                  if (i != arguments.length - 1) {
-                      reply = reply.append(Component.text(",", Colours.Primary));
-                  }
-              }
-              friendTrackerManager.forceUpdate();
+    switch (arguments[0]) {
+      case "track" -> {
+        reply = reply.append(
+            this.componentGetterSuccess.apply("startedTracking").color(Colours.Primary));
+        for (int i = 1; i < arguments.length; i++) {
+          friendTrackerManager.addTracking(arguments[i]);
+          reply = reply.append(Component.text(arguments[i], Colours.Secondary));
+          if (i != arguments.length - 1) {
+            reply = reply.append(Component.text(",", Colours.Primary));
           }
-          case "untrack" -> {
-              reply = reply.append(this.componentGetterSuccess.apply("stoppedTracking").color(Colours.Primary));
-              for (int i = 1; i < arguments.length; i++) {
-                  friendTrackerManager.unTrack(arguments[i]);
-                  reply = reply.append(Component.text(arguments[i], Colours.Secondary));
-                  if (i != arguments.length - 1) {
-                      reply = reply.append(Component.text(",", Colours.Primary));
-                  }
-              }
-          }
-          case "interval", "i" -> {
-              int interval;
-              try {
-                  interval = Integer.parseInt(arguments[1]);
-                  interval = Math.max(interval, 10);
-                  friendTrackerManager.setUpdateInterVal(interval);
-                  reply = Component.translatable(
-                          this.keyGetter.apply("success.setIntervalTo"),
-                          Colours.Primary,
-                          Component.text(
-                                  friendTrackerManager.getUpdateInterVal(),
-                                  Colours.Secondary));
-              } catch (NumberFormatException e) {
-                  reply = this.componentGetterError.apply("notAnInteger").color(Colours.Error);
-              }
-          }
-          default -> {
-              this.notARecognisedOption();
-              return true;
-          }
+        }
+        friendTrackerManager.forceUpdate();
       }
+      case "untrack" -> {
+        reply = reply.append(
+            this.componentGetterSuccess.apply("stoppedTracking").color(Colours.Primary));
+        for (int i = 1; i < arguments.length; i++) {
+          friendTrackerManager.unTrack(arguments[i]);
+          reply = reply.append(Component.text(arguments[i], Colours.Secondary));
+          if (i != arguments.length - 1) {
+            reply = reply.append(Component.text(",", Colours.Primary));
+          }
+        }
+      }
+      case "interval", "i" -> {
+        int interval;
+        try {
+          interval = Integer.parseInt(arguments[1]);
+          interval = Math.max(interval, 10);
+          friendTrackerManager.setUpdateInterVal(interval);
+          reply = Component.translatable(
+              this.keyGetter.apply("success.setIntervalTo"),
+              Colours.Primary,
+              Component.text(
+                  friendTrackerManager.getUpdateInterVal(),
+                  Colours.Secondary));
+        } catch (NumberFormatException e) {
+          reply = this.componentGetterError.apply("notAnInteger").color(Colours.Error);
+        }
+      }
+      default -> {
+        this.notARecognisedOption();
+        return true;
+      }
+    }
     this.displayMessage(reply);
     return true;
   }

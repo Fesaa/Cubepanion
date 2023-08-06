@@ -18,6 +18,7 @@ public class ItemHudConfig extends HudWidgetConfig {
   public ConfigProperty<Boolean> getOnlyDisplayWhenHeld() {
     return onlyDisplayWhenHeld;
   }
+
   public ConfigProperty<Color> getTextColour() {
     return textColour;
   }

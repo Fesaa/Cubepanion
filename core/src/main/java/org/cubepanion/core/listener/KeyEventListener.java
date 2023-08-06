@@ -34,7 +34,7 @@ public class KeyEventListener {
     if (this.addon.getManager().onCubeCraft()
         && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)
         && e.action().equals(Action.CLICK)
-        && this.addon.labyAPI().minecraft().minecraftWindow().isScreenOpened()){
+        && this.addon.labyAPI().minecraft().minecraftWindow().isScreenOpened()) {
       if (this.qolMapSelectorLink != null
           && this.addon.configuration().getQolConfig().getMapSelector().get()) {
         this.qolMapSelectorLink.onScreenOpen();
@@ -55,19 +55,22 @@ public class KeyEventListener {
     EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()) {
       if (keyEvent.state() == State.PRESS) {
-        this.addon.getManager().getEggWarsMapInfoManager().doEggWarsMapLayout(this.addon.getManager().getMapName(), true);
+        this.addon.getManager().getEggWarsMapInfoManager()
+            .doEggWarsMapLayout(this.addon.getManager().getMapName(), true);
       }
     }
 
     // Copy Server ID
-    if (keyEvent.key().equals(this.addon.configuration().getAutomationConfig().getCopyServerID().get())) {
+    if (keyEvent.key()
+        .equals(this.addon.configuration().getAutomationConfig().getCopyServerID().get())) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.labyAPI().minecraft().setClipboard(this.addon.getManager().getServerID());
       }
     }
 
     // Copy Bungeecord
-    if (keyEvent.key().equals(this.addon.configuration().getAutomationConfig().getCopyBungeecord().get())) {
+    if (keyEvent.key()
+        .equals(this.addon.configuration().getAutomationConfig().getCopyBungeecord().get())) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.labyAPI().minecraft().setClipboard(this.addon.getManager().getBungeecord());
       }
@@ -75,7 +78,7 @@ public class KeyEventListener {
 
     // No drop SkyBlock
     if (this.addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)
-    && this.addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
+        && this.addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
       if (this.dropKey.getKeyCode() != keyEvent.key().getId()) {
         return;
       }
@@ -101,7 +104,6 @@ public class KeyEventListener {
     }
 
     String itemString = itemStack.getAsItem().getIdentifier().getPath();
-
 
     if (itemString.contains("_pickaxe")) {
       return true;

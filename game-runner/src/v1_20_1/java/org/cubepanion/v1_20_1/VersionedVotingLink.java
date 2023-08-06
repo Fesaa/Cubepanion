@@ -28,13 +28,6 @@ import org.jetbrains.annotations.NotNull;
 @Implements(VotingLink.class)
 public class VersionedVotingLink extends VotingLink {
 
-  private LocalPlayer player = null;
-  public ItemStack returnItemStack;
-
-  private final Task starter = Task.builder(() -> {
-    this.openVotingMenu(player, this.hotbarSlotIndex);
-    this.waitForMenuOpenAndMakeFirstChoice(player);
-  }).delay(100, TimeUnit.MILLISECONDS).build();
   private final Task clickOnMenu = Task.builder(() -> {
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
@@ -43,6 +36,12 @@ public class VersionedVotingLink extends VotingLink {
     LOGGER.info(true, this.getClass(), "Opening menu");
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
   }).delay(200, TimeUnit.MILLISECONDS).build();
+  public ItemStack returnItemStack;
+  private LocalPlayer player = null;
+  private final Task starter = Task.builder(() -> {
+    this.openVotingMenu(player, this.hotbarSlotIndex);
+    this.waitForMenuOpenAndMakeFirstChoice(player);
+  }).delay(100, TimeUnit.MILLISECONDS).build();
 
   @Inject
   public VersionedVotingLink() {
@@ -68,6 +67,7 @@ public class VersionedVotingLink extends VotingLink {
     timer.schedule(new TimerTask() {
 
       private int count = 0;
+
       @Override
       public void run() {
         if (count == 10) {
@@ -87,12 +87,14 @@ public class VersionedVotingLink extends VotingLink {
     }, 100, 100);
   }
 
-  private void waitForNewSlotAndClick(@NotNull LocalPlayer player, VotePair votePair, boolean choice) {
+  private void waitForNewSlotAndClick(@NotNull LocalPlayer player, VotePair votePair,
+      boolean choice) {
     int index = choice ? votePair.choiceIndex() : votePair.voteIndex();
     Timer timer = new Timer("waitForNewSlotAndClick");
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
+
       @Override
       public void run() {
         if (count == 10) {
@@ -102,7 +104,8 @@ public class VersionedVotingLink extends VotingLink {
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
           Slot slot = menu.getSlot(votingInterface.returnIndex);
-          if (slot.getItem().getDisplayName().equals(votingInterface.returnItemStack.getDisplayName())) {
+          if (slot.getItem().getDisplayName()
+              .equals(votingInterface.returnItemStack.getDisplayName())) {
             return;
           }
 
@@ -134,6 +137,7 @@ public class VersionedVotingLink extends VotingLink {
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
       private int count = 0;
+
       @Override
       public void run() {
         if (count == 10) {
@@ -143,7 +147,8 @@ public class VersionedVotingLink extends VotingLink {
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
           Slot slot = menu.getSlot(votingInterface.returnIndex);
-          if (slot.getItem().getDisplayName().equals(votingInterface.returnItemStack.getDisplayName())) {
+          if (slot.getItem().getDisplayName()
+              .equals(votingInterface.returnItemStack.getDisplayName())) {
             return;
           }
           votingInterface.clickReturn((ChestMenu) menu);

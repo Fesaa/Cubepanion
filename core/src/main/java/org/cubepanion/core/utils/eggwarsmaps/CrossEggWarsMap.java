@@ -11,7 +11,8 @@ import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class CrossEggWarsMap implements EggWarsMap {
 
-  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
+  public final String mainKey =
+      I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
 
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
@@ -30,7 +31,8 @@ public class CrossEggWarsMap implements EggWarsMap {
   private String teamRight = "";
   private String teamBefore = "";
 
-  public CrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,  String... teamColours) {
+  public CrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
+      String... teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
@@ -67,7 +69,8 @@ public class CrossEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
+    return Component.translatable(
+            I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 

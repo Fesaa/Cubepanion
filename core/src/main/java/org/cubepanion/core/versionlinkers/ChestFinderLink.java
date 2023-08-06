@@ -1,7 +1,8 @@
 package org.cubepanion.core.versionlinkers;
 
+import java.util.List;
 import net.labymod.api.reference.annotation.Referenceable;
-import net.labymod.api.util.math.vector.FloatVector3;
+import org.cubepanion.core.utils.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +10,6 @@ import org.jetbrains.annotations.Nullable;
 @Referenceable
 public abstract class ChestFinderLink {
 
-  protected abstract @NotNull FloatVector3[] getChestLocations();
+  public abstract @NotNull List<ChestLocation> getChestLocations();
 
 }

@@ -13,7 +13,8 @@ public class ScreenListener {
   private final LeaderboardTrackerLink leaderboardTrackerLink;
   private final QOLMapSelectorLink qolMapSelectorLink;
 
-  public ScreenListener(Cubepanion addon, LeaderboardTrackerLink leaderboardTrackerLink, QOLMapSelectorLink qolMapSelectorLink) {
+  public ScreenListener(Cubepanion addon, LeaderboardTrackerLink leaderboardTrackerLink,
+      QOLMapSelectorLink qolMapSelectorLink) {
     this.addon = addon;
     this.leaderboardTrackerLink = leaderboardTrackerLink;
     this.qolMapSelectorLink = qolMapSelectorLink;
@@ -24,7 +25,7 @@ public class ScreenListener {
     if (this.addon.getManager().onCubeCraft()
         && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
       if (this.leaderboardTrackerLink != null
-      && this.addon.configuration().getLeaderboardAPIConfig().getContributeToDB().get()) {
+          && this.addon.configuration().getLeaderboardAPIConfig().getContributeToDB().get()) {
         this.leaderboardTrackerLink.onScreenOpen();
       }
       if (this.qolMapSelectorLink != null

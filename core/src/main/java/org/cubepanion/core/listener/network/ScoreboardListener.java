@@ -42,7 +42,8 @@ public class ScoreboardListener {
             this.updatedMap = true;
           }
         }
-      } else if (this.manager.getDivision().equals(CubeGame.LOBBY) && this.manager.hasUpdatedAfterServerSwitch()) {
+      } else if (this.manager.getDivision().equals(CubeGame.LOBBY)
+          && this.manager.hasUpdatedAfterServerSwitch()) {
         this.manager.setMapName("Main Lobby");
         this.updatedMap = true;
       } else {
@@ -67,7 +68,8 @@ public class ScoreboardListener {
     if (!e.objective().getName().equals("sidebar")) {
       return;
     }
-    if (this.manager.hasUpdatedAfterServerSwitch() &&!CubeGame.isParkour(this.manager.getDivision())) {
+    if (this.manager.hasUpdatedAfterServerSwitch() && !CubeGame.isParkour(
+        this.manager.getDivision())) {
       return;
     }
 

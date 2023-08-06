@@ -1,4 +1,4 @@
-package org.cubepanion.v1_20_1;
+package org.cubepanion.v1_19_2;
 
 import java.util.ArrayList;
 import java.util.List;

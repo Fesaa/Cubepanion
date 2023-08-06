@@ -21,14 +21,20 @@ import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
 
 public class StatCommands extends Command {
+
   private final Cubepanion addon;
-  private final Pattern timeFormat = Pattern.compile("\\b(20[0-9]{2})-([1-9]|1[1-2])-(1[0-9]|2[0-9]|3[0-1]|[1-9])\\b");
+  private final Pattern timeFormat = Pattern.compile(
+      "\\b(20[0-9]{2})-([1-9]|1[1-2])-(1[0-9]|2[0-9]|3[0-1]|[1-9])\\b");
 
-  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer("StatCommands.error");
-  private final Function<String, String> errorKey = I18nNamespaces.commandNameSpaceMaker("StatCommands.error");
-  private final Function<String, Component> helpComponentGetter = I18nNamespaces.commandNamespaceTransformer("StatCommands.helpCommand");
+  private final Function<String, Component> errorComponent = I18nNamespaces.commandNamespaceTransformer(
+      "StatCommands.error");
+  private final Function<String, String> errorKey = I18nNamespaces.commandNameSpaceMaker(
+      "StatCommands.error");
+  private final Function<String, Component> helpComponentGetter = I18nNamespaces.commandNamespaceTransformer(
+      "StatCommands.helpCommand");
 
-  private final Component gameNotFoundComponent = this.errorComponent.apply("gameNotFound.text").color(Colours.Error);
+  private final Component gameNotFoundComponent = this.errorComponent.apply("gameNotFound.text")
+      .color(Colours.Error);
   private final Component helpComponent = this.helpComponentGetter.apply("title")
       .color(Colours.Title)
       .decorate(TextDecoration.BOLD)
@@ -48,9 +54,11 @@ public class StatCommands extends Command {
 
       .append(Component.text("\n/stats <game> <YYYY-MM-DD> <username>", Colours.Primary)
           .clickEvent(ClickEvent.suggestCommand("/stats "))
-          .hoverEvent(HoverEvent.showText(this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
+          .hoverEvent(HoverEvent.showText(
+              this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
       .append(this.helpComponentGetter.apply("displayPlayerStatsOnDate").color(Colours.Secondary)
-          .hoverEvent(HoverEvent.showText(this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
+          .hoverEvent(HoverEvent.showText(
+              this.helpComponentGetter.apply("requiredSetting").color(Colours.Hover))))
 
       .append(Component.text("\n/stats help", Colours.Primary)
           .clickEvent(ClickEvent.suggestCommand("/stats help")))
@@ -71,18 +79,19 @@ public class StatCommands extends Command {
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
-    CommandSystemSubConfig commandSystemSubConfig = this.addon.configuration().getCommandSystemSubConfig();
+    CommandSystemSubConfig commandSystemSubConfig = this.addon.configuration()
+        .getCommandSystemSubConfig();
 
-    if (!commandSystemSubConfig.getStatsCommand().get() || !commandSystemSubConfig.getEnabled().get()) {
+    if (!commandSystemSubConfig.getStatsCommand().get() || !commandSystemSubConfig.getEnabled()
+        .get()) {
       return false;
     }
 
     if (arguments.length > 0
-    && arguments[0].equalsIgnoreCase("help")) {
+        && arguments[0].equalsIgnoreCase("help")) {
       this.helpCommand();
       return true;
     }
-
 
     CubepanionManager manager = this.addon.getManager();
     StatsTrackerSubConfig config = this.addon.configuration().getStatsTrackerSubConfig();
@@ -92,13 +101,14 @@ public class StatCommands extends Command {
 
     GameStatsTracker gameStatsTracker;
     if (gameName == null) {
-       gameStatsTracker = allGameStatsTrackers.get(manager.getDivision());
+      gameStatsTracker = allGameStatsTrackers.get(manager.getDivision());
     } else {
       gameStatsTracker = allGameStatsTrackers.get(CubeGame.stringToGame(gameName));
     }
 
     if (gameStatsTracker == null) {
-      this.displayMessage(this.gameNotFoundComponent.copy().append(this.gamesList().color(Colours.Error)));
+      this.displayMessage(
+          this.gameNotFoundComponent.copy().append(this.gamesList().color(Colours.Error)));
       return true;
     }
 
@@ -106,60 +116,61 @@ public class StatCommands extends Command {
       arguments = this.removeGameNameFromArguments(arguments, gameName);
     }
 
-      switch (arguments.length) {
-          case 0 -> {
-              this.displayMessage(gameStatsTracker.getDisplayComponent());
-              return true;
-          }
-          case 1 -> {
-              if (this.timeFormat.matcher(arguments[0]).matches()) {
-                  GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
-                  if (snapShot == null) {
-                      this.displayMessage(Component.translatable(
-                                      this.errorKey.apply("statsNotFoundOnDate"),
-                                      Component.text(gameStatsTracker.getGame()),
-                                      Component.text(arguments[0]))
-                              .color(Colours.Error));
-                  } else {
-                      this.displayMessage(snapShot.getDisplayComponent());
-                  }
-              } else {
-                  this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
-              }
-              return true;
-          }
-          case 2 -> {
-
-              String date;
-              String userName;
-
-              if (this.timeFormat.matcher(arguments[0]).matches()) {
-                  date = arguments[0];
-                  userName = arguments[1];
-              } else if (this.timeFormat.matcher(arguments[1]).matches()) {
-                  date = arguments[1];
-                  userName = arguments[0];
-              } else {
-                  break;
-              }
-
-              GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(date);
-              if (snapShot == null) {
-                  this.displayMessage(Component.translatable(
-                                  this.errorKey.apply("statsNotFoundOnDate"),
-                                  Component.text(gameStatsTracker.getGame()),
-                                  Component.text(date))
-                          .color(Colours.Error));
-              } else {
-                  this.displayMessage(snapShot.getUserStatsDisplayComponent(userName));
-              }
-          }
+    switch (arguments.length) {
+      case 0 -> {
+        this.displayMessage(gameStatsTracker.getDisplayComponent());
+        return true;
       }
+      case 1 -> {
+        if (this.timeFormat.matcher(arguments[0]).matches()) {
+          GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(arguments[0]);
+          if (snapShot == null) {
+            this.displayMessage(Component.translatable(
+                    this.errorKey.apply("statsNotFoundOnDate"),
+                    Component.text(gameStatsTracker.getGame()),
+                    Component.text(arguments[0]))
+                .color(Colours.Error));
+          } else {
+            this.displayMessage(snapShot.getDisplayComponent());
+          }
+        } else {
+          this.displayMessage(gameStatsTracker.getUserStatsDisplayComponent(arguments[0]));
+        }
+        return true;
+      }
+      case 2 -> {
+
+        String date;
+        String userName;
+
+        if (this.timeFormat.matcher(arguments[0]).matches()) {
+          date = arguments[0];
+          userName = arguments[1];
+        } else if (this.timeFormat.matcher(arguments[1]).matches()) {
+          date = arguments[1];
+          userName = arguments[0];
+        } else {
+          break;
+        }
+
+        GameStatsTracker snapShot = gameStatsTracker.getHistoricalData(date);
+        if (snapShot == null) {
+          this.displayMessage(Component.translatable(
+                  this.errorKey.apply("statsNotFoundOnDate"),
+                  Component.text(gameStatsTracker.getGame()),
+                  Component.text(date))
+              .color(Colours.Error));
+        } else {
+          this.displayMessage(snapShot.getUserStatsDisplayComponent(userName));
+        }
+      }
+    }
     return false;
   }
 
   private void helpCommand() {
-    this.displayMessage(this.helpComponent.copy().append(this.gamesList().color(Colours.Secondary)));
+    this.displayMessage(
+        this.helpComponent.copy().append(this.gamesList().color(Colours.Secondary)));
   }
 
   private Component gamesList() {
@@ -167,7 +178,8 @@ public class StatCommands extends Command {
     if (this.addon == null) {
       return comp;
     }
-    Set<CubeGame> keySet = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers().keySet();
+    Set<CubeGame> keySet = this.addon.configuration().getStatsTrackerSubConfig()
+        .getGameStatsTrackers().keySet();
     List<CubeGame> keys = new ArrayList<>(keySet);
     for (int i = 0; i < keys.size(); i++) {
       CubeGame game = keys.get(i);
@@ -209,7 +221,8 @@ public class StatCommands extends Command {
     for (String arg : arguments) {
       game = (game + " " + arg).trim();
 
-      GameStatsTracker tracker = this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers()
+      GameStatsTracker tracker = this.addon.configuration().getStatsTrackerSubConfig()
+          .getGameStatsTrackers()
           .get(CubeGame.stringToGame(game));
 
       if (tracker != null) {

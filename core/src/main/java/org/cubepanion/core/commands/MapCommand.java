@@ -8,7 +8,7 @@ public class MapCommand extends Command {
   private final Cubepanion addon;
 
   public MapCommand(Cubepanion addon) {
-    super("map" );
+    super("map");
     this.addon = addon;
   }
 

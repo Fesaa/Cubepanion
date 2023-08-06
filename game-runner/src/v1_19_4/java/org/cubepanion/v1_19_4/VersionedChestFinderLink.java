@@ -1,4 +1,4 @@
-package org.cubepanion.v1_20_1;
+package org.cubepanion.v1_19_4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,3 +53,4 @@ public class VersionedChestFinderLink extends ChestFinderLink {
     return out;
   }
 }
+

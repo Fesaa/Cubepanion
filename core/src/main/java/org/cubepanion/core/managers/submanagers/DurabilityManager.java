@@ -44,15 +44,16 @@ public class DurabilityManager {
 
   public Component getWarningComponent(EquipmentSpot spot) {
     return Component.translatable(this.mainKey + "warning",
-        Component.text(this.spotToString(spot), Colours.Title, TextDecoration.BOLD))
+            Component.text(this.spotToString(spot), Colours.Title, TextDecoration.BOLD))
         .color(Colours.Error).undecorate(TextDecoration.BOLD);
   }
-  
+
   public String nextToBreakWidgetString(boolean inEditor, boolean showDifference) {
     if (inEditor) {
       return "Chestplate" + (showDifference ? " (73)" : "");
     }
-    return this.lowestString + (showDifference ? " (" + (this.secondLowestInt - this.lowestInt) + ")" : "");
+    return this.lowestString + (showDifference ? " (" + (this.secondLowestInt - this.lowestInt)
+        + ")" : "");
   }
 
   private String spotToString(EquipmentSpot spot) {
@@ -105,7 +106,7 @@ public class DurabilityManager {
       case FEET -> this.bootsInfo.isWarned();
     };
   }
-  
+
   private void updateLowestCache(String key, int value) {
     if (value < this.lowestInt) {
       this.lowestString = key;
@@ -114,9 +115,16 @@ public class DurabilityManager {
       this.secondLowestInt = value;
     }
   }
+
   public static class ArmourInfo {
+
     private boolean warned;
     private int durability;
+
+    public ArmourInfo(boolean warned, int durability) {
+      this.warned = warned;
+      this.durability = durability;
+    }
 
     public int getDurability() {
       return durability;
@@ -132,11 +140,6 @@ public class DurabilityManager {
 
     public void setWarned(boolean warned) {
       this.warned = warned;
-    }
-
-    public ArmourInfo(boolean warned, int durability) {
-      this.warned = warned;
-      this.durability = durability;
     }
   }
 }

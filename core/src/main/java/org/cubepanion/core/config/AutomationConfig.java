@@ -16,48 +16,65 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 @SpriteTexture("setting_icons.png")
 public class AutomationConfig extends Config {
 
-  private ResourceLocation friendMessageResourceLocation;
-
-  public AutomationConfig() {
-    this.friendMessageResourceLocation = ResourceLocation.create("minecraft", this.friendMessageSoundId.get());
-
-    this.friendMessageSoundId.addChangeListener((type, oldValue, newValue) -> this.friendMessageResourceLocation = ResourceLocation.create("minecraft", newValue));
-  }
-
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
-
   @SpriteSlot(x = 6)
   @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
-
   @SpriteSlot(x = 6)
   @TextFieldSetting
   @SettingRequires(value = "friendMessageSound")
-  private final ConfigProperty<String> friendMessageSoundId = new ConfigProperty<>("entity.experience_orb.pickup");
-
+  private final ConfigProperty<String> friendMessageSoundId = new ConfigProperty<>(
+      "entity.experience_orb.pickup");
   @SpriteSlot(x = 7, y = 2)
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig = new ArmourBreakWarningSubConfig();
-
   @SpriteSlot(x = 5)
   @SwitchSetting
   private final ConfigProperty<Boolean> whereAmI = new ConfigProperty<>(false);
-
   @SpriteSlot(x = 5)
   @KeyBindSetting
   @SettingRequires("whereAmI")
   private final ConfigProperty<Key> copyServerID = new ConfigProperty<>(Key.NONE);
-
   @SpriteSlot(x = 5)
   @KeyBindSetting
   @SettingRequires("whereAmI")
   private final ConfigProperty<Key> copyBungeecord = new ConfigProperty<>(Key.NONE);
+  private ResourceLocation friendMessageResourceLocation;
 
-  public ConfigProperty<Boolean> displayWhereAmI() {return this.whereAmI;}
-  public ConfigProperty<Key> getCopyBungeecord() {return copyBungeecord;}
-  public ConfigProperty<Key> getCopyServerID() {return copyServerID;}
-  public ConfigProperty<Boolean> friendMessageSound() {return this.friendMessageSound;}
-  public ResourceLocation getFriendMessageSoundId() {return friendMessageResourceLocation;}
-  public EndGameSubConfig getEndGameSubConfig() {return this.endGameSubConfig;}
-  public ArmourBreakWarningSubConfig getArmourBreakWarningSubConfig() {return armourBreakWarningSubConfig;}
+  public AutomationConfig() {
+    this.friendMessageResourceLocation = ResourceLocation.create("minecraft",
+        this.friendMessageSoundId.get());
+
+    this.friendMessageSoundId.addChangeListener(
+        (type, oldValue, newValue) -> this.friendMessageResourceLocation = ResourceLocation.create(
+            "minecraft", newValue));
+  }
+
+  public ConfigProperty<Boolean> displayWhereAmI() {
+    return this.whereAmI;
+  }
+
+  public ConfigProperty<Key> getCopyBungeecord() {
+    return copyBungeecord;
+  }
+
+  public ConfigProperty<Key> getCopyServerID() {
+    return copyServerID;
+  }
+
+  public ConfigProperty<Boolean> friendMessageSound() {
+    return this.friendMessageSound;
+  }
+
+  public ResourceLocation getFriendMessageSoundId() {
+    return friendMessageResourceLocation;
+  }
+
+  public EndGameSubConfig getEndGameSubConfig() {
+    return this.endGameSubConfig;
+  }
+
+  public ArmourBreakWarningSubConfig getArmourBreakWarningSubConfig() {
+    return armourBreakWarningSubConfig;
+  }
 }

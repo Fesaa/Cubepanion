@@ -8,12 +8,10 @@ import org.cubepanion.core.Cubepanion;
 public class SpawnProtectionComponent {
 
   private final Cubepanion addon;
-  private boolean inUse;
-
-  private long creation;
-
   private final int totalSecond;
   private final int totalMilliSecond;
+  private boolean inUse;
+  private long creation;
 
   public SpawnProtectionComponent(Cubepanion addon) {
     this.addon = addon;
@@ -38,7 +36,7 @@ public class SpawnProtectionComponent {
   public Component getComponent(long currentTime) {
     long difference = currentTime - this.creation;
 
-    long actualDifference = this.totalSecond*1000L + this.totalMilliSecond * 100L - difference;
+    long actualDifference = this.totalSecond * 1000L + this.totalMilliSecond * 100L - difference;
 
     long milliSeconds = Math.floorMod(actualDifference, 1000);
     long seconds = (actualDifference - milliSeconds) / 1000;

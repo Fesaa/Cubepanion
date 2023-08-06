@@ -17,47 +17,66 @@ import org.cubepanion.core.utils.LOGGER;
 @SpriteTexture("setting_icons.png")
 public class Cubepanionconfig extends AddonConfig {
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  private final AutomationConfig automationConfig = new AutomationConfig();
+  private final QOLConfig qolConfig = new QOLConfig();
+  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
+  @SpriteSlot()
+  private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
+  @SpriteSlot(x = 1)
+  private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
+  @SpriteSlot(x = 3)
+  private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
+  private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
+  private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
+  @SwitchSetting
+  private final ConfigProperty<Boolean> debug = new ConfigProperty<>(false);
+
   public Cubepanionconfig() {
     this.debug.addChangeListener((type, oldValue, newValue) -> {
       LOGGER.setEnabled(newValue);
     });
   }
 
-  @SwitchSetting
-  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
-
-  private final AutomationConfig automationConfig = new AutomationConfig();
-
-  private final QOLConfig qolConfig = new QOLConfig();
-
-  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
-
-  @SpriteSlot()
-  private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
-
-  @SpriteSlot(x = 1)
-  private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
-
-  @SpriteSlot(x = 3)
-  private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
-
-  private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
-
-  private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
-
-  @SwitchSetting
-  private final ConfigProperty<Boolean> debug = new ConfigProperty<>(false);
-
   @Override
-  public ConfigProperty<Boolean> enabled() {return this.enabled;}
+  public ConfigProperty<Boolean> enabled() {
+    return this.enabled;
+  }
 
-  public AutomationConfig getAutomationConfig() {return automationConfig;}
-  public QOLConfig getQolConfig() {return qolConfig;}
-  public AutoVoteSubConfig getAutoVoteSubConfig() {return autoVoteSubConfig;}
-  public CommandSystemSubConfig getCommandSystemSubConfig() {return commandSystemSubConfig;}
-  public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {return this.eggWarsMapInfoSubConfig;}
-  public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {return this.discordRichPresenceSubConfig;}
-  public StatsTrackerSubConfig getStatsTrackerSubConfig() {return this.statsTrackerSubConfig;}
-  public LeaderboardAPIConfig getLeaderboardAPIConfig() {return leaderboardAPIConfig;}
-  public ConfigProperty<Boolean> getDebug() {return debug;}
+  public AutomationConfig getAutomationConfig() {
+    return automationConfig;
+  }
+
+  public QOLConfig getQolConfig() {
+    return qolConfig;
+  }
+
+  public AutoVoteSubConfig getAutoVoteSubConfig() {
+    return autoVoteSubConfig;
+  }
+
+  public CommandSystemSubConfig getCommandSystemSubConfig() {
+    return commandSystemSubConfig;
+  }
+
+  public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {
+    return this.eggWarsMapInfoSubConfig;
+  }
+
+  public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {
+    return this.discordRichPresenceSubConfig;
+  }
+
+  public StatsTrackerSubConfig getStatsTrackerSubConfig() {
+    return this.statsTrackerSubConfig;
+  }
+
+  public LeaderboardAPIConfig getLeaderboardAPIConfig() {
+    return leaderboardAPIConfig;
+  }
+
+  public ConfigProperty<Boolean> getDebug() {
+    return debug;
+  }
 }

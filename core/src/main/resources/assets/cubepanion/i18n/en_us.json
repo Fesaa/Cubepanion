@@ -23,7 +23,7 @@
               "none": "Nothing"
             }
           },
-          "customMessage":{
+          "customMessage": {
             "name": "Extra custom message"
           }
         },
@@ -411,13 +411,13 @@
         "name": "Game Timer",
         "layout": {
           "name": "Time layout",
-          "entries":{
+          "entries": {
             "words": "5 hours 4 minutes 1 second",
             "colon": "5:42:01"
           }
         }
       }
-      },
+    },
     "hudWidgetCategory": {
       "Cubepanion": {
         "name": "Cubepanion",

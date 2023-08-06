@@ -15,8 +15,9 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
   private final CubepanionManager manager;
   private final EquipmentSpot equipmentSpot;
 
-  public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex, EquipmentSpot spot, int posX, int posY, CubepanionManager manager) {
-    super(id, regex,"", posX, posY);
+  public DurabilityItemHudWidget(HudWidgetCategory category, String id, String regex,
+      EquipmentSpot spot, int posX, int posY, CubepanionManager manager) {
+    super(id, regex, "", posX, posY);
     this.manager = manager;
     this.equipmentSpot = spot;
 
@@ -37,7 +38,8 @@ public class DurabilityItemHudWidget extends CustomItemWidget {
     this.itemIsHeld = false;
     ItemStack mainHand = player.getMainHandItemStack();
     ItemStack offHand = player.getOffHandItemStack();
-    if ((mainHand.getAsItem().getIdentifier().getPath().contains(this.regex) || offHand.getAsItem().getIdentifier().getPath().contains(this.regex))) {
+    if ((mainHand.getAsItem().getIdentifier().getPath().contains(this.regex) || offHand.getAsItem()
+        .getIdentifier().getPath().contains(this.regex))) {
       this.itemIsHeld = true;
     }
     this.counter = this.manager.getDurabilityManager().getDurability(this.equipmentSpot);

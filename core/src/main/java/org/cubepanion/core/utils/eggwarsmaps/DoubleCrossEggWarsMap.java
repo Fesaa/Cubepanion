@@ -11,7 +11,8 @@ import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
 public class DoubleCrossEggWarsMap implements EggWarsMap {
 
-  public final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
+  public final String mainKey =
+      I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
   private final Component teamFillerSpaces = Component.text("      ");
   private final Component sideSpaces = Component.text("  ");
   private final Component betweenSpaces = Component.text("    ");
@@ -33,7 +34,8 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
   private String teamAcrossRight = "";
 
   @SafeVarargs
-  public DoubleCrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,  List<String>... teamColours) {
+  public DoubleCrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
+      List<String>... teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
@@ -90,7 +92,8 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
 
   @Override
   public Component getBuildLimitMessage() {
-    return Component.translatable(I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
+    return Component.translatable(
+            I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
@@ -133,7 +136,8 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
     }
 
     this.currentTeamColour = teamColour;
-    this.teamSide = this.teamColours.get(indexPair.getGroup()).get((indexPair.getLeftRight() + 1) % 2);
+    this.teamSide = this.teamColours.get(indexPair.getGroup())
+        .get((indexPair.getLeftRight() + 1) % 2);
     this.teamLeftLeft = this.teamColours.get((indexPair.getGroup() + 3) % 4).get(0);
     this.teamLeftRight = this.teamColours.get((indexPair.getGroup() + 3) % 4).get(1);
     this.teamRightLeft = this.teamColours.get((indexPair.getGroup() + 1) % 4).get(0);
@@ -163,11 +167,11 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
       leftRight = 0;
     }
 
-
     return new IndexPair(-1, -1);
   }
 
   static final class IndexPair {
+
     private final int leftRight;
     private final int group;
 

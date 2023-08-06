@@ -40,9 +40,12 @@ public class ServerNavigation {
   }
 
   private void register_game_leave() {
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && this.manager.hasLost() && !this.manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers().get(this.manager.getDivision());
+    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
+        .getStatsTrackerSubConfig();
+    if (statsTrackerSubConfig.isEnabled() && this.manager.hasLost()
+        && !this.manager.isInPreLobby()) {
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
+          .get(this.manager.getDivision());
       if (gameStatsTracker != null) {
         gameStatsTracker.registerLoss();
         gameStatsTracker.registerDeath("leave");

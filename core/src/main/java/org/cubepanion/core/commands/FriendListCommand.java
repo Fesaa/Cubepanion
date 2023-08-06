@@ -25,7 +25,7 @@ public class FriendListCommand extends Command {
             this.stringJoiner(arguments) :
             ""
     ).contains("full")
-    || prefix.equals("flf")) {
+        || prefix.equals("flf")) {
       this.addon.getManager().setRequestedFullFriendsList(true);
       this.addon.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       return true;
@@ -36,7 +36,7 @@ public class FriendListCommand extends Command {
 
   private String stringJoiner(String[] string) {
     StringBuilder out = new StringBuilder();
-    for (String s: string) {
+    for (String s : string) {
       out.append(" ").append(s);
     }
     return out.toString();

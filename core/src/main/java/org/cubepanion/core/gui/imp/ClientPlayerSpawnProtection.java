@@ -20,7 +20,8 @@ public class ClientPlayerSpawnProtection {
 
   public void update() {
     if (this.actionBarComponent.isEnabled()) {
-      this.chatExecutor.displayClientMessage(this.actionBarComponent.getComponent(System.currentTimeMillis()), true);
+      this.chatExecutor.displayClientMessage(
+          this.actionBarComponent.getComponent(System.currentTimeMillis()), true);
     }
   }
 

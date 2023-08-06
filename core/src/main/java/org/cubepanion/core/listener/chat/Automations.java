@@ -18,9 +18,11 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
+import org.cubepanion.core.utils.ChestLocation;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.OnlineFriendLocation;
+import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 
 public class Automations {
@@ -29,34 +31,57 @@ public class Automations {
   private final CubepanionManager manager;
   private final VotingLink votingLink;
   private final Task autoVoteTask;
+  private final ChestFinderLink chestFinderLink;
+  private final Task chestFinderTast;
 
   private final Task startOfGameTask;
 
-  private final Component voteReminderComponent = Component.translatable("cubepanion.messages.voteReminder", Colours.Primary);
+  private final Component voteReminderComponent = Component.translatable(
+      "cubepanion.messages.voteReminder", Colours.Primary);
 
-  private final Pattern playerElimination = Pattern.compile("([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
+  private final Pattern playerElimination = Pattern.compile(
+      "([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
-  private final Pattern WhereAmIOutPut = Pattern.compile("You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
-  private final Pattern FriendListTop = Pattern.compile("------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
-  private final Pattern FriendListOffline = Pattern.compile("^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private final Pattern onlineFriends = Pattern.compile("(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
-  private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
+  private final Pattern WhereAmIOutPut = Pattern.compile(
+      "You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
+  private final Pattern FriendListTop = Pattern.compile(
+      "------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
+  private final Pattern FriendListOffline = Pattern.compile(
+      "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
+  private final Pattern onlineFriends = Pattern.compile(
+      "(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
+  private final Pattern fiveSecondsRemaining = Pattern.compile(
+      "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private boolean voted = false;
   private boolean friendListBeingSend = false;
 
-  public Automations(Cubepanion addon, VotingLink votingLink) {
+  public Automations(Cubepanion addon, VotingLink votingLink, ChestFinderLink chestFinderLink) {
     this.addon = addon;
     this.manager = addon.getManager();
     this.votingLink = votingLink;
+    this.chestFinderLink = chestFinderLink;
 
-    this.autoVoteTask  = Task.builder(() -> {
+    this.autoVoteTask = Task.builder(() -> {
       if (this.votingLink != null) {
-        this.votingLink.vote(this.manager.getDivision(), this.addon.configuration().getAutoVoteSubConfig());
+        this.votingLink.vote(this.manager.getDivision(),
+            this.addon.configuration().getAutoVoteSubConfig());
       }
     }).delay(100, TimeUnit.MILLISECONDS).build();
 
-    this.startOfGameTask  = Task.builder(() -> {
-      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get() && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+    this.chestFinderTast = Task.builder(() -> {
+      if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
+        List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
+        if (!chestLocations.isEmpty()) {
+          for (ChestLocation loc : chestLocations) {
+            addon.displayMessage(loc.component());
+          }
+        }
+      }
+    }).delay(1000, TimeUnit.MILLISECONDS).build();
+
+    this.startOfGameTask = Task.builder(() -> {
+      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()
+          && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
         this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
       }
       this.addon.rpcManager.startOfGame();
@@ -83,7 +108,8 @@ public class Automations {
     // Friend Message Sound
     if (mainConfig.getAutomationConfig().friendMessageSound().get()) {
       if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me : .*")) {
-        minecraft.sounds().playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
+        minecraft.sounds()
+            .playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
         return;
       }
     }
@@ -91,7 +117,8 @@ public class Automations {
     // 5 seconds remaining
     if (this.fiveSecondsRemaining.matcher(msg).matches()) {
       if (!this.voted && mainConfig.getQolConfig().getReminderToVote().get()) {
-        minecraft.sounds().playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
+        minecraft.sounds()
+            .playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
         minecraft.chatExecutor().displayClientMessage(this.voteReminderComponent);
       }
       this.voted = false;
@@ -113,16 +140,20 @@ public class Automations {
     }
 
     // Auto GG
-    EndGameSubConfig config = this.addon.configuration().getAutomationConfig().getEndGameSubConfig();
+    EndGameSubConfig config = this.addon.configuration().getAutomationConfig()
+        .getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = playerRegex + " has been eliminated from the game.";
-      if (msg.equals("Congratulations, you win!") || (msg.matches(eliminationMessage) && config.getOnElimination().get())) {
+      if (msg.equals("Congratulations, you win!") || (msg.matches(eliminationMessage)
+          && config.getOnElimination().get())) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
         if (gameEndMessage != GameEndMessage.NONE) {
           minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
         }
         if (!config.getCustomMessage().isDefaultValue()) {
-          minecraft.chatExecutor().chat((this.manager.getPartyManager().isPartyChat() ? "!" : "") + config.getCustomMessage().get(), false);
+          minecraft.chatExecutor().chat(
+              (this.manager.getPartyManager().isPartyChat() ? "!" : "") + config.getCustomMessage()
+                  .get(), false);
         }
         manager.setEliminated(true);
         return;
@@ -131,7 +162,8 @@ public class Automations {
 
     // Spawn protection countdown
     if (msg.equals("You are now invincible for 10 seconds.")) {
-      this.addon.getManager().getSpawnProtectionManager().getClientPlayerSpawnProtection().registerDeath();
+      this.addon.getManager().getSpawnProtectionManager().getClientPlayerSpawnProtection()
+          .registerDeath();
       return;
     }
 
@@ -224,6 +256,7 @@ public class Automations {
         Timer timer = new Timer("waitingForNoneLobbyDivision");
         timer.schedule(new TimerTask() {
           private int count = 0;
+
           @Override
           public void run() {
             count++;
@@ -236,6 +269,12 @@ public class Automations {
             }
           }
         }, 100, 100);
+      }
+    }
+
+    if (mainConfig.getQolConfig().getChestLocation().get() && this.chestFinderLink != null) {
+      if (msg.equals("A chest has been hidden somewhere in the Lobby with some goodies inside!")) {
+        this.chestFinderTast.execute();
       }
     }
   }
