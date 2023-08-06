@@ -49,14 +49,13 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   public Cubepanion() {
     instance = this;
     LOGGER.init();
-    LOGGER.setDebug(Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment());
   }
 
   public static Cubepanion get() {
     return instance;
   }
 
-  public final static String leaderboardAPI = "http://ameliah.art:7070/";
+  public static String leaderboardAPI = "http://ameliah.art:7070/";
 
   public static void updateRPC() {
     if (instance != null) {
@@ -68,6 +67,20 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   protected void enable() {
     LOGGER.info(this.getClass(), "Starting Cubepanion");
     this.registerSettingCategory();
+
+    if (Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment()) {
+      LOGGER.setDebug(true);
+      LOGGER.info(this.getClass(), "Dev environment found. Setting values");
+
+      LOGGER.info(this.getClass(), "Changing leaderboardAPI");
+      Cubepanion.leaderboardAPI = "http://127.0.0.1:8080/";
+
+      LOGGER.info(this.getClass(), "Set Cubepanionconfig#debug true");
+      this.configuration().getDebug().set(true);
+
+      LOGGER.info(this.getClass(), "Set LeaderboardAPIConfig#errorInfo true");
+      this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
+    }
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
