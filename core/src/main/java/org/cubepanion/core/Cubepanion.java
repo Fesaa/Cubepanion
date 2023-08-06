@@ -8,6 +8,7 @@ import net.labymod.api.models.addon.annotation.AddonMain;
 import org.cubepanion.core.commands.AppealSiteCommand;
 import org.cubepanion.core.commands.DivisionCommand;
 import org.cubepanion.core.commands.EggWarsMapInfoCommand;
+import org.cubepanion.core.commands.FindChestCommand;
 import org.cubepanion.core.commands.FriendListCommand;
 import org.cubepanion.core.commands.FriendLocationCommand;
 import org.cubepanion.core.commands.LeaderboardAPICommands;
@@ -119,6 +120,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     this.registerCommand(new DivisionCommand(this));
     this.registerCommand(new FriendLocationCommand(this));
     this.registerCommand(new LeaderboardAPICommands(this));
+    this.registerCommand(new FindChestCommand(this, chestFinderLink));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));
