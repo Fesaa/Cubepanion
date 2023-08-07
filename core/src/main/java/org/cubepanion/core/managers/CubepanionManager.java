@@ -1,6 +1,8 @@
 package org.cubepanion.core.managers;
 
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import art.ameliah.libs.weave.ChestAPI.SeasonType;
+import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,16 +133,21 @@ public class CubepanionManager {
 
     this.partyManager.reset();
 
-    try {
-      Cubepanion.chestLocations = List.of(
-          Cubepanion.weave.getChestAPI().getCurrentChestLocations());
-    } catch (WeaveException e) {
-      LOGGER.warn(getClass(), e, "Could not update Cubepanion#chestLocations");
+    Result<ChestLocation[], WeaveException> locationResult = Cubepanion.weave.getChestAPI()
+        .getCurrentChestLocations();
+    if (locationResult.isErr()) {
+      LOGGER.warn(getClass(), locationResult.getError(),
+          "Could not update Cubepanion#chestLocations");
+    } else {
+      Cubepanion.chestLocations = List.of(locationResult.getValue());
     }
-    try {
-      Cubepanion.season = Cubepanion.weave.getChestAPI().getSeasons(SeasonType.RUNNING)[0];
-    } catch (WeaveException e) {
-      LOGGER.warn(getClass(), e, "Could not update Cubepanion#season");
+
+    Result<String[], WeaveException> seasonResult = Cubepanion.weave.getChestAPI()
+        .getSeasons(SeasonType.RUNNING);
+    if (seasonResult.isErr()) {
+      LOGGER.warn(getClass(), seasonResult.getError(), "Could not update Cubepanion#season");
+    } else {
+      Cubepanion.season = seasonResult.getValue()[0];
     }
   }
 

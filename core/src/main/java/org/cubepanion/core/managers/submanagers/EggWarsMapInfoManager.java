@@ -1,7 +1,5 @@
 package org.cubepanion.core.managers.submanagers;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
@@ -16,6 +14,8 @@ import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Generator;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class EggWarsMapInfoManager {
 

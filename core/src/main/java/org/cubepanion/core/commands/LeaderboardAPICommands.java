@@ -1,8 +1,11 @@
 package org.cubepanion.core.commands;
 
+import static org.cubepanion.core.utils.Utils.handleResultError;
+
 import art.ameliah.libs.weave.LeaderboardAPI;
 import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
+import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -14,19 +17,12 @@ import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.LOGGER;
 
 public class LeaderboardAPICommands extends Command {
 
   private final Cubepanion addon;
   private final String mainKey =
       I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.";
-  private final Component APIError = Component.translatable(this.mainKey + "APIError")
-      .color(Colours.Error);
-  private final Component invalidResponse = Component.translatable(this.mainKey + "invalidResponse")
-      .color(Colours.Error);
-  private final Component noResponse = Component.translatable(
-      I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
   private final Component helpMessage = Component.translatable(this.mainKey + "help.title",
           Colours.Title)
       .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary)
@@ -92,25 +88,17 @@ public class LeaderboardAPICommands extends Command {
         return true;
       }
 
-      LeaderboardRow[] rows;
-      try {
-        rows = Cubepanion.weave.getLeaderboardAPI().getLeaderboardsForPlayer(userName);
-      } catch (WeaveException e) {
-        if (addon.configuration().getDebug().get()) {
-          LOGGER.info(getClass(), e,
-              "Encountered an exception while getting getLeaderboardsForPlayer");
-        }
-        if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
-          displayMessage(
-              Component.translatable(this.mainKey + "APIError_info",
-                  Component.text(e.getMessage())).color(Colours.Error)
-          );
-        } else {
-          displayMessage(this.APIError);
-        }
+      Result<LeaderboardRow[], WeaveException> result = Cubepanion.weave.getLeaderboardAPI()
+          .getLeaderboardsForPlayer(userName);
+      if (result.isErr()) {
+        handleResultError(getClass(), addon, result.getError(),
+            "Encountered an exception while getting getLeaderboardsForPlayer",
+            this.mainKey + "APIError_info",
+            this.mainKey + "APIError");
         return true;
       }
 
+      LeaderboardRow[] rows = result.getValue();
       if (rows.length == 0) {
         displayMessage(
             Component.translatable(this.mainKey + "noLeaderboards",
@@ -157,27 +145,19 @@ public class LeaderboardAPICommands extends Command {
     int bound_2 = Math.min(200, bound + 9);
     int finalBound = bound;
 
-    LeaderboardRow[] playerRows;
-    try {
-      playerRows = Cubepanion.weave.getLeaderboardAPI()
-          .getGameLeaderboard(leaderboard, bound, bound_2);
-    } catch (WeaveException e) {
-      if (addon.configuration().getDebug().get()) {
-        LOGGER.info(getClass(), e,
-            "Encountered an exception while getting getLeaderboardsForPlayer");
-      }
-      if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
-        displayMessage(
-            Component.translatable(this.mainKey + "APIError_info",
-                Component.text(e.getMessage())).color(Colours.Error)
-        );
-      } else {
-        displayMessage(this.APIError);
-      }
+    Result<LeaderboardRow[], WeaveException> result = Cubepanion.weave.getLeaderboardAPI()
+        .getGameLeaderboard(leaderboard, bound, bound_2);
+    if (result.isErr()) {
+      handleResultError(getClass(), addon, result.getError(),
+          "Encountered an exception while getting getLeaderboardsForPlayer",
+          this.mainKey + "APIError_info",
+          this.mainKey + "APIError");
       return true;
     }
 
-    if (playerRows.length == 0) {
+    LeaderboardRow[] rows = result.getValue();
+
+    if (rows.length == 0) {
       this.displayMessage(
           Component.translatable(this.mainKey + "noPlayers",
                   Component.text(leaderboard.getString(), Colours.Secondary)
@@ -195,7 +175,7 @@ public class LeaderboardAPICommands extends Command {
             Component.text(bound_2, Colours.Secondary))
         .color(Colours.Primary);
 
-    for (LeaderboardRow row : playerRows) {
+    for (LeaderboardRow row : rows) {
       toDisplay = toDisplay.append(
           Component.translatable(this.mainKey + "places.placeInfo",
               Component.text(row.player()).color(Colours.Primary)
@@ -215,10 +195,7 @@ public class LeaderboardAPICommands extends Command {
 
     for (String s : arguments) {
       tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
-      try {
-        leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
-      } catch (WeaveException ignored) {
-      }
+      leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
       if (!leaderboard.equals(Leaderboard.NONE)) {
         return leaderboard;
       }
