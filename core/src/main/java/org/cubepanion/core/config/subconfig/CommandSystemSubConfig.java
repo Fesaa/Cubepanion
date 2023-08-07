@@ -32,6 +32,10 @@ public class CommandSystemSubConfig extends Config {
   @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> friendsTrackerCommand = new ConfigProperty<>(true);
 
+  @SwitchSetting
+  @SettingRequires(value = "enabled")
+  private final ConfigProperty<Boolean> chestFinderCommand = new ConfigProperty<>(true);
+
   public ConfigProperty<Boolean> getAppealSiteCommand() {
     return appealSiteCommand;
   }
@@ -50,6 +54,10 @@ public class CommandSystemSubConfig extends Config {
 
   public ConfigProperty<Boolean> getFriendsTrackerCommand() {
     return friendsTrackerCommand;
+  }
+
+  public ConfigProperty<Boolean> getChestFinderCommand() {
+    return chestFinderCommand;
   }
 
   public ConfigProperty<Boolean> getEnabled() {

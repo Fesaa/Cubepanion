@@ -20,7 +20,7 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> chestLocation = new ConfigProperty<>(true);
   @SliderSetting(min = 5F, max = 20F)
-  private final ConfigProperty<Integer> range = new ConfigProperty<>(15);
+  private final ConfigProperty<Integer> range = new ConfigProperty<>(10);
   @SwitchSetting
   private final ConfigProperty<Boolean> noDropSkyBlock = new ConfigProperty<>(false);
   @SpriteSlot(x = 3, y = 1)

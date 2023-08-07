@@ -102,6 +102,14 @@
         "mapSelector": {
           "name": "Map Selector Indicator",
           "description": "Changes the icon into a red glass paint if the map is not available."
+        },
+        "chestLocation": {
+          "name": "Locate chests in the lobby",
+          "descriptions": "Triggered on the lobby message"
+        },
+        "range": {
+          "name": "Chunk range",
+          "descriptions": "Amount of chunks to search for."
         }
       },
       "eggWarsMapInfoSubConfig": {
