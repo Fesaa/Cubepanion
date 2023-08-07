@@ -1,12 +1,14 @@
 package org.cubepanion.core.commands;
 
+import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
+
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
+import java.util.List;
 import net.labymod.api.client.chat.command.Command;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.utils.ChestLocation;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
-import java.util.List;
 
 public class FindChestCommand extends Command {
 
@@ -32,7 +34,7 @@ public class FindChestCommand extends Command {
     List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
     if (!chestLocations.isEmpty()) {
       for (ChestLocation loc : chestLocations) {
-        addon.displayMessage(loc.component());
+        addon.displayMessage(chestLocationsComponent(loc));
       }
     }
     return true;

@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     api(project(":api"))
+    api(files("../libs/weave.jar"))
 
     // If you want to use external libraries, you can do that here.
     // The dependencies that are specified here are loaded into your project but will also

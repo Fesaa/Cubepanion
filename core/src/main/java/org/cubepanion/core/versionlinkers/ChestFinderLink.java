@@ -1,8 +1,8 @@
 package org.cubepanion.core.versionlinkers;
 
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import net.labymod.api.reference.annotation.Referenceable;
-import org.cubepanion.core.utils.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,5 +1,9 @@
 package org.cubepanion.core.managers;
 
+import art.ameliah.libs.weave.ChestAPI.SeasonType;
+import art.ameliah.libs.weave.WeaveException;
+import java.util.ArrayList;
+import java.util.List;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
@@ -7,6 +11,7 @@ import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
+import org.cubepanion.core.utils.LOGGER;
 
 public class CubepanionManager {
   // Sub Managers
@@ -108,7 +113,7 @@ public class CubepanionManager {
     this.friendTrackerManager.endCurrentLoop();
     this.friendTrackerManager.resetTrackers();
 
-    CubepanionAPIManager.chestLocations.clear();
+    Cubepanion.chestLocations = new ArrayList<>();
   }
 
   public void onCubeJoin() {
@@ -126,7 +131,17 @@ public class CubepanionManager {
 
     this.partyManager.reset();
 
-    CubepanionAPIManager.updateChestLocations();
+    try {
+      Cubepanion.chestLocations = List.of(
+          Cubepanion.weave.getChestAPI().getCurrentChestLocations());
+    } catch (WeaveException e) {
+      LOGGER.warn(getClass(), e, "Could not update Cubepanion#chestLocations");
+    }
+    try {
+      Cubepanion.season = Cubepanion.weave.getChestAPI().getSeasons(SeasonType.RUNNING)[0];
+    } catch (WeaveException e) {
+      LOGGER.warn(getClass(), e, "Could not update Cubepanion#season");
+    }
   }
 
   public void onServerSwitch() {

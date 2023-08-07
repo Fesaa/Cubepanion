@@ -274,6 +274,10 @@
         "friendsTrackerCommand": {
           "name": "Friend tracker",
           "description": "/friendTracker help for all information"
+        },
+        "chestFinderCommand": {
+          "name": "Chest finder",
+          "description": "/findchest | chests | fc"
         }
       },
       "leaderboardAPIConfig": {

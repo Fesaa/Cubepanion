@@ -1,5 +1,8 @@
 package org.cubepanion.core.listener.chat;
 
+import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
+
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +21,6 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
-import org.cubepanion.core.utils.ChestLocation;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.OnlineFriendLocation;
@@ -73,7 +75,7 @@ public class Automations {
         List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
         if (!chestLocations.isEmpty()) {
           for (ChestLocation loc : chestLocations) {
-            addon.displayMessage(loc.component());
+            addon.displayMessage(chestLocationsComponent(loc));
           }
         }
       }

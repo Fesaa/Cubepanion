@@ -59,6 +59,13 @@ public class LOGGER {
   }
 
   @SafeVarargs
+  public static <T, V> void info(Class<T> origin, Throwable cause, V... msgs) {
+    if (enabled) {
+      log.info(formatClass(origin) + join(msgs), cause);
+    }
+  }
+
+  @SafeVarargs
   public static <T, V> void info(boolean gameInfo, Class<T> origin, V... msgs) {
     if (enabled) {
       log.info(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
@@ -69,6 +76,13 @@ public class LOGGER {
   public static <T, V> void warn(Class<T> origin, V... msgs) {
     if (enabled) {
       log.warn(formatClass(origin) + join(msgs));
+    }
+  }
+
+  @SafeVarargs
+  public static <T, V> void warn(Class<T> origin, Throwable cause, V... msgs) {
+    if (enabled) {
+      log.warn(formatClass(origin) + join(msgs), cause);
     }
   }
 
@@ -87,6 +101,13 @@ public class LOGGER {
   }
 
   @SafeVarargs
+  public static <T, V> void debug(Class<T> origin, Throwable cause, V... msgs) {
+    if (enabled) {
+      log.debug(formatClass(origin) + join(msgs), cause);
+    }
+  }
+
+  @SafeVarargs
   public static <T, V> void debug(boolean gameInfo, Class<T> origin, V... msgs) {
     if (enabled) {
       log.debug(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
@@ -97,6 +118,13 @@ public class LOGGER {
   public static <T, V> void error(Class<T> origin, V... msgs) {
     if (enabled) {
       log.error(formatClass(origin) + join(msgs));
+    }
+  }
+
+  @SafeVarargs
+  public static <T, V> void error(Class<T> origin, Throwable cause, V... msgs) {
+    if (enabled) {
+      log.error(formatClass(origin) + join(msgs), cause);
     }
   }
 

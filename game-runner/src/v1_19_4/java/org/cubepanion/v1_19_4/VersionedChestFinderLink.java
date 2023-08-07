@@ -1,5 +1,6 @@
 package org.cubepanion.v1_19_4;
 
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.managers.CubepanionAPIManager;
-import org.cubepanion.core.utils.ChestLocation;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,9 +40,10 @@ public class VersionedChestFinderLink extends ChestFinderLink {
         LevelChunk chunk = level.getChunk(pos.x + x, pos.z + y);
         for (Map.Entry<BlockPos, BlockEntity> entry : chunk.getBlockEntities().entrySet()) {
           if (entry.getValue().getType().equals(BlockEntityType.CHEST)) {
-            ChestLocation loc = new ChestLocation(entry.getKey().getX(), entry.getKey().getY(),
+            ChestLocation loc = new ChestLocation(Cubepanion.season, entry.getKey().getX(),
+                entry.getKey().getY(),
                 entry.getKey().getZ());
-            if (CubepanionAPIManager.chestLocations.contains(loc)) {
+            if (Cubepanion.chestLocations.contains(loc)) {
               out.add(loc);
             }
           }

@@ -1,10 +1,9 @@
 package org.cubepanion.core.commands;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import art.ameliah.libs.weave.LeaderboardAPI;
+import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
+import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
+import art.ameliah.libs.weave.WeaveException;
 import java.util.Objects;
 import java.util.stream.IntStream;
 import net.labymod.api.client.chat.command.Command;
@@ -12,12 +11,10 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
-import net.labymod.api.util.io.web.request.Request;
-import net.labymod.api.util.io.web.request.Request.Method;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.Leaderboard;
+import org.cubepanion.core.utils.LOGGER;
 
 public class LeaderboardAPICommands extends Command {
 
@@ -71,13 +68,13 @@ public class LeaderboardAPICommands extends Command {
     }
 
     if (arguments.length == 0) {
-      this.displayMessage(this.helpMessage);
+      displayMessage(this.helpMessage);
       return true;
     }
 
     long now = System.currentTimeMillis();
     if (now - this.lastUsed < 5000) {
-      this.displayMessage(Component.translatable(this.mainKey + "coolDown",
+      displayMessage(Component.translatable(this.mainKey + "coolDown",
           Component.text(5 - (now - this.lastUsed) / 1000,
               NamedTextColor.DARK_RED)).color(Colours.Error));
       return true;
@@ -89,69 +86,57 @@ public class LeaderboardAPICommands extends Command {
     if (arguments.length == 1 && leaderboard.equals(Leaderboard.NONE)) { // User leaderboards
       String userName = arguments[0];
       if (!userName.matches("[a-zA-Z0-9_]{2,16}")) {
-        this.displayMessage(
+        displayMessage(
             Component.translatable(this.mainKey + "invalidUserName", Component.text(userName))
                 .color(Colours.Error));
         return true;
       }
-      Request.ofString()
-          .url(Cubepanion.leaderboardAPI + "leaderboard_api/player/%s", userName)
-          .method(Method.GET)
-          .async()
-          .execute(callBack -> {
-            if (callBack.isPresent()) {
-              if (callBack.getStatusCode() != 200) {
-                if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
-                  this.displayMessage(
-                      Component.translatable(this.mainKey + "APIError_info",
-                          Component.text(callBack.get())).color(Colours.Error)
-                  );
-                } else {
-                  this.displayMessage(this.APIError);
-                }
-                return;
-              }
-              JsonArray leaderboards;
-              try {
-                leaderboards = JsonParser.parseString(callBack.get()).getAsJsonArray();
-              } catch (JsonSyntaxException e) {
-                this.displayMessage(this.invalidResponse);
-                return;
-              }
 
-              if (leaderboards.size() == 0) {
-                this.displayMessage(
-                    Component.translatable(this.mainKey + "noLeaderboards",
-                            Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
-                        .color(Colours.Primary));
-                return;
-              }
+      LeaderboardRow[] rows;
+      try {
+        rows = Cubepanion.weave.getLeaderboardAPI().getLeaderboardsForPlayer(userName);
+      } catch (WeaveException e) {
+        if (addon.configuration().getDebug().get()) {
+          LOGGER.info(getClass(), e,
+              "Encountered an exception while getting getLeaderboardsForPlayer");
+        }
+        if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+          displayMessage(
+              Component.translatable(this.mainKey + "APIError_info",
+                  Component.text(e.getMessage())).color(Colours.Error)
+          );
+        } else {
+          displayMessage(this.APIError);
+        }
+        return true;
+      }
 
-              Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-                      Component.text(leaderboards.get(0).getAsJsonObject().get("player").getAsString(),
-                          Colours.Secondary).decorate(TextDecoration.BOLD),
-                      Component.text(leaderboards.size(), Colours.Secondary))
-                  .color(Colours.Primary);
+      if (rows.length == 0) {
+        displayMessage(
+            Component.translatable(this.mainKey + "noLeaderboards",
+                    Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
+                .color(Colours.Primary));
+        return true;
+      }
 
-              for (JsonElement element : leaderboards) {
-                JsonObject info = element.getAsJsonObject();
-                toDisplay = toDisplay.append(
-                    Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-                        Component.text(info.get("game").getAsString()).color(Colours.Primary)
-                            .decorate(TextDecoration.BOLD),
-                        Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
-                        Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
-                        Component.text(this.leaderboardToScoreType(
-                            this.separateLeaderboardAndUserName(
-                                info.get("game").getAsString().split(" "))))
-                    ).color(Colours.Success));
-              }
+      Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
+              Component.text(rows[0].player(),
+                  Colours.Secondary).decorate(TextDecoration.BOLD),
+              Component.text(rows.length, Colours.Secondary))
+          .color(Colours.Primary);
 
-              this.displayMessage(toDisplay);
-            } else {
-              this.displayMessage(this.noResponse);
-            }
-          });
+      for (LeaderboardRow row : rows) {
+        toDisplay = toDisplay.append(
+            Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
+                Component.text(row.game().getString()).color(Colours.Primary)
+                    .decorate(TextDecoration.BOLD),
+                Component.text(row.position()).color(Colours.Secondary),
+                Component.text(row.score()).color(Colours.Secondary),
+                Component.text(leaderboardToScoreType(row.game()))
+            ).color(Colours.Success));
+      }
+
+      displayMessage(toDisplay);
       return true;
     }
 
@@ -171,68 +156,56 @@ public class LeaderboardAPICommands extends Command {
     }
     int bound_2 = Math.min(200, bound + 9);
     int finalBound = bound;
-    Request.ofString()
-        .url(Cubepanion.leaderboardAPI + "leaderboard_api/leaderboard/%s/bounded?lower=%d&upper=%d",
-            leaderboard.getString().replace(" ", "%20"),
-            bound,
-            bound_2)
-        .method(Method.GET)
-        .async()
-        .execute(callBack -> {
-          if (callBack.isPresent()) {
-            if (callBack.getStatusCode() != 200) {
-              if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
-                this.displayMessage(
-                    Component.translatable(this.mainKey + "APIError_info",
-                        Component.text(callBack.get())).color(Colours.Error)
-                );
-              } else {
-                this.displayMessage(this.APIError);
-              }
-              return;
-            }
-            JsonArray players;
-            try {
-              players = JsonParser.parseString(callBack.get()).getAsJsonArray();
-            } catch (JsonSyntaxException e) {
-              this.displayMessage(this.invalidResponse);
-              return;
-            }
 
-            if (players.size() == 0) {
-              this.displayMessage(
-                  Component.translatable(this.mainKey + "noPlayers",
-                          Component.text(leaderboard.getString(), Colours.Secondary)
-                              .decorate(TextDecoration.BOLD),
-                          Component.text(finalBound, Colours.Secondary),
-                          Component.text(bound_2, Colours.Secondary))
-                      .color(Colours.Primary));
-              return;
-            }
+    LeaderboardRow[] playerRows;
+    try {
+      playerRows = Cubepanion.weave.getLeaderboardAPI()
+          .getGameLeaderboard(leaderboard, bound, bound_2);
+    } catch (WeaveException e) {
+      if (addon.configuration().getDebug().get()) {
+        LOGGER.info(getClass(), e,
+            "Encountered an exception while getting getLeaderboardsForPlayer");
+      }
+      if (this.addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+        displayMessage(
+            Component.translatable(this.mainKey + "APIError_info",
+                Component.text(e.getMessage())).color(Colours.Error)
+        );
+      } else {
+        displayMessage(this.APIError);
+      }
+      return true;
+    }
 
-            Component toDisplay = Component.translatable(this.mainKey + "places.title",
-                    Component.text(leaderboard.getString(), Colours.Secondary)
-                        .decorate(TextDecoration.BOLD),
-                    Component.text(finalBound, Colours.Secondary),
-                    Component.text(bound_2, Colours.Secondary))
-                .color(Colours.Primary);
+    if (playerRows.length == 0) {
+      this.displayMessage(
+          Component.translatable(this.mainKey + "noPlayers",
+                  Component.text(leaderboard.getString(), Colours.Secondary)
+                      .decorate(TextDecoration.BOLD),
+                  Component.text(finalBound, Colours.Secondary),
+                  Component.text(bound_2, Colours.Secondary))
+              .color(Colours.Primary));
+      return true;
+    }
 
-            for (JsonElement element : players) {
-              JsonObject info = element.getAsJsonObject();
-              toDisplay = toDisplay.append(
-                  Component.translatable(this.mainKey + "places.placeInfo",
-                      Component.text(info.get("player").getAsString()).color(Colours.Primary)
-                          .decorate(TextDecoration.BOLD),
-                      Component.text(info.get("position").getAsInt()).color(Colours.Secondary),
-                      Component.text(info.get("score").getAsInt()).color(Colours.Secondary),
-                      Component.text(this.leaderboardToScoreType(leaderboard))
-                  ).color(Colours.Success));
-            }
-            this.displayMessage(toDisplay);
-          } else {
-            this.displayMessage(this.noResponse);
-          }
-        });
+    Component toDisplay = Component.translatable(this.mainKey + "places.title",
+            Component.text(leaderboard.getString(), Colours.Secondary)
+                .decorate(TextDecoration.BOLD),
+            Component.text(finalBound, Colours.Secondary),
+            Component.text(bound_2, Colours.Secondary))
+        .color(Colours.Primary);
+
+    for (LeaderboardRow row : playerRows) {
+      toDisplay = toDisplay.append(
+          Component.translatable(this.mainKey + "places.placeInfo",
+              Component.text(row.player()).color(Colours.Primary)
+                  .decorate(TextDecoration.BOLD),
+              Component.text(row.position()).color(Colours.Secondary),
+              Component.text(row.score()).color(Colours.Secondary),
+              Component.text(leaderboardToScoreType(leaderboard))
+          ).color(Colours.Success));
+    }
+    displayMessage(toDisplay);
     return true;
   }
 
@@ -242,16 +215,18 @@ public class LeaderboardAPICommands extends Command {
 
     for (String s : arguments) {
       tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
-      leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
+      try {
+        leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
+      } catch (WeaveException ignored) {
+      }
       if (!leaderboard.equals(Leaderboard.NONE)) {
         return leaderboard;
       }
-
     }
     return leaderboard;
   }
 
-  private String leaderboardToScoreType(Leaderboard leaderboard) {
+  private String leaderboardToScoreType(LeaderboardAPI.Leaderboard leaderboard) {
     return switch (leaderboard) {
       case TEAM_EGGWARS, TEAM_EGGWARS_SEASON_2, SOLO_LUCKYISLANDS, SOLO_SKYWARS -> "wins";
       case FFA -> "kills";

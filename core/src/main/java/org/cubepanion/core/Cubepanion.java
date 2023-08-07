@@ -1,5 +1,9 @@
 package org.cubepanion.core;
 
+import art.ameliah.libs.weave.ChestAPI.ChestLocation;
+import art.ameliah.libs.weave.Weave;
+import java.util.ArrayList;
+import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
@@ -30,7 +34,6 @@ import org.cubepanion.core.listener.chat.StatsTracker;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
 import org.cubepanion.core.listener.network.ServerNavigation;
-import org.cubepanion.core.managers.CubepanionAPIManager;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordRPCManager;
 import org.cubepanion.core.managers.WidgetManager;
@@ -44,7 +47,9 @@ import org.cubepanion.core.versionlinkers.VotingLink;
 @AddonMain
 public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
-  public static String leaderboardAPI = "http://ameliah.art:7070/";
+  public static Weave weave;
+  public static List<ChestLocation> chestLocations = new ArrayList<>();
+  public static String season = "";
   private static Cubepanion instance;
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;
@@ -74,17 +79,16 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
       LOGGER.setDebug(true);
       LOGGER.info(this.getClass(), "Dev environment found. Setting values");
 
-      LOGGER.info(this.getClass(), "Changing leaderboardAPI");
-      Cubepanion.leaderboardAPI = "http://127.0.0.1:8080/";
-
       LOGGER.info(this.getClass(), "Set Cubepanionconfig#debug true");
       this.configuration().getDebug().set(true);
 
       LOGGER.info(this.getClass(), "Set LeaderboardAPIConfig#errorInfo true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
-    }
 
-    CubepanionAPIManager.init();
+      weave = Weave.Dev();
+    } else {
+      weave = Weave.Production();
+    }
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();

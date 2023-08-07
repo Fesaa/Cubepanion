@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,7 +17,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
-import org.cubepanion.core.utils.LeaderboardEntry;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 
 @Singleton
@@ -143,11 +143,12 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
               continue;
             }
 
-            lbTracker.addLeaderboardEntry(new LeaderboardEntry(
+            lbTracker.addLeaderboardEntry(new LeaderboardRow(
                 lbTracker.currentLeaderboard,
                 name,
                 position,
-                score
+                score,
+                0
             ));
           }
           lbTracker.recordedPageNumbers.add(lbTracker.currentPageNumber);

@@ -1,5 +1,8 @@
 package org.cubepanion.core.versionlinkers;
 
+import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
+import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
+import art.ameliah.libs.weave.WeaveException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.util.HashMap;
@@ -16,19 +19,16 @@ import net.labymod.api.util.io.web.request.Request.Method;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.Leaderboard;
-import org.cubepanion.core.utils.LeaderboardEntry;
+import org.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable
 @Referenceable
 public abstract class LeaderboardTrackerLink {
 
-  protected final Set<LeaderboardEntry> cachedEntries = new HashSet<>(200);
+  protected final Set<LeaderboardRow> cachedEntries = new HashSet<>(200);
   protected final Set<Integer> recordedPageNumbers = new HashSet<>();
   private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();
-  private final Component noResponse = Component.translatable(
-      I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.noResponse").color(Colours.Error);
   private final Component APISubmitError = Component.translatable(
       "cubepanion.messages.leaderboardAPI.error").color(Colours.Error);
   protected Leaderboard currentLeaderboard;
@@ -36,7 +36,6 @@ public abstract class LeaderboardTrackerLink {
   protected int maxPageNumber;
 
   public abstract void onScreenOpen();
-
 
   protected void submitToApi() {
     ClientPlayer player = Laby.labyAPI().minecraft().getClientPlayer();
@@ -61,56 +60,38 @@ public abstract class LeaderboardTrackerLink {
     }
     this.lastSubmit.put(this.currentLeaderboard, now);
 
-    JsonObject main = new JsonObject();
-    main.addProperty("uuid", player.getUniqueId().toString());
-    main.addProperty("unix_time_stamp", System.currentTimeMillis());
-    main.addProperty("game", this.currentLeaderboard.getString());
-
-    JsonArray entries = new JsonArray(200);
-    for (LeaderboardEntry entry : this.cachedEntries) {
-      entries.add(entry.getAsJsonElement());
+    ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
+    try {
+      Cubepanion.weave.getLeaderboardAPI().submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries);
+      chat.displayClientMessage(
+          Component.translatable(
+                  "cubepanion.messages.leaderboardAPI.success",
+                  Component.text(this.currentLeaderboard.getString()))
+              .color(Colours.Success));
+    } catch (WeaveException e) {
+      if (Cubepanion.get().configuration().getDebug().get()) {
+        LOGGER.info(getClass(), e,
+            "Encountered an exception while getting getLeaderboardsForPlayer");
+      }
+      if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
+        chat.displayClientMessage(
+            Component.translatable(
+                    I18nNamespaces.globalNamespace
+                        + ".messages.leaderboardAPI.commands.APIError_info",
+                    Component.text(e.getMessage()))
+                .color(Colours.Error));
+      } else {
+        chat.displayClientMessage(this.APISubmitError);
+      }
     }
-    main.add("entries", entries);
-
-    Request.ofString()
-        .url(Cubepanion.leaderboardAPI + "leaderboard_api")
-        .method(Method.POST)
-        .json(main)
-        .async()
-        .execute(callBack -> {
-          ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
-          if (callBack.isPresent()) {
-            int statusCode = callBack.getStatusCode();
-            if (statusCode == 202) {
-              chat.displayClientMessage(
-                  Component.translatable(
-                          "cubepanion.messages.leaderboardAPI.success",
-                          Component.text(this.currentLeaderboard.getString()))
-                      .color(Colours.Success));
-            } else {
-              if (Cubepanion.get().configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
-                chat.displayClientMessage(
-                    Component.translatable(
-                            I18nNamespaces.globalNamespace
-                                + ".messages.leaderboardAPI.commands.APIError_info",
-                            Component.text(callBack.get()))
-                        .color(Colours.Error));
-              } else {
-                chat.displayClientMessage(this.APISubmitError);
-              }
-            }
-          } else {
-            chat.displayClientMessage(this.noResponse);
-          }
-          this.currentLeaderboard = Leaderboard.NONE;
-          this.currentPageNumber = -1;
-          this.maxPageNumber = -1;
-          this.recordedPageNumbers.clear();
-          this.cachedEntries.clear();
-        });
+    this.currentLeaderboard = Leaderboard.NONE;
+    this.currentPageNumber = -1;
+    this.maxPageNumber = -1;
+    this.recordedPageNumbers.clear();
+    this.cachedEntries.clear();
   }
 
-  public void addLeaderboardEntry(LeaderboardEntry entry) {
+  public void addLeaderboardEntry(LeaderboardRow entry) {
     this.cachedEntries.add(entry);
   }
 
@@ -119,6 +100,10 @@ public abstract class LeaderboardTrackerLink {
         .substring(2)
         .replace("Leaderboard", "")
         .trim();
-    return Leaderboard.stringToLeaderboard(name);
+    try {
+      return Leaderboard.stringToLeaderboard(name);
+    } catch (WeaveException e) {
+      return Leaderboard.NONE;
+    }
   }
 }

@@ -29,6 +29,8 @@ public class PartyCommands extends InjectedSubCommand {
   private final Function<String, Component> helpComponent = I18nNamespaces.commandNamespaceTransformer(
       "PartyCommands.helpCommand");
   private final Component noPermissionComponent = this.errorComponent.apply("noPermissions")
+      .color(Colours.Error);
+  private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments")
       .color(Colours.Error);  private final Task remakeTask = Task.builder(() -> {
     if (!this.toRemake.isEmpty()) {
       String username = this.toRemake.get(0);
@@ -37,8 +39,12 @@ public class PartyCommands extends InjectedSubCommand {
       this.remakeTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-  private final Component missingArgumentsComponent = this.errorComponent.apply("missingArguments")
-      .color(Colours.Error);  private final Task reInviteTask = Task.builder(() -> {
+  private final Component helpTitleComponent = this.helpComponent.apply("title")
+      .color(Colours.Title);
+  private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>",
+          Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party reinvite "))
+      .append(this.helpComponent.apply("reinv").color(Colours.Secondary));  private final Task reInviteTask = Task.builder(() -> {
     if (!this.toReInv.isEmpty()) {
       String username = this.toReInv.get(0);
       this.toReInv.remove(0);
@@ -47,12 +53,6 @@ public class PartyCommands extends InjectedSubCommand {
       this.reInviteTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-  private final Component helpTitleComponent = this.helpComponent.apply("title")
-      .color(Colours.Title);
-  private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>",
-          Colours.Primary)
-      .clickEvent(ClickEvent.suggestCommand("/party reinvite "))
-      .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
   private final Component helpRemakeComponent = Component.text("\n/party remake [username*]",
           Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party remake "))
@@ -173,6 +173,7 @@ public class PartyCommands extends InjectedSubCommand {
     }
     return false;
   }
+
 
 
 
