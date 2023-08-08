@@ -69,7 +69,7 @@ public class FriendTrackerManager {
   public void addTracking(String username) {
     this.tracking.add(username);
 
-    if (this.runningLoops.size() == 0) {
+    if (this.runningLoops.isEmpty()) {
       this.beginLoop((int) Instant.now().getEpochSecond());
     }
 
@@ -79,7 +79,7 @@ public class FriendTrackerManager {
     this.tracking.remove(username);
     this.friendLocations.remove(username);
 
-    if (this.tracking.size() == 0) {
+    if (this.tracking.isEmpty()) {
       this.endCurrentLoop();
     }
   }

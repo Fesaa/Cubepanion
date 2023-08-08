@@ -71,7 +71,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
             int gameCount = -1;
             Component currentGamesComponent = hoverText.get(2);
             List<Component> currentGamesSiblings = currentGamesComponent.getSiblings();
-            if (currentGamesSiblings.size() > 0) {
+            if (!currentGamesSiblings.isEmpty()) {
               currentGamesSiblings = currentGamesSiblings.get(0).getSiblings();
               if (currentGamesSiblings.size() == 4) {
                 String gameCountString = currentGamesSiblings.get(3).getString();

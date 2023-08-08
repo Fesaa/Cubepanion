@@ -151,7 +151,7 @@ public class DoubleCrossEggWarsMap implements EggWarsMap {
     }
   }
 
-  public IndexPair getIndex(String member) {
+  IndexPair getIndex(String member) {
 
     int leftRight = 0;
     int groupIndex = 0;

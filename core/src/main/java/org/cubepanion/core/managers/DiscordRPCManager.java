@@ -80,7 +80,7 @@ public class DiscordRPCManager {
           CubeGame.SKYBLOCK)) {
         state = I18n.translate(this.mainKey + "waitingState");
       } else {
-        if (RPCConfig.map().get() && !manager.getMapName().equals("")) {
+        if (RPCConfig.map().get() && !manager.getMapName().isEmpty()) {
           state = I18n.translate(this.mainKey + "playingOnState", manager.getMapName());
         } else {
           state = I18n.translate(this.mainKey + "playingHiddenState");
