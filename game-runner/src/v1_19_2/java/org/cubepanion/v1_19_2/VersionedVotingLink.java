@@ -10,6 +10,7 @@ import net.labymod.api.models.Implements;
 import net.labymod.api.util.concurrent.task.Task;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.prediction.BlockStatePredictionHandler;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
@@ -28,13 +29,20 @@ import org.jetbrains.annotations.NotNull;
 @Implements(VotingLink.class)
 public class VersionedVotingLink extends VotingLink {
 
+  public static BlockStatePredictionHandler handler = null;
+
   private final Task clickOnMenu = Task.builder(() -> {
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
-    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
+    int sequence = 0;
+    if (handler != null) {
+      handler.startPredicting();
+      sequence = handler.currentSequence();
+    }
+    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence));
   }).delay(200, TimeUnit.MILLISECONDS).build();
   public ItemStack returnItemStack;
   private LocalPlayer player = null;
