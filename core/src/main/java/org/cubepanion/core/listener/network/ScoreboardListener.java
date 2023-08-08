@@ -33,7 +33,7 @@ public class ScoreboardListener {
     }
 
     List<Component> children = e.team().getPrefix().getChildren();
-    if (children.size() > 0) {
+    if (!children.isEmpty()) {
       if (this.manager.getDivision().equals(CubeGame.FFA)) {
         List<Component> ffaComponent = children.get(0).getChildren();
         if (ffaComponent.size() == 2) {
@@ -75,7 +75,7 @@ public class ScoreboardListener {
 
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
-    if (titleText != null && titleText.matches("[a-zA-Z ]*") && titleText.length() > 0) {
+    if (titleText != null && titleText.matches("[a-zA-Z ]*") && !titleText.isEmpty()) {
       this.manager.setDivision(CubeGame.stringToGame(titleText.trim()));
       this.manager.setHasUpdatedAfterServerSwitch(true);
     } else {

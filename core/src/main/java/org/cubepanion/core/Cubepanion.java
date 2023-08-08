@@ -21,7 +21,7 @@ import org.cubepanion.core.commands.OnlineFriendTrackerCommand;
 import org.cubepanion.core.commands.PartyCommands;
 import org.cubepanion.core.commands.StatCommands;
 import org.cubepanion.core.commands.TeamColourCommand;
-import org.cubepanion.core.config.Cubepanionconfig;
+import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
 import org.cubepanion.core.listener.GameShutdownEventListener;
@@ -45,7 +45,7 @@ import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 
 @AddonMain
-public class Cubepanion extends LabyAddon<Cubepanionconfig> {
+public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   public static Weave weave;
   public static List<ChestLocation> chestLocations = new ArrayList<>();
@@ -57,7 +57,6 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
   public Cubepanion() {
     instance = this;
-    LOGGER.init();
   }
 
   public static Cubepanion get() {
@@ -72,19 +71,15 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
   @Override
   protected void enable() {
-    LOGGER.info(this.getClass(), "Starting Cubepanion");
+    LOGGER.setLog(logger());
+    LOGGER.info(getClass(), "Starting Cubepanion");
     this.registerSettingCategory();
 
     if (Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment()) {
+      LOGGER.info(getClass(),"Enabling debug");
       LOGGER.setDebug(true);
-      LOGGER.info(this.getClass(), "Dev environment found. Setting values");
-
-      LOGGER.info(this.getClass(), "Set Cubepanionconfig#debug true");
-      this.configuration().getDebug().set(true);
-
-      LOGGER.info(this.getClass(), "Set LeaderboardAPIConfig#errorInfo true");
+      LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
-
       weave = Weave.Dev();
     } else {
       weave = Weave.Production();
@@ -96,21 +91,23 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     ChestFinderLink chestFinderLink = storage.getChestFinderLink();
     if (votingLink == null) {
-      LOGGER.warn(this.getClass(), "VotingLink is null. Some features will not work.");
+      LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
     if (leaderboardTrackerLink == null) {
-      LOGGER.warn(this.getClass(), "LeaderboardTrackerLink is null. Some features will not work.");
+      LOGGER.warn(getClass(), "LeaderboardTrackerLink is null. Some features will not work.");
     }
     if (qolMapSelectorLink == null) {
-      LOGGER.warn(this.getClass(), "QOLMapSelectorLink is null. Some features will not work.");
+      LOGGER.warn(getClass(), "QOLMapSelectorLink is null. Some features will not work.");
     }
     if (chestFinderLink == null) {
-      LOGGER.warn(this.getClass(), "ChestFinderLink is null. Some features will not work.");
+      LOGGER.warn(getClass(), "ChestFinderLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
     this.rpcManager = new DiscordRPCManager(this);
     this.widgetManager = new WidgetManager(this);
+
+    LOGGER.setManager(this.manager);
 
     this.registerCommand(new PartyCommands("party", this));
     this.registerCommand(new PartyCommands("p", this));
@@ -142,7 +139,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
 
     this.widgetManager.register();
 
-    LOGGER.info(this.getClass(), "Cubepanion has successfully registered all her components.");
+    LOGGER.info(getClass(), "Cubepanion has successfully registered all her components.");
   }
 
   public CubepanionManager getManager() {
@@ -156,7 +153,7 @@ public class Cubepanion extends LabyAddon<Cubepanionconfig> {
   }
 
   @Override
-  protected Class<Cubepanionconfig> configurationClass() {
-    return Cubepanionconfig.class;
+  protected Class<CubepanionConfig> configurationClass() {
+    return CubepanionConfig.class;
   }
 }

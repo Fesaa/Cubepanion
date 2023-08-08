@@ -7,7 +7,7 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.Cubepanionconfig;
+import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
@@ -49,7 +49,7 @@ public class OnlineFriendTrackerCommand extends Command {
   @Override
   public boolean execute(String prefix, String[] arguments) {
     CubepanionManager manager = Cubepanion.get().getManager();
-    Cubepanionconfig config = Cubepanion.get().configuration();
+    CubepanionConfig config = Cubepanion.get().configuration();
     if (!config.getCommandSystemSubConfig().getFriendsTrackerCommand().get()
         || !config.getCommandSystemSubConfig().getEnabled().get()
         || !manager.onCubeCraft()) {
@@ -67,7 +67,7 @@ public class OnlineFriendTrackerCommand extends Command {
       switch (arguments[0]) {
         case "help" -> reply = reply.append(this.help);
         case "track" -> {
-          if (friendTrackerManager.getTracking().size() == 0) {
+          if (friendTrackerManager.getTracking().isEmpty()) {
             reply = reply.append(
                 this.componentGetterError.apply("notTrackingAnyOneSuggestion")
                     .color(Colours.Primary)
@@ -86,7 +86,7 @@ public class OnlineFriendTrackerCommand extends Command {
           }
         }
         case "untrack" -> {
-          if (friendTrackerManager.getTracking().size() == 0) {
+          if (friendTrackerManager.getTracking().isEmpty()) {
             reply = reply.append(
                 this.componentGetterError.apply("notTrackingAnyOne").color(Colours.Error));
             break;

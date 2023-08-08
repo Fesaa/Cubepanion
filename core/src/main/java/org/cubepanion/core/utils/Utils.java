@@ -16,9 +16,7 @@ public class Utils {
 
   public static void handleResultError(Class<?> origin, Cubepanion addon, WeaveException e,
       String msg, String keyError, String key) {
-    if (addon.configuration().getDebug().get()) {
-      LOGGER.info(origin, e, msg);
-    }
+    LOGGER.debug(origin, e, msg);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
       addon.displayMessage(
           Component.translatable(keyError, Component.text(e.getMessage())).color(Colours.Error));

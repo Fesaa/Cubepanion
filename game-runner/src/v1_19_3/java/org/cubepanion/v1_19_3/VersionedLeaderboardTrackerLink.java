@@ -100,20 +100,20 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
               continue;
             }
             List<Component> nameSiblings = hoverText.get(0).getSiblings();
-            if (nameSiblings.size() > 0) {
+            if (!nameSiblings.isEmpty()) {
               nameSiblings = nameSiblings.get(0).getSiblings();
-              if (nameSiblings.size() > 0) {
+              if (!nameSiblings.isEmpty()) {
                 nameSiblings = nameSiblings.get(0).getSiblings();
-                if (nameSiblings.size() > 0) {
+                if (!nameSiblings.isEmpty()) {
                   name = nameSiblings.get(0).getString();
                 }
               }
             }
 
             List<Component> positionSiblings = hoverText.get(1).getSiblings();
-            if (positionSiblings.size() > 0) {
+            if (!positionSiblings.isEmpty()) {
               positionSiblings = positionSiblings.get(0).getSiblings();
-              if (positionSiblings.size() > 0) {
+              if (!positionSiblings.isEmpty()) {
                 String positionString = positionSiblings.get(0).getString().replaceAll("\\D+", "");
                 try {
                   position = Integer.parseInt(positionString);
@@ -124,7 +124,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
             }
 
             List<Component> scoreSiblings = hoverText.get(2).getSiblings();
-            if (scoreSiblings.size() > 0) {
+            if (!scoreSiblings.isEmpty()) {
               scoreSiblings = scoreSiblings.get(0).getSiblings();
               if (scoreSiblings.size() > 1) {
                 String scoreString = scoreSiblings.get(1).getString();

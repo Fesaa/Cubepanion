@@ -16,7 +16,7 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.Cubepanionconfig;
+import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
@@ -34,7 +34,7 @@ public class Automations {
   private final VotingLink votingLink;
   private final Task autoVoteTask;
   private final ChestFinderLink chestFinderLink;
-  private final Task chestFinderTast;
+  private final Task chestFinderTask;
 
   private final Task startOfGameTask;
 
@@ -70,7 +70,7 @@ public class Automations {
       }
     }).delay(100, TimeUnit.MILLISECONDS).build();
 
-    this.chestFinderTast = Task.builder(() -> {
+    this.chestFinderTask = Task.builder(() -> {
       if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
         List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
         if (!chestLocations.isEmpty()) {
@@ -103,7 +103,7 @@ public class Automations {
       return;
     }
 
-    Cubepanionconfig mainConfig = this.addon.configuration();
+    CubepanionConfig mainConfig = this.addon.configuration();
 
     String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
 
@@ -142,21 +142,13 @@ public class Automations {
     }
 
     // Auto GG
-    EndGameSubConfig config = this.addon.configuration().getAutomationConfig()
-        .getEndGameSubConfig();
+    EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = playerRegex + " has been eliminated from the game.";
-      if (msg.equals("Congratulations, you win!") || (msg.matches(eliminationMessage)
-          && config.getOnElimination().get())) {
+      boolean doElim = msg.matches(eliminationMessage) && config.getOnElimination().get();
+      if (msg.equals("Congratulations, you win!") || doElim) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-        if (gameEndMessage != GameEndMessage.NONE) {
-          minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
-        }
-        if (!config.getCustomMessage().isDefaultValue()) {
-          minecraft.chatExecutor().chat(
-              (this.manager.getPartyManager().isPartyChat() ? "!" : "") + config.getCustomMessage()
-                  .get(), false);
-        }
+        gameEndMessage.send(minecraft.chatExecutor(), config, manager.getPartyManager().isInParty());
         manager.setEliminated(true);
         return;
       }
@@ -164,8 +156,7 @@ public class Automations {
 
     // Spawn protection countdown
     if (msg.equals("You are now invincible for 10 seconds.")) {
-      this.addon.getManager().getSpawnProtectionManager().getClientPlayerSpawnProtection()
-          .registerDeath();
+      manager.getSpawnProtectionManager().getClientPlayerSpawnProtection().registerDeath();
       return;
     }
 
@@ -173,7 +164,7 @@ public class Automations {
     Matcher teamColourMatcher = this.EggWarsTeamJoin.matcher(msg);
     if (teamColourMatcher.matches()) {
       List<Component> children = e.chatMessage().component().getChildren();
-      if (children.size() == 0) {
+      if (children.isEmpty()) {
         this.manager.setTeamColour("yellow");
       } else {
         this.manager.setTeamColour(children.get(0).getColor().toString());
@@ -276,24 +267,8 @@ public class Automations {
 
     if (mainConfig.getQolConfig().getChestLocation().get() && this.chestFinderLink != null) {
       if (msg.equals("A chest has been hidden somewhere in the Lobby with some goodies inside!")) {
-        this.chestFinderTast.execute();
+        this.chestFinderTask.execute();
       }
     }
-  }
-
-  private String gameEndMessagesToReadable(GameEndMessage gameEndMessage) {
-    switch (gameEndMessage) {
-      case GG:
-        return "gg";
-      case WP:
-        return "wp";
-      case GOOD_GAME:
-        return "Good game";
-      case WELL_PLAYED:
-        return "Well played";
-      case NONE:
-        break;
-    }
-    return "";
   }
 }

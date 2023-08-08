@@ -33,7 +33,7 @@ public class VersionedVotingLink extends VotingLink {
     if (connection == null) {
       return;
     }
-    LOGGER.info(true, this.getClass(), "Opening menu");
+    LOGGER.debug(true, this.getClass(), "Opening menu");
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, 0));
   }).delay(200, TimeUnit.MILLISECONDS).build();
   public ItemStack returnItemStack;
@@ -62,7 +62,7 @@ public class VersionedVotingLink extends VotingLink {
   private void waitForMenuOpenAndMakeFirstChoice(@NotNull LocalPlayer player) {
     Timer timer = new Timer("waitForMenuOpenAndMakeFirstChoice");
     VotePair votePair = this.getNextVotePair();
-    LOGGER.info(this.getClass(), "Starting vote with pair:", votePair);
+    LOGGER.debug(this.getClass(), "Starting vote with pair:", votePair);
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
 
@@ -119,7 +119,7 @@ public class VersionedVotingLink extends VotingLink {
           }
 
           VotePair nextVotePair = choice ? votePair : votingInterface.getNextVotePair();
-          LOGGER.info(this.getClass(), "Voting with pair:", votePair);
+          LOGGER.debug(this.getClass(), "Voting with pair:", votePair);
           int nextIndex = !choice ? nextVotePair.choiceIndex() : nextVotePair.voteIndex();
           if (nextIndex == -1) {
             votingInterface.gracefulShutDown(player, (ChestMenu) menu);
@@ -164,7 +164,7 @@ public class VersionedVotingLink extends VotingLink {
     if (connection == null) {
       return false;
     }
-    LOGGER.info(true, this.getClass(), "Clicking on slot", slot, "with item", slot.getItem());
+    LOGGER.debug(true, this.getClass(), "Clicking on slot", slot, "with item", slot.getItem());
     connection.send(
         new ServerboundContainerClickPacket(
             chest.containerId,

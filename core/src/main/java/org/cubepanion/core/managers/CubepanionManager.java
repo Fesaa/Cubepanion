@@ -203,6 +203,10 @@ public class CubepanionManager {
     return division;
   }
 
+  public boolean isPlaying(CubeGame game) {
+    return division.equals(game) && !inPreLobby;
+  }
+
   public void setDivision(CubeGame division) {
     this.lastDivision = this.division;
     this.division = division;

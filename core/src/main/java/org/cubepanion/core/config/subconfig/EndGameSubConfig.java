@@ -1,5 +1,6 @@
 package org.cubepanion.core.config.subconfig;
 
+import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
@@ -45,7 +46,34 @@ public class EndGameSubConfig extends Config {
   }
 
   public enum GameEndMessage {
-    GG, WP, GOOD_GAME, WELL_PLAYED, NONE
+    GG, WP, GOOD_GAME, WELL_PLAYED, NONE;
+
+    public void send(ChatExecutor chat, EndGameSubConfig config, boolean party) {
+      if (this != GameEndMessage.NONE) {
+        chat.chat(this.toReadable(), false);
+      }
+      if (!config.getCustomMessage().isDefaultValue()) {
+        chat.chat((party ? "!" : "") + config.getCustomMessage().get(), false);
+      }
+    }
+
+    private String toReadable() {
+        switch (this) {
+            case GG -> {
+                return "gg";
+            }
+            case WP -> {
+                return "wp";
+            }
+            case GOOD_GAME -> {
+                return "Good game";
+            }
+            case WELL_PLAYED -> {
+                return "Well played";
+            }
+        }
+      return "";
+    }
   }
 }
 

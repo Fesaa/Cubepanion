@@ -32,16 +32,6 @@ public class QOLConfig extends Config {
   @SettingRequires(value = "reminderToVote")
   private final ConfigProperty<String> reminderToVoteSoundId = new ConfigProperty<>(
       "entity.lightning_bolt.impact");
-  private ResourceLocation reminderToVoteResourceLocation;
-
-  public QOLConfig() {
-    this.reminderToVoteResourceLocation = ResourceLocation.create("minecraft",
-        this.reminderToVoteSoundId.get());
-
-    this.reminderToVoteSoundId.addChangeListener(
-        (type, oldValue, newValue) -> this.reminderToVoteResourceLocation = ResourceLocation.create(
-            "minecraft", newValue));
-  }
 
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
@@ -56,7 +46,7 @@ public class QOLConfig extends Config {
   }
 
   public ResourceLocation getVoteReminderResourceLocation() {
-    return reminderToVoteResourceLocation;
+    return ResourceLocation.create("minecraft",this.reminderToVoteSoundId.get());
   }
 
   public ConfigProperty<Boolean> getNoDropSkyBlock() {

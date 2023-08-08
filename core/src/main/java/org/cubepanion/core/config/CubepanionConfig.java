@@ -15,7 +15,7 @@ import org.cubepanion.core.utils.LOGGER;
 
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")
-public class Cubepanionconfig extends AddonConfig {
+public class CubepanionConfig extends AddonConfig {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
@@ -33,10 +33,8 @@ public class Cubepanionconfig extends AddonConfig {
   @SwitchSetting
   private final ConfigProperty<Boolean> debug = new ConfigProperty<>(false);
 
-  public Cubepanionconfig() {
-    this.debug.addChangeListener((type, oldValue, newValue) -> {
-      LOGGER.setEnabled(newValue);
-    });
+  public CubepanionConfig() {
+    this.debug.addChangeListener((ignored, _ignored, val) -> LOGGER.setDebug(val));
   }
 
   @Override

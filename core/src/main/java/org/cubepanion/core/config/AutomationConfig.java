@@ -39,16 +39,6 @@ public class AutomationConfig extends Config {
   @KeyBindSetting
   @SettingRequires("whereAmI")
   private final ConfigProperty<Key> copyBungeecord = new ConfigProperty<>(Key.NONE);
-  private ResourceLocation friendMessageResourceLocation;
-
-  public AutomationConfig() {
-    this.friendMessageResourceLocation = ResourceLocation.create("minecraft",
-        this.friendMessageSoundId.get());
-
-    this.friendMessageSoundId.addChangeListener(
-        (type, oldValue, newValue) -> this.friendMessageResourceLocation = ResourceLocation.create(
-            "minecraft", newValue));
-  }
 
   public ConfigProperty<Boolean> displayWhereAmI() {
     return this.whereAmI;
@@ -67,7 +57,7 @@ public class AutomationConfig extends Config {
   }
 
   public ResourceLocation getFriendMessageSoundId() {
-    return friendMessageResourceLocation;
+    return ResourceLocation.create("minecraft",this.friendMessageSoundId.get());
   }
 
   public EndGameSubConfig getEndGameSubConfig() {

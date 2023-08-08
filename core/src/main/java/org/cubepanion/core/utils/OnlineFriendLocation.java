@@ -12,7 +12,7 @@ public record OnlineFriendLocation(String username, String game, String map) {
   }
 
   public String getLocationString() {
-    if (this.map.equals("")) {
+    if (this.map.isEmpty()) {
       return this.game;
     }
     return this.game + " (" + this.map + ")";

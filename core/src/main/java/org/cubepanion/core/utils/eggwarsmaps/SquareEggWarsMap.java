@@ -114,7 +114,7 @@ public class SquareEggWarsMap implements EggWarsMap {
     }
   }
 
-  public IndexPair getIndex(String member) {
+  IndexPair getIndex(String member) {
 
     int leftRight = 0;
     int side = 0;
