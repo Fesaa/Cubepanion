@@ -142,21 +142,13 @@ public class Automations {
     }
 
     // Auto GG
-    EndGameSubConfig config = this.addon.configuration().getAutomationConfig()
-        .getEndGameSubConfig();
+    EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
     if (config.isEnabled().get() && !manager.isEliminated()) {
       String eliminationMessage = playerRegex + " has been eliminated from the game.";
-      if (msg.equals("Congratulations, you win!") || (msg.matches(eliminationMessage)
-          && config.getOnElimination().get())) {
+      boolean doElim = msg.matches(eliminationMessage) && config.getOnElimination().get();
+      if (msg.equals("Congratulations, you win!") || doElim) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-        if (gameEndMessage != GameEndMessage.NONE) {
-          minecraft.chatExecutor().chat(this.gameEndMessagesToReadable(gameEndMessage), false);
-        }
-        if (!config.getCustomMessage().isDefaultValue()) {
-          minecraft.chatExecutor().chat(
-              (this.manager.getPartyManager().isPartyChat() ? "!" : "") + config.getCustomMessage()
-                  .get(), false);
-        }
+        gameEndMessage.send(minecraft.chatExecutor(), config, manager.getPartyManager().isInParty());
         manager.setEliminated(true);
         return;
       }
@@ -164,8 +156,7 @@ public class Automations {
 
     // Spawn protection countdown
     if (msg.equals("You are now invincible for 10 seconds.")) {
-      this.addon.getManager().getSpawnProtectionManager().getClientPlayerSpawnProtection()
-          .registerDeath();
+      manager.getSpawnProtectionManager().getClientPlayerSpawnProtection().registerDeath();
       return;
     }
 
@@ -279,21 +270,5 @@ public class Automations {
         this.chestFinderTask.execute();
       }
     }
-  }
-
-  private String gameEndMessagesToReadable(GameEndMessage gameEndMessage) {
-    switch (gameEndMessage) {
-      case GG:
-        return "gg";
-      case WP:
-        return "wp";
-      case GOOD_GAME:
-        return "Good game";
-      case WELL_PLAYED:
-        return "Well played";
-      case NONE:
-        break;
-    }
-    return "";
   }
 }
