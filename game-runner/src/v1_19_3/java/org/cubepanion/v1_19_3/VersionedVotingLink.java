@@ -37,6 +37,7 @@ public class VersionedVotingLink extends VotingLink {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
+    connection.getLevel().getLevelData();
     int sequence = 0;
     if (handler != null) {
       handler.startPredicting();
