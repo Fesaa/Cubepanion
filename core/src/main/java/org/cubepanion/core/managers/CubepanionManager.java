@@ -132,6 +132,7 @@ public class CubepanionManager {
     this.gameStartTime = -1;
 
     this.partyManager.reset();
+    this.eggWarsMapInfoManager.queryMaps();
 
     Result<ChestLocation[], WeaveException> locationResult = Cubepanion.weave.getChestAPI()
         .getCurrentChestLocations();
