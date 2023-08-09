@@ -2,22 +2,53 @@ package org.cubepanion.core.utils.eggwarsmaps.base;
 
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.Colours;
+import org.cubepanion.core.utils.I18nNamespaces;
 
-public interface EggWarsMap {
+public abstract class EggWarsMap {
 
-  Component getGenLayoutComponent();
+  protected final String mainKey =
+      I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
 
-  Component getMapLayoutComponent();
+  protected final Component teamFillerSpaces = Component.text("      ");
+  protected final Component sideSpaces = Component.text("  ");
+  protected final Component betweenSpaces = Component.text("    ");
 
-  Component getBuildLimitMessage();
+  protected String currentTeamColour = "";
+  protected final String mapName;
+  protected final int teamSize;
+  protected final int buildLimit;
+  protected final GenLayout genLayout;
 
-  String getPartyMessage();
+  protected EggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
+    this.mapName = mapName;
+    this.teamSize = teamSize;
+    this.buildLimit = buildLimit;
+    this.genLayout = genLayout;
+  }
 
-  String getName();
+  public Component getGenLayoutComponent() {
+    return this.genLayout.getLayoutComponent();
+  }
 
-  void setCurrentTeamColour(String teamColour);
+  public abstract Component getMapLayoutComponent();
 
-  default Component getTeamFiller(String colour) {
+  public Component getBuildLimitMessage() {
+    return Component.translatable(
+            I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
+        .append(Component.text(this.buildLimit, Colours.Secondary));
+  }
+
+  public abstract String getPartyMessage();
+
+  public String getName() {
+    return this.mapName;
+  }
+
+  public void setCurrentTeamColour(String teamColour) {
+    this.currentTeamColour = teamColour;
+  }
+
+  public Component getTeamFiller(String colour) {
     return Component.text("||||||", Colours.colourToNamedTextColor(colour));
   }
 
