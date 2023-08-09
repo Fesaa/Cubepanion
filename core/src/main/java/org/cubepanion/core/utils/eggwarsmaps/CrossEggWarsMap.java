@@ -10,7 +10,6 @@ public class CrossEggWarsMap extends EggWarsMap {
   // Team Colour in cyclic order, moving left
   private final List<String> teamColours;
 
-  private String currentTeamColour = "";
   private String teamLeft = "";
   private String teamRight = "";
   private String teamBefore = "";
@@ -45,7 +44,7 @@ public class CrossEggWarsMap extends EggWarsMap {
 
   @Override
   public void setCurrentTeamColour(String teamColour) {
-    int teamIndex = teamColour.indexOf(teamColour);
+    int teamIndex = indexOf(teamColour);
 
     if (teamIndex == -1) {
       return;
@@ -55,5 +54,16 @@ public class CrossEggWarsMap extends EggWarsMap {
     this.teamLeft = this.teamColours.get((teamIndex + 1) % 4);
     this.teamBefore = this.teamColours.get((teamIndex + 2) % 4);
     this.teamRight = this.teamColours.get((teamIndex + 3) % 4);
+  }
+
+  private int indexOf(String colour) {
+    int i = 0;
+    for (String teamColour : teamColours) {
+      if (teamColour.equals(colour)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
   }
 }
