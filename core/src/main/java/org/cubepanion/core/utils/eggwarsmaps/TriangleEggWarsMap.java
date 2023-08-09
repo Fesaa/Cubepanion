@@ -67,8 +67,8 @@ public class TriangleEggWarsMap extends EggWarsMap {
         teamUnderRight = teamColours.get(0).get(1);
         teamLeftPoint = teamColours.get(1).get(0);
         teamRightPoint = teamColours.get(1).get(1);
-        teamUpLeft = teamColours.get(2).get(0);
-        teamUpRight = teamColours.get(2).get(1);
+        teamUpLeft = teamColours.get(2).get(1);
+        teamUpRight = teamColours.get(2).get(0);
       }
       case 1 -> {
         if (teamLeftRight == 0) {
@@ -76,8 +76,8 @@ public class TriangleEggWarsMap extends EggWarsMap {
           teamUnderRight = teamColours.get(0).get(1);
           teamLeftPoint = teamColours.get(1).get(0);
           teamRightPoint = teamColours.get(1).get(1);
-          teamUpLeft = teamColours.get(2).get(0);
-          teamUpRight = teamColours.get(2).get(1);
+          teamUpLeft = teamColours.get(2).get(1);
+          teamUpRight = teamColours.get(2).get(0);
         } else {
           teamUnderLeft = teamColours.get(2).get(0);
           teamUnderRight = teamColours.get(2).get(1);
@@ -92,8 +92,8 @@ public class TriangleEggWarsMap extends EggWarsMap {
         teamUnderRight = teamColours.get(2).get(1);
         teamLeftPoint = teamColours.get(1).get(1);
         teamRightPoint = teamColours.get(1).get(0);
-        teamUpLeft = teamColours.get(0).get(0);
-        teamUpRight = teamColours.get(0).get(1);
+        teamUpLeft = teamColours.get(0).get(1);
+        teamUpRight = teamColours.get(0).get(0);
       }
     }
     triangleLocation = teamTriangleLocation;
