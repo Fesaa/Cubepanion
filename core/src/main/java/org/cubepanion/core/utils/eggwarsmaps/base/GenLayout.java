@@ -1,6 +1,5 @@
 package org.cubepanion.core.utils.eggwarsmaps.base;
 
-import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
@@ -14,8 +13,8 @@ public class GenLayout {
 
   private final Component layoutComponent;
 
-  public GenLayout(MapGenerator... generators) {
-    this.generators = Arrays.asList(generators);
+  public GenLayout(List<MapGenerator> generators) {
+    this.generators = generators;
     this.layoutComponent = this.createLayoutComponent();
   }
 

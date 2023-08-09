@@ -143,3 +143,4 @@ build-data.txt
 gradle.properties
 .vscode
 .assetsroot
+/.idea/dataSources.xml

@@ -1,6 +1,5 @@
 package org.cubepanion.core.utils.eggwarsmaps;
 
-import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.util.I18n;
@@ -32,12 +31,12 @@ public class CrossEggWarsMap implements EggWarsMap {
   private String teamBefore = "";
 
   public CrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
-      String... teamColours) {
+      List<String> teamColours) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
     this.genLayout = genLayout;
-    this.teamColours = Arrays.asList(teamColours);
+    this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0));
   }
 
