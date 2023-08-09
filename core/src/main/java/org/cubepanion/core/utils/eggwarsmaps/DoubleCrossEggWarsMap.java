@@ -2,10 +2,6 @@ package org.cubepanion.core.utils.eggwarsmaps;
 
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.util.I18n;
-import net.labymod.api.util.Pair;
-import org.cubepanion.core.utils.Colours;
-import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
@@ -63,36 +59,6 @@ public class DoubleCrossEggWarsMap extends EggWarsMap {
         .append(this.getTeamFiller(this.currentTeamColour))
         .append(this.betweenSpaces)
         .append(this.getTeamFiller(this.teamSide));
-  }
-
-  @Override
-  public String getPartyMessage() {
-    return "@"
-        + I18n.translate(this.mainKey + "side")
-        + Colours.colourToCubeColour(this.teamSide)
-        + Colours.colourToCubeColourString(this.teamSide)
-        + "&r. "
-        + I18n.translate(this.mainKey + "left")
-        + Colours.colourToCubeColour(this.teamLeftLeft)
-        + Colours.colourToCubeColourString(this.teamLeftLeft)
-        + "&r &"
-        + Colours.colourToCubeColour(this.teamLeftRight)
-        + Colours.colourToCubeColourString(this.teamLeftRight)
-        + "&r. "
-        + I18n.translate(this.mainKey + "right")
-        + Colours.colourToCubeColour(this.teamRightLeft)
-        + Colours.colourToCubeColourString(this.teamRightLeft)
-        + "&r &"
-        + Colours.colourToCubeColour(this.teamRightRight)
-        + Colours.colourToCubeColourString(this.teamRightRight)
-        + "&r. "
-        + I18n.translate(this.mainKey + "across")
-        + Colours.colourToCubeColour(this.teamAcrossLeft)
-        + Colours.colourToCubeColourString(this.teamAcrossLeft)
-        + "&r &"
-        + Colours.colourToCubeColour(this.teamAcrossRight)
-        + Colours.colourToCubeColourString(this.teamAcrossRight)
-        + "&r.";
   }
 
   @Override

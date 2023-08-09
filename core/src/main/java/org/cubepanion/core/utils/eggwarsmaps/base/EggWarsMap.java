@@ -19,7 +19,7 @@ public abstract class EggWarsMap {
   protected final int buildLimit;
   protected final GenLayout genLayout;
 
-  protected EggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
+  public EggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
@@ -38,15 +38,11 @@ public abstract class EggWarsMap {
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
-  public abstract String getPartyMessage();
-
   public String getName() {
     return this.mapName;
   }
 
-  public void setCurrentTeamColour(String teamColour) {
-    this.currentTeamColour = teamColour;
-  }
+  public abstract void setCurrentTeamColour(String teamColour);
 
   public Component getTeamFiller(String colour) {
     return Component.text("||||||", Colours.colourToNamedTextColor(colour));

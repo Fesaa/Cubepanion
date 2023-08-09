@@ -15,6 +15,7 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.TriangleEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
@@ -62,6 +63,9 @@ public class Utils {
       }
       case "doublecross" -> {
         return new DoubleCrossEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, twoDeepStringList(transformColours(map)));
+      }
+      case "triangle" -> {
+        return new TriangleEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, twoDeepStringList(transformColours(map)));
       }
       default -> {
         LOGGER.error(Utils.class, "Unknown map layout", map.layout(), "for map", map.mapName());

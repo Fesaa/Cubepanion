@@ -2,14 +2,8 @@ package org.cubepanion.core.utils.eggwarsmaps;
 
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.util.I18n;
-import net.labymod.api.util.Pair;
-import org.cubepanion.core.utils.Colours;
-import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.Utils;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-import org.jetbrains.annotations.NotNull;
 
 import static org.cubepanion.core.utils.Utils.getDoubleIndex;
 
@@ -43,23 +37,6 @@ public class SquareEggWarsMap extends EggWarsMap {
         .append(this.betweenSpaces)
         .append(this.getTeamFiller(this.teamSide))
         ;
-  }
-
-  @Override
-  public String getPartyMessage() {
-    return "@"
-        + I18n.translate(this.mainKey + "side")
-        + Colours.colourToCubeColour(this.teamSide)
-        + Colours.colourToCubeColourString(this.teamSide)
-        + "&r. "
-        + I18n.translate(this.mainKey + "across")
-        + Colours.colourToCubeColour(this.teamAcross)
-        + Colours.colourToCubeColourString(this.teamAcross)
-        + "&r. "
-        + I18n.translate(this.mainKey + "across_side")
-        + Colours.colourToCubeColour(this.teamAcrossSide)
-        + Colours.colourToCubeColourString(this.teamAcrossSide)
-        + "&r.";
   }
 
   @Override

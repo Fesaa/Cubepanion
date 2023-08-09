@@ -28,10 +28,6 @@ public class EggWarsMapInfoSubConfig extends Config {
   @SpriteSlot(y = 2, x = 1)
   private final ConfigProperty<Boolean> genLayout = new ConfigProperty<>(true);
 
-  @SwitchSetting
-  @SpriteSlot(x = 5, y = 2)
-  private final ConfigProperty<Boolean> logInParty = new ConfigProperty<>(false);
-
   public ConfigProperty<Boolean> isEnabled() {
     return this.enabled;
   }
@@ -50,10 +46,6 @@ public class EggWarsMapInfoSubConfig extends Config {
 
   public ConfigProperty<Boolean> getGenLayout() {
     return genLayout;
-  }
-
-  public ConfigProperty<Boolean> getLogInParty() {
-    return this.logInParty;
   }
 
 }

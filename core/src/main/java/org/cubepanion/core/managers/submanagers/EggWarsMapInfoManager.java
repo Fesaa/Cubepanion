@@ -47,7 +47,7 @@ public class EggWarsMapInfoManager {
   }
 
 
-  private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout, boolean party) {
+  private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
     map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
@@ -81,13 +81,6 @@ public class EggWarsMapInfoManager {
     }
 
     chat.displayClientMessage(display.append(Component.newline()));
-
-    if (party) {
-      String partyMessage = map.getPartyMessage();
-      if (partyMessage != null) {
-        chat.chat(partyMessage, false);
-      }
-    }
   }
 
   public boolean doEggWarsMapLayout(String mapName, boolean keyBind) {
@@ -96,7 +89,7 @@ public class EggWarsMapInfoManager {
     if (map == null) {
       return false;
     }
-    this.displayEggWarsMapLayout(map, config.getGenLayout().get() && !keyBind, false);
+    this.displayEggWarsMapLayout(map, config.getGenLayout().get() && !keyBind);
     return true;
   }
 
@@ -110,7 +103,6 @@ public class EggWarsMapInfoManager {
       return;
     }
 
-    this.displayEggWarsMapLayout(map, false,
-        subConfig.getLogInParty().get() && this.addon.getManager().getPartyManager().isInParty());
+    this.displayEggWarsMapLayout(map, false);
   }
 }
