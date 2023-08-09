@@ -11,7 +11,6 @@ public class SquareEggWarsMap extends EggWarsMap {
 
   private final List<List<String>> teamColours;
 
-  private String currentTeamColour = "";
   private String teamSide = "";
   private String teamAcross = "";
   private String teamAcrossSide = "";

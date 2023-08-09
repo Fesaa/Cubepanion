@@ -29,6 +29,9 @@ public class EggWarsMapInfoManager {
     this.eggWarsMapInfoSubConfig = addon.configuration().getEggWarsMapInfoSubConfig();
 
     this.eggWarsMapLayouts = new HashMap<>();
+  }
+
+  public void queryMaps() {
     Result<EggWarsMapAPI.EggWarsMap[], WeaveException> result = Cubepanion.weave.getEggWarsMapAPI()
         .getAllEggWarsMaps();
     if (result.isErr()) {
@@ -50,7 +53,9 @@ public class EggWarsMapInfoManager {
   private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
-    map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
+    if (addon.getManager().getMapName().equals(map.getName())) {
+      map.setCurrentTeamColour(this.addon.getManager().getTeamColour());
+    }
 
     Component display = this.addon.prefix()
         .append(Component.translatable(this.mainKey + "title", Component.text(map.getName()))

@@ -9,9 +9,9 @@ public abstract class EggWarsMap {
   protected final String mainKey =
       I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
 
-  protected final Component teamFillerSpaces = Component.text("      ");
-  protected final Component sideSpaces = Component.text("  ");
-  protected final Component betweenSpaces = Component.text("    ");
+  protected final Component teamFillerSpaces = spaceMaker(6);
+  protected final Component sideSpaces = spaceMaker(2);
+  protected final Component betweenSpaces = spaceMaker(4);
 
   protected String currentTeamColour = "";
   protected final String mapName;
@@ -48,4 +48,7 @@ public abstract class EggWarsMap {
     return Component.text("||||||", Colours.colourToNamedTextColor(colour));
   }
 
+  protected static Component spaceMaker(int n) {
+    return Component.text(" ".repeat(Math.max(0, n)));
+  }
 }
