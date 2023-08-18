@@ -64,7 +64,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   }
 
   public static void updateRPC() {
-    if (instance != null) {
+    if (instance != null && instance.rpcManager != null) {
       instance.rpcManager.updateRPC();
     }
   }
