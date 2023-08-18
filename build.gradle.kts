@@ -51,6 +51,10 @@ subprojects {
         maven("https://libraries.minecraft.net/")
         maven("https://repo.spongepowered.org/repository/maven-public/")
     }
+
+    val shade = configurations.create("shade")
+    val api by configurations
+    api.extendsFrom(shade)
 }
 
 fun configureRun(provider: net.labymod.gradle.core.minecraft.provider.VersionProvider, gameVersion: String) {
