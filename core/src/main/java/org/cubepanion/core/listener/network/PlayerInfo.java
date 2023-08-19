@@ -47,14 +47,15 @@ public class PlayerInfo {
           }
         }
         case SPECTATOR -> {
-          if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+          if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)
+          && !this.manager.isInPreLobby()) { // Moderation can join games in spectator mode
             this.addon.rpcManager.registerDeath(e.playerInfo());
             ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
             Minecraft minecraft = addon.labyAPI().minecraft();
             if (player != null) {
               if (uuid.equals(player.getUniqueId())) {
                 EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
-                if (!config.getOnElimination().get()) {
+                if (!config.getOnElimination().get() || !config.isEnabled().get()) { // EndGameSubConfig should be enabled as well
                   return;
                 }
                 GameEndMessage gameEndMessage = config.getGameEndMessage().get();
