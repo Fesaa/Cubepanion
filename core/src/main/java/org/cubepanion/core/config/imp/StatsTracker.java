@@ -51,6 +51,21 @@ public class StatsTracker {
     }
   }
 
+  public void registerSuccess(int val) {
+    this.Daily += val;
+    if (this.Daily > this.DailyMax) {
+      this.DailyMax = Daily;
+    }
+    if (this.DailyMax > this.AllTimeDailyMax) {
+      this.AllTimeDailyMax = this.DailyMax;
+    }
+
+    this.AllTime += val;
+    if (this.AllTime > this.AllTimeMax) {
+      this.AllTimeMax = this.AllTime;
+    }
+  }
+
   public void registerFail() {
     this.Daily = 0;
     this.AllTime = 0;

@@ -12,6 +12,7 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.utils.Utils;
 
 public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
@@ -33,11 +34,11 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
-      this.HUDLine.updateAndFlush(this.config.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000));
+      this.HUDLine.updateAndFlush(Utils.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000, this.config.layout.get()));
       return;
     }
     long timeDifference = System.currentTimeMillis() - this.manager.getGameStartTime();
-    this.HUDLine.updateAndFlush(this.config.getFormattedString(timeDifference));
+    this.HUDLine.updateAndFlush(Utils.getFormattedString(timeDifference, this.config.layout.get()));
     this.HUDLine.setState(
         !this.manager.isInPreLobby() && this.manager.onCubeCraft() ? State.VISIBLE : State.HIDDEN);
   }
@@ -55,33 +56,6 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
     @DropdownSetting
     private final ConfigProperty<layoutEnum> layout = new ConfigProperty<>(layoutEnum.WORDS);
-
-    private String getFormattedString(long timeDifference) {
-      int seconds = (int) (timeDifference / 1000L);
-      int minutes = Math.floorDiv(seconds, 60);
-      seconds = seconds - minutes * 60;
-      int hours = Math.floorDiv(minutes, 60);
-      minutes = minutes - hours * 60;
-
-      if (this.layout.get().equals(layoutEnum.WORDS)) {
-        String out = "";
-        if (hours > 0) {
-          out += hours + " hour" + (hours != 1 ? "s " : " ");
-        }
-        if (minutes > 0) {
-          out += minutes + " minute" + (minutes != 1 ? "s " : " ");
-        }
-        if (seconds > 0) {
-          out += seconds + " second" + (seconds != 1 ? "s" : "");
-        }
-        return out;
-      } else if (this.layout.get().equals(layoutEnum.COLON)) {
-        return hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "")
-            + seconds;
-      }
-
-      return "";
-    }
 
     public enum layoutEnum {
       WORDS, COLON

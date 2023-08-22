@@ -553,9 +553,9 @@
       },
       "gameStats": {
         "titleToday": "------ Today's game stats for %s ------",
-        "statsToday": "\n- Games played: %s\n- Total win streak: %s\n- Win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s",
+        "statsToday": "\n- Games played: %s\n- Play time: %s\n- Total win streak: %s\n- Win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s",
         "titleAllTime": "\n------ All time's game Stats For %s ------",
-        "statsAllTime": "\n- Games played: %s\n- Highest win streak: %s\n- Highest daily win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s"
+        "statsAllTime": "\n- Games played: %s\n- Play time: %s\n- Highest win streak: %s\n- Highest daily win streak: %s\n- Wins: %s\n- Loses: %s\n- Kills: %s\n- Deaths: %s"
       }
     },
     "messages": {

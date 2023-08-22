@@ -12,6 +12,7 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.util.Pair;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
 import org.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
@@ -134,6 +135,33 @@ public class Utils {
     } else {
       addon.displayMessage(Component.translatable(key).color(Colours.Error));
     }
+  }
+
+  public static String getFormattedString(long timeDifference, layoutEnum layout) {
+    int seconds = (int) (timeDifference / 1000L);
+    int minutes = Math.floorDiv(seconds, 60);
+    seconds = seconds - minutes * 60;
+    int hours = Math.floorDiv(minutes, 60);
+    minutes = minutes - hours * 60;
+
+    if (layout.equals(layoutEnum.WORDS)) {
+      String out = "";
+      if (hours > 0) {
+        out += hours + " hour" + (hours != 1 ? "s " : " ");
+      }
+      if (minutes > 0) {
+        out += minutes + " minute" + (minutes != 1 ? "s " : " ");
+      }
+      if (seconds > 0) {
+        out += seconds + " second" + (seconds != 1 ? "s" : "");
+      }
+      return out;
+    } else if (layout.equals(layoutEnum.COLON)) {
+      return hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "")
+          + seconds;
+    }
+
+    return "";
   }
 
 }

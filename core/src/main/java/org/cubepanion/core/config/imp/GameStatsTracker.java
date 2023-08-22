@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
+import org.cubepanion.core.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 public class GameStatsTracker {
@@ -21,6 +23,7 @@ public class GameStatsTracker {
   private final StatsTracker played;
   private final StatsTracker kills;
   private final StatsTracker deaths;
+  private final StatsTracker totalPlayTime;
   private final HashMap<String, StatsTracker> perPlayerKills;
 
   private final HashMap<String, StatsTracker> perPlayerDeaths;
@@ -37,11 +40,12 @@ public class GameStatsTracker {
     this.perPlayerKills = new HashMap<>();
     this.perPlayerDeaths = new HashMap<>();
     this.historicalData = new HashMap<>();
+    this.totalPlayTime = new StatsTracker();
   }
 
   private GameStatsTracker(CubeGame game, StatsTracker wins, StatsTracker played,
       StatsTracker winStreak, StatsTracker kills, StatsTracker deaths,
-      HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker> perPlayerDeaths) {
+      HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker> perPlayerDeaths, StatsTracker totalPlayTime) {
     this.game = game;
     this.wins = wins;
     this.played = played;
@@ -51,6 +55,7 @@ public class GameStatsTracker {
     this.perPlayerKills = perPlayerKills;
     this.perPlayerDeaths = perPlayerDeaths;
     this.historicalData = new HashMap<>();
+    this.totalPlayTime = totalPlayTime;
   }
 
   public static boolean shouldMakeGameStatsTracker(CubeGame game) {
@@ -67,10 +72,10 @@ public class GameStatsTracker {
   private GameStatsTracker Copy(boolean perPlayerSnapshots) {
     if (perPlayerSnapshots) {
       return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills,
-          this.deaths, this.perPlayerKills, this.perPlayerDeaths);
+          this.deaths, this.perPlayerKills, this.perPlayerDeaths, this.totalPlayTime);
     } else {
       return new GameStatsTracker(this.game, this.wins, this.played, this.winStreak, this.kills,
-          this.deaths, new HashMap<>(), new HashMap<>());
+          this.deaths, new HashMap<>(), new HashMap<>(), this.totalPlayTime);
     }
 
   }
@@ -179,15 +184,17 @@ public class GameStatsTracker {
   }
 
   // Registers
-  public void registerWin() {
+  public void registerWin(int time) {
     this.wins.registerSuccess();
     this.played.registerSuccess();
     this.winStreak.registerSuccess();
+    this.totalPlayTime.registerSuccess(time);
   }
 
-  public void registerLoss() {
+  public void registerLoss(int time) {
     this.played.registerSuccess();
     this.winStreak.registerFail();
+    this.totalPlayTime.registerSuccess(time);
   }
 
   public void resetForDay(boolean snapshots, boolean perPlayerSnapshots) {
@@ -199,12 +206,22 @@ public class GameStatsTracker {
     this.winStreak.registerNewDay();
     this.deaths.registerNewDay();
     this.kills.registerNewDay();
+    this.totalPlayTime.registerNewDay();
     for (StatsTracker perPlayerKills : this.perPlayerKills.values()) {
       perPlayerKills.registerNewDay();
     }
     for (StatsTracker perPlayerDeaths : this.perPlayerDeaths.values()) {
       perPlayerDeaths.registerNewDay();
     }
+  }
+
+  // Playtime
+  public void registerPlayTime(int time) {
+    this.totalPlayTime.registerSuccess(time);
+  }
+
+  public StatsTracker getTotalPlayTime() {
+    return this.totalPlayTime;
   }
 
   private String getDate() {
@@ -336,6 +353,7 @@ public class GameStatsTracker {
             .color(Colours.Title)
             .append(Component.translatable(this.mainKey + "gameStats.statsToday",
                 Component.text(this.getDailyPlayed(), Colours.Secondary),
+                Component.text(Utils.getFormattedString(this.totalPlayTime.getDaily(), layoutEnum.WORDS), Colours.Secondary),
                 Component.text(this.getWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyWins(), Colours.Secondary),
@@ -348,6 +366,7 @@ public class GameStatsTracker {
                 .color(Colours.Title))
             .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
                 Component.text(this.getAllTimePlayed(), Colours.Secondary),
+                Component.text(Utils.getFormattedString(this.totalPlayTime.getAllTime(), layoutEnum.WORDS), Colours.Secondary),
                 Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyHighestWinStreak(), Colours.Secondary),
                 Component.text(this.getAllTimeWins(), Colours.Secondary),

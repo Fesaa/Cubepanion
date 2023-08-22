@@ -47,7 +47,7 @@ public class ServerNavigation {
       GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
           .get(this.manager.getDivision());
       if (gameStatsTracker != null) {
-        gameStatsTracker.registerLoss();
+        gameStatsTracker.registerLoss((int) (System.currentTimeMillis() - manager.getGameStartTime()));
         gameStatsTracker.registerDeath("leave");
       }
     }
