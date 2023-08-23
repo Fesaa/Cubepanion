@@ -69,11 +69,10 @@ public class WidgetManager {
                 .getStatsTrackerSubConfig().isEnabled();
 
         // Wins / Played
+        StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
         hudWidgetRegistry.register(
                 new TextTrackerHudWidget(category, "daily_wins_tracker", "Wins/Games", "7/9",
                         () -> {
-                            StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-                                    .getStatsTrackerSubConfig();
                             GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
                                     .get(manager.getDivision());
                             if (gameStatsTracker != null) {
@@ -87,8 +86,6 @@ public class WidgetManager {
         hudWidgetRegistry.register(
                 new TextTrackerHudWidget(category, "all_time_winstreak_tracker", "Win Streak", "0",
                         () -> {
-                            StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-                                    .getStatsTrackerSubConfig();
                             GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
                                     .get(manager.getDivision());
                             if (gameStatsTracker != null) {
@@ -102,8 +99,6 @@ public class WidgetManager {
         hudWidgetRegistry.register(
                 new TextTrackerHudWidget(category, "daily_winstreak_tracker", "Daily Win Streak", "0",
                         () -> {
-                            StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-                                    .getStatsTrackerSubConfig();
                             GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
                                     .get(manager.getDivision());
                             if (gameStatsTracker != null) {
@@ -115,6 +110,7 @@ public class WidgetManager {
 
         // Distance to build limit
         AtomicBoolean done = new AtomicBoolean(false);
+        ResourceLocation sound = ResourceLocation.create("minecraft", "entity.experience_orb.pickup");
         hudWidgetRegistry.register(
                 new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
                         () -> {
@@ -131,7 +127,7 @@ public class WidgetManager {
                             int d = (int) (map.getBuildLimit() - p.getPosY());
                             if (d < 3) {
                                 if (!done.get()) {
-                                    mc.sounds().playSound(ResourceLocation.create("minecraft", "entity.experience_orb.pickup"), 1.0F, 1.0F);
+                                    mc.sounds().playSound(sound, 1.0F, 1.0F);
                                     mc.chatExecutor().displayClientMessage(Component.translatable("cubepanion.messages.build_limit_reached", Colours.Error, Component.text(d)));
                                     done.set(true);
                                 }
@@ -148,8 +144,7 @@ public class WidgetManager {
     }
 
     private boolean booleanSupplier() {
-        StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-                .getStatsTrackerSubConfig();
+        StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration().getStatsTrackerSubConfig();
         GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
                 .get(this.addon.getManager().getDivision());
         return gameStatsTracker != null;
