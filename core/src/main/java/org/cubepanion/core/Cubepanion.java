@@ -81,6 +81,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
       LOGGER.setDebug(true);
       LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
+    }
+
+    if (System.getProperty("weave.dev") != null && System.getProperty("weave.dev").equals("true")) {
       weave = Weave.Dev();
     } else {
       weave = Weave.Production();
