@@ -6,6 +6,7 @@ import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
 import java.util.ArrayList;
 import java.util.List;
+import net.labymod.api.Laby;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
@@ -33,6 +34,7 @@ public class CubepanionManager {
   private String teamColour;
   private String bungeecord;
   private String serverID;
+  private String rankString;
 
   private boolean eliminated;
   private boolean inPreLobby;
@@ -40,6 +42,7 @@ public class CubepanionManager {
   private boolean hasUpdatedAfterServerSwitch;
 
   private boolean requestedFullFriendsList;
+  private boolean requestedRankString;
 
   private int chestPartyAnnounceCounter;
 
@@ -60,6 +63,7 @@ public class CubepanionManager {
     this.teamColour = "";
     this.bungeecord = "";
     this.serverID = "";
+    this.rankString = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -100,6 +104,7 @@ public class CubepanionManager {
     this.mapName = "";
     this.bungeecord = "";
     this.serverID = "";
+    this.rankString = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -124,6 +129,7 @@ public class CubepanionManager {
     this.lastDivision = this.division;
     this.mapName = "Lobby";
     this.teamColour = "";
+    this.updateRankString();
 
     this.eliminated = false;
     this.inPreLobby = true;
@@ -275,5 +281,26 @@ public class CubepanionManager {
 
   public void setGameStartTime(long gameStartTime) {
     this.gameStartTime = gameStartTime;
+  }
+
+  public String getRankString() {
+    return rankString;
+  }
+
+  public void setRankString(String rankString) {
+    this.rankString = rankString;
+  }
+
+  public void updateRankString() {
+    this.requestedRankString = true;
+    Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
+  }
+
+  public boolean hasRequestedRankString() {
+    return requestedRankString;
+  }
+
+  public void setRequestedRankString(boolean requestedRankString) {
+    this.requestedRankString = requestedRankString;
   }
 }

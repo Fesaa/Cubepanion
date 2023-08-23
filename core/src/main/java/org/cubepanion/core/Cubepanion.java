@@ -23,6 +23,7 @@ import org.cubepanion.core.commands.StatCommands;
 import org.cubepanion.core.commands.TeamColourCommand;
 import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
+import org.cubepanion.core.gui.hud.nametags.RankTag;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
 import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
@@ -136,6 +137,8 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
+    this.labyAPI().tagRegistry()
+        .register("rank_tag", PositionType.ABOVE_NAME, new RankTag(this));
 
     this.widgetManager.register();
 

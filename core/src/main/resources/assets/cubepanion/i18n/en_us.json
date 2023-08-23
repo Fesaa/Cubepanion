@@ -79,6 +79,10 @@
       },
       "qolConfig": {
         "name": "QOL features",
+        "rankTag": {
+          "name": "Rank tag",
+          "description": "Adds your rank glyph above your head in the lobby"
+        },
         "respawnTimer": {
           "name": "Respawn timer",
           "description": "Adds to a countdown timer to a players name tag while respawning in EggWars."

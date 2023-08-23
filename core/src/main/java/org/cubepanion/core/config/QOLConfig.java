@@ -14,6 +14,8 @@ import net.labymod.api.configuration.settings.annotation.SettingRequires;
 public class QOLConfig extends Config {
 
   @SwitchSetting
+  private final ConfigProperty<Boolean> rankTag = new ConfigProperty<>(true);
+  @SwitchSetting
   private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
   @SwitchSetting
   private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);
@@ -33,6 +35,9 @@ public class QOLConfig extends Config {
   private final ConfigProperty<String> reminderToVoteSoundId = new ConfigProperty<>(
       "entity.lightning_bolt.impact");
 
+  public ConfigProperty<Boolean> getRankTag() {
+    return this.rankTag;
+  }
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
   }
