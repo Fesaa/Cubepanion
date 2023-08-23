@@ -51,7 +51,7 @@ public class Utils {
     Generator[] gens = map.generators();
     List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
     for (Generator gen : gens) {
-      MapGenerator mapGen = new MapGenerator(transformGen(gen.genType()), transformLoc(gen.location()), gen.count(), gen.level());
+      MapGenerator mapGen = new MapGenerator(transformGen(gen.genType()), transformLoc(gen.location()), gen.level(), gen.count());
       mapGenerators.add(mapGen);
     }
     GenLayout layout = new GenLayout(mapGenerators);
