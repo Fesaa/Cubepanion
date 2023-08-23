@@ -432,6 +432,9 @@
             "colon": "5:42:01"
           }
         }
+      },
+      "distance_to_build_limit": {
+        "name": "Distance to build limit"
       }
     },
     "hudWidgetCategory": {
@@ -565,6 +568,7 @@
     "messages": {
       "voteReminder": "Don't forget to vote!",
       "preventedDrop": "Prevented you from dropping a tool!",
+      "build_limit_reached": "Build limit reached in %s!",
       "leaderboardAPI": {
         "success": "Successfully submitted leaderboard places for %s.",
         "coolDown": "You'll be able to submit again in %s minute(s).",

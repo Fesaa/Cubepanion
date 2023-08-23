@@ -15,6 +15,8 @@ import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.LOGGER;
+import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.jetbrains.annotations.Nullable;
 
 public class CubepanionManager {
   // Sub Managers
@@ -35,6 +37,7 @@ public class CubepanionManager {
   private String bungeecord;
   private String serverID;
   private String rankString;
+  private EggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
   private boolean inPreLobby;
@@ -64,6 +67,7 @@ public class CubepanionManager {
     this.bungeecord = "";
     this.serverID = "";
     this.rankString = "";
+    this.currentEggWarsMap = null;
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -237,6 +241,7 @@ public class CubepanionManager {
 
   public void setMapName(String mapName) {
     this.mapName = mapName;
+    this.currentEggWarsMap = eggWarsMapInfoManager.getEggWarsMap(mapName);
   }
 
   public String getServerIP() {
@@ -303,4 +308,9 @@ public class CubepanionManager {
   public void setRequestedRankString(boolean requestedRankString) {
     this.requestedRankString = requestedRankString;
   }
+
+  public @Nullable EggWarsMap getCurrentEggWarsMap() {
+    return currentEggWarsMap;
+  }
+
 }

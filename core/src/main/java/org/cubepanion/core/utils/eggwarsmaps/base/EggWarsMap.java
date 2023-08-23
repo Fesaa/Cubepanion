@@ -26,6 +26,10 @@ public abstract class EggWarsMap {
     this.genLayout = genLayout;
   }
 
+  public int getBuildLimit() {
+    return buildLimit;
+  }
+
   public Component getGenLayoutComponent() {
     return this.genLayout.getLayoutComponent();
   }

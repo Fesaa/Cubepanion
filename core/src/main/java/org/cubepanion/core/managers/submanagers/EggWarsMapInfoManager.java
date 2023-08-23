@@ -14,6 +14,7 @@ import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.jetbrains.annotations.Nullable;
 
 public class EggWarsMapInfoManager {
 
@@ -109,5 +110,9 @@ public class EggWarsMapInfoManager {
     }
 
     this.displayEggWarsMapLayout(map, false);
+  }
+
+  public @Nullable EggWarsMap getEggWarsMap(String name) {
+    return eggWarsMapLayouts.get(name.toLowerCase());
   }
 }
