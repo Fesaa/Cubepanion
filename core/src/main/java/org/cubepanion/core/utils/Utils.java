@@ -157,8 +157,11 @@ public class Utils {
       }
       return out;
     } else if (layout.equals(layoutEnum.COLON)) {
-      return hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "")
-          + seconds;
+      String tail = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      if (hours == 0) {
+        return tail;
+      }
+      return hours + ":" + tail;
     }
 
     return "";
