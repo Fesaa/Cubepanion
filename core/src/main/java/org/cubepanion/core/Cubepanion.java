@@ -77,8 +77,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerSettingCategory();
 
     if (Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment()) {
-      LOGGER.info(getClass(),"Enabling debug");
-      LOGGER.setDebug(true);
       LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
     }

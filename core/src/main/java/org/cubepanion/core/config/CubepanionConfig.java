@@ -11,7 +11,6 @@ import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.utils.LOGGER;
 
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")
@@ -30,12 +29,6 @@ public class CubepanionConfig extends AddonConfig {
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
   private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
-  @SwitchSetting
-  private final ConfigProperty<Boolean> debug = new ConfigProperty<>(false);
-
-  public CubepanionConfig() {
-    this.debug.addChangeListener((ignored, _ignored, val) -> LOGGER.setDebug(val));
-  }
 
   @Override
   public ConfigProperty<Boolean> enabled() {
@@ -74,7 +67,4 @@ public class CubepanionConfig extends AddonConfig {
     return leaderboardAPIConfig;
   }
 
-  public ConfigProperty<Boolean> getDebug() {
-    return debug;
-  }
 }

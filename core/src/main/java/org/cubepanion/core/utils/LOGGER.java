@@ -19,10 +19,6 @@ public class LOGGER {
     manager = m;
   }
 
-  public static void setDebug(boolean debug) {
-    log.setDebugEnabled(debug);
-  }
-
   private static <T> String formatClass(Class<T> origin) {
     return "[" + origin.getSimpleName() + "@" + origin.getPackageName() + "] ";
   }
@@ -90,7 +86,6 @@ public class LOGGER {
 
   @SafeVarargs
   public static <T, V> void debug(Class<T> origin, V... msgs) {
-    log.info("Debug is: " + log.isDebugEnabled());
     log.debug(formatClass(origin) + join(msgs));
   }
 
