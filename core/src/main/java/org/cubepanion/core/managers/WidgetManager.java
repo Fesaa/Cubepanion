@@ -126,12 +126,12 @@ public class WidgetManager {
 
                             int d = (int) (map.getBuildLimit() - p.getPosY());
                             if (d < 3) {
-                                if (!done.get()) {
+                                if (!done.get() && !this.addon.getManager().isInPreLobby()) {
                                     mc.sounds().playSound(sound, 1.0F, 1.0F);
                                     mc.chatExecutor().displayClientMessage(Component.translatable("cubepanion.messages.build_limit_reached", Colours.Error, Component.text(d)));
                                     done.set(true);
                                 }
-                            } else {
+                            } else if (d > 5) {
                                 done.set(false);
                             }
 
