@@ -143,9 +143,14 @@ public class Utils {
     seconds = seconds - minutes * 60;
     int hours = Math.floorDiv(minutes, 60);
     minutes = minutes - hours * 60;
+    int days = Math.floorDiv(hours, 24);
+    hours = hours - days * 24;
 
     if (layout.equals(layoutEnum.WORDS)) {
       String out = "";
+      if (days > 0) {
+        out += days + " day" + (days != 1 ? "s " : " ");
+      }
       if (hours > 0) {
         out += hours + " hour" + (hours != 1 ? "s " : " ");
       }
@@ -158,10 +163,13 @@ public class Utils {
       return out;
     } else if (layout.equals(layoutEnum.COLON)) {
       String tail = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-      if (hours == 0) {
-        return tail;
+      if (hours > 0) {
+        tail = (hours < 10 ? "0" : "") + hours + ":" + tail;
       }
-      return hours + ":" + tail;
+      if (days > 0) {
+        tail = days + ":" + tail;
+      }
+      return tail;
     }
 
     return "";
