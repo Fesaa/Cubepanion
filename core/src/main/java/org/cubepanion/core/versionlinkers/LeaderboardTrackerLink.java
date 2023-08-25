@@ -95,7 +95,6 @@ public abstract class LeaderboardTrackerLink {
         .toLowerCase()
         .replace(" ", "_");
 
-    LOGGER.info(getClass(), "Getting leaderboard: " + name);
     Result<Leaderboard, WeaveException> res = Cubepanion.weave.getLeaderboardAPI().getLeaderboard(name);
     if (res.isErr()) {
       return null;
