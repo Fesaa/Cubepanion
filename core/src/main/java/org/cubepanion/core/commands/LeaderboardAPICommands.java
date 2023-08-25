@@ -2,21 +2,18 @@ package org.cubepanion.core.commands;
 
 import static org.cubepanion.core.utils.Utils.handleResultError;
 
-import art.ameliah.libs.weave.LeaderboardAPI;
-import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
-import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
-import java.util.Objects;
-import java.util.stream.IntStream;
+import art.ameliah.libs.weave.leaderboard.Leaderboard;
+import art.ameliah.libs.weave.leaderboard.LeaderboardRow;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
+import org.jetbrains.annotations.Nullable;
 
 public class LeaderboardAPICommands extends Command {
 
@@ -31,7 +28,8 @@ public class LeaderboardAPICommands extends Command {
       .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
       .append(Component.text("\n/leaderboardAPI ", Colours.Primary))
       .append(Component.text("<game>", Colours.Primary)
-          .hoverEvent(HoverEvent.showText(
+ // Implement later again
+/*          .hoverEvent(HoverEvent.showText(
               Component.text(String.join("",
                       IntStream.range(0, Leaderboard.values().length)
                           .mapToObj(i -> {
@@ -45,7 +43,7 @@ public class LeaderboardAPICommands extends Command {
                           .filter(Objects::nonNull)
                           .toList()),
                   Colours.Hover)
-          )))
+          ))*/)
       .append(Component.text(" [start]", Colours.Primary))
       .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary));
   private long lastUsed = 0;
@@ -79,7 +77,7 @@ public class LeaderboardAPICommands extends Command {
 
     Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
 
-    if (arguments.length == 1 && leaderboard.equals(Leaderboard.NONE)) { // User leaderboards
+    if (arguments.length == 1 && leaderboard == null) { // User leaderboards
       String userName = arguments[0];
       if (!userName.matches("[a-zA-Z0-9_]{2,16}")) {
         displayMessage(
@@ -116,11 +114,11 @@ public class LeaderboardAPICommands extends Command {
       for (LeaderboardRow row : rows) {
         toDisplay = toDisplay.append(
             Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-                Component.text(row.game().getString()).color(Colours.Primary)
+                Component.text(row.game().displayName()).color(Colours.Primary)
                     .decorate(TextDecoration.BOLD),
                 Component.text(row.position()).color(Colours.Secondary),
                 Component.text(row.score()).color(Colours.Secondary),
-                Component.text(leaderboardToScoreType(row.game()))
+                Component.text(row.game().scoreType())
             ).color(Colours.Success));
       }
 
@@ -128,7 +126,7 @@ public class LeaderboardAPICommands extends Command {
       return true;
     }
 
-    if (leaderboard.equals(Leaderboard.NONE)) {
+    if (leaderboard == null) {
       this.displayMessage(Component.translatable(this.mainKey + "invalidLeaderBoard",
               Component.text(String.join(" ", arguments)))
           .color(Colours.Error));
@@ -160,7 +158,7 @@ public class LeaderboardAPICommands extends Command {
     if (rows.length == 0) {
       this.displayMessage(
           Component.translatable(this.mainKey + "noPlayers",
-                  Component.text(leaderboard.getString(), Colours.Secondary)
+                  Component.text(leaderboard.displayName(), Colours.Secondary)
                       .decorate(TextDecoration.BOLD),
                   Component.text(finalBound, Colours.Secondary),
                   Component.text(bound_2, Colours.Secondary))
@@ -169,7 +167,7 @@ public class LeaderboardAPICommands extends Command {
     }
 
     Component toDisplay = Component.translatable(this.mainKey + "places.title",
-            Component.text(leaderboard.getString(), Colours.Secondary)
+            Component.text(leaderboard.displayName(), Colours.Secondary)
                 .decorate(TextDecoration.BOLD),
             Component.text(finalBound, Colours.Secondary),
             Component.text(bound_2, Colours.Secondary))
@@ -182,34 +180,25 @@ public class LeaderboardAPICommands extends Command {
                   .decorate(TextDecoration.BOLD),
               Component.text(row.position()).color(Colours.Secondary),
               Component.text(row.score()).color(Colours.Secondary),
-              Component.text(leaderboardToScoreType(leaderboard))
+              Component.text(leaderboard.scoreType())
           ).color(Colours.Success));
     }
     displayMessage(toDisplay);
     return true;
   }
 
-  private Leaderboard separateLeaderboardAndUserName(String[] arguments) {
-    Leaderboard leaderboard = Leaderboard.NONE;
+  private @Nullable Leaderboard separateLeaderboardAndUserName(String[] arguments) {
+    Result<Leaderboard, WeaveException> res;
     String tryForLeaderboard = "";
 
     for (String s : arguments) {
       tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
-      leaderboard = Leaderboard.stringToLeaderboard(tryForLeaderboard);
-      if (!leaderboard.equals(Leaderboard.NONE)) {
-        return leaderboard;
+      res = Cubepanion.weave.getLeaderboardAPI().getLeaderboard(tryForLeaderboard);
+      if (res.isOk()) {
+        return res.getValue();
       }
     }
-    return leaderboard;
-  }
-
-  private String leaderboardToScoreType(LeaderboardAPI.Leaderboard leaderboard) {
-    return switch (leaderboard) {
-      case TEAM_EGGWARS, TEAM_EGGWARS_SEASON_2, SOLO_LUCKYISLANDS, SOLO_SKYWARS -> "wins";
-      case FFA -> "kills";
-      case PARKOUR -> "medals";
-      default -> "unknown";
-    };
+    return null;
   }
 
 }
