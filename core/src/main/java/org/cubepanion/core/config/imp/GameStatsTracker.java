@@ -21,7 +21,7 @@ public class GameStatsTracker {
   private final StatsTracker played;
   private final StatsTracker kills;
   private final StatsTracker deaths;
-  private final StatsTracker totalPlayTime;
+  private StatsTracker totalPlayTime;
   private final HashMap<String, StatsTracker> perPlayerKills;
 
   private final HashMap<String, StatsTracker> perPlayerDeaths;
@@ -53,7 +53,7 @@ public class GameStatsTracker {
     this.perPlayerKills = perPlayerKills;
     this.perPlayerDeaths = perPlayerDeaths;
     this.historicalData = new HashMap<>();
-      this.totalPlayTime = Objects.requireNonNullElseGet(totalPlayTime, StatsTracker::new);
+    this.totalPlayTime = Objects.requireNonNullElseGet(totalPlayTime, StatsTracker::new);
   }
 
   public static boolean shouldMakeGameStatsTracker(CubeGame game) {
@@ -186,12 +186,18 @@ public class GameStatsTracker {
     this.wins.registerSuccess();
     this.played.registerSuccess();
     this.winStreak.registerSuccess();
+    if (this.totalPlayTime == null) {
+      this.totalPlayTime = new StatsTracker();
+    }
     this.totalPlayTime.registerSuccess(time);
   }
 
   public void registerLoss(int time) {
     this.played.registerSuccess();
     this.winStreak.registerFail();
+    if (this.totalPlayTime == null) {
+      this.totalPlayTime = new StatsTracker();
+    }
     this.totalPlayTime.registerSuccess(time);
   }
 
@@ -217,6 +223,9 @@ public class GameStatsTracker {
 
   // Playtime
   public void registerPlayTime(int time) {
+    if (this.totalPlayTime == null) {
+      this.totalPlayTime = new StatsTracker();
+    }
     this.totalPlayTime.registerSuccess(time);
   }
 
@@ -347,6 +356,9 @@ public class GameStatsTracker {
   }
 
   public Component getDisplayComponent() {
+    if (this.totalPlayTime == null) {
+      this.totalPlayTime = new StatsTracker();
+    }
     return
         Component.translatable(this.mainKey + "gameStats.titleToday",
                 Component.text(game.getString(), Colours.Primary))
