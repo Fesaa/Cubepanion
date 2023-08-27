@@ -206,7 +206,9 @@ public class GameStatsTracker {
     this.winStreak.registerNewDay();
     this.deaths.registerNewDay();
     this.kills.registerNewDay();
-    this.totalPlayTime.registerNewDay();
+    if (this.totalPlayTime != null) {
+      this.totalPlayTime.registerNewDay();
+    }
     for (StatsTracker perPlayerKills : this.perPlayerKills.values()) {
       perPlayerKills.registerNewDay();
     }
