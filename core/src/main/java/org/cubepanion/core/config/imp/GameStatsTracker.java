@@ -1,9 +1,7 @@
 package org.cubepanion.core.config.imp;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
@@ -55,7 +53,7 @@ public class GameStatsTracker {
     this.perPlayerKills = perPlayerKills;
     this.perPlayerDeaths = perPlayerDeaths;
     this.historicalData = new HashMap<>();
-    this.totalPlayTime = totalPlayTime;
+      this.totalPlayTime = Objects.requireNonNullElseGet(totalPlayTime, StatsTracker::new);
   }
 
   public static boolean shouldMakeGameStatsTracker(CubeGame game) {
