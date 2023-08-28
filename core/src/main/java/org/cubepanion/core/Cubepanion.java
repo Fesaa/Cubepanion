@@ -82,7 +82,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
 
     if (System.getProperty("weave.dev") != null && System.getProperty("weave.dev").equals("true")) {
-      weave = Weave.Dev();
+      weave = Weave.Dev(false);
     } else {
       weave = Weave.Production();
     }
