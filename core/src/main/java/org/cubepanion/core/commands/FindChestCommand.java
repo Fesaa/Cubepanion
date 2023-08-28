@@ -5,8 +5,10 @@ import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
 import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
 
@@ -36,6 +38,9 @@ public class FindChestCommand extends Command {
       for (ChestLocation loc : chestLocations) {
         addon.displayMessage(chestLocationsComponent(loc));
       }
+    } else {
+      addon.displayMessage(
+          Component.translatable("cubepanion.messages.chests_finder.not_found", Colours.Error));
     }
     return true;
   }

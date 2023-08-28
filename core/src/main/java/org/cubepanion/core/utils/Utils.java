@@ -121,7 +121,7 @@ public class Utils {
   }
 
   public static Component chestLocationsComponent(ChestLocation loc) {
-    return Component.text("Found a chest @ ", NamedTextColor.GREEN)
+    return Component.translatable("cubepanion.messages.chests_finder.found", Colours.Success)
         .append(Component.text(String.format("%s, %s, %s", loc.x(), loc.y(), loc.z()),
             NamedTextColor.GRAY));
   }

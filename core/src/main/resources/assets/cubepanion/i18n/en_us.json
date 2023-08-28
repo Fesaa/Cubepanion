@@ -569,6 +569,10 @@
       "voteReminder": "Don't forget to vote!",
       "preventedDrop": "Prevented you from dropping a tool!",
       "build_limit_reached": "Build limit reached in %s!",
+      "chests_finder": {
+        "found": "Found a chest @ ",
+        "not_found": "No chests found."
+      },
       "leaderboardAPI": {
         "success": "Successfully submitted leaderboard places for %s.",
         "coolDown": "You'll be able to submit again in %s minute(s).",

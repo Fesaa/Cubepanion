@@ -12,21 +12,6 @@ public class Colours {
   public static final TextColor Hover = NamedTextColor.GREEN;
   public static final TextColor Success = NamedTextColor.GREEN;
 
-
-  public static TextColor pingColour(int ping) {
-    if (ping < 50) {
-      return NamedTextColor.GREEN;
-    } else if (ping < 100) {
-      return NamedTextColor.DARK_GREEN;
-    } else if (ping < 150) {
-      return NamedTextColor.GOLD;
-    } else if (ping < 200) {
-      return NamedTextColor.RED;
-    } else {
-      return NamedTextColor.DARK_RED;
-    }
-  }
-
   public static TextColor colourToNamedTextColor(String colour) {
     switch (colour) {
       case "black" -> {

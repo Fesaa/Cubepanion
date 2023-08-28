@@ -79,6 +79,9 @@ public class Automations {
           for (ChestLocation loc : chestLocations) {
             addon.displayMessage(chestLocationsComponent(loc));
           }
+        } else {
+          addon.displayMessage(
+              Component.translatable("cubepanion.messages.chests_finder.not_found", Colours.Error));
         }
       }
     }).delay(1000, TimeUnit.MILLISECONDS).build();
