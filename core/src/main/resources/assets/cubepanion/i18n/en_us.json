@@ -435,6 +435,9 @@
       },
       "distance_to_build_limit": {
         "name": "Distance to build limit"
+      },
+      "party_chat_tracker": {
+        "name": "Party chat"
       }
     },
     "hudWidgetCategory": {
