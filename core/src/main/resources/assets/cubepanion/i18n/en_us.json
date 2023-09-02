@@ -341,8 +341,8 @@
           "name": "Text Colour"
         }
       },
-      "terracotta_counter": {
-        "name": "#Terracotta blocks",
+      "concrete_counter": {
+        "name": "#Concrete blocks",
         "onlyDisplayWhenHeld": {
           "name": "Only display item when being held"
         },

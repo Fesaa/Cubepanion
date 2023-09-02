@@ -49,8 +49,8 @@ public class WidgetManager {
         new CounterItemHudWidget(category, "iron_ingot_counter", "iron_ingot", "iron_ingot", 0, 0));
     hudWidgetRegistry.register(
         new CounterItemHudWidget(category, "gold_ingot_counter", "gold_ingot", "gold_ingot", 2, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category, "terracotta_counter",
-        "(\\w{0,10}\\_{0,1}){0,2}terracotta", "white_terracotta", 4, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "concrete_counter",
+        "(\\w{0,10}\\_{0,1}){0,2}concrete", "white_concrete", 4, 0));
 
     hudWidgetRegistry.register(
         new DurabilityItemHudWidget(category, "helmet_durability_counter", "helmet",
