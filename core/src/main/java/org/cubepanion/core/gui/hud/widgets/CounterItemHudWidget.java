@@ -34,6 +34,10 @@ public class CounterItemHudWidget extends CustomItemWidget {
         ItemStack iStack = inventory.itemStackAt(i);
         if (this.inventoryItemMatches(iStack, i, selectedEntry)) {
           this.counter += iStack.getSize();
+          if (!iStack.matches(this.item)) {
+            this.item = iStack;
+            this.updateItemStack(iStack, false);
+          }
         }
       }
 

@@ -16,6 +16,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
   private final int posY;
   public boolean itemIsHeld;
   public int counter;
+  protected ItemStack item;
 
   protected CustomItemWidget(String id, String regex, String itemName, int posX, int posY) {
     super(id, ItemHudConfig.class);
@@ -28,7 +29,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
-    ItemStack item = Laby.references().itemStackFactory()
+    this.item = Laby.references().itemStackFactory()
         .create(ResourceLocation.create("minecraft", itemName));
     this.updateItemStack(item, false);
   }
