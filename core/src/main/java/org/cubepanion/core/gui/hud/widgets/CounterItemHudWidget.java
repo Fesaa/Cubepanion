@@ -28,22 +28,20 @@ public class CounterItemHudWidget extends CustomItemWidget {
       Inventory inventory = player.inventory();
       int selectedEntry = inventory.getSelectedIndex();
 
-      this.counter = 0;
+      int innerCounter = 0;
       this.itemIsHeld = false;
       for (int i = 0; i < 46; i++) {
         ItemStack iStack = inventory.itemStackAt(i);
-        if (this.inventoryItemMatches(iStack, i, selectedEntry)) {
-          this.counter += iStack.getSize();
-          if (!iStack.matches(this.item)) {
-            this.item = iStack;
-            this.updateItemStack(iStack, false);
-          }
+        if (this.inventoryItemMatches(iStack, i == selectedEntry)) {
+          innerCounter += iStack.getSize();
         }
       }
 
-      if (this.inventoryItemMatches(offHandItem, -1, selectedEntry)) {
-        this.counter += offHandItem.getSize();
+      if (this.inventoryItemMatches(offHandItem)) {
+        innerCounter += offHandItem.getSize();
       }
+      this.counter = innerCounter;
+      this.updateItemStack(item, false);
       this.updateItemName(Component.text(this.counter, this.config.getTextColor()), false);
     }
   }

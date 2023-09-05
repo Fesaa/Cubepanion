@@ -16,7 +16,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
   private final int posY;
   public boolean itemIsHeld;
   public int counter;
-  protected ItemStack item;
+  public ItemStack item;
 
   protected CustomItemWidget(String id, String regex, String itemName, int posX, int posY) {
     super(id, ItemHudConfig.class);
@@ -29,7 +29,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Icon icon = Icon.sprite16(resourceLocation, posX, posY);
     this.setIcon(icon);
 
-    this.item = Laby.references().itemStackFactory()
+    ItemStack item = Laby.references().itemStackFactory()
         .create(ResourceLocation.create("minecraft", itemName));
     this.updateItemStack(item, false);
   }
@@ -38,11 +38,14 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     super.load(config);
   }
 
-  public boolean inventoryItemMatches(ItemStack itemStack, int i, int selectedEntry) {
+  public boolean inventoryItemMatches(ItemStack itemStack) {
+    return inventoryItemMatches(itemStack, true);
+  }
+
+  public boolean inventoryItemMatches(ItemStack itemStack, boolean selected) {
     if (itemStack.getAsItem().getIdentifier().getPath().matches(this.regex)) {
-      if (selectedEntry == i) {
-        this.itemIsHeld = true;
-      }
+      this.itemIsHeld = selected;
+      this.item = itemStack;
       return true;
     }
     return false;
