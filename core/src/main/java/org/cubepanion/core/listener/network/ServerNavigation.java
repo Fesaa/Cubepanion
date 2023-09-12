@@ -21,7 +21,7 @@ public class ServerNavigation {
 
   @Subscribe
   public void onServerJoinEvent(ServerJoinEvent e) {
-    String serverAddress = e.serverData().address().toString();
+    String serverAddress = e.serverData().address().toString().toLowerCase();
     if (!(serverAddress.contains("cubecraft") || serverAddress.contains("ccgn.co") || serverAddress.contains("dev-cc"))) {
       this.manager.reset();
       return;
