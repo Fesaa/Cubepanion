@@ -23,13 +23,12 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.VotingLink;
+import org.cubepanion.v1_20_1.client.VersionedBSPHAccessor;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton
 @Implements(VotingLink.class)
 public class VersionedVotingLink extends VotingLink {
-
-  public static BlockStatePredictionHandler handler = null;
 
   private final Task clickOnMenu = Task.builder(() -> {
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
@@ -38,12 +37,9 @@ public class VersionedVotingLink extends VotingLink {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
-    connection.getLevel().getLevelData();
-    int sequence = 0;
-    if (handler != null) {
-      handler.startPredicting();
-      sequence = handler.currentSequence();
-    }
+    BlockStatePredictionHandler handler = ((VersionedBSPHAccessor) connection.getLevel()).cubepanion$get();
+    handler.startPredicting();
+    int sequence = handler.currentSequence();
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence));
   }).delay(200, TimeUnit.MILLISECONDS).build();
   public ItemStack returnItemStack;
