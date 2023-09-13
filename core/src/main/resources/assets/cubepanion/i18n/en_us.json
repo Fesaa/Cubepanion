@@ -574,7 +574,7 @@
       "build_limit_reached": "Build limit reached in %s!",
       "chests_finder": {
         "found": "Found a chest @ ",
-        "not_found": "No chests found."
+        "not_found": "No chests found, sowwy :("
       },
       "leaderboardAPI": {
         "success": "Successfully submitted leaderboard places for %s.",
