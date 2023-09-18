@@ -29,7 +29,6 @@ import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 public class WidgetManager {
 
   private final Cubepanion addon;
-
   public WidgetManager(Cubepanion addon) {
     this.addon = addon;
   }
@@ -42,13 +41,13 @@ public class WidgetManager {
     hudWidgetRegistry.categoryRegistry().register(category);
 
     hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "emerald_counter", "emerald", "emerald", 3, 0));
+        new CounterItemHudWidget(category, "emerald_counter", "emerald", 3, 0));
     hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "diamond_counter", "diamond", "diamond", 1, 0));
+        new CounterItemHudWidget(category, "diamond_counter", "diamond", 1, 0));
     hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "iron_ingot_counter", "iron_ingot", "iron_ingot", 0, 0));
+        new CounterItemHudWidget(category, "iron_ingot_counter", "iron_ingot", 0, 0));
     hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "gold_ingot_counter", "gold_ingot", "gold_ingot", 2, 0));
+        new CounterItemHudWidget(category, "gold_ingot_counter", "gold_ingot", 2, 0));
     hudWidgetRegistry.register(new CounterItemHudWidget(category, "concrete_counter",
         "(\\w{0,10}\\_{0,1}){0,2}concrete", "white_concrete", 4, 0));
 
