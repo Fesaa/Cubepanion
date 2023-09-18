@@ -2,12 +2,9 @@ package org.cubepanion.core.gui.hud.widgets;
 
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.entity.player.Inventory;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
-import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.jetbrains.annotations.Nullable;
