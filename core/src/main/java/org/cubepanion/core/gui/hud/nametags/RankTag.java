@@ -23,6 +23,9 @@ public class RankTag extends NameTag {
     if (!(this.entity instanceof Player player)) {
       return null;
     }
+    if (!this.addon.configuration().getQolConfig().getRankTag().get()) {
+      return null;
+    }
 
     ClientPlayer clientPlayer = this.addon.labyAPI().minecraft().getClientPlayer();
     if (clientPlayer == null) {
