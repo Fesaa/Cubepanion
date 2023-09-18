@@ -4,6 +4,7 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.NameTag;
+import net.labymod.api.client.entity.player.tag.tags.NameTagBackground;
 import net.labymod.api.client.render.font.RenderableComponent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.CubeGame;
@@ -35,6 +36,11 @@ public class RankTag extends NameTag {
       return RenderableComponent.of(Component.text(addon.getManager().getRankString()));
     }
     return null;
+  }
+
+  @Override
+  public NameTagBackground getCustomBackground() {
+    return NameTagBackground.custom(false, 0);
   }
 
 }
