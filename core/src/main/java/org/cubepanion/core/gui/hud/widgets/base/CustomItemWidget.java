@@ -8,6 +8,7 @@ import net.labymod.api.client.gui.hud.hudwidget.item.ItemHudWidget;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
+import org.cubepanion.core.listener.hud.HudEvents;
 
 public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 
@@ -38,19 +39,6 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     super.load(config);
   }
 
-  public boolean inventoryItemMatches(ItemStack itemStack) {
-    return inventoryItemMatches(itemStack, true);
-  }
-
-  public boolean inventoryItemMatches(ItemStack itemStack, boolean selected) {
-    if (itemStack.getAsItem().getIdentifier().getPath().matches(this.regex)) {
-      this.itemIsHeld = selected;
-      this.item = itemStack;
-      return true;
-    }
-    return false;
-  }
-
   @Override
   public boolean isVisibleInGame() {
     Minecraft minecraft = this.labyAPI.minecraft();
@@ -58,8 +46,9 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
       return false;
     } else {
       ClientPlayer player = minecraft.getClientPlayer();
-      if (player != null && player.gameMode() != GameMode.SPECTATOR) {
-        return this.counter > 0 && (this.itemIsHeld || !this.config.getOnlyDisplayWhenHeld().get());
+      if (player != null && player.gameMode() != GameMode.SPECTATOR && this.counter > 0) {
+        HudEvents hudEvents = HudEvents.getInstance();
+        return (hudEvents.hasSelected(this.item) || this.itemIsHeld) || !this.config.getOnlyDisplayWhenHeld().get();
       } else {
         return false;
       }
