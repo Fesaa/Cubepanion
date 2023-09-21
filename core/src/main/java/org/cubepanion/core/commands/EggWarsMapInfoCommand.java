@@ -2,6 +2,7 @@ package org.cubepanion.core.commands;
 
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.HoverEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.utils.Colours;
@@ -44,7 +45,11 @@ public class EggWarsMapInfoCommand extends Command {
               .key(I18nNamespaces.commandNamespace + "EggWarsMapInfoCommand." + "mapNotFound")
               .argument(Component.text(mapName))
               .build()
-              .color(Colours.Error));
+              .color(Colours.Error)
+              .hoverEvent(HoverEvent.showText(
+                  this.addon.getManager().getEggWarsMapInfoManager().getAllMapNames()
+                      .color(Colours.Hover)
+              )));
     }
     return true;
   }

@@ -86,7 +86,7 @@ public class Utils {
     return list;
   }
 
-  static List<String> oneDeepStringList(JsonArray array) {
+  static List<String> oneDeepStringList(@NotNull JsonArray array) {
     List<String> list = new ArrayList<>();
     for (JsonElement element : array) {
       list.add(element.getAsString());
@@ -94,13 +94,14 @@ public class Utils {
     return list;
   }
 
-  static JsonArray transformColours(EggWarsMapAPI.EggWarsMap map) {
+  static @NotNull JsonArray transformColours(EggWarsMapAPI.EggWarsMap map) {
+    JsonArray array = null;
     try {
-      return (new Gson()).fromJson(map.colour(), JsonArray.class);
+      array = (new Gson()).fromJson(map.colours(), JsonArray.class);
     } catch (JsonSyntaxException e) {
       LOGGER.error(Utils.class, e, "Failed to parse colours for", map.map_name(), " using empty list.");
     }
-    return new JsonArray();
+    return array != null ? array : new JsonArray();
   }
 
   static GenLayout.Generator transformGen(String type) {
@@ -125,7 +126,7 @@ public class Utils {
             NamedTextColor.GRAY));
   }
 
-  public static void handleResultError(Class<?> origin, Cubepanion addon, Throwable e,
+  public static void handleAPIError(Class<?> origin, Cubepanion addon, Throwable e,
       String msg, String keyError, String key) {
     LOGGER.debug(origin, e, msg);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
@@ -134,6 +135,10 @@ public class Utils {
     } else {
       addon.displayMessage(Component.translatable(key).color(Colours.Error));
     }
+  }
+
+  public static void timeOutAPIError() {
+    Cubepanion.get().displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.timedOut"));
   }
 
   public static String getFormattedString(long timeDifference, layoutEnum layout) {

@@ -47,7 +47,7 @@ public class EggWarsMapInfoManager {
       for (EggWarsMapAPI.EggWarsMap map : eggWarsMaps) {
         EggWarsMap eggWarsMap = fromAPIMap(map);
         if (eggWarsMap != null) {
-          this.eggWarsMapLayouts.put(map.map_name(), eggWarsMap);
+          this.eggWarsMapLayouts.put(map.map_name().toLowerCase(), eggWarsMap);
         } else {
           LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
         }
@@ -122,4 +122,14 @@ public class EggWarsMapInfoManager {
   public @Nullable EggWarsMap getEggWarsMap(String name) {
     return eggWarsMapLayouts.get(name.toLowerCase());
   }
+
+  public Component getAllMapNames() {
+    Component out = Component.empty();
+    for (String name : this.eggWarsMapLayouts.keySet()) {
+      out = out.append(Component.text(name))
+          .append(Component.text(", "));
+    }
+    return out;
+  }
+
 }

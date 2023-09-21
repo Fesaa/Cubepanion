@@ -1,6 +1,6 @@
 package org.cubepanion.core.versionlinkers;
 
-import static org.cubepanion.core.utils.Utils.handleResultError;
+import static org.cubepanion.core.utils.Utils.handleAPIError;
 
 import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
@@ -63,7 +63,7 @@ public abstract class LeaderboardTrackerLink {
         .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries)
         .whenComplete((integer, throwable) -> {
           if (throwable != null) {
-            handleResultError(getClass(), Cubepanion.get(), throwable,
+            handleAPIError(getClass(), Cubepanion.get(), throwable,
                 "Encountered an exception while getting getLeaderboardsForPlayer",
                 I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.APIError_info",
                 "cubepanion.messages.leaderboardAPI.error"

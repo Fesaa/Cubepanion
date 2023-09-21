@@ -581,6 +581,7 @@
         "coolDown": "You'll be able to submit again in %s minute(s).",
         "error": "An error occurred trying to submit to the leaderboardAPI. Please try again later. (Contact Fesa if this persists)",
         "noResponse": "The leaderboardAPI did not respond. Please try again later. (Contact Fesa if this persists)",
+        "timedOut": "The request did not complete after 500ms, see logs for extra information. (Contact Fesa if this persists)",
         "commands": {
           "APIError": "The API returned an error. Please try again later. (Contact Fesa if this persists)",
           "APIError_info": "The API returned an error. Please try again later. %s",
