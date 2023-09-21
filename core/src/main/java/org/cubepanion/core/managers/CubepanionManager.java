@@ -2,10 +2,13 @@ package org.cubepanion.core.managers;
 
 import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import art.ameliah.libs.weave.ChestAPI.SeasonType;
-import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import net.labymod.api.Laby;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
@@ -144,21 +147,31 @@ public class CubepanionManager {
     this.partyManager.reset();
     this.eggWarsMapInfoManager.queryMaps();
 
-    Result<ChestLocation[], WeaveException> locationResult = Cubepanion.weave.getChestAPI()
-        .getCurrentChestLocations();
-    if (locationResult.isErr()) {
-      LOGGER.warn(getClass(), locationResult.getError(),
-          "Could not update Cubepanion#chestLocations");
-    } else {
-      Cubepanion.chestLocations = List.of(locationResult.getValue());
+    try {
+      ChestLocation[] chestLocations = Cubepanion.weave.getChestAPI()
+          .getCurrentChestLocations()
+          .exceptionally(throwable -> {
+            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#chestLocations");
+            return new ChestLocation[0];
+          })
+          .get(500, TimeUnit.MILLISECONDS);
+      Cubepanion.chestLocations = List.of(chestLocations);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
     }
-
-    Result<String[], WeaveException> seasonResult = Cubepanion.weave.getChestAPI()
-        .getSeasons(SeasonType.RUNNING);
-    if (seasonResult.isErr()) {
-      LOGGER.warn(getClass(), seasonResult.getError(), "Could not update Cubepanion#season");
-    } else {
-      Cubepanion.season = seasonResult.getValue()[0];
+    try {
+      String[] seasons = Cubepanion.weave.getChestAPI()
+          .getSeasons(SeasonType.RUNNING)
+          .exceptionally(throwable -> {
+            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
+            return new String[0];
+          })
+          .get(500, TimeUnit.MILLISECONDS);
+      if (seasons.length > 0) {
+        Cubepanion.season = seasons[0];
+      }
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      LOGGER.error(getClass(), e, "ChestAPI#getSeasons took longer than 500ms");
     }
   }
 

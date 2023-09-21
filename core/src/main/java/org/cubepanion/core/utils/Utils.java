@@ -3,7 +3,6 @@ package org.cubepanion.core.utils;
 import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import art.ameliah.libs.weave.EggWarsMapAPI;
 import art.ameliah.libs.weave.EggWarsMapAPI.Generator;
-import art.ameliah.libs.weave.WeaveException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -51,25 +50,25 @@ public class Utils {
     Generator[] gens = map.generators();
     List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
     for (Generator gen : gens) {
-      MapGenerator mapGen = new MapGenerator(transformGen(gen.genType()), transformLoc(gen.location()), gen.level(), gen.count());
+      MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()), transformLoc(gen.gen_location()), gen.level(), gen.count());
       mapGenerators.add(mapGen);
     }
     GenLayout layout = new GenLayout(mapGenerators);
     switch (map.layout()) {
       case "square" -> {
-        return new SquareEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, twoDeepStringList(transformColours(map)));
+        return new SquareEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
       }
       case "cross" -> {
-        return new CrossEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, oneDeepStringList(transformColours(map)));
+        return new CrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, oneDeepStringList(transformColours(map)));
       }
       case "doublecross" -> {
-        return new DoubleCrossEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, twoDeepStringList(transformColours(map)));
+        return new DoubleCrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
       }
       case "triangle" -> {
-        return new TriangleEggWarsMap(map.mapName(), map.teamSize(), map.buildLimit(), layout, twoDeepStringList(transformColours(map)));
+        return new TriangleEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
       }
       default -> {
-        LOGGER.error(Utils.class, "Unknown map layout", map.layout(), "for map", map.mapName());
+        LOGGER.error(Utils.class, "Unknown map layout", map.layout(), "for map", map.map_name());
         return null;
       }
     }
@@ -99,7 +98,7 @@ public class Utils {
     try {
       return (new Gson()).fromJson(map.colour(), JsonArray.class);
     } catch (JsonSyntaxException e) {
-      LOGGER.error(Utils.class, e, "Failed to parse colours for", map.mapName(), " using empty list.");
+      LOGGER.error(Utils.class, e, "Failed to parse colours for", map.map_name(), " using empty list.");
     }
     return new JsonArray();
   }
@@ -126,7 +125,7 @@ public class Utils {
             NamedTextColor.GRAY));
   }
 
-  public static void handleResultError(Class<?> origin, Cubepanion addon, WeaveException e,
+  public static void handleResultError(Class<?> origin, Cubepanion addon, Throwable e,
       String msg, String keyError, String key) {
     LOGGER.debug(origin, e, msg);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {

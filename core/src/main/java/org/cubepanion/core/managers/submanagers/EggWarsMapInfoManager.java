@@ -3,9 +3,10 @@ package org.cubepanion.core.managers.submanagers;
 import static org.cubepanion.core.utils.Utils.fromAPIMap;
 
 import art.ameliah.libs.weave.EggWarsMapAPI;
-import art.ameliah.libs.weave.Result;
-import art.ameliah.libs.weave.WeaveException;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
@@ -33,20 +34,26 @@ public class EggWarsMapInfoManager {
   }
 
   public void queryMaps() {
-    Result<EggWarsMapAPI.EggWarsMap[], WeaveException> result = Cubepanion.weave.getEggWarsMapAPI()
-        .getAllEggWarsMaps();
-    if (result.isErr()) {
-      LOGGER.warn(getClass(), result.getError(), "Could not fetch EggWars maps from weave: ");
-      return;
-    }
-    EggWarsMapAPI.EggWarsMap[] maps = result.getValue();
-    for (EggWarsMapAPI.EggWarsMap map : maps) {
-      EggWarsMap eggWarsMap = fromAPIMap(map);
-      if (eggWarsMap != null) {
-        this.eggWarsMapLayouts.put(map.uniqueName(), eggWarsMap);
-      } else {
-        LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.uniqueName());
+
+    try {
+      EggWarsMapAPI.EggWarsMap[] eggWarsMaps = Cubepanion.weave.getEggWarsMapAPI()
+          .getAllEggWarsMaps()
+          .exceptionally(throwable -> {
+            LOGGER.error(getClass(), throwable, "Could not update EggWarsMapInfoManager#eggWarsMapLayouts");
+            return new EggWarsMapAPI.EggWarsMap[0];
+          })
+          .get(500, TimeUnit.MILLISECONDS);
+
+      for (EggWarsMapAPI.EggWarsMap map : eggWarsMaps) {
+        EggWarsMap eggWarsMap = fromAPIMap(map);
+        if (eggWarsMap != null) {
+          this.eggWarsMapLayouts.put(map.map_name(), eggWarsMap);
+        } else {
+          LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
+        }
       }
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      LOGGER.error(getClass(), e, "EggWarsMapInfoManager#queryMaps took longer than 500ms");
     }
   }
 

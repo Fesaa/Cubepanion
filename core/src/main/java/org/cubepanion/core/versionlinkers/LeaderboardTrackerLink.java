@@ -2,13 +2,11 @@ package org.cubepanion.core.versionlinkers;
 
 import static org.cubepanion.core.utils.Utils.handleResultError;
 
-import art.ameliah.libs.weave.Result;
-import art.ameliah.libs.weave.WeaveException;
+import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
+import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import art.ameliah.libs.weave.leaderboard.Leaderboard;
-import art.ameliah.libs.weave.leaderboard.LeaderboardRow;
 import net.labymod.api.Laby;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
@@ -18,7 +16,6 @@ import net.labymod.api.reference.annotation.Referenceable;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable
@@ -62,20 +59,22 @@ public abstract class LeaderboardTrackerLink {
 
     ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
 
-    Result<Integer, WeaveException> result = Cubepanion.weave.getLeaderboardAPI()
-        .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries);
-    if (result.isOk()) {
-      chat.displayClientMessage(
-          Component.translatable("cubepanion.messages.leaderboardAPI.success",
-                  Component.text(this.currentLeaderboard.displayName()))
-              .color(Colours.Success));
-    } else {
-      handleResultError(getClass(), Cubepanion.get(), result.getError(),
-          "Encountered an exception while getting getLeaderboardsForPlayer",
-          I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.APIError_info",
-          "cubepanion.messages.leaderboardAPI.error"
-      );
-    }
+    Cubepanion.weave.getLeaderboardAPI()
+        .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries)
+        .whenComplete((integer, throwable) -> {
+          if (throwable != null) {
+            handleResultError(getClass(), Cubepanion.get(), throwable,
+                "Encountered an exception while getting getLeaderboardsForPlayer",
+                I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.APIError_info",
+                "cubepanion.messages.leaderboardAPI.error"
+            );
+          } else if (integer != null && integer == 202) {
+            chat.displayClientMessage(
+                Component.translatable("cubepanion.messages.leaderboardAPI.success",
+                        Component.text(this.currentLeaderboard.displayName()))
+                    .color(Colours.Success));
+          }
+        });
     this.currentLeaderboard = null;
     this.currentPageNumber = -1;
     this.maxPageNumber = -1;
@@ -95,11 +94,6 @@ public abstract class LeaderboardTrackerLink {
         .toLowerCase()
         .replace(" ", "_");
 
-    Result<Leaderboard, WeaveException> res = Cubepanion.weave.getLeaderboardAPI().getLeaderboard(name);
-    if (res.isErr()) {
-      return null;
-    }
-
-    return res.getValue();
+    return Cubepanion.weave.getLeaderboardAPI().getLeaderboard(name);
   }
 }

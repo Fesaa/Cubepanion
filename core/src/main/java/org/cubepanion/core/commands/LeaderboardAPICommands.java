@@ -2,10 +2,7 @@ package org.cubepanion.core.commands;
 
 import static org.cubepanion.core.utils.Utils.handleResultError;
 
-import art.ameliah.libs.weave.Result;
 import art.ameliah.libs.weave.WeaveException;
-import art.ameliah.libs.weave.leaderboard.Leaderboard;
-import art.ameliah.libs.weave.leaderboard.LeaderboardRow;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
