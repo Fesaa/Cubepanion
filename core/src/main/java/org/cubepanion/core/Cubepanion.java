@@ -16,6 +16,7 @@ import org.cubepanion.core.commands.FindChestCommand;
 import org.cubepanion.core.commands.FriendListCommand;
 import org.cubepanion.core.commands.FriendLocationCommand;
 import org.cubepanion.core.commands.LeaderboardAPICommands;
+import org.cubepanion.core.commands.LeaderboardMappings;
 import org.cubepanion.core.commands.MapCommand;
 import org.cubepanion.core.commands.OnlineFriendTrackerCommand;
 import org.cubepanion.core.commands.PartyCommands;
@@ -125,6 +126,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new FriendLocationCommand(this));
     this.registerCommand(new LeaderboardAPICommands(this));
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
+    this.registerCommand(new LeaderboardMappings(this));
 
     this.registerListener(new PlayerInfo(this));
     this.registerListener(new ServerNavigation(this));

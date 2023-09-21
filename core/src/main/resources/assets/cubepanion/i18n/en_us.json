@@ -604,7 +604,9 @@
             "title": "------- LeaderboardAPI commands help -------\n",
             "info": "Commands can be called with leaderboardAPI,leaderboard or lb",
             "player": " - Get all leaderboards of a player",
-            "leaderboard": " - Get players from a game's leaderboards in range [start, start+10]. Defaults to 1."
+            "leaderboard": " - Get players from a game's leaderboards in range [start, start+10]. Defaults to 1.",
+            "clickForMore": "Click to display leaderboard mappings",
+            "lbmappings": "All leaderboards with their accepted abrasions\n"
           }
         }
       }

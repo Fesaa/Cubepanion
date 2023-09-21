@@ -10,6 +10,7 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.util.Pair;
 import org.cubepanion.core.Cubepanion;
@@ -184,6 +185,22 @@ public class Utils {
     }
 
     return "";
+  }
+
+  public static Component join(Component delimiter, List<TextComponent> elements) {
+    if (elements.isEmpty()) {
+      return Component.empty();
+    }
+
+    Component out = elements.get(0);
+    for (int i = 1; i < elements.size(); i++) {
+      Component element = elements.get(i);
+      out = out
+          .append(delimiter)
+          .append(element);
+    }
+    return out;
+
   }
 
 }

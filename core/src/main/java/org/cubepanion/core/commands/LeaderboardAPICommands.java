@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
@@ -32,24 +34,11 @@ public class LeaderboardAPICommands extends Command {
       .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
       .append(Component.text("\n/leaderboardAPI ", Colours.Primary))
       .append(Component.text("<game>", Colours.Primary)
-          // Implement later again
-/*          .hoverEvent(HoverEvent.showText(
-              Component.text(String.join("",
-                      IntStream.range(0, Leaderboard.values().length)
-                          .mapToObj(i -> {
-                            Leaderboard lb = Leaderboard.values()[i];
-                            if (!lb.equals(Leaderboard.NONE)) {
-                              return lb.getString() + (i != Leaderboard.values().length - 1 ? "\n"
-                                  : "");
-                            }
-                            return null;
-                          })
-                          .filter(Objects::nonNull)
-                          .toList()),
-                  Colours.Hover)
-          ))*/)
+          .hoverEvent(HoverEvent.showText(Component.translatable(this.mainKey + "help.clickForMore").color(Colours.Hover) ))
+          .clickEvent(ClickEvent.runCommand("/lbmappings")))
       .append(Component.text(" [start]", Colours.Primary))
-      .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary));
+      .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary))
+      .append(Component.newline());
   private long lastUsed = 0;
 
   public LeaderboardAPICommands(Cubepanion addon) {
@@ -66,7 +55,7 @@ public class LeaderboardAPICommands extends Command {
       return;
     }
 
-    LeaderboardRow[] rows = null;
+    LeaderboardRow[] rows;
     try {
       rows = Cubepanion.weave.getLeaderboardAPI()
           .getLeaderboardsForPlayer(userName)
