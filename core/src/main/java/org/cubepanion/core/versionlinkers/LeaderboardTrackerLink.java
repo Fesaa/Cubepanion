@@ -59,6 +59,7 @@ public abstract class LeaderboardTrackerLink {
 
     ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
 
+    Leaderboard submittedFor = currentLeaderboard;
     Cubepanion.weave.getLeaderboardAPI()
         .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries)
         .whenComplete((integer, throwable) -> {
@@ -71,7 +72,7 @@ public abstract class LeaderboardTrackerLink {
           } else if (integer != null && integer == 202) {
             chat.displayClientMessage(
                 Component.translatable("cubepanion.messages.leaderboardAPI.success",
-                        Component.text(this.currentLeaderboard.displayName()))
+                        Component.text(submittedFor.displayName()))
                     .color(Colours.Success));
           }
         });
