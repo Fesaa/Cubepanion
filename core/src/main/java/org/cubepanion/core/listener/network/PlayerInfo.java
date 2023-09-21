@@ -1,5 +1,6 @@
 package org.cubepanion.core.listener.network;
 
+import java.util.UUID;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
@@ -11,7 +12,6 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.CubeGame;
-import java.util.UUID;
 
 public class PlayerInfo {
 
@@ -48,18 +48,21 @@ public class PlayerInfo {
         }
         case SPECTATOR -> {
           if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)
-          && !this.manager.isInPreLobby()) { // Moderation can join games in spectator mode
+              && !this.manager.isInPreLobby()) { // Moderation can join games in spectator mode
             this.addon.rpcManager.registerDeath(e.playerInfo());
             ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
             Minecraft minecraft = addon.labyAPI().minecraft();
             if (player != null) {
               if (uuid.equals(player.getUniqueId())) {
-                EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
-                if (!config.getOnElimination().get() || !config.isEnabled().get()) { // EndGameSubConfig should be enabled as well
+                EndGameSubConfig config = addon.configuration().getAutomationConfig()
+                    .getEndGameSubConfig();
+                if (!config.getOnElimination().get() || !config.isEnabled()
+                    .get()) { // EndGameSubConfig should be enabled as well
                   return;
                 }
                 GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-                gameEndMessage.send(minecraft.chatExecutor(), config, manager.getPartyManager().isInParty());
+                gameEndMessage.send(minecraft.chatExecutor(), config,
+                    manager.getPartyManager().isInParty());
                 manager.setEliminated(true);
               }
             }

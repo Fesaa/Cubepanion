@@ -54,7 +54,8 @@ public class Automations {
       "(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile(
       "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
-  private final Pattern whoList = Pattern.compile("[:|,] (?<rankstring>.) (?:.{0,5} |)(?<username>[a-zA-Z0-9_]{2,16})(?: .{0,5}|)");
+  private final Pattern whoList = Pattern.compile(
+      "[:|,] (?<rankstring>.) (?:.{0,5} |)(?<username>[a-zA-Z0-9_]{2,16})(?: .{0,5}|)");
 
   private boolean voted = false;
   private boolean friendListBeingSend = false;
@@ -153,7 +154,8 @@ public class Automations {
       boolean doElim = msg.matches(eliminationMessage) && config.getOnElimination().get();
       if (msg.equals("Congratulations, you win!") || doElim) {
         GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-        gameEndMessage.send(minecraft.chatExecutor(), config, manager.getPartyManager().isInParty());
+        gameEndMessage.send(minecraft.chatExecutor(), config,
+            manager.getPartyManager().isInParty());
         manager.setEliminated(true);
         return;
       }

@@ -39,7 +39,8 @@ public class EggWarsMapInfoManager {
       EggWarsMapAPI.EggWarsMap[] eggWarsMaps = Cubepanion.weave.getEggWarsMapAPI()
           .getAllEggWarsMaps()
           .exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable, "Could not update EggWarsMapInfoManager#eggWarsMapLayouts");
+            LOGGER.error(getClass(), throwable,
+                "Could not update EggWarsMapInfoManager#eggWarsMapLayouts");
             return new EggWarsMapAPI.EggWarsMap[0];
           })
           .get(500, TimeUnit.MILLISECONDS);

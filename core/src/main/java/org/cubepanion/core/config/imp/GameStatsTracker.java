@@ -1,7 +1,10 @@
 package org.cubepanion.core.config.imp;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
@@ -21,12 +24,10 @@ public class GameStatsTracker {
   private final StatsTracker played;
   private final StatsTracker kills;
   private final StatsTracker deaths;
-  private StatsTracker totalPlayTime;
   private final HashMap<String, StatsTracker> perPlayerKills;
-
   private final HashMap<String, StatsTracker> perPlayerDeaths;
-
   private final HashMap<String, GameStatsTracker> historicalData;
+  private StatsTracker totalPlayTime;
 
   public GameStatsTracker(CubeGame game) {
     this.game = game;
@@ -43,7 +44,8 @@ public class GameStatsTracker {
 
   private GameStatsTracker(CubeGame game, StatsTracker wins, StatsTracker played,
       StatsTracker winStreak, StatsTracker kills, StatsTracker deaths,
-      HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker> perPlayerDeaths, StatsTracker totalPlayTime) {
+      HashMap<String, StatsTracker> perPlayerKills, HashMap<String, StatsTracker> perPlayerDeaths,
+      StatsTracker totalPlayTime) {
     this.game = game;
     this.wins = wins;
     this.played = played;
@@ -365,7 +367,9 @@ public class GameStatsTracker {
             .color(Colours.Title)
             .append(Component.translatable(this.mainKey + "gameStats.statsToday",
                 Component.text(this.getDailyPlayed(), Colours.Secondary),
-                Component.text(Utils.getFormattedString(this.totalPlayTime.getDaily(), layoutEnum.WORDS), Colours.Secondary),
+                Component.text(
+                    Utils.getFormattedString(this.totalPlayTime.getDaily(), layoutEnum.WORDS),
+                    Colours.Secondary),
                 Component.text(this.getWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyWins(), Colours.Secondary),
@@ -378,7 +382,9 @@ public class GameStatsTracker {
                 .color(Colours.Title))
             .append(Component.translatable(this.mainKey + "gameStats.statsAllTime",
                 Component.text(this.getAllTimePlayed(), Colours.Secondary),
-                Component.text(Utils.getFormattedString(this.totalPlayTime.getAllTime(), layoutEnum.WORDS), Colours.Secondary),
+                Component.text(
+                    Utils.getFormattedString(this.totalPlayTime.getAllTime(), layoutEnum.WORDS),
+                    Colours.Secondary),
                 Component.text(this.getAllTimeHighestWinStreak(), Colours.Secondary),
                 Component.text(this.getDailyHighestWinStreak(), Colours.Secondary),
                 Component.text(this.getAllTimeWins(), Colours.Secondary),

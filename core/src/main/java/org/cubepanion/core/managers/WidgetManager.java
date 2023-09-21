@@ -29,6 +29,7 @@ import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 public class WidgetManager {
 
   private final Cubepanion addon;
+
   public WidgetManager(Cubepanion addon) {
     this.addon = addon;
   }
@@ -144,7 +145,8 @@ public class WidgetManager {
 
               int d = (int) (map.getBuildLimit() - p.getPosY());
               if (d < 3 && d > 0) {
-                if (!done.get() && !this.addon.getManager().isInPreLobby() && !this.addon.getManager().isEliminated()) {
+                if (!done.get() && !this.addon.getManager().isInPreLobby()
+                    && !this.addon.getManager().isEliminated()) {
                   mc.sounds().playSound(sound, 1.0F, 1.0F);
                   mc.chatExecutor().displayClientMessage(
                       Component.translatable("cubepanion.messages.build_limit_reached",

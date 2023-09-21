@@ -288,10 +288,12 @@ public class StatsTracker {
         GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
             .get(manager.getDivision());
         if (gameStatsTracker != null) {
-          gameStatsTracker.registerWin((int) (System.currentTimeMillis() - manager.getGameStartTime()));
+          gameStatsTracker.registerWin(
+              (int) (System.currentTimeMillis() - manager.getGameStartTime()));
         } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
           gameStatsTracker = new GameStatsTracker(manager.getDivision());
-          gameStatsTracker.registerWin((int) (System.currentTimeMillis() - manager.getGameStartTime()));
+          gameStatsTracker.registerWin(
+              (int) (System.currentTimeMillis() - manager.getGameStartTime()));
           statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
         }
         manager.setWon(true);

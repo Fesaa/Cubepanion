@@ -12,18 +12,21 @@ public abstract class EggWarsMap {
   protected final Component teamFillerSpaces = spaceMaker(6);
   protected final Component sideSpaces = spaceMaker(2);
   protected final Component betweenSpaces = spaceMaker(4);
-
-  protected String currentTeamColour = "";
   protected final String mapName;
   protected final int teamSize;
   protected final int buildLimit;
   protected final GenLayout genLayout;
+  protected String currentTeamColour = "";
 
   public EggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
     this.genLayout = genLayout;
+  }
+
+  protected static Component spaceMaker(int n) {
+    return Component.text(" ".repeat(Math.max(0, n)));
   }
 
   public int getBuildLimit() {
@@ -50,9 +53,5 @@ public abstract class EggWarsMap {
 
   public Component getTeamFiller(String colour) {
     return Component.text("||||||", Colours.colourToNamedTextColor(colour));
-  }
-
-  protected static Component spaceMaker(int n) {
-    return Component.text(" ".repeat(Math.max(0, n)));
   }
 }

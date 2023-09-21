@@ -27,7 +27,7 @@ public class ArmourBreakSoundsSubConfig extends Config {
   }
 
   public ResourceLocation getSoundIdChestplate() {
-    return  ResourceLocation.create("minecraft",this.soundIdChestplate.get());
+    return ResourceLocation.create("minecraft", this.soundIdChestplate.get());
   }
 
   public ResourceLocation getSoundIdHelmet() {
@@ -35,6 +35,6 @@ public class ArmourBreakSoundsSubConfig extends Config {
   }
 
   public ResourceLocation getSoundIdLeggings() {
-    return  ResourceLocation.create("minecraft", this.soundIdBoots.get());
+    return ResourceLocation.create("minecraft", this.soundIdBoots.get());
   }
 }

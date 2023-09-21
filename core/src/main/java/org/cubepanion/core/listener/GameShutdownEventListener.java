@@ -28,7 +28,8 @@ public class GameShutdownEventListener {
       GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
           .get(manager.getDivision());
       if (gameStatsTracker != null) {
-        gameStatsTracker.registerLoss((int) (System.currentTimeMillis() - manager.getGameStartTime()));
+        gameStatsTracker.registerLoss(
+            (int) (System.currentTimeMillis() - manager.getGameStartTime()));
         gameStatsTracker.registerDeath("leave");
       }
     }

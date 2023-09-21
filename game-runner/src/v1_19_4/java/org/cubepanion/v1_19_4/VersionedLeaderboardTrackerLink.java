@@ -1,13 +1,12 @@
 package org.cubepanion.v1_19_4;
 
 
+import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;

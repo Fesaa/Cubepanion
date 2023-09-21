@@ -1,11 +1,11 @@
 package org.cubepanion.core.utils.eggwarsmaps;
 
+import static org.cubepanion.core.utils.Utils.getDoubleIndex;
+
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-
-import static org.cubepanion.core.utils.Utils.getDoubleIndex;
 
 public class DoubleCrossEggWarsMap extends EggWarsMap {
 

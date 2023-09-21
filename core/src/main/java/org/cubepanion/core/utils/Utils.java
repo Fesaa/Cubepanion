@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.util.Pair;
@@ -22,8 +24,6 @@ import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Utils {
 
@@ -50,22 +50,27 @@ public class Utils {
     Generator[] gens = map.generators();
     List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
     for (Generator gen : gens) {
-      MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()), transformLoc(gen.gen_location()), gen.level(), gen.count());
+      MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()),
+          transformLoc(gen.gen_location()), gen.level(), gen.count());
       mapGenerators.add(mapGen);
     }
     GenLayout layout = new GenLayout(mapGenerators);
     switch (map.layout()) {
       case "square" -> {
-        return new SquareEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
+        return new SquareEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+            twoDeepStringList(transformColours(map)));
       }
       case "cross" -> {
-        return new CrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, oneDeepStringList(transformColours(map)));
+        return new CrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+            oneDeepStringList(transformColours(map)));
       }
       case "doublecross" -> {
-        return new DoubleCrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
+        return new DoubleCrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+            twoDeepStringList(transformColours(map)));
       }
       case "triangle" -> {
-        return new TriangleEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout, twoDeepStringList(transformColours(map)));
+        return new TriangleEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+            twoDeepStringList(transformColours(map)));
       }
       default -> {
         LOGGER.error(Utils.class, "Unknown map layout", map.layout(), "for map", map.map_name());
@@ -99,25 +104,26 @@ public class Utils {
     try {
       array = (new Gson()).fromJson(map.colours(), JsonArray.class);
     } catch (JsonSyntaxException e) {
-      LOGGER.error(Utils.class, e, "Failed to parse colours for", map.map_name(), " using empty list.");
+      LOGGER.error(Utils.class, e, "Failed to parse colours for", map.map_name(),
+          " using empty list.");
     }
     return array != null ? array : new JsonArray();
   }
 
   static GenLayout.Generator transformGen(String type) {
-      return switch (type) {
-        case "diamond" -> GenLayout.Generator.DIAMOND;
-        case "gold" -> GenLayout.Generator.GOLD;
-        default -> GenLayout.Generator.IRON;
-      };
+    return switch (type) {
+      case "diamond" -> GenLayout.Generator.DIAMOND;
+      case "gold" -> GenLayout.Generator.GOLD;
+      default -> GenLayout.Generator.IRON;
+    };
   }
 
   static Location transformLoc(String loc) {
-      return switch (loc) {
-          case "middle" -> Location.MIDDLE;
-          case "semimiddle" -> Location.SEMI_MIDDLE;
-          default -> Location.BASE;
-      };
+    return switch (loc) {
+      case "middle" -> Location.MIDDLE;
+      case "semimiddle" -> Location.SEMI_MIDDLE;
+      default -> Location.BASE;
+    };
   }
 
   public static Component chestLocationsComponent(ChestLocation loc) {
@@ -138,7 +144,8 @@ public class Utils {
   }
 
   public static void timeOutAPIError() {
-    Cubepanion.get().displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.timedOut"));
+    Cubepanion.get()
+        .displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.timedOut"));
   }
 
   public static String getFormattedString(long timeDifference, layoutEnum layout) {

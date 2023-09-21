@@ -37,6 +37,10 @@ public class FriendTrackerManager {
 
   public HashMap<String, OnlineFriendLocation> getFriendLocations() {
     return friendLocations;
+  }
+
+  public Collection<OnlineFriendLocation> getOnlineFriendLocations() {
+    return this.friendLocations.values();
   }  private Task friendTrackerLoopTask = Task.builder(() -> {
     if (this.runningLoops.contains(this.currentLoop)) {
       this.isUpdating = true;
@@ -44,10 +48,6 @@ public class FriendTrackerManager {
       this.friendTrackerLoopTask.execute();
     }
   }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
-
-  public Collection<OnlineFriendLocation> getOnlineFriendLocations() {
-    return this.friendLocations.values();
-  }
 
   public int getUpdateInterVal() {
     return updateInterVal;

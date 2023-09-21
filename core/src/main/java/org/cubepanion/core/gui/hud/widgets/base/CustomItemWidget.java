@@ -48,7 +48,8 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
       ClientPlayer player = minecraft.getClientPlayer();
       if (player != null && player.gameMode() != GameMode.SPECTATOR && this.counter > 0) {
         HudEvents hudEvents = HudEvents.getInstance();
-        return (hudEvents.hasSelected(this.item) || this.itemIsHeld) || !this.config.getOnlyDisplayWhenHeld().get();
+        return (hudEvents.hasSelected(this.item) || this.itemIsHeld)
+            || !this.config.getOnlyDisplayWhenHeld().get();
       } else {
         return false;
       }

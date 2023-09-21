@@ -1,5 +1,9 @@
 package org.cubepanion.core.listener.hud;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Inventory;
@@ -13,28 +17,17 @@ import net.labymod.api.util.Pair;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.NotNull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 
 public class HudEvents {
 
+  private static final ItemStack AIR = Laby.references().itemStackFactory()
+      .create(ResourceLocation.create("minecraft", "air"));
   private static HudEvents hudEvents;
-
-  // This will never be null
-  public static @NotNull HudEvents getInstance() {
-    return hudEvents;
-  }
-
   private final Cubepanion addon;
 
   private final Map<Item, Integer> trackedItems;
   private final Map<String, Integer> trackedRegexes;
   private final Map<String, ItemStack> lastRegexMatches;
-  private static final ItemStack AIR = Laby.references().itemStackFactory()
-      .create(ResourceLocation.create("minecraft", "air"));
-
   private ItemStack selectedStack;
 
   public HudEvents(Cubepanion addon) {
@@ -44,6 +37,11 @@ public class HudEvents {
     this.trackedItems = new HashMap<>();
     this.trackedRegexes = new HashMap<>();
     this.lastRegexMatches = new HashMap<>();
+  }
+
+  // This will never be null
+  public static @NotNull HudEvents getInstance() {
+    return hudEvents;
   }
 
   public IntSupplier registerItemStack(ItemStack itemStack) {

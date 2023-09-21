@@ -2,10 +2,8 @@ package org.cubepanion.core.managers;
 
 import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import art.ameliah.libs.weave.ChestAPI.SeasonType;
-import art.ameliah.libs.weave.WeaveException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -227,10 +225,6 @@ public class CubepanionManager {
     return division;
   }
 
-  public boolean isPlaying(CubeGame game) {
-    return division.equals(game) && !inPreLobby;
-  }
-
   public void setDivision(CubeGame division) {
     this.lastDivision = this.division;
     this.division = division;
@@ -242,6 +236,10 @@ public class CubepanionManager {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
+  }
+
+  public boolean isPlaying(CubeGame game) {
+    return division.equals(game) && !inPreLobby;
   }
 
   public CubeGame getLastDivision() {

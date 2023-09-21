@@ -58,20 +58,20 @@ public class EndGameSubConfig extends Config {
     }
 
     private String toReadable() {
-        switch (this) {
-            case GG -> {
-                return "gg";
-            }
-            case WP -> {
-                return "wp";
-            }
-            case GOOD_GAME -> {
-                return "Good game";
-            }
-            case WELL_PLAYED -> {
-                return "Well played";
-            }
+      switch (this) {
+        case GG -> {
+          return "gg";
         }
+        case WP -> {
+          return "wp";
+        }
+        case GOOD_GAME -> {
+          return "Good game";
+        }
+        case WELL_PLAYED -> {
+          return "Well played";
+        }
+      }
       return "";
     }
   }

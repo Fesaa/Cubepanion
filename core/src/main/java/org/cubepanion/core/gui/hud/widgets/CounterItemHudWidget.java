@@ -1,5 +1,7 @@
 package org.cubepanion.core.gui.hud.widgets;
 
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
@@ -8,8 +10,6 @@ import net.labymod.api.client.world.item.ItemStack;
 import org.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.jetbrains.annotations.Nullable;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 
 public class CounterItemHudWidget extends CustomItemWidget {
 
@@ -48,6 +48,6 @@ public class CounterItemHudWidget extends CustomItemWidget {
       this.updateItemStack(this.itemStackSupplier.get(), false);
     }
     this.updateItemName(Component.text(this.counter, this.config.getTextColor()), false);
-    }
+  }
 
 }

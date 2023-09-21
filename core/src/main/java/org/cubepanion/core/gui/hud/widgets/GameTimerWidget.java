@@ -34,7 +34,8 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 
   public void onTick(boolean inEditor) {
     if (inEditor) {
-      this.HUDLine.updateAndFlush(Utils.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000, this.config.layout.get()));
+      this.HUDLine.updateAndFlush(
+          Utils.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000, this.config.layout.get()));
       return;
     }
     long timeDifference = System.currentTimeMillis() - this.manager.getGameStartTime();

@@ -1,11 +1,11 @@
 package org.cubepanion.core.utils.eggwarsmaps;
 
+import static org.cubepanion.core.utils.Utils.getDoubleIndex;
+
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-
-import static org.cubepanion.core.utils.Utils.getDoubleIndex;
 
 public class SquareEggWarsMap extends EggWarsMap {
 
@@ -53,7 +53,7 @@ public class SquareEggWarsMap extends EggWarsMap {
     this.currentTeamColour = teamColour;
     this.teamSide = this.teamColours.get(first).get((second + 1) % 2);
     this.teamAcross = this.teamColours.get((first + 1) % 2).get((second + 1) % 2);
-    this.teamAcrossSide = this.teamColours.get((first + 1) % 2) .get(second);
+    this.teamAcrossSide = this.teamColours.get((first + 1) % 2).get(second);
 
     if (second == 1) {
       this.currentTeamColour = this.teamSide;

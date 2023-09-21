@@ -38,6 +38,7 @@ public class QOLConfig extends Config {
   public ConfigProperty<Boolean> getRankTag() {
     return this.rankTag;
   }
+
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
   }
@@ -51,7 +52,7 @@ public class QOLConfig extends Config {
   }
 
   public ResourceLocation getVoteReminderResourceLocation() {
-    return ResourceLocation.create("minecraft",this.reminderToVoteSoundId.get());
+    return ResourceLocation.create("minecraft", this.reminderToVoteSoundId.get());
   }
 
   public ConfigProperty<Boolean> getNoDropSkyBlock() {

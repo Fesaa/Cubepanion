@@ -57,7 +57,7 @@ public class AutomationConfig extends Config {
   }
 
   public ResourceLocation getFriendMessageSoundId() {
-    return ResourceLocation.create("minecraft",this.friendMessageSoundId.get());
+    return ResourceLocation.create("minecraft", this.friendMessageSoundId.get());
   }
 
   public EndGameSubConfig getEndGameSubConfig() {
