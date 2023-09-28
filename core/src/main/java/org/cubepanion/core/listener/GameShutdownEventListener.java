@@ -17,22 +17,21 @@ public class GameShutdownEventListener {
 
   @Subscribe
   public void onGameShutdownEvent(GameShutdownEvent gameShutdownEvent) {
-    this.addon.saveConfiguration();
-    if (!this.addon.getManager().onCubeCraft()) {
-      return;
-    }
-    CubepanionManager manager = this.addon.getManager();
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-        .getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-          .get(manager.getDivision());
-      if (gameStatsTracker != null) {
-        gameStatsTracker.registerLoss(
-            (int) (System.currentTimeMillis() - manager.getGameStartTime()));
-        gameStatsTracker.registerDeath("leave");
+    if (this.addon.getManager().onCubeCraft()) {
+      CubepanionManager manager = this.addon.getManager();
+      StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
+          .getStatsTrackerSubConfig();
+      if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreLobby()) {
+        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
+            .get(manager.getDivision());
+        if (gameStatsTracker != null) {
+          gameStatsTracker.registerLoss(
+              (int) (System.currentTimeMillis() - manager.getGameStartTime()));
+          gameStatsTracker.registerDeath("leave");
+        }
       }
     }
+    this.addon.saveConfiguration();
   }
 
 }
