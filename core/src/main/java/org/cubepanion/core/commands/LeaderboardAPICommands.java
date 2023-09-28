@@ -67,9 +67,13 @@ public class LeaderboardAPICommands extends Command {
             return null;
           })
           .get(500, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
       timeOutAPIError();
+      return;
+    } catch (ExecutionException e) {
+      LOGGER.error(getClass(), e.getCause(), "LeaderboardAPI#getLeaderboardsForPlayer completed exceptionally");
+      this.displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.commands.APIError"));
       return;
     }
 
@@ -126,9 +130,13 @@ public class LeaderboardAPICommands extends Command {
             return null;
           })
           .get(500, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
       timeOutAPIError();
+      return;
+    } catch (ExecutionException e) {
+      LOGGER.error(getClass(), e.getCause(), "LeaderboardAPI#getGameLeaderboard completed exceptionally");
+      this.displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.commands.APIError"));
       return;
     }
 

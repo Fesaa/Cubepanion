@@ -154,8 +154,10 @@ public class CubepanionManager {
           })
           .get(500, TimeUnit.MILLISECONDS);
       Cubepanion.chestLocations = List.of(chestLocations);
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
+    } catch (ExecutionException e) {
+      LOGGER.error(getClass(), e.getCause(), "ChestAPI#getCurrentChestLocations completed exceptionally");
     }
     try {
       String[] seasons = Cubepanion.weave.getChestAPI()
@@ -168,8 +170,10 @@ public class CubepanionManager {
       if (seasons.length > 0) {
         Cubepanion.season = seasons[0];
       }
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getSeasons took longer than 500ms");
+    } catch (ExecutionException e) {
+      LOGGER.error(getClass(), e.getCause(), "ChestAPI#getSeasons completed exceptionally");
     }
   }
 

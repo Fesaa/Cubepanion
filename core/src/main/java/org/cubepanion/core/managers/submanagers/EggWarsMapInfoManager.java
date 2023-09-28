@@ -53,8 +53,10 @@ public class EggWarsMapInfoManager {
           LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
         }
       }
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "EggWarsMapInfoManager#queryMaps took longer than 500ms");
+    } catch (ExecutionException e) {
+      LOGGER.error(getClass(), e.getCause(), "EggWarsMapAPI#getAllEggWarsMaps completed exceptionally");
     }
   }
 
