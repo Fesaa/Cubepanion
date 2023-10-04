@@ -2,7 +2,6 @@ package org.cubepanion.core.managers.submanagers;
 
 import static org.cubepanion.core.utils.Utils.fromAPIMap;
 
-import art.ameliah.libs.weave.EggWarsMapAPI;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,7 @@ import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.jetbrains.annotations.Nullable;
 
 public class EggWarsMapInfoManager {

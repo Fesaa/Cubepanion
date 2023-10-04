@@ -1,7 +1,5 @@
 package org.cubepanion.core.managers;
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
-import art.ameliah.libs.weave.ChestAPI.SeasonType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -17,6 +15,8 @@ import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
+import org.cubepanion.core.weave.ChestAPI.SeasonType;
 import org.jetbrains.annotations.Nullable;
 
 public class CubepanionManager {

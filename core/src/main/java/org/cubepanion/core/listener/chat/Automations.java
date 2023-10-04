@@ -2,7 +2,7 @@ package org.cubepanion.core.listener.chat;
 
 import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +26,7 @@ import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.OnlineFriendLocation;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 
 public class Automations {
 

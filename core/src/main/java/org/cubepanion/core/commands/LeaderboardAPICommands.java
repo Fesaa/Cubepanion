@@ -3,9 +3,6 @@ package org.cubepanion.core.commands;
 import static org.cubepanion.core.utils.Utils.handleAPIError;
 import static org.cubepanion.core.utils.Utils.timeOutAPIError;
 
-import art.ameliah.libs.weave.LeaderboardAPI;
-import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
-import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -19,6 +16,9 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.LOGGER;
+import org.cubepanion.core.weave.LeaderboardAPI;
+import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
+import org.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import org.jetbrains.annotations.Nullable;
 
 public class LeaderboardAPICommands extends Command {

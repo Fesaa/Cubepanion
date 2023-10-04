@@ -1,8 +1,5 @@
 package org.cubepanion.core.utils;
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
-import art.ameliah.libs.weave.EggWarsMapAPI;
-import art.ameliah.libs.weave.EggWarsMapAPI.Generator;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,6 +20,9 @@ import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
+import org.cubepanion.core.weave.EggWarsMapAPI;
+import org.cubepanion.core.weave.EggWarsMapAPI.Generator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

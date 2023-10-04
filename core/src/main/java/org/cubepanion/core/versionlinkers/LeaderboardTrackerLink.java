@@ -2,8 +2,6 @@ package org.cubepanion.core.versionlinkers;
 
 import static org.cubepanion.core.utils.Utils.handleAPIError;
 
-import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
-import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +14,8 @@ import net.labymod.api.reference.annotation.Referenceable;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
+import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
+import org.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable

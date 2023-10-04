@@ -1,7 +1,6 @@
 package org.cubepanion.v1_19_2;
 
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton

@@ -1,6 +1,5 @@
 package org.cubepanion.core.commands;
 
-import art.ameliah.libs.weave.LeaderboardAPI.Leaderboard;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
@@ -8,6 +7,7 @@ import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.Utils;
+import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import java.util.Map.Entry;
 import java.util.Set;
 

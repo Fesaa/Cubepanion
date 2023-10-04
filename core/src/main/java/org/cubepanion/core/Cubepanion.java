@@ -1,7 +1,6 @@
 package org.cubepanion.core;
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
-import art.ameliah.libs.weave.Weave;
+
 import java.util.ArrayList;
 import java.util.List;
 import net.labymod.api.Laby;
@@ -46,6 +45,8 @@ import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
+import org.cubepanion.core.weave.Weave;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {

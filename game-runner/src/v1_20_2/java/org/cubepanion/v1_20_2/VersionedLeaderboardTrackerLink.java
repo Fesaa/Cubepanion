@@ -1,7 +1,7 @@
 package org.cubepanion.v1_20_2;
 
 
-import art.ameliah.libs.weave.LeaderboardAPI.LeaderboardRow;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
+import org.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 
 @Singleton
 @Implements(LeaderboardTrackerLink.class)

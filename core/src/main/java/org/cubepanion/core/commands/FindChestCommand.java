@@ -2,7 +2,6 @@ package org.cubepanion.core.commands;
 
 import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
 
-import art.ameliah.libs.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
@@ -11,6 +10,7 @@ import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
+import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 
 public class FindChestCommand extends Command {
 
