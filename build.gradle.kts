@@ -1,3 +1,5 @@
+import java.util.function.Supplier
+
 plugins {
     id("java-library")
     id("net.labymod.gradle")
@@ -25,9 +27,15 @@ labyMod {
                 "1.19.2",
                 "1.19.3",
                 "1.19.4",
-                "1.20.1"
+                "1.20.1",
+                "1.20.2"
         ) { version, provider ->
             configureRun(provider, version)
+
+            provider.accessWidener = Supplier {
+                val sourceSetName = version.replace(".", "_").replace("-", "_")
+                file("./game-runner/src/v$sourceSetName/resources/cubepanion-$version.accesswidener")
+            }
         }
 
         subprojects.forEach {
