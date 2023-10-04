@@ -28,21 +28,15 @@ import org.jetbrains.annotations.NotNull;
 @Singleton
 @Implements(VotingLink.class)
 public class VersionedVotingLink extends VotingLink {
-
-  public static BlockStatePredictionHandler handler = null;
-
   private final Task clickOnMenu = Task.builder(() -> {
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
-    connection.getLevel().getLevelData();
-    int sequence = 0;
-    if (handler != null) {
-      handler.startPredicting();
-      sequence = handler.currentSequence();
-    }
+    BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
+    handler.startPredicting();
+    int sequence = handler.currentSequence();
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence));
   }).delay(200, TimeUnit.MILLISECONDS).build();
   public ItemStack returnItemStack;

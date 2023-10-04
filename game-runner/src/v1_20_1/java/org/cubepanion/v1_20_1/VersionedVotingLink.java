@@ -23,7 +23,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.VotingLink;
-import org.cubepanion.v1_20_1.client.VersionedBSPHAccessor;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton
@@ -37,7 +36,7 @@ public class VersionedVotingLink extends VotingLink {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
-    BlockStatePredictionHandler handler = ((VersionedBSPHAccessor) connection.getLevel()).cubepanion$get();
+    BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
     handler.startPredicting();
     int sequence = handler.currentSequence();
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence));
