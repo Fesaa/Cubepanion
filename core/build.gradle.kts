@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     api(project(":api"))
-    implementation("org.asynchttpclient:async-http-client:3.0.0.Beta2")
+    maven(mavenCentral(), "org.asynchttpclient:async-http-client:3.0.0.Beta2")
     shade(files("../libs/weave.jar"))
 
     // If you want to use external libraries, you can do that here.
