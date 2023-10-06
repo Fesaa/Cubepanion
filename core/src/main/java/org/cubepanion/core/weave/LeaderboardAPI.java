@@ -16,24 +16,32 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
+import org.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.Nullable;
+import javax.inject.Singleton;
 
 
-/**
- * Interaction class for LeaderboardAPI
- */
+@Singleton
 public class LeaderboardAPI {
 
-  private final String baseURL;
+  private static LeaderboardAPI instance;
+
+  public static LeaderboardAPI getInstance() {
+    return instance;
+  }
+
+  private static final String baseURL = "https://ameliah.art/cubepanion_api";
 
   private final HashMap<String, Leaderboard> converter = new HashMap<>();
 
-  /**
-   * @param url base API url
-   */
-  public LeaderboardAPI(String url) {
-    this.baseURL = url;
+  public LeaderboardAPI() {
+    if (instance != null) {
+      throw new RuntimeException("Class already initialized");
+    }
+    instance = this;
+  }
 
+  public void loadLeaderboards() {
     String url2 = String.format("%s/leaderboard_api/games/true", baseURL);
     CompletableFuture<JsonArray> completableFuture = makeRequest(url2, JsonArray.class);
     completableFuture
@@ -52,6 +60,10 @@ public class LeaderboardAPI {
             converter.put(game.name(), game);
             converter.put(game.displayName(), game);
           }
+        })
+        .exceptionally(throwable -> {
+          LOGGER.error(getClass(), throwable, "Error while loading leaderboards");
+          return new JsonArray();
         });
   }
 

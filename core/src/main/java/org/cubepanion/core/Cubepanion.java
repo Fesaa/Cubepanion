@@ -45,19 +45,23 @@ import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
+import org.cubepanion.core.weave.ChestAPI;
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
-import org.cubepanion.core.weave.Weave;
+import org.cubepanion.core.weave.EggWarsMapAPI;
+import org.cubepanion.core.weave.LeaderboardAPI;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
-  public static Weave weave;
   public static List<ChestLocation> chestLocations = new ArrayList<>();
   public static String season = "";
   private static Cubepanion instance;
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;
   private CubepanionManager manager;
+  private ChestAPI chestAPI;
+  private EggWarsMapAPI eggWarsMapAPI;
+  private LeaderboardAPI leaderboardAPI;
 
   public Cubepanion() {
     instance = this;
@@ -84,11 +88,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
     }
 
-    if (System.getProperty("weave.dev") != null && System.getProperty("weave.dev").equals("true")) {
-      weave = Weave.Dev(false);
-    } else {
-      weave = Weave.Production();
-    }
+    this.chestAPI = new ChestAPI();
+    this.eggWarsMapAPI = new EggWarsMapAPI();
+    this.leaderboardAPI = new LeaderboardAPI();
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
@@ -153,6 +155,18 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   public CubepanionManager getManager() {
     return this.manager;
+  }
+
+  public ChestAPI getChestAPI() {
+    return chestAPI;
+  }
+
+  public EggWarsMapAPI getEggWarsMapAPI() {
+    return eggWarsMapAPI;
+  }
+
+  public LeaderboardAPI getLeaderboardAPI() {
+    return leaderboardAPI;
   }
 
   public Component prefix() {

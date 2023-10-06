@@ -15,8 +15,10 @@ import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.weave.ChestAPI;
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.cubepanion.core.weave.ChestAPI.SeasonType;
+import org.cubepanion.core.weave.LeaderboardAPI;
 import org.jetbrains.annotations.Nullable;
 
 public class CubepanionManager {
@@ -145,8 +147,10 @@ public class CubepanionManager {
     this.partyManager.reset();
     this.eggWarsMapInfoManager.queryMaps();
 
+    LeaderboardAPI.getInstance().loadLeaderboards();
+
     try {
-      ChestLocation[] chestLocations = Cubepanion.weave.getChestAPI()
+      ChestLocation[] chestLocations = ChestAPI.getInstance()
           .getCurrentChestLocations()
           .exceptionally(throwable -> {
             LOGGER.error(getClass(), throwable, "Could not update Cubepanion#chestLocations");
@@ -160,7 +164,7 @@ public class CubepanionManager {
       LOGGER.error(getClass(), e.getCause(), "ChestAPI#getCurrentChestLocations completed exceptionally");
     }
     try {
-      String[] seasons = Cubepanion.weave.getChestAPI()
+      String[] seasons = ChestAPI.getInstance()
           .getSeasons(SeasonType.RUNNING)
           .exceptionally(throwable -> {
             LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
