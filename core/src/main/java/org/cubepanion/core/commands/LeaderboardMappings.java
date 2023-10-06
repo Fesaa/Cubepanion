@@ -7,6 +7,7 @@ import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.Utils;
+import org.cubepanion.core.weave.LeaderboardAPI;
 import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class LeaderboardMappings extends Command {
 
     Component toDisplay = Component.translatable("cubepanion.messages.leaderboardAPI.commands.help.lbmappings", Colours.Title);
 
-    for (Entry<Leaderboard, Set<String>> e : Cubepanion.weave.getLeaderboardAPI().getAliases().entrySet()) {
+    for (Entry<Leaderboard, Set<String>> e : LeaderboardAPI.getInstance().getAliases().entrySet()) {
       toDisplay = toDisplay
           .append(Component.text(e.getKey().displayName(), Colours.Primary))
           .append(Component.text(" => ", Colours.Secondary))

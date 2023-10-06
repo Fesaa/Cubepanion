@@ -14,6 +14,7 @@ import net.labymod.api.reference.annotation.Referenceable;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
+import org.cubepanion.core.weave.LeaderboardAPI;
 import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import org.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +61,7 @@ public abstract class LeaderboardTrackerLink {
     ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
 
     Leaderboard submittedFor = currentLeaderboard;
-    Cubepanion.weave.getLeaderboardAPI()
+    LeaderboardAPI.getInstance()
         .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries)
         .whenComplete((integer, throwable) -> {
           if (throwable != null) {
@@ -95,6 +96,6 @@ public abstract class LeaderboardTrackerLink {
         .toLowerCase()
         .replace(" ", "_");
 
-    return Cubepanion.weave.getLeaderboardAPI().getLeaderboard(name);
+    return LeaderboardAPI.getInstance().getLeaderboard(name);
   }
 }

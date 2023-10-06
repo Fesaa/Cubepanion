@@ -1,23 +1,28 @@
 package org.cubepanion.core.weave;
 
+import javax.inject.Singleton;
+
 import static org.cubepanion.core.weave.Utils.makeRequest;
 
 import java.util.concurrent.CompletableFuture;
 
 
-/**
- * Interaction class for ChestAPI
- */
+@Singleton
 public class ChestAPI {
 
-  private final String baseURL;
+  private static ChestAPI instance;
 
+  public static ChestAPI getInstance() {
+    return instance;
+  }
 
-  /**
-   * @param url base API url
-   */
-  protected ChestAPI(String url) {
-    this.baseURL = url;
+  private static final String baseURL = "https://ameliah.art/cubepanion_api";
+
+  public ChestAPI() {
+    if (instance != null) {
+      throw new RuntimeException("Class already initialized");
+    }
+    instance = this;
   }
 
   /**

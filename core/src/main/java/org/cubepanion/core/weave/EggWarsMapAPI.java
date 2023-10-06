@@ -1,21 +1,27 @@
 package org.cubepanion.core.weave;
 
+import javax.inject.Singleton;
+
 import static org.cubepanion.core.weave.Utils.makeRequest;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * API for EggWars maps
- */
+@Singleton
 public class EggWarsMapAPI {
 
-  private final String baseURL;
+  private static EggWarsMapAPI instance;
 
-  /**
-   * @param url base API url
-   */
-  protected EggWarsMapAPI(String url) {
-    this.baseURL = url;
+  public static EggWarsMapAPI getInstance() {
+    return instance;
+  }
+
+  private static final String baseURL = "https://ameliah.art/cubepanion_api";
+
+  public EggWarsMapAPI() {
+    if (instance != null) {
+      throw new RuntimeException("Class already initialized");
+    }
+    instance = this;
   }
 
   /**

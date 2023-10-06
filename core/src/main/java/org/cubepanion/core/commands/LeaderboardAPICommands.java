@@ -57,7 +57,7 @@ public class LeaderboardAPICommands extends Command {
 
     LeaderboardRow[] rows;
     try {
-      rows = Cubepanion.weave.getLeaderboardAPI()
+      rows = LeaderboardAPI.getInstance()
           .getLeaderboardsForPlayer(userName)
           .exceptionally(throwable -> {
             handleAPIError(getClass(), addon, throwable,
@@ -120,7 +120,7 @@ public class LeaderboardAPICommands extends Command {
 
     LeaderboardRow[] rows;
     try {
-      rows = Cubepanion.weave.getLeaderboardAPI()
+      rows = LeaderboardAPI.getInstance()
           .getGameLeaderboard(leaderboard, bound, bound_2)
           .exceptionally(throwable -> {
             handleAPIError(getClass(), addon, throwable,
@@ -220,7 +220,7 @@ public class LeaderboardAPICommands extends Command {
 
     for (String s : arguments) {
       tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
-      lb = Cubepanion.weave.getLeaderboardAPI().getLeaderboard(tryForLeaderboard);
+      lb = LeaderboardAPI.getInstance().getLeaderboard(tryForLeaderboard);
       if (lb != null) {
         return lb;
       }

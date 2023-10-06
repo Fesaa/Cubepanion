@@ -36,7 +36,7 @@ public class EggWarsMapInfoManager {
   public void queryMaps() {
 
     try {
-      EggWarsMapAPI.EggWarsMap[] eggWarsMaps = Cubepanion.weave.getEggWarsMapAPI()
+      EggWarsMapAPI.EggWarsMap[] eggWarsMaps = EggWarsMapAPI.getInstance()
           .getAllEggWarsMaps()
           .exceptionally(throwable -> {
             LOGGER.error(getClass(), throwable,
