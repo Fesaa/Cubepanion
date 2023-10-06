@@ -58,7 +58,7 @@ public class HudEvents {
   }
 
   public boolean hasSelected(ItemStack itemStack) {
-    if (this.selectedStack == null) {
+    if (this.selectedStack == null || itemStack == null) {
       return false;
     }
     return this.selectedStack.matches(itemStack);
