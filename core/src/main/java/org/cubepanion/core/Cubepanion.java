@@ -52,9 +52,6 @@ import org.cubepanion.core.weave.LeaderboardAPI;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
-
-  public static List<ChestLocation> chestLocations = new ArrayList<>();
-  public static String season = "";
   private static Cubepanion instance;
   public DiscordRPCManager rpcManager;
   public WidgetManager widgetManager;

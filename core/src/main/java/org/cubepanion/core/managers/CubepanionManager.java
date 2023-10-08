@@ -127,7 +127,7 @@ public class CubepanionManager {
     this.friendTrackerManager.endCurrentLoop();
     this.friendTrackerManager.resetTrackers();
 
-    Cubepanion.chestLocations = new ArrayList<>();
+    ChestAPI.getInstance().clearChestLocations();
   }
 
   public void onCubeJoin() {
@@ -157,7 +157,7 @@ public class CubepanionManager {
             return new ChestLocation[0];
           })
           .get(500, TimeUnit.MILLISECONDS);
-      Cubepanion.chestLocations = List.of(chestLocations);
+       ChestAPI.getInstance().setChestLocations(List.of(chestLocations));
     } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
     } catch (ExecutionException e) {
@@ -172,7 +172,7 @@ public class CubepanionManager {
           })
           .get(500, TimeUnit.MILLISECONDS);
       if (seasons.length > 0) {
-        Cubepanion.season = seasons[0];
+        ChestAPI.getInstance().setSeason(seasons[0]);
       }
     } catch (InterruptedException | TimeoutException e) {
       LOGGER.error(getClass(), e, "ChestAPI#getSeasons took longer than 500ms");

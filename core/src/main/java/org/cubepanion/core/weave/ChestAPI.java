@@ -4,6 +4,8 @@ import javax.inject.Singleton;
 
 import static org.cubepanion.core.weave.Utils.makeRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -18,12 +20,37 @@ public class ChestAPI {
 
   private static final String baseURL = "https://ameliah.art/cubepanion_api";
 
+  private String Season = "";
+  public List<ChestLocation> chestLocations = new ArrayList<>();
+
   public ChestAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }
     instance = this;
   }
+
+  public String getSeason() {
+    return Season;
+  }
+
+  public void setSeason(String season) {
+    Season = season;
+  }
+
+  public List<ChestLocation> getChestLocations() {
+    return chestLocations;
+  }
+
+  public void setChestLocations(List<ChestLocation> chestLocations) {
+    this.chestLocations = chestLocations;
+  }
+
+  public void clearChestLocations() {
+    this.chestLocations.clear();
+  }
+
+
 
   /**
    * Requests chests locations for the current running season
