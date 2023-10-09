@@ -3,6 +3,7 @@ package org.cubepanion.core.utils;
 import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.util.logging.Logging;
+import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,17 +87,23 @@ public class LOGGER {
 
   @SafeVarargs
   public static <T, V> void debug(Class<T> origin, V... msgs) {
-    log.debug(formatClass(origin) + join(msgs));
+    if (Cubepanion.get().configuration().getShowDebug().get()) {
+      log.info(formatClass(origin) + join(msgs));
+    }
   }
 
   @SafeVarargs
   public static <T, V> void debug(Class<T> origin, Throwable cause, V... msgs) {
-    log.debug(formatClass(origin) + join(msgs), cause);
+    if (Cubepanion.get().configuration().getShowDebug().get()) {
+      log.info(formatClass(origin) + join(msgs), cause);
+    }
   }
 
   @SafeVarargs
   public static <T, V> void debug(boolean gameInfo, Class<T> origin, V... msgs) {
-    log.debug(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
+    if (Cubepanion.get().configuration().getShowDebug().get()) {
+      log.info(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
+    }
   }
 
   @SafeVarargs
