@@ -11,6 +11,7 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.utils.CubeGame;
 
 public class PlayerInfo {
@@ -29,7 +30,7 @@ public class PlayerInfo {
       return;
     }
     if (this.manager.isPlaying(CubeGame.TEAM_EGGWARS)) {
-      this.addon.rpcManager.registerDeath(e.playerInfo());
+      DiscordAPI.getInstance().registerDeath(e.playerInfo());
     }
   }
 
@@ -49,7 +50,7 @@ public class PlayerInfo {
         case SPECTATOR -> {
           if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)
               && !this.manager.isInPreLobby()) { // Moderation can join games in spectator mode
-            this.addon.rpcManager.registerDeath(e.playerInfo());
+            DiscordAPI.getInstance().registerDeath(e.playerInfo());
             ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
             Minecraft minecraft = addon.labyAPI().minecraft();
             if (player != null) {

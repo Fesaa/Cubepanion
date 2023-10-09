@@ -1,6 +1,7 @@
 package org.cubepanion.core.weave;
 
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.gfx.pipeline.post.data.EffectData;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import javax.inject.Singleton;
@@ -24,7 +25,11 @@ public class EggWarsMapAPI {
 
   private final HashMap<String, LoadedEggWarsMap> convertedEggWarsMaps = new HashMap<>();
 
-  public EggWarsMapAPI() {
+  public static void Init() {
+    instance = new EggWarsMapAPI();
+  }
+
+   private EggWarsMapAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }

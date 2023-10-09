@@ -20,6 +20,7 @@ import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
@@ -93,8 +94,8 @@ public class Automations {
           && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
         this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
       }
-      this.addon.rpcManager.startOfGame();
-      this.addon.rpcManager.updateRPC();
+      DiscordAPI.getInstance().startOfGame();
+      DiscordAPI.getInstance().updateRPC();
     }).delay(1000, TimeUnit.MILLISECONDS).build();
   }
 
@@ -145,7 +146,7 @@ public class Automations {
     // RPC
     Matcher matcher = playerElimination.matcher(msg);
     if (matcher.matches()) {
-      this.addon.rpcManager.registerDeath(matcher.group(1));
+      DiscordAPI.getInstance().registerDeath(matcher.group(1));
     }
 
     // Auto GG

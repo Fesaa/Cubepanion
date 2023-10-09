@@ -8,6 +8,7 @@ import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.utils.CubeGame;
 
 public class ScoreboardListener {
@@ -56,7 +57,7 @@ public class ScoreboardListener {
       }
     }
     if (this.updatedMap) {
-      this.addon.rpcManager.updateRPC();
+      DiscordAPI.getInstance().updateRPC();
     }
   }
 

@@ -8,6 +8,7 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.managers.DiscordAPI;
 
 public class ServerNavigation {
 
@@ -36,7 +37,7 @@ public class ServerNavigation {
     if (this.manager.onCubeCraft()) {
       register_game_leave();
       this.manager.reset();
-      this.addon.rpcManager.removeCustomRPC();
+      DiscordAPI.getInstance().removeCustomRPC();
     }
   }
 

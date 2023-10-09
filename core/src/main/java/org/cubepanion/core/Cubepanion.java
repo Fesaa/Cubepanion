@@ -1,8 +1,6 @@
 package org.cubepanion.core;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
@@ -37,7 +35,7 @@ import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
 import org.cubepanion.core.listener.network.ServerNavigation;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.managers.DiscordRPCManager;
+import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.LOGGER;
@@ -46,19 +44,13 @@ import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 import org.cubepanion.core.weave.ChestAPI;
-import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.LeaderboardAPI;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private static Cubepanion instance;
-  public DiscordRPCManager rpcManager;
-  public WidgetManager widgetManager;
   private CubepanionManager manager;
-  private ChestAPI chestAPI;
-  private EggWarsMapAPI eggWarsMapAPI;
-  private LeaderboardAPI leaderboardAPI;
 
   public Cubepanion() {
     instance = this;
@@ -68,12 +60,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     return instance;
   }
 
-  public static void updateRPC() {
-    if (instance != null && instance.rpcManager != null) {
-      instance.rpcManager.updateRPC();
-    }
-  }
-
   @Override
   protected void enable() {
     LOGGER.setLog(logger());
@@ -81,13 +67,15 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerSettingCategory();
 
     if (Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment()) {
-      LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo true");
+      LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo & CubepanionConfig#showDebug true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
+      this.configuration().getShowDebug().set(true);
     }
 
-    this.chestAPI = new ChestAPI();
-    this.eggWarsMapAPI = new EggWarsMapAPI();
-    this.leaderboardAPI = new LeaderboardAPI();
+    ChestAPI.Init();
+    EggWarsMapAPI.Init();
+    LeaderboardAPI.Init();
+    DiscordAPI.Init(this);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     VotingLink votingLink = storage.getVotingLink();
@@ -108,9 +96,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
 
     this.manager = new CubepanionManager(this);
-    this.rpcManager = new DiscordRPCManager(this);
-    this.widgetManager = new WidgetManager(this);
-
     LOGGER.setManager(this.manager);
 
     this.registerCommand(new PartyCommands("party", this));
@@ -145,25 +130,13 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.labyAPI().tagRegistry()
         .register("rank_tag", PositionType.ABOVE_NAME, new RankTag(this));
 
-    this.widgetManager.register();
+    WidgetManager.register(this);
 
     LOGGER.info(getClass(), "Cubepanion has successfully registered all her components.");
   }
 
   public CubepanionManager getManager() {
     return this.manager;
-  }
-
-  public ChestAPI getChestAPI() {
-    return chestAPI;
-  }
-
-  public EggWarsMapAPI getEggWarsMapAPI() {
-    return eggWarsMapAPI;
-  }
-
-  public LeaderboardAPI getLeaderboardAPI() {
-    return leaderboardAPI;
   }
 
   public Component prefix() {

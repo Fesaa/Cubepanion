@@ -24,7 +24,12 @@ public class ChestAPI {
   private String Season = "";
   public List<ChestLocation> chestLocations = new ArrayList<>();
 
-  public ChestAPI() {
+
+  public static void Init() {
+    instance = new ChestAPI();
+  }
+
+  private ChestAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }

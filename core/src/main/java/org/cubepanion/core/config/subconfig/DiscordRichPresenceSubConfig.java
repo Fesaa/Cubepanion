@@ -5,7 +5,10 @@ import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.property.Property;
+import net.labymod.api.util.function.ChangeListener;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.managers.DiscordAPI;
 
 public class DiscordRichPresenceSubConfig extends Config {
 
@@ -21,10 +24,18 @@ public class DiscordRichPresenceSubConfig extends Config {
   private final ConfigProperty<Boolean> gameImage = new ConfigProperty<>(false);
 
   public DiscordRichPresenceSubConfig() {
-    this.enabled.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
-    this.players.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
-    this.gameImage.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
-    this.map.addChangeListener((type, oldValue, newValue) -> Cubepanion.updateRPC());
+
+    ChangeListener<Property<Boolean>, Boolean> listener = (type, oldValue, newValue) -> {
+      DiscordAPI api = DiscordAPI.getInstance();
+      if (api != null) {
+        api.updateRPC();
+      }
+    };
+
+    this.enabled.addChangeListener(listener);
+    this.players.addChangeListener(listener);
+    this.gameImage.addChangeListener(listener);
+    this.map.addChangeListener(listener);
   }
 
   public boolean isEnabled() {

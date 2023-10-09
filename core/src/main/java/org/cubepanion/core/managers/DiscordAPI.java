@@ -1,7 +1,7 @@
 package org.cubepanion.core.managers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -16,7 +16,13 @@ import org.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
 
-public class DiscordRPCManager {
+public class DiscordAPI {
+
+  private static DiscordAPI instance;
+
+  public static DiscordAPI getInstance() {
+    return instance;
+  }
 
   private final Cubepanion addon;
   private final String mainKey = I18nNamespaces.managerNameSpace + "DiscordRPCManager.";
@@ -26,16 +32,20 @@ public class DiscordRPCManager {
   private int deaths = 0;
   private int totalPlayers = 0;
 
-  private List<String> removedPlayers = new ArrayList<>();
+  private final Set<String> removedPlayers = new HashSet<>();
 
-  private List<UUID> removedPlayersUUID = new ArrayList<>();
+  private final Set<UUID> removedPlayersUUID = new HashSet<>();
 
-  public DiscordRPCManager(Cubepanion addon) {
+  public static void Init(Cubepanion addon) {
+    instance = new DiscordAPI(addon);
+  }
+
+  public DiscordAPI(Cubepanion addon) {
     this.addon = addon;
   }
 
   public void removeCustomRPC() {
-    this.addon.labyAPI().thirdPartyService().discord().displayDefaultActivity();
+    this.addon.labyAPI().thirdPartyService().discord().displayDefaultActivity(false);
   }
 
   public void updateRPC() {
@@ -50,7 +60,6 @@ public class DiscordRPCManager {
     DiscordRichPresenceSubConfig RPCConfig = this.addon.configuration()
         .getDiscordRichPresenceSubConfig();
     if (!RPCConfig.isEnabled()) {
-      this.addon.labyAPI().thirdPartyService().discord().displayDefaultActivity();
       return;
     }
 
@@ -111,8 +120,8 @@ public class DiscordRPCManager {
   public void startOfGame() {
     this.deaths = 0;
     this.totalPlayers = this.getTotalPlayers();
-    this.removedPlayers = new ArrayList<>();
-    this.removedPlayersUUID = new ArrayList<>();
+    this.removedPlayers.clear();
+    this.removedPlayersUUID.clear();
 
   }
 

@@ -34,7 +34,11 @@ public class LeaderboardAPI {
 
   private final HashMap<String, Leaderboard> converter = new HashMap<>();
 
-  public LeaderboardAPI() {
+  public static void Init() {
+    instance = new LeaderboardAPI();
+  }
+
+  private LeaderboardAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }

@@ -28,15 +28,9 @@ import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 // Party information
 public class WidgetManager {
 
-  private final Cubepanion addon;
-
-  public WidgetManager(Cubepanion addon) {
-    this.addon = addon;
-  }
-
-  public void register() {
-    CubepanionManager manager = this.addon.getManager();
-    HudWidgetRegistry hudWidgetRegistry = this.addon.labyAPI().hudWidgetRegistry();
+  public static void register(Cubepanion addon) {
+    CubepanionManager manager = addon.getManager();
+    HudWidgetRegistry hudWidgetRegistry = addon.labyAPI().hudWidgetRegistry();
 
     HudWidgetCategory category = new CubepanionWidgetCategory("Cubepanion");
     hudWidgetRegistry.categoryRegistry().register(category);
@@ -68,11 +62,11 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new NextArmourBuyTextWidget(category, "nextArmourDurability", manager));
 
-    BooleanSupplier statsTrackerEnabled = () -> this.addon.configuration()
+    BooleanSupplier statsTrackerEnabled = () -> addon.configuration()
         .getStatsTrackerSubConfig().isEnabled();
 
     // Wins / Played
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
+    StatsTrackerSubConfig statsTrackerSubConfig = addon.configuration()
         .getStatsTrackerSubConfig();
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "daily_wins_tracker", "Wins/Games", "7/9",
@@ -84,7 +78,7 @@ public class WidgetManager {
               }
               return "";
             },
-            this::booleanSupplier, 2, 1, statsTrackerEnabled));
+            WidgetManager::booleanSupplier, 2, 1, statsTrackerEnabled));
 
     // Win Streak
     hudWidgetRegistry.register(
@@ -97,7 +91,7 @@ public class WidgetManager {
               }
               return "";
             },
-            this::booleanSupplier, 3, 1, statsTrackerEnabled));
+            WidgetManager::booleanSupplier, 3, 1, statsTrackerEnabled));
 
     // Daily Win Streak
     hudWidgetRegistry.register(
@@ -110,7 +104,7 @@ public class WidgetManager {
               }
               return "";
             },
-            this::booleanSupplier, 2, 1, statsTrackerEnabled));
+            WidgetManager::booleanSupplier, 2, 1, statsTrackerEnabled));
 
     // Party chat
     hudWidgetRegistry.register(
@@ -133,11 +127,11 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
             () -> {
-              LoadedEggWarsMap map = this.addon.getManager().getCurrentEggWarsMap();
+              LoadedEggWarsMap map = addon.getManager().getCurrentEggWarsMap();
               if (map == null) {
                 return "";
               }
-              Minecraft mc = this.addon.labyAPI().minecraft();
+              Minecraft mc = addon.labyAPI().minecraft();
               ClientPlayer p = mc.getClientPlayer();
               if (p == null) {
                 return "";
@@ -145,8 +139,8 @@ public class WidgetManager {
 
               int d = (int) (map.getBuildLimit() - p.getPosY());
               if (d < 3 && d > 0) {
-                if (!done.get() && !this.addon.getManager().isInPreLobby()
-                    && !this.addon.getManager().isEliminated()) {
+                if (!done.get() && !addon.getManager().isInPreLobby()
+                    && !addon.getManager().isEliminated()) {
                   mc.sounds().playSound(sound, 1.0F, 1.0F);
                   mc.chatExecutor().displayClientMessage(
                       Component.translatable("cubepanion.messages.build_limit_reached",
@@ -159,18 +153,22 @@ public class WidgetManager {
 
               return String.valueOf(d);
             },
-            () -> this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)
-                && !this.addon.getManager().isInPreLobby(), 5, 1, () -> true));
+            () -> addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)
+                && !addon.getManager().isInPreLobby(), 5, 1, () -> true));
 
     // Game Timer
     hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker", 5, 1));
   }
 
-  private boolean booleanSupplier() {
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
+  private static boolean booleanSupplier() {
+    Cubepanion addon = Cubepanion.get();
+    if (addon == null) {
+      return false;
+    }
+    StatsTrackerSubConfig statsTrackerSubConfig = addon.configuration()
         .getStatsTrackerSubConfig();
     GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-        .get(this.addon.getManager().getDivision());
+        .get(addon.getManager().getDivision());
     return gameStatsTracker != null;
   }
 
