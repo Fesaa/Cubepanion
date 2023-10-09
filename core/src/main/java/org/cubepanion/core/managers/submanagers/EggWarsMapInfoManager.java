@@ -13,7 +13,7 @@ import org.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 import org.cubepanion.core.utils.LOGGER;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,44 +24,13 @@ public class EggWarsMapInfoManager {
 
   private final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.";
 
-  private final HashMap<String, EggWarsMap> eggWarsMapLayouts;
 
   public EggWarsMapInfoManager(Cubepanion addon) {
     this.addon = addon;
     this.eggWarsMapInfoSubConfig = addon.configuration().getEggWarsMapInfoSubConfig();
-
-    this.eggWarsMapLayouts = new HashMap<>();
   }
 
-  public void queryMaps() {
-
-    try {
-      EggWarsMapAPI.EggWarsMap[] eggWarsMaps = EggWarsMapAPI.getInstance()
-          .getAllEggWarsMaps()
-          .exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable,
-                "Could not update EggWarsMapInfoManager#eggWarsMapLayouts");
-            return new EggWarsMapAPI.EggWarsMap[0];
-          })
-          .get(500, TimeUnit.MILLISECONDS);
-
-      for (EggWarsMapAPI.EggWarsMap map : eggWarsMaps) {
-        EggWarsMap eggWarsMap = fromAPIMap(map);
-        if (eggWarsMap != null) {
-          this.eggWarsMapLayouts.put(map.map_name().toLowerCase(), eggWarsMap);
-        } else {
-          LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
-        }
-      }
-    } catch (InterruptedException | TimeoutException e) {
-      LOGGER.error(getClass(), e, "EggWarsMapInfoManager#queryMaps took longer than 500ms");
-    } catch (ExecutionException e) {
-      LOGGER.error(getClass(), e.getCause(), "EggWarsMapAPI#getAllEggWarsMaps completed exceptionally");
-    }
-  }
-
-
-  private void displayEggWarsMapLayout(EggWarsMap map, boolean genLayout) {
+  private void displayEggWarsMapLayout(LoadedEggWarsMap map, boolean genLayout) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
     if (addon.getManager().getMapName().equals(map.getName())) {
@@ -100,7 +69,8 @@ public class EggWarsMapInfoManager {
   }
 
   public boolean doEggWarsMapLayout(String mapName, boolean keyBind) {
-    EggWarsMap map = this.eggWarsMapLayouts.get(mapName.toLowerCase());
+    String name = mapName.toLowerCase();
+    LoadedEggWarsMap map = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
     EggWarsMapInfoSubConfig config = this.addon.configuration().getEggWarsMapInfoSubConfig();
     if (map == null) {
       return false;
@@ -114,7 +84,8 @@ public class EggWarsMapInfoManager {
     if (!subConfig.isEnabled().get()) {
       return;
     }
-    EggWarsMap map = this.eggWarsMapLayouts.get(this.addon.getManager().getMapName().toLowerCase());
+    String name = this.addon.getManager().getMapName().toLowerCase();
+    LoadedEggWarsMap map =  EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
     if (map == null) {
       return;
     }
@@ -122,17 +93,5 @@ public class EggWarsMapInfoManager {
     this.displayEggWarsMapLayout(map, false);
   }
 
-  public @Nullable EggWarsMap getEggWarsMap(String name) {
-    return eggWarsMapLayouts.get(name.toLowerCase());
-  }
-
-  public Component getAllMapNames() {
-    Component out = Component.empty();
-    for (String name : this.eggWarsMapLayouts.keySet()) {
-      out = out.append(Component.text(name))
-          .append(Component.text(", "));
-    }
-    return out;
-  }
 
 }

@@ -2,10 +2,10 @@ package org.cubepanion.core.utils.eggwarsmaps;
 
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
-public class CrossEggWarsMap extends EggWarsMap {
+public class CrossEggWarsMap extends LoadedEggWarsMap {
 
   // Team Colour in cyclic order, moving left
   private final List<String> teamColours;

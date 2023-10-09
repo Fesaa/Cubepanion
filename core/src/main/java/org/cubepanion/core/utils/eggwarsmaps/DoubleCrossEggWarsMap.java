@@ -4,10 +4,10 @@ import static org.cubepanion.core.utils.Utils.getDoubleIndex;
 
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
-public class DoubleCrossEggWarsMap extends EggWarsMap {
+public class DoubleCrossEggWarsMap extends LoadedEggWarsMap {
 
   private final List<List<String>> teamColours;
   private String teamSide = "";

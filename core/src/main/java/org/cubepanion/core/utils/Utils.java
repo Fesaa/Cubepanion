@@ -16,7 +16,7 @@ import org.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.TriangleEggWarsMap;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
@@ -47,7 +47,7 @@ public class Utils {
     return Pair.of(-1, -1);
   }
 
-  public static @Nullable EggWarsMap fromAPIMap(EggWarsMapAPI.EggWarsMap map) {
+  public static @Nullable LoadedEggWarsMap fromAPIMap(EggWarsMapAPI.EggWarsMap map) {
     Generator[] gens = map.generators();
     List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
     for (Generator gen : gens) {

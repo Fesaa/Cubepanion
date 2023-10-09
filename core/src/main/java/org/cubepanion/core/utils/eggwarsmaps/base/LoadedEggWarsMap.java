@@ -4,7 +4,7 @@ import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 
-public abstract class EggWarsMap {
+public abstract class LoadedEggWarsMap {
 
   protected final String mainKey =
       I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
@@ -18,7 +18,7 @@ public abstract class EggWarsMap {
   protected final GenLayout genLayout;
   protected String currentTeamColour = "";
 
-  public EggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
+  public LoadedEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;

@@ -1,10 +1,5 @@
 package org.cubepanion.core.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import net.labymod.api.Laby;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
@@ -13,11 +8,9 @@ import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.LOGGER;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.ChestAPI;
-import org.cubepanion.core.weave.ChestAPI.ChestLocation;
-import org.cubepanion.core.weave.ChestAPI.SeasonType;
+import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.LeaderboardAPI;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +33,7 @@ public class CubepanionManager {
   private String bungeecord;
   private String serverID;
   private String rankString;
-  private EggWarsMap currentEggWarsMap;
+  private LoadedEggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
   private boolean inPreLobby;
@@ -145,40 +138,11 @@ public class CubepanionManager {
     this.gameStartTime = -1;
 
     this.partyManager.reset();
-    this.eggWarsMapInfoManager.queryMaps();
 
     LeaderboardAPI.getInstance().loadLeaderboards();
-
-    try {
-      ChestLocation[] chestLocations = ChestAPI.getInstance()
-          .getCurrentChestLocations()
-          .exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#chestLocations");
-            return new ChestLocation[0];
-          })
-          .get(500, TimeUnit.MILLISECONDS);
-       ChestAPI.getInstance().setChestLocations(List.of(chestLocations));
-    } catch (InterruptedException | TimeoutException e) {
-      LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
-    } catch (ExecutionException e) {
-      LOGGER.error(getClass(), e.getCause(), "ChestAPI#getCurrentChestLocations completed exceptionally");
-    }
-    try {
-      String[] seasons = ChestAPI.getInstance()
-          .getSeasons(SeasonType.RUNNING)
-          .exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
-            return new String[0];
-          })
-          .get(500, TimeUnit.MILLISECONDS);
-      if (seasons.length > 0) {
-        ChestAPI.getInstance().setSeason(seasons[0]);
-      }
-    } catch (InterruptedException | TimeoutException e) {
-      LOGGER.error(getClass(), e, "ChestAPI#getSeasons took longer than 500ms");
-    } catch (ExecutionException e) {
-      LOGGER.error(getClass(), e.getCause(), "ChestAPI#getSeasons completed exceptionally");
-    }
+    EggWarsMapAPI.getInstance().loadMaps();
+    ChestAPI.getInstance().loadChestLocations();
+    ChestAPI.getInstance().loadSeason();
   }
 
   public void onServerSwitch() {
@@ -260,7 +224,7 @@ public class CubepanionManager {
 
   public void setMapName(String mapName) {
     this.mapName = mapName;
-    this.currentEggWarsMap = eggWarsMapInfoManager.getEggWarsMap(mapName);
+    this.currentEggWarsMap = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(mapName);
   }
 
   public String getServerIP() {
@@ -328,7 +292,7 @@ public class CubepanionManager {
     this.requestedRankString = requestedRankString;
   }
 
-  public @Nullable EggWarsMap getCurrentEggWarsMap() {
+  public @Nullable LoadedEggWarsMap getCurrentEggWarsMap() {
     return currentEggWarsMap;
   }
 

@@ -8,6 +8,7 @@ import org.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
+import org.cubepanion.core.weave.EggWarsMapAPI;
 
 public class EggWarsMapInfoCommand extends Command {
 
@@ -47,7 +48,7 @@ public class EggWarsMapInfoCommand extends Command {
               .build()
               .color(Colours.Error)
               .hoverEvent(HoverEvent.showText(
-                  this.addon.getManager().getEggWarsMapInfoManager().getAllMapNames()
+                  EggWarsMapAPI.getInstance().getAllMapNames()
                       .color(Colours.Hover)
               )));
     }

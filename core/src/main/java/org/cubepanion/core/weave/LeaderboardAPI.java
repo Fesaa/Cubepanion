@@ -47,6 +47,7 @@ public class LeaderboardAPI {
     completableFuture
         .whenComplete((leaderboards, throwable) -> {
           if (throwable != null) {
+            LOGGER.error(getClass(), throwable, "Could not load leaderboards");
             return;
           }
 

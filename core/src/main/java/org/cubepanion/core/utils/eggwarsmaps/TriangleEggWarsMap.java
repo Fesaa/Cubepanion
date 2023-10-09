@@ -3,10 +3,10 @@ package org.cubepanion.core.utils.eggwarsmaps;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.utils.Utils;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 
-public class TriangleEggWarsMap extends EggWarsMap {
+public class TriangleEggWarsMap extends LoadedEggWarsMap {
 
   private final List<List<String>> teamColours;
   String teamUnderLeft = "";

@@ -8,7 +8,7 @@ import org.cubepanion.core.utils.I18nNamespaces;
 
 public class DurabilityManager {
 
-  private final int BIG_INTEGER = 999999999;
+  private final int BIG_INTEGER = Integer.MAX_VALUE;
   private final String mainKey;
 
   private String lowestString;

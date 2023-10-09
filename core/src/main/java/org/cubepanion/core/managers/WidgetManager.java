@@ -20,7 +20,7 @@ import org.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
 import org.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.eggwarsmaps.base.EggWarsMap;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 //TODO: Maybe! Add ...
 // Custom text widget
@@ -133,7 +133,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
             () -> {
-              EggWarsMap map = this.addon.getManager().getCurrentEggWarsMap();
+              LoadedEggWarsMap map = this.addon.getManager().getCurrentEggWarsMap();
               if (map == null) {
                 return "";
               }

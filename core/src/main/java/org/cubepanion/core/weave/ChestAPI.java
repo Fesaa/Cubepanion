@@ -1,5 +1,6 @@
 package org.cubepanion.core.weave;
 
+import org.cubepanion.core.utils.LOGGER;
 import javax.inject.Singleton;
 
 import static org.cubepanion.core.weave.Utils.makeRequest;
@@ -50,6 +51,31 @@ public class ChestAPI {
     this.chestLocations.clear();
   }
 
+  public void loadChestLocations() {
+    getCurrentChestLocations()
+        .whenComplete((chestLocations, throwable) -> {
+          if (throwable != null) {
+            LOGGER.error(getClass(), throwable, "Could not load chest locations");
+            return;
+          }
+          setChestLocations(List.of(chestLocations));
+        });
+  }
+
+  public void loadSeason() {
+    getSeasons(SeasonType.RUNNING)
+        .whenComplete((seasons, throwable) -> {
+          if (throwable != null) {
+            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
+            return;
+          }
+          if (seasons.length > 0) {
+            setSeason(seasons[0]);
+          } else {
+            setSeason("");
+          }
+        });
+  }
 
 
   /**
