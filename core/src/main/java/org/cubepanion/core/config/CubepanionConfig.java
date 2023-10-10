@@ -30,6 +30,7 @@ public class CubepanionConfig extends AddonConfig {
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
   private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
 
+  @SwitchSetting
   private final ConfigProperty<Boolean> showDebug = new ConfigProperty<>(false);
 
   @Override

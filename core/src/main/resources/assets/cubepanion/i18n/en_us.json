@@ -299,7 +299,7 @@
           "description": "More detailed info on errors when using the API"
         }
       },
-      "debug": {
+      "showDebug": {
         "name": "Debug",
         "description": "Enables debug messages in console"
       }
