@@ -16,4 +16,4 @@ ___________
 Just try to keep the code structure the same.
 It might not be the best, but I can follow and that's what counts for me in the end.
 
-Love you all <3 owo (✿◠‿◠)
+Love you all <3 uwu (✿◠‿◠)
