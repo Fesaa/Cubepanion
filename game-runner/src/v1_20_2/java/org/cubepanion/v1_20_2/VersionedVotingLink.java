@@ -16,6 +16,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.VotingLink;
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +37,12 @@ public class VersionedVotingLink extends VotingLink {
       return;
     }
     LOGGER.debug(true, this.getClass(), "Opening menu");
-    BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
-    handler.startPredicting();
-    int sequence = handler.currentSequence();
+    int sequence = 0;
+    if (Cubepanion.get().configuration().getAutoVoteSubConfig().getExperiments().get()) {
+      BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
+      handler.startPredicting();
+      sequence = handler.currentSequence();
+    }
     connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence));
   }).delay(200, TimeUnit.MILLISECONDS).build();
   public ItemStack returnItemStack;

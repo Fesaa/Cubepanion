@@ -215,6 +215,9 @@
             "right": "Crazy",
             "none": "Don't vote"
           }
+        },
+        "experiments": {
+          "name": "Experiments"
         }
       },
       "statsTrackerSubConfig": {

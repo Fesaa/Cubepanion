@@ -46,6 +46,9 @@ public class AutoVoteSubConfig extends Config {
   private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(
       ThreeOptionsMode.LEFT);
 
+  @SwitchSetting
+  private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
+
 
   public boolean isEnabled() {
     return this.enabled.get();
@@ -77,6 +80,10 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<ThreeOptionsMode> getSkyWarsTime() {
     return skyWarsTime;
+  }
+
+  public ConfigProperty<Boolean> getExperiments() {
+    return experiments;
   }
 
   public enum FourOptionsMode {
