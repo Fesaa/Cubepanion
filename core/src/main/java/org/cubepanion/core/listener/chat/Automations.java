@@ -87,7 +87,7 @@ public class Automations {
               Component.translatable("cubepanion.messages.chests_finder.not_found", Colours.Error));
         }
       }
-    }).delay(1000, TimeUnit.MILLISECONDS).build();
+    }).delay(2000, TimeUnit.MILLISECONDS).build();
 
     this.startOfGameTask = Task.builder(() -> {
       if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()
