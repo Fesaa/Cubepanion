@@ -119,8 +119,6 @@ public class CubepanionManager {
     this.durabilityManager.reset();
     this.friendTrackerManager.endCurrentLoop();
     this.friendTrackerManager.resetTrackers();
-
-    ChestAPI.getInstance().clearChestLocations();
   }
 
   public void onCubeJoin() {

@@ -52,10 +52,6 @@ public class ChestAPI {
     this.chestLocations = chestLocations;
   }
 
-  public void clearChestLocations() {
-    this.chestLocations.clear();
-  }
-
   public void loadChestLocations() {
     getCurrentChestLocations()
         .whenComplete((chestLocations, throwable) -> {

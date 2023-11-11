@@ -34,6 +34,13 @@ public class FriendTrackerManager {
       }
     }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
   }
+  private Task friendTrackerLoopTask = Task.builder(() -> {
+    if (this.runningLoops.contains(this.currentLoop)) {
+      this.isUpdating = true;
+      Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
+      this.friendTrackerLoopTask.execute();
+    }
+  }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
 
   public HashMap<String, OnlineFriendLocation> getFriendLocations() {
     return friendLocations;
@@ -41,13 +48,7 @@ public class FriendTrackerManager {
 
   public Collection<OnlineFriendLocation> getOnlineFriendLocations() {
     return this.friendLocations.values();
-  }  private Task friendTrackerLoopTask = Task.builder(() -> {
-    if (this.runningLoops.contains(this.currentLoop)) {
-      this.isUpdating = true;
-      Laby.labyAPI().minecraft().chatExecutor().chat("/fl", false);
-      this.friendTrackerLoopTask.execute();
-    }
-  }).delay(this.updateInterVal, TimeUnit.SECONDS).build();
+  }
 
   public int getUpdateInterVal() {
     return updateInterVal;
