@@ -109,11 +109,15 @@
         },
         "chestLocation": {
           "name": "Locate chests in the lobby",
-          "descriptions": "Triggered on the lobby message"
+          "description": "Triggered on the lobby message"
         },
         "range": {
           "name": "Chunk range",
-          "descriptions": "Amount of chunks to search for."
+          "description": "Amount of chunks to search for."
+        },
+        "fireBallCoolDown": {
+          "name": "Fireball cooldown",
+          "description": "Display the cooldown animation on fireballs after using it."
         }
       },
       "eggWarsMapInfoSubConfig": {

@@ -28,6 +28,10 @@ public class QOLConfig extends Config {
   @SpriteSlot(x = 3, y = 1)
   @SwitchSetting
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
+
+  @SwitchSetting
+  private final ConfigProperty<Boolean> fireBallCoolDown = new ConfigProperty<>(false);
+
   @SwitchSetting
   private final ConfigProperty<Boolean> reminderToVote = new ConfigProperty<>(false);
   @TextFieldSetting
@@ -69,5 +73,9 @@ public class QOLConfig extends Config {
 
   public ConfigProperty<Integer> getRange() {
     return range;
+  }
+
+  public ConfigProperty<Boolean> getFireBallCoolDown() {
+    return fireBallCoolDown;
   }
 }

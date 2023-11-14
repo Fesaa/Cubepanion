@@ -41,6 +41,7 @@ import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
+import org.cubepanion.core.versionlinkers.FunctionLink;
 import org.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import org.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
@@ -83,6 +84,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
     ChestFinderLink chestFinderLink = storage.getChestFinderLink();
+    FunctionLink functionLink = storage.getFunctionLink();
     if (votingLink == null) {
       LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -94,6 +96,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
     if (chestFinderLink == null) {
       LOGGER.warn(getClass(), "ChestFinderLink is null. Some features will not work.");
+    }
+    if (functionLink == null) {
+      LOGGER.warn(getClass(), "FunctionLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
@@ -125,7 +130,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
-    this.registerListener(new FireballCooldown(this));
+    this.registerListener(new FireballCooldown(this, functionLink));
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));

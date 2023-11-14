@@ -4,23 +4,30 @@ import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.events.ItemUseEvent;
 import org.cubepanion.core.events.ItemUseEvent.UseType;
+import org.cubepanion.core.managers.submanagers.FireballManager;
 import org.cubepanion.core.utils.CubeGame;
+import org.cubepanion.core.versionlinkers.FunctionLink;
 
 public class FireballCooldown {
 
   private final Cubepanion addon;
+  private final FunctionLink functionLink;
 
-  public FireballCooldown(Cubepanion addon) {
+  public FireballCooldown(Cubepanion addon, FunctionLink functionLink) {
     this.addon = addon;
+    this.functionLink = functionLink;
   }
 
   @Subscribe
   public void onItemUse(ItemUseEvent e) {
-    if ( this.addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
+    if ( addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
         && e.getUseType() == UseType.USE
         && e.getItemStack().getAsItem().getIdentifier().getPath().equals("fire_charge")
-        && !this.addon.getManager().getFireballManager().onCooldown()) {
-      this.addon.getManager().getFireballManager().setLastUse(System.currentTimeMillis());
+        && !addon.getManager().getFireballManager().onCooldown()) {
+      addon.getManager().getFireballManager().setLastUse(System.currentTimeMillis());
+      if (functionLink != null && addon.configuration().getQolConfig().getFireBallCoolDown().get()) {
+        functionLink.setCoolDown(e.getItemStack(), (int) ((FireballManager.COOLDOWN_TIME / 1000) * 20));
+      }
     }
   }
 

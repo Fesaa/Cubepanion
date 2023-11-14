@@ -6,7 +6,7 @@ import org.cubepanion.core.utils.Utils;
 
 public class FireballManager implements Manager {
 
-  private static long COOLDOWN_TIME = 30*1000L;
+  public static long COOLDOWN_TIME = 30*1000L;
 
   private long lastUse;
 
