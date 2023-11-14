@@ -441,6 +441,9 @@
       },
       "party_chat_tracker": {
         "name": "Party chat"
+      },
+      "fireball_cooldown": {
+        "name": "Fireball cooldown"
       }
     },
     "hudWidgetCategory": {
