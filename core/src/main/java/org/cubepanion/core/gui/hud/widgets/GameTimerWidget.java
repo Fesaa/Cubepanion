@@ -59,7 +59,7 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
     private final ConfigProperty<layoutEnum> layout = new ConfigProperty<>(layoutEnum.WORDS);
 
     public enum layoutEnum {
-      WORDS, COLON
+      WORDS, COLON, SECONDS
     }
 
   }

@@ -4,6 +4,7 @@ import net.labymod.api.Laby;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
+import org.cubepanion.core.managers.submanagers.FireballManager;
 import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
@@ -14,7 +15,7 @@ import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.LeaderboardAPI;
 import org.jetbrains.annotations.Nullable;
 
-public class CubepanionManager {
+public class CubepanionManager implements Manager {
   // Sub Managers
 
   private final PartyManager partyManager;
@@ -22,6 +23,7 @@ public class CubepanionManager {
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final FriendTrackerManager friendTrackerManager;
+  private final FireballManager fireballManager;
 
   // Own fields
 
@@ -54,6 +56,7 @@ public class CubepanionManager {
     this.spawnProtectionManager = new SpawnProtectionManager(addon);
     this.durabilityManager = new DurabilityManager();
     this.friendTrackerManager = new FriendTrackerManager();
+    this.fireballManager = new FireballManager();
 
     this.serverIP = "";
     this.division = CubeGame.NONE;
@@ -116,9 +119,10 @@ public class CubepanionManager {
     this.gameStartTime = -1;
 
     this.partyManager.reset();
+    this.spawnProtectionManager.reset();
     this.durabilityManager.reset();
-    this.friendTrackerManager.endCurrentLoop();
-    this.friendTrackerManager.resetTrackers();
+    this.friendTrackerManager.reset();
+    this.fireballManager.reset();
   }
 
   public void onCubeJoin() {
@@ -292,6 +296,10 @@ public class CubepanionManager {
 
   public @Nullable LoadedEggWarsMap getCurrentEggWarsMap() {
     return currentEggWarsMap;
+  }
+
+  public FireballManager getFireballManager() {
+    return fireballManager;
   }
 
 }

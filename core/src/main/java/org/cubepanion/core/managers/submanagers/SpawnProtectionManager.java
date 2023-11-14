@@ -5,8 +5,9 @@ import java.util.UUID;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.gui.imp.ClientPlayerSpawnProtection;
 import org.cubepanion.core.gui.imp.SpawnProtectionComponent;
+import org.cubepanion.core.managers.Manager;
 
-public class SpawnProtectionManager {
+public class SpawnProtectionManager implements Manager {
 
   private final Cubepanion addon;
 
@@ -40,5 +41,10 @@ public class SpawnProtectionManager {
 
   public ClientPlayerSpawnProtection getClientPlayerSpawnProtection() {
     return clientPlayerSpawnProtection;
+  }
+
+  @Override
+  public void reset() {
+    this.uuidSpawnProtectionComponentHashMap.clear();
   }
 }

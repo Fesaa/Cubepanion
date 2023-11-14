@@ -182,6 +182,8 @@ public class Utils {
         tail = days + ":" + tail;
       }
       return tail;
+    } else if (layout.equals(layoutEnum.SECONDS)) {
+      return String.valueOf(seconds);
     }
 
     return "";

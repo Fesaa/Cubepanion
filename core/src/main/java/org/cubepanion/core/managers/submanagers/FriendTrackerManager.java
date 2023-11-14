@@ -10,9 +10,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
 import net.labymod.api.util.concurrent.task.Task;
+import org.cubepanion.core.managers.Manager;
 import org.cubepanion.core.utils.OnlineFriendLocation;
 
-public class FriendTrackerManager {
+public class FriendTrackerManager implements Manager {
 
   private final Set<String> tracking = new HashSet<>();
   private final HashMap<String, OnlineFriendLocation> friendLocations = new HashMap<>();
@@ -137,6 +138,9 @@ public class FriendTrackerManager {
   }
 
 
-
-
+  @Override
+  public void reset() {
+    this.endCurrentLoop();
+    this.resetTrackers();
+  }
 }

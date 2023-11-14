@@ -1,9 +1,10 @@
 package org.cubepanion.core.managers.submanagers;
 
+import org.cubepanion.core.managers.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartyManager {
+public class PartyManager implements Manager {
 
   private List<String> partyMembers;
   private boolean inParty;

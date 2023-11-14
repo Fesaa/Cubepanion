@@ -23,6 +23,7 @@ import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RankTag;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
+import org.cubepanion.core.listener.FireballCooldown;
 import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
@@ -124,6 +125,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
+    this.registerListener(new FireballCooldown(this));
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));

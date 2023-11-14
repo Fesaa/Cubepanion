@@ -3,10 +3,11 @@ package org.cubepanion.core.managers.submanagers;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
+import org.cubepanion.core.managers.Manager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
 
-public class DurabilityManager {
+public class DurabilityManager implements Manager {
 
   private final int BIG_INTEGER = Integer.MAX_VALUE;
   private final String mainKey;

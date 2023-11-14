@@ -15,11 +15,13 @@ import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
 import org.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
 import org.cubepanion.core.gui.hud.widgets.GameTimerWidget;
+import org.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
 import org.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget;
 import org.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
 import org.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
+import org.cubepanion.core.utils.Utils;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 //TODO: Maybe! Add ...
@@ -153,8 +155,15 @@ public class WidgetManager {
 
               return String.valueOf(d);
             },
-            () -> addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)
+            () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
                 && !addon.getManager().isInPreLobby(), 5, 1, () -> true));
+
+    // Fireball Cooldown
+    hudWidgetRegistry.register(
+        new TextTrackerHudWidget(category, "fireball_cooldown", "Fireball Cooldown", "27s",
+            () -> addon.getManager().getFireballManager().getCooldownString(),
+            () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS) && !addon.getManager().isInPreLobby(),
+            5, 1, () -> true));
 
     // Game Timer
     hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker", 5, 1));
