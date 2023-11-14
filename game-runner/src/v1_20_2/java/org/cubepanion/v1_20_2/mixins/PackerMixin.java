@@ -30,18 +30,17 @@ public abstract class PackerMixin {
     Minecraft mc = Minecraft.getInstance();
     if (mc.player == null) {
       return;
-    } else {
-        mc.player.getInventory();
     }
-    ItemStack selected = mc.player.getInventory().getSelected();
     if (packet instanceof ServerboundUseItemPacket usePacket) {
       Hand hand = usePacket.getHand() == InteractionHand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
-      ItemUseEvent e = new ItemUseEvent(UseType.USE, ItemUtil.getLabyItemStack(selected), hand);
+      ItemStack itemStack = mc.player.getItemInHand(usePacket.getHand());
+      ItemUseEvent e = new ItemUseEvent(UseType.USE, ItemUtil.getLabyItemStack(itemStack), hand);
       Cubepanion.get().labyAPI().eventBus().fire(e);
 
     } else if (packet instanceof ServerboundSwingPacket swingPacket) {
       Hand hand = swingPacket.getHand() == InteractionHand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
-      ItemUseEvent e = new ItemUseEvent(UseType.SWING, ItemUtil.getLabyItemStack(selected), hand);
+      ItemStack itemStack = mc.player.getItemInHand(swingPacket.getHand());
+      ItemUseEvent e = new ItemUseEvent(UseType.SWING, ItemUtil.getLabyItemStack(itemStack), hand);
       Cubepanion.get().labyAPI().eventBus().fire(e);
     }
 
