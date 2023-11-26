@@ -21,10 +21,8 @@ import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordAPI;
-import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.OnlineFriendLocation;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
 import org.cubepanion.core.versionlinkers.VotingLink;
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
@@ -52,8 +50,6 @@ public class Automations {
       "------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile(
       "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private final Pattern onlineFriends = Pattern.compile(
-      "(?<username>[a-zA-Z0-9_]{2,16}) - (?:Playing|Online on)(?: Team| Main|)? (?<game>[a-zA-Z ]*?)(?: in| #\\d{1,2}|)? ?(?:map|\\[[A-Z]{2}\\])? ?(?<map>[a-zA-Z]*)?");
   private final Pattern fiveSecondsRemaining = Pattern.compile(
       "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private final Pattern whoList = Pattern.compile(
@@ -195,39 +191,8 @@ public class Automations {
       return;
     }
 
-    // Friends list shorter && tracker
-    FriendTrackerManager friendTrackerManager = this.manager.getFriendTrackerManager();
-    if (friendTrackerManager.isUpdating()) {
-      if (this.FriendListTop.matcher(msg).matches()) {
-        e.setCancelled(true);
-        return;
-      }
-
-      Matcher onlineFriends = this.onlineFriends.matcher(msg);
-      if (onlineFriends.matches()) {
-        friendTrackerManager.updateFriendLocation(
-            new OnlineFriendLocation(
-                onlineFriends.group("username"),
-                onlineFriends.group("game"),
-                onlineFriends.group("map")));
-        e.setCancelled(true);
-        return;
-      }
-
-      if (msg.equals("Offline: ")) {
-        e.setCancelled(true);
-        return;
-      }
-
-      if (this.FriendListOffline.matcher(msg).matches()) {
-        e.setCancelled(true);
-        friendTrackerManager.setUpdating(false);
-        return;
-      }
-    }
-
+    // Friend list shortener
     if (mainConfig.getQolConfig().getShortFriendsList().get()) {
-
       if (this.FriendListTop.matcher(msg).matches()) {
         this.friendListBeingSend = true;
         return;

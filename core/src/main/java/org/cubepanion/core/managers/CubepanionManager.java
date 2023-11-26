@@ -5,7 +5,6 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubepanion.core.managers.submanagers.FireballManager;
-import org.cubepanion.core.managers.submanagers.FriendTrackerManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
 import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
@@ -22,7 +21,6 @@ public class CubepanionManager implements Manager {
   private final EggWarsMapInfoManager eggWarsMapInfoManager;
   private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
-  private final FriendTrackerManager friendTrackerManager;
   private final FireballManager fireballManager;
 
   // Own fields
@@ -55,7 +53,6 @@ public class CubepanionManager implements Manager {
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
     this.spawnProtectionManager = new SpawnProtectionManager(addon);
     this.durabilityManager = new DurabilityManager();
-    this.friendTrackerManager = new FriendTrackerManager();
     this.fireballManager = new FireballManager();
 
     this.serverIP = "";
@@ -95,10 +92,6 @@ public class CubepanionManager implements Manager {
     return spawnProtectionManager;
   }
 
-  public FriendTrackerManager getFriendTrackerManager() {
-    return friendTrackerManager;
-  }
-
   public void reset() {
     this.serverIP = "";
     this.lastDivision = CubeGame.NONE;
@@ -121,7 +114,6 @@ public class CubepanionManager implements Manager {
     this.partyManager.reset();
     this.spawnProtectionManager.reset();
     this.durabilityManager.reset();
-    this.friendTrackerManager.reset();
     this.fireballManager.reset();
   }
 
