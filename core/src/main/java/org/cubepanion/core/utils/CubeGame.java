@@ -1,5 +1,6 @@
 package org.cubepanion.core.utils;
 
+// ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
   TEAM_EGGWARS("Team EggWars"),
   SOLO_LUCKYISLANDS("Lucky Islands"),
@@ -11,6 +12,7 @@ public enum CubeGame {
   HARD_PARKOUR("Hard Parkour"),
   PARKOUR("Parkour"),
   SKYBLOCK("Skyblock"),
+  SNOWMAN_SURVIVAL("Snowman Survival"),
   LOBBY("Main Lobby"),
   NONE("");
 
@@ -60,6 +62,9 @@ public enum CubeGame {
       }
       case "parkour" -> {
         return CubeGame.PARKOUR;
+      }
+      case "snowman survival" -> {
+        return CubeGame.SNOWMAN_SURVIVAL;
       }
       case "cubecraft" -> {
         return CubeGame.LOBBY;
