@@ -55,58 +55,47 @@ public class LeaderboardAPICommands extends Command {
       return;
     }
 
-    LeaderboardRow[] rows;
-    try {
-      rows = LeaderboardAPI.getInstance()
-          .getLeaderboardsForPlayer(userName)
-          .exceptionally(throwable -> {
-            handleAPIError(getClass(), addon, throwable,
-                "Encountered an exception while getting getLeaderboardsForPlayer",
-                this.mainKey + "APIError_info",
-                this.mainKey + "APIError");
-            return null;
-          })
-          .get(500, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | TimeoutException e) {
-      LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
-      timeOutAPIError();
-      return;
-    } catch (ExecutionException e) {
-      LOGGER.error(getClass(), e.getCause(), "LeaderboardAPI#getLeaderboardsForPlayer completed exceptionally");
-      this.displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.commands.APIError"));
-      return;
-    }
+    LeaderboardAPI.getInstance()
+        .getLeaderboardsForPlayer(userName)
+        .exceptionally(throwable -> {
+          handleAPIError(getClass(), addon, throwable,
+              "Encountered an exception while getting getLeaderboardsForPlayer",
+              this.mainKey + "APIError_info",
+              this.mainKey + "APIError");
+          return null;
+        })
+        .thenAcceptAsync(rows -> {
+          if (rows == null) {
+            return;
+          }
 
-    if (rows == null) {
-      return;
-    }
+          if (rows.length == 0) {
+            displayMessage(
+                Component.translatable(this.mainKey + "noLeaderboards",
+                        Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
+                    .color(Colours.Primary));
+            return;
+          }
 
-    if (rows.length == 0) {
-      displayMessage(
-          Component.translatable(this.mainKey + "noLeaderboards",
-                  Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
-              .color(Colours.Primary));
-      return;
-    }
+          Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
+                  Component.text(rows[0].player(),
+                      Colours.Secondary).decorate(TextDecoration.BOLD),
+                  Component.text(rows.length, Colours.Secondary))
+              .color(Colours.Primary);
 
-    Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-            Component.text(rows[0].player(),
-                Colours.Secondary).decorate(TextDecoration.BOLD),
-            Component.text(rows.length, Colours.Secondary))
-        .color(Colours.Primary);
+          for (LeaderboardRow row : rows) {
+            toDisplay = toDisplay.append(
+                Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
+                    Component.text(row.game().displayName()).color(Colours.Primary)
+                        .decorate(TextDecoration.BOLD),
+                    Component.text(row.position()).color(Colours.Secondary),
+                    Component.text(row.score()).color(Colours.Secondary),
+                    Component.text(row.game().scoreType())
+                ).color(Colours.Success));
+          }
 
-    for (LeaderboardRow row : rows) {
-      toDisplay = toDisplay.append(
-          Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-              Component.text(row.game().displayName()).color(Colours.Primary)
-                  .decorate(TextDecoration.BOLD),
-              Component.text(row.position()).color(Colours.Secondary),
-              Component.text(row.score()).color(Colours.Secondary),
-              Component.text(row.game().scoreType())
-          ).color(Colours.Success));
-    }
-
-    displayMessage(toDisplay);
+          displayMessage(toDisplay);
+        });
   }
 
   private void gameLeaderboard(String last, Leaderboard leaderboard) {
@@ -118,61 +107,51 @@ public class LeaderboardAPICommands extends Command {
     }
     int bound_2 = Math.min(200, bound + 9);
 
-    LeaderboardRow[] rows;
-    try {
-      rows = LeaderboardAPI.getInstance()
-          .getGameLeaderboard(leaderboard, bound, bound_2)
-          .exceptionally(throwable -> {
-            handleAPIError(getClass(), addon, throwable,
-                "Encountered an exception while getting getLeaderboardsForPlayer",
-                this.mainKey + "APIError_info",
-                this.mainKey + "APIError");
-            return null;
-          })
-          .get(500, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | TimeoutException e) {
-      LOGGER.error(getClass(), e, "ChestAPI#getCurrentChestLocations took longer than 500ms");
-      timeOutAPIError();
-      return;
-    } catch (ExecutionException e) {
-      LOGGER.error(getClass(), e.getCause(), "LeaderboardAPI#getGameLeaderboard completed exceptionally");
-      this.displayMessage(Component.translatable("cubepanion.messages.leaderboardAPI.commands.APIError"));
-      return;
-    }
+    int finalBound = bound;
+    LeaderboardAPI.getInstance()
+        .getGameLeaderboard(leaderboard, bound, bound_2)
+        .exceptionally(throwable -> {
+          handleAPIError(getClass(), addon, throwable,
+              "Encountered an exception while getting getLeaderboardsForPlayer",
+              this.mainKey + "APIError_info",
+              this.mainKey + "APIError");
+          return null;
+        })
+        .thenAcceptAsync(rows -> {
+          if (rows == null) {
+            return;
+          }
 
-    if (rows == null) {
-      return;
-    }
+          if (rows.length == 0) {
+            this.displayMessage(
+                Component.translatable(this.mainKey + "noPlayers",
+                        Component.text(leaderboard.displayName(), Colours.Secondary)
+                            .decorate(TextDecoration.BOLD),
+                        Component.text(finalBound, Colours.Secondary),
+                        Component.text(bound_2, Colours.Secondary))
+                    .color(Colours.Primary));
+            return;
+          }
 
-    if (rows.length == 0) {
-      this.displayMessage(
-          Component.translatable(this.mainKey + "noPlayers",
+          Component toDisplay = Component.translatable(this.mainKey + "places.title",
                   Component.text(leaderboard.displayName(), Colours.Secondary)
                       .decorate(TextDecoration.BOLD),
-                  Component.text(bound, Colours.Secondary),
+                  Component.text(finalBound, Colours.Secondary),
                   Component.text(bound_2, Colours.Secondary))
-              .color(Colours.Primary));
-      return;
-    }
+              .color(Colours.Primary);
 
-    Component toDisplay = Component.translatable(this.mainKey + "places.title",
-            Component.text(leaderboard.displayName(), Colours.Secondary)
-                .decorate(TextDecoration.BOLD),
-            Component.text(bound, Colours.Secondary),
-            Component.text(bound_2, Colours.Secondary))
-        .color(Colours.Primary);
-
-    for (LeaderboardRow row : rows) {
-      toDisplay = toDisplay.append(
-          Component.translatable(this.mainKey + "places.placeInfo",
-              Component.text(row.player()).color(Colours.Primary)
-                  .decorate(TextDecoration.BOLD),
-              Component.text(row.position()).color(Colours.Secondary),
-              Component.text(row.score()).color(Colours.Secondary),
-              Component.text(leaderboard.scoreType())
-          ).color(Colours.Success));
-    }
-    displayMessage(toDisplay);
+          for (LeaderboardRow row : rows) {
+            toDisplay = toDisplay.append(
+                Component.translatable(this.mainKey + "places.placeInfo",
+                    Component.text(row.player()).color(Colours.Primary)
+                        .decorate(TextDecoration.BOLD),
+                    Component.text(row.position()).color(Colours.Secondary),
+                    Component.text(row.score()).color(Colours.Secondary),
+                    Component.text(leaderboard.scoreType())
+                ).color(Colours.Success));
+          }
+          displayMessage(toDisplay);
+        });
   }
 
   @Override
