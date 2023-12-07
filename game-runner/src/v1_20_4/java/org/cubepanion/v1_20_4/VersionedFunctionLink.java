@@ -1,8 +1,8 @@
-package org.cubepanion.v1_20_3;
+package org.cubepanion.v1_20_4;
 
 import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
-import net.labymod.v1_20_3.client.util.ItemUtil;
+import net.labymod.v1_20_4.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.versionlinkers.FunctionLink;

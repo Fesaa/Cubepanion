@@ -1,6 +1,6 @@
-package org.cubepanion.v1_20_3.mixins;
+package org.cubepanion.v1_20_4.mixins;
 
-import net.labymod.v1_20_3.client.util.ItemUtil;
+import net.labymod.v1_20_4.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;

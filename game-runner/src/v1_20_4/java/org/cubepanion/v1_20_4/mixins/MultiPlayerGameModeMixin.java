@@ -1,4 +1,4 @@
-package org.cubepanion.v1_20_3.mixins;
+package org.cubepanion.v1_20_4.mixins;
 
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.tags.ItemTags;
