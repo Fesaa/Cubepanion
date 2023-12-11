@@ -50,6 +50,8 @@ public class StatsTracker {
     this.defaultKillMessages.put(Pattern.compile(
         this.userNameRegex + " tried to escape " + this.userNameRegex
             + " by jumping into the void\\." + this.assistRegex), 2);
+    this.defaultKillMessages.put(Pattern.compile(
+        this.userNameRegex + " was turned into a snowman by " + this.userNameRegex + "\\."), 2);
 
     // Custom Kill messages
     this.customKillMessages.put(Pattern.compile(
