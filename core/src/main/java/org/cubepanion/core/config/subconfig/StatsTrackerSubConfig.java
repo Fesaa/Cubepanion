@@ -12,6 +12,7 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.util.MethodOrder;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.utils.CubeGame;
+import org.jetbrains.annotations.Nullable;
 
 public class StatsTrackerSubConfig extends Config {
 
@@ -75,6 +76,18 @@ public class StatsTrackerSubConfig extends Config {
 
   public HashMap<CubeGame, GameStatsTracker> getGameStatsTrackers() {
     return gameStatsTrackers.get();
+  }
+
+  public @Nullable GameStatsTracker getOrCreate(CubeGame cubeGame) {
+    if (this.gameStatsTrackers.get().containsKey(cubeGame)) {
+      return this.gameStatsTrackers.get().get(cubeGame);
+    }
+    if (cubeGame.shouldTrack()) {
+      GameStatsTracker gameStatsTracker = new GameStatsTracker(cubeGame);
+      this.gameStatsTrackers.get().put(cubeGame, gameStatsTracker);
+      return gameStatsTracker;
+    }
+    return null;
   }
 
   public ConfigProperty<Boolean> keepPlayerStats() {

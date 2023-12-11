@@ -2,25 +2,27 @@ package org.cubepanion.core.utils;
 
 // ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
-  TEAM_EGGWARS("Team EggWars"),
-  SOLO_LUCKYISLANDS("Lucky Islands"),
-  SOLO_SKYWARS("Solo SkyWars"),
-  FFA("Free For All"),
-  SIMPLE_PARKOUR("Simple Parkour"),
-  EASY_PARKOUR("Easy Parkour"),
-  MEDIUM_PARKOUR("Medium Parkour"),
-  HARD_PARKOUR("Hard Parkour"),
-  PARKOUR("Parkour"),
-  SKYBLOCK("Skyblock"),
-  SNOWMAN_SURVIVAL("Snowman Survival"),
-  LOBBY("Main Lobby"),
-  NONE("");
+  TEAM_EGGWARS("Team EggWars", true),
+  SOLO_LUCKYISLANDS("Lucky Islands", true),
+  SOLO_SKYWARS("Solo SkyWars", true),
+  FFA("Free For All", true),
+  SIMPLE_PARKOUR("Simple Parkour", false),
+  EASY_PARKOUR("Easy Parkour", false),
+  MEDIUM_PARKOUR("Medium Parkour", false),
+  HARD_PARKOUR("Hard Parkour", false),
+  PARKOUR("Parkour", false),
+  SKYBLOCK("Skyblock", false),
+  SNOWMAN_SURVIVAL("Snowman Survival", true),
+  LOBBY("Main Lobby", false),
+  NONE("", false);
 
 
   private final String string;
+  private final boolean shouldTrack;
 
-  CubeGame(String s) {
+  CubeGame(String s, boolean shouldTrack) {
     this.string = s;
+    this.shouldTrack = shouldTrack;
   }
 
   public static boolean isParkour(CubeGame e) {
@@ -29,6 +31,10 @@ public enum CubeGame {
         || e.equals(CubeGame.EASY_PARKOUR)
         || e.equals(CubeGame.SIMPLE_PARKOUR)
         || e.equals(CubeGame.PARKOUR);
+  }
+
+  public boolean shouldTrack() {
+    return shouldTrack;
   }
 
   public static CubeGame stringToGame(String s) {

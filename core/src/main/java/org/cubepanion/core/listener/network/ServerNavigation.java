@@ -46,8 +46,7 @@ public class ServerNavigation {
         .getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled() && this.manager.hasLost()
         && !this.manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-          .get(this.manager.getDivision());
+      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getOrCreate(this.manager.getDivision());
       if (gameStatsTracker != null) {
         gameStatsTracker.registerLoss(
             (int) (System.currentTimeMillis() - manager.getGameStartTime()));

@@ -285,16 +285,10 @@ public class StatsTracker {
         .getStatsTrackerSubConfig();
     if (statsTrackerSubConfig.isEnabled()) {
       if (msg.equals("Congratulations, you win!")) {
-        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-            .get(manager.getDivision());
+        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getOrCreate(manager.getDivision());
         if (gameStatsTracker != null) {
           gameStatsTracker.registerWin(
               (int) (System.currentTimeMillis() - manager.getGameStartTime()));
-        } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
-          gameStatsTracker = new GameStatsTracker(manager.getDivision());
-          gameStatsTracker.registerWin(
-              (int) (System.currentTimeMillis() - manager.getGameStartTime()));
-          statsTrackerSubConfig.getGameStatsTrackers().put(manager.getDivision(), gameStatsTracker);
         }
         manager.setWon(true);
         return;
@@ -362,28 +356,18 @@ public class StatsTracker {
   private void registerCustomDeath(String reason) {
     CubepanionManager manager = this.addon.getManager();
     GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig()
-        .getGameStatsTrackers().get(manager.getDivision());
+        .getOrCreate(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerDeath(reason);
-    } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
-      gameStatsTracker = new GameStatsTracker(manager.getDivision());
-      gameStatsTracker.registerDeath(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers()
-          .put(manager.getDivision(), gameStatsTracker);
     }
   }
 
   private void registerCustomKill(String reason) {
     CubepanionManager manager = this.addon.getManager();
     GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig()
-        .getGameStatsTrackers().get(manager.getDivision());
+        .getOrCreate(manager.getDivision());
     if (gameStatsTracker != null) {
       gameStatsTracker.registerKill(reason);
-    } else if (GameStatsTracker.shouldMakeGameStatsTracker(manager.getDivision())) {
-      gameStatsTracker = new GameStatsTracker(manager.getDivision());
-      gameStatsTracker.registerKill(reason);
-      this.addon.configuration().getStatsTrackerSubConfig().getGameStatsTrackers()
-          .put(manager.getDivision(), gameStatsTracker);
     }
   }
 }
