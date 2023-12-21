@@ -1,4 +1,4 @@
-package org.cubepanion.core.listener;
+package org.cubepanion.core.listener.games;
 
 import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;

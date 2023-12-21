@@ -31,8 +31,6 @@ public class Automations {
 
   private final Cubepanion addon;
   private final CubepanionManager manager;
-  private final VotingLink votingLink;
-  private final Task autoVoteTask;
   private final ChestFinderLink chestFinderLink;
   private final Task chestFinderTask;
 
@@ -58,18 +56,10 @@ public class Automations {
   private boolean voted = false;
   private boolean friendListBeingSend = false;
 
-  public Automations(Cubepanion addon, VotingLink votingLink, ChestFinderLink chestFinderLink) {
+  public Automations(Cubepanion addon, ChestFinderLink chestFinderLink) {
     this.addon = addon;
     this.manager = addon.getManager();
-    this.votingLink = votingLink;
     this.chestFinderLink = chestFinderLink;
-
-    this.autoVoteTask = Task.builder(() -> {
-      if (this.votingLink != null) {
-        this.votingLink.vote(this.manager.getDivision(),
-            this.addon.configuration().getAutoVoteSubConfig());
-      }
-    }).delay(100, TimeUnit.MILLISECONDS).build();
 
     this.chestFinderTask = Task.builder(() -> {
       if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
@@ -90,8 +80,6 @@ public class Automations {
           && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
         this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
       }
-      DiscordAPI.getInstance().startOfGame();
-      DiscordAPI.getInstance().updateRPC();
     }).delay(1000, TimeUnit.MILLISECONDS).build();
   }
 
@@ -213,29 +201,6 @@ public class Automations {
             return;
           }
         }
-      }
-    }
-
-    if (mainConfig.getAutoVoteSubConfig().isEnabled()) {
-      String joinRegex = "\\[\\+\\]" + playerRegex + " joined your game \\(\\d{1,3}/\\d{1,3}\\)\\.";
-      if (msg.matches(joinRegex)) {
-        Task toRun = this.autoVoteTask;
-        Timer timer = new Timer("waitingForNoneLobbyDivision");
-        timer.schedule(new TimerTask() {
-          private int count = 0;
-
-          @Override
-          public void run() {
-            count++;
-            if (count == 10) {
-              timer.cancel();
-            }
-            if (!Cubepanion.get().getManager().getDivision().equals(CubeGame.LOBBY)) {
-              timer.cancel();
-              toRun.execute();
-            }
-          }
-        }, 100, 100);
       }
     }
 

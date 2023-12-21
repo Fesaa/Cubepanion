@@ -21,7 +21,7 @@ import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RankTag;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
-import org.cubepanion.core.listener.FireballCooldown;
+import org.cubepanion.core.listener.games.FireballCooldown;
 import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
@@ -29,6 +29,7 @@ import org.cubepanion.core.listener.ScreenListener;
 import org.cubepanion.core.listener.chat.Automations;
 import org.cubepanion.core.listener.chat.PartyTracker;
 import org.cubepanion.core.listener.chat.StatsTracker;
+import org.cubepanion.core.listener.games.RegisterGameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
@@ -51,6 +52,12 @@ import org.cubepanion.core.weave.LeaderboardAPI;
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private static Cubepanion instance;
   private CubepanionManager manager;
+
+  private VotingLink votingLink;
+  private ChestFinderLink chestFinderLink;
+  private LeaderboardTrackerLink leaderboardTrackerLink;
+  private QOLMapSelectorLink qolMapSelectorLink;
+  private FunctionLink functionLink;
 
   public Cubepanion() {
     instance = this;
@@ -78,11 +85,11 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     DiscordAPI.Init(this);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
-    VotingLink votingLink = storage.getVotingLink();
-    LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
-    QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
-    ChestFinderLink chestFinderLink = storage.getChestFinderLink();
-    FunctionLink functionLink = storage.getFunctionLink();
+    votingLink = storage.getVotingLink();
+    leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
+    qolMapSelectorLink = storage.getQOLMapSelectorLink();
+    chestFinderLink = storage.getChestFinderLink();
+    functionLink = storage.getFunctionLink();
     if (votingLink == null) {
       LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -120,13 +127,15 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
-    this.registerListener(new Automations(this, votingLink, chestFinderLink));
+    this.registerListener(new Automations(this, chestFinderLink));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
-    this.registerListener(new FireballCooldown(this, functionLink));
+    this.registerListener(DiscordAPI.getInstance());
+
+    RegisterGameListeners.register(this);
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
@@ -146,6 +155,30 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     return Component.text("[", Colours.Title)
         .append(Component.text("Cubepanion", Colours.Primary))
         .append(Component.text("]", Colours.Title));
+  }
+
+  public VotingLink getVotingLink() {
+    return votingLink;
+  }
+
+  public ChestFinderLink getChestFinderLink() {
+    return chestFinderLink;
+  }
+
+  public LeaderboardTrackerLink getLeaderboardTrackerLink() {
+    return leaderboardTrackerLink;
+  }
+
+  public QOLMapSelectorLink getQolMapSelectorLink() {
+    return qolMapSelectorLink;
+  }
+
+  public FunctionLink getFunctionLink() {
+    return functionLink;
+  }
+
+  public void registerCubepanionListener(Object listener) {
+    this.registerListener(listener);
   }
 
   @Override

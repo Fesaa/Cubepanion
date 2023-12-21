@@ -1,7 +1,9 @@
 package org.cubepanion.core.managers;
 
 import net.labymod.api.Laby;
+import net.labymod.api.LabyAPI;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubepanion.core.managers.submanagers.FireballManager;
@@ -165,6 +167,9 @@ public class CubepanionManager implements Manager {
 
   public void setInPreLobby(boolean inPreLobby) {
     this.inPreLobby = inPreLobby;
+
+    GameUpdateEvent e = new GameUpdateEvent(this.division, this.division, this.inPreLobby);
+    Laby.fireEvent(e);
   }
 
   public boolean hasLost() {
@@ -202,6 +207,9 @@ public class CubepanionManager implements Manager {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
+
+    GameUpdateEvent e = new GameUpdateEvent(this.lastDivision, this.division, this.inPreLobby);
+    Laby.fireEvent(e);
   }
 
   public boolean isPlaying(CubeGame game) {

@@ -7,12 +7,14 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.network.ClientPacketListener;
 import net.labymod.api.client.network.NetworkPlayerInfo;
+import net.labymod.api.event.Subscribe;
 import net.labymod.api.thirdparty.discord.DiscordActivity;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
 import net.labymod.api.util.I18n;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
+import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.I18nNamespaces;
 
@@ -117,12 +119,15 @@ public class DiscordAPI {
     this.busy = false;
   }
 
-  public void startOfGame() {
-    this.deaths = 0;
-    this.totalPlayers = this.getTotalPlayers();
-    this.removedPlayers.clear();
-    this.removedPlayersUUID.clear();
-
+  @Subscribe
+  public void startOfGame(GameUpdateEvent e) {
+    if (e.getDestination().equals(e.getOrigin()) && !e.isPreLobby()) {
+      this.deaths = 0;
+      this.totalPlayers = this.getTotalPlayers();
+      this.removedPlayers.clear();
+      this.removedPlayersUUID.clear();
+      this.updateRPC();
+    }
   }
 
   public void registerDeath(String name) {
