@@ -1,9 +1,9 @@
 package org.cubepanion.core.managers;
 
 import net.labymod.api.Laby;
-import net.labymod.api.LabyAPI;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.events.GameUpdateEvent;
+import org.cubepanion.core.events.RequestEvent;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubepanion.core.managers.submanagers.FireballManager;
@@ -42,11 +42,6 @@ public class CubepanionManager implements Manager {
   private boolean won;
   private boolean hasUpdatedAfterServerSwitch;
 
-  private boolean requestedFullFriendsList;
-  private boolean requestedRankString;
-
-  private int chestPartyAnnounceCounter;
-
   private long gameStartTime;
 
 
@@ -70,10 +65,8 @@ public class CubepanionManager implements Manager {
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.requestedFullFriendsList = false;
     this.hasUpdatedAfterServerSwitch = false;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
   }
 
@@ -107,10 +100,8 @@ public class CubepanionManager implements Manager {
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.requestedFullFriendsList = false;
     this.hasUpdatedAfterServerSwitch = false;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
 
     this.partyManager.reset();
@@ -130,7 +121,6 @@ public class CubepanionManager implements Manager {
     this.eliminated = false;
     this.inPreLobby = true;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
 
     this.partyManager.reset();
@@ -186,10 +176,6 @@ public class CubepanionManager implements Manager {
 
   public void setHasUpdatedAfterServerSwitch(boolean hasUpdatedAfterServerSwitch) {
     this.hasUpdatedAfterServerSwitch = hasUpdatedAfterServerSwitch;
-  }
-
-  public int getChestPartyAnnounceCounter() {
-    return chestPartyAnnounceCounter;
   }
 
   public CubeGame getDivision() {
@@ -257,14 +243,6 @@ public class CubepanionManager implements Manager {
     this.serverID = serverID;
   }
 
-  public boolean hasRequestedFullFriendsList() {
-    return requestedFullFriendsList;
-  }
-
-  public void setRequestedFullFriendsList(boolean requestedFullFriendsList) {
-    this.requestedFullFriendsList = requestedFullFriendsList;
-  }
-
   public long getGameStartTime() {
     return gameStartTime;
   }
@@ -282,16 +260,8 @@ public class CubepanionManager implements Manager {
   }
 
   public void updateRankString() {
-    this.requestedRankString = true;
+    Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.RANK_TAG));
     Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
-  }
-
-  public boolean hasRequestedRankString() {
-    return requestedRankString;
-  }
-
-  public void setRequestedRankString(boolean requestedRankString) {
-    this.requestedRankString = requestedRankString;
   }
 
   public @Nullable LoadedEggWarsMap getCurrentEggWarsMap() {

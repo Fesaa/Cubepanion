@@ -29,8 +29,6 @@ public class Automations {
       "------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile(
       "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private final Pattern whoList = Pattern.compile(
-      "[:|,] (?<rankstring>.) (?:.{0,5} |)(?<username>[a-zA-Z0-9_]{2,16})(?: .{0,5}|)");
   private boolean friendListBeingSend = false;
 
   public Automations(Cubepanion addon) {
@@ -51,8 +49,6 @@ public class Automations {
     }
 
     CubepanionConfig mainConfig = this.addon.configuration();
-
-    String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
 
     // Start of game
     if (msg.equals("Let the games begin!")) {
@@ -91,45 +87,5 @@ public class Automations {
       this.manager.setServerID(whereAmIMatcher.group(2));
       return;
     }
-
-    // Friend list shortener
-    if (mainConfig.getQolConfig().getShortFriendsList().get()) {
-      if (this.FriendListTop.matcher(msg).matches()) {
-        this.friendListBeingSend = true;
-        return;
-      }
-
-      if (this.friendListBeingSend) {
-        if (msg.equals("Offline: ") && !this.manager.hasRequestedFullFriendsList()) {
-          e.setCancelled(true);
-          return;
-        }
-
-        if (this.FriendListOffline.matcher(msg).matches()) {
-          this.friendListBeingSend = false;
-          if (this.manager.hasRequestedFullFriendsList()) {
-            this.manager.setRequestedFullFriendsList(false);
-          } else {
-            e.setCancelled(true);
-            return;
-          }
-        }
-      }
-    }
-
-    if (manager.hasRequestedRankString()) {
-      Matcher whoListMatcher = this.whoList.matcher(msg);
-      while (whoListMatcher.find()) {
-        String username = whoListMatcher.group("username");
-        String rankString = whoListMatcher.group("rankstring");
-        if (username.equals(p.getName())) {
-          manager.setRankString(rankString);
-          manager.setRequestedRankString(false);
-          e.setCancelled(true);
-          break;
-        }
-      }
-    }
-
   }
 }

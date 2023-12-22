@@ -8,6 +8,9 @@ public class MiscListeners {
     if (addon.getChestFinderLink() != null) {
       addon.registerCubepanionListener(new ChestFinder(addon, addon.getChestFinderLink()));
     }
+
+    addon.registerCubepanionListener(new RankTag());
+    addon.registerCubepanionListener(new FriendList());
   }
 
 }

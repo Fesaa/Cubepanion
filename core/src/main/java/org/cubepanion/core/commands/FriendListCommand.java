@@ -1,8 +1,10 @@
 package org.cubepanion.core.commands;
 
 
+import net.labymod.api.Laby;
 import net.labymod.api.client.chat.command.Command;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.RequestEvent;
 
 public class FriendListCommand extends Command {
 
@@ -26,7 +28,7 @@ public class FriendListCommand extends Command {
             ""
     ).contains("full")
         || prefix.equals("flf")) {
-      this.addon.getManager().setRequestedFullFriendsList(true);
+      Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.FULL_FRIEND_LIST));
       this.addon.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       return true;
     }
