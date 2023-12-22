@@ -1,10 +1,7 @@
 package org.cubepanion.core.listener.chat;
 
-import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
-
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.Minecraft;
@@ -12,27 +9,17 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
-import net.labymod.api.util.concurrent.task.Task;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordAPI;
-import org.cubepanion.core.utils.Colours;
-import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.versionlinkers.ChestFinderLink;
-
-import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 
 public class Automations {
 
   private final Cubepanion addon;
   private final CubepanionManager manager;
-  private final ChestFinderLink chestFinderLink;
-  private final Task chestFinderTask;
-
-  private final Task startOfGameTask;
   private final Pattern playerElimination = Pattern.compile(
       "([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
@@ -42,37 +29,13 @@ public class Automations {
       "------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
   private final Pattern FriendListOffline = Pattern.compile(
       "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private final Pattern fiveSecondsRemaining = Pattern.compile(
-      "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private final Pattern whoList = Pattern.compile(
       "[:|,] (?<rankstring>.) (?:.{0,5} |)(?<username>[a-zA-Z0-9_]{2,16})(?: .{0,5}|)");
   private boolean friendListBeingSend = false;
 
-  public Automations(Cubepanion addon, ChestFinderLink chestFinderLink) {
+  public Automations(Cubepanion addon) {
     this.addon = addon;
     this.manager = addon.getManager();
-    this.chestFinderLink = chestFinderLink;
-
-    this.chestFinderTask = Task.builder(() -> {
-      if (this.manager.getDivision().equals(CubeGame.LOBBY)) {
-        List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
-        if (!chestLocations.isEmpty()) {
-          for (ChestLocation loc : chestLocations) {
-            addon.displayMessage(chestLocationsComponent(loc));
-          }
-        } else {
-          addon.displayMessage(
-              Component.translatable("cubepanion.messages.chests_finder.not_found", Colours.Error));
-        }
-      }
-    }).delay(2000, TimeUnit.MILLISECONDS).build();
-
-    this.startOfGameTask = Task.builder(() -> {
-      if (this.addon.configuration().getEggWarsMapInfoSubConfig().isEnabled().get()
-          && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
-        this.manager.getEggWarsMapInfoManager().doEggWarsMapLayout();
-      }
-    }).delay(1000, TimeUnit.MILLISECONDS).build();
   }
 
   @Subscribe
@@ -91,20 +54,10 @@ public class Automations {
 
     String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
 
-    // Friend Message Sound
-    if (mainConfig.getAutomationConfig().friendMessageSound().get()) {
-      if (msg.matches("\\[Friend\\] ([a-zA-Z0-9_]{2,16}) -> Me : .*")) {
-        minecraft.sounds()
-            .playSound(mainConfig.getAutomationConfig().getFriendMessageSoundId(), 100, 1);
-        return;
-      }
-    }
-
     // Start of game
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
       this.manager.setGameStartTime(System.currentTimeMillis());
-      this.startOfGameTask.execute();
       return;
     }
 
@@ -112,20 +65,6 @@ public class Automations {
     Matcher matcher = playerElimination.matcher(msg);
     if (matcher.matches()) {
       DiscordAPI.getInstance().registerDeath(matcher.group(1));
-    }
-
-    // Auto GG
-    EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
-    if (config.isEnabled().get() && !manager.isEliminated()) {
-      String eliminationMessage = playerRegex + " has been eliminated from the game.";
-      boolean doElim = msg.matches(eliminationMessage) && config.getOnElimination().get();
-      if (msg.equals("Congratulations, you win!") || doElim) {
-        GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-        gameEndMessage.send(minecraft.chatExecutor(), config,
-            manager.getPartyManager().isInParty());
-        manager.setEliminated(true);
-        return;
-      }
     }
 
     // Spawn protection countdown
@@ -175,12 +114,6 @@ public class Automations {
             return;
           }
         }
-      }
-    }
-
-    if (mainConfig.getQolConfig().getChestLocation().get() && this.chestFinderLink != null) {
-      if (msg.equals("A chest has been hidden somewhere in the Lobby with some goodies inside!")) {
-        this.chestFinderTask.execute();
       }
     }
 

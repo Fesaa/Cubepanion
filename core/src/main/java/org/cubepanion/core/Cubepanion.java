@@ -30,6 +30,7 @@ import org.cubepanion.core.listener.chat.PartyTracker;
 import org.cubepanion.core.listener.chat.StatsTracker;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
+import org.cubepanion.core.listener.misc.MiscListeners;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
 import org.cubepanion.core.listener.network.ServerNavigation;
@@ -46,6 +47,7 @@ import org.cubepanion.core.versionlinkers.VotingLink;
 import org.cubepanion.core.weave.ChestAPI;
 import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.LeaderboardAPI;
+import org.jetbrains.annotations.Nullable;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
@@ -126,7 +128,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
-    this.registerListener(new Automations(this, chestFinderLink));
+    this.registerListener(new Automations(this));
     this.registerListener(new PartyTracker(this));
     this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));
@@ -135,6 +137,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(DiscordAPI.getInstance());
 
     GameListeners.register(this);
+    MiscListeners.register(this);
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
@@ -156,22 +159,27 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
         .append(Component.text("]", Colours.Title));
   }
 
+  @Nullable
   public VotingLink getVotingLink() {
     return votingLink;
   }
 
+  @Nullable
   public ChestFinderLink getChestFinderLink() {
     return chestFinderLink;
   }
 
+  @Nullable
   public LeaderboardTrackerLink getLeaderboardTrackerLink() {
     return leaderboardTrackerLink;
   }
 
+  @Nullable
   public QOLMapSelectorLink getQolMapSelectorLink() {
     return qolMapSelectorLink;
   }
 
+  @Nullable
   public FunctionLink getFunctionLink() {
     return functionLink;
   }
