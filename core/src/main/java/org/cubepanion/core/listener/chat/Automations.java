@@ -35,14 +35,7 @@ public class Automations {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
-    Minecraft minecraft = this.addon.labyAPI().minecraft();
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = minecraft.getClientPlayer();
-    if (p == null) {
-      return;
-    }
-
-    CubepanionConfig mainConfig = this.addon.configuration();
 
     // RPC
     Matcher matcher = playerElimination.matcher(msg);

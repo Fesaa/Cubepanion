@@ -9,6 +9,9 @@ public class InternalTrackers {
     addon.registerCubepanionListener(new GameEvents());
     addon.registerCubepanionListener(new Stats(addon));
     addon.registerCubepanionListener(new Party(addon));
+    addon.registerCubepanionListener(new PlayerInfo(addon));
+    addon.registerCubepanionListener(new ScoreboardListener(addon));
+    addon.registerCubepanionListener(new ServerNavigation(addon));
   }
 
 }

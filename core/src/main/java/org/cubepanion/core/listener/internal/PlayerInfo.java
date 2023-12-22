@@ -1,4 +1,4 @@
-package org.cubepanion.core.listener.network;
+package org.cubepanion.core.listener.internal;
 
 import java.util.Objects;
 import java.util.UUID;

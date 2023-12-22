@@ -27,13 +27,10 @@ import org.cubepanion.core.listener.KeyEventListener;
 import org.cubepanion.core.listener.ScreenListener;
 import org.cubepanion.core.listener.chat.Automations;
 import org.cubepanion.core.listener.internal.InternalTrackers;
-import org.cubepanion.core.listener.internal.Party;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.cubepanion.core.listener.misc.MiscListeners;
-import org.cubepanion.core.listener.network.PlayerInfo;
-import org.cubepanion.core.listener.network.ScoreboardListener;
-import org.cubepanion.core.listener.network.ServerNavigation;
+import org.cubepanion.core.listener.internal.ServerNavigation;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.managers.WidgetManager;
@@ -123,13 +120,10 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new LeaderboardMappings(this));
 
-    this.registerListener(new PlayerInfo(this));
-    this.registerListener(new ServerNavigation(this));
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
     this.registerListener(new Automations(this));
-    this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
     this.registerListener(DiscordAPI.getInstance());

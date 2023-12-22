@@ -1,4 +1,4 @@
-package org.cubepanion.core.listener.network;
+package org.cubepanion.core.listener.internal;
 
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
