@@ -4,8 +4,6 @@ import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
 
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +22,7 @@ import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.ChestFinderLink;
-import org.cubepanion.core.versionlinkers.VotingLink;
+
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 
 public class Automations {
@@ -35,10 +33,6 @@ public class Automations {
   private final Task chestFinderTask;
 
   private final Task startOfGameTask;
-
-  private final Component voteReminderComponent = Component.translatable(
-      "cubepanion.messages.voteReminder", Colours.Primary);
-
   private final Pattern playerElimination = Pattern.compile(
       "([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
@@ -52,8 +46,6 @@ public class Automations {
       "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
   private final Pattern whoList = Pattern.compile(
       "[:|,] (?<rankstring>.) (?:.{0,5} |)(?<username>[a-zA-Z0-9_]{2,16})(?: .{0,5}|)");
-
-  private boolean voted = false;
   private boolean friendListBeingSend = false;
 
   public Automations(Cubepanion addon, ChestFinderLink chestFinderLink) {
@@ -108,17 +100,6 @@ public class Automations {
       }
     }
 
-    // 5 seconds remaining
-    if (this.fiveSecondsRemaining.matcher(msg).matches()) {
-      if (!this.voted && mainConfig.getQolConfig().getReminderToVote().get()) {
-        minecraft.sounds()
-            .playSound(mainConfig.getQolConfig().getVoteReminderResourceLocation(), 100, 1);
-        minecraft.chatExecutor().displayClientMessage(this.voteReminderComponent);
-      }
-      this.voted = false;
-      return;
-    }
-
     // Start of game
     if (msg.equals("Let the games begin!")) {
       this.manager.setInPreLobby(false);
@@ -169,13 +150,6 @@ public class Automations {
     if (whereAmIMatcher.matches()) {
       this.manager.setBungeecord(whereAmIMatcher.group(1));
       this.manager.setServerID(whereAmIMatcher.group(2));
-      return;
-    }
-
-    // Vote warn
-    String voteMessage = playerRegex + " voted for .*\\. \\d{1,4} votes?";
-    if (msg.matches(voteMessage) && this.manager.isInPreLobby()) {
-      this.voted = true;
       return;
     }
 

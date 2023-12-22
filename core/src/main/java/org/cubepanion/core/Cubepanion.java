@@ -21,7 +21,6 @@ import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RankTag;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
-import org.cubepanion.core.listener.games.FireballCooldown;
 import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
@@ -29,7 +28,7 @@ import org.cubepanion.core.listener.ScreenListener;
 import org.cubepanion.core.listener.chat.Automations;
 import org.cubepanion.core.listener.chat.PartyTracker;
 import org.cubepanion.core.listener.chat.StatsTracker;
-import org.cubepanion.core.listener.games.RegisterGameListeners;
+import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.cubepanion.core.listener.network.PlayerInfo;
 import org.cubepanion.core.listener.network.ScoreboardListener;
@@ -135,7 +134,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new HudEvents(this));
     this.registerListener(DiscordAPI.getInstance());
 
-    RegisterGameListeners.register(this);
+    GameListeners.register(this);
 
     this.labyAPI().tagRegistry()
         .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));

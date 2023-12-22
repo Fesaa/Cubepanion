@@ -29,4 +29,8 @@ public class GameUpdateEvent implements Event {
     return preLobby;
   }
 
+  public boolean isSwitch() {
+    return origin != destination;
+  }
+
 }
