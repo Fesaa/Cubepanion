@@ -26,8 +26,7 @@ import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
 import org.cubepanion.core.listener.ScreenListener;
 import org.cubepanion.core.listener.chat.Automations;
-import org.cubepanion.core.listener.chat.PartyTracker;
-import org.cubepanion.core.listener.chat.StatsTracker;
+import org.cubepanion.core.listener.internal.Party;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.cubepanion.core.listener.misc.MiscListeners;
@@ -129,8 +128,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
     this.registerListener(new Automations(this));
-    this.registerListener(new PartyTracker(this));
-    this.registerListener(new StatsTracker(this));
     this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));

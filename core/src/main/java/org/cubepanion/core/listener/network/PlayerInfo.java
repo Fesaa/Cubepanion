@@ -1,9 +1,11 @@
 package org.cubepanion.core.listener.network;
 
+import java.util.Objects;
 import java.util.UUID;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.client.entity.player.GameMode;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoRemoveEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
@@ -48,30 +50,10 @@ public class PlayerInfo {
     UUID uuid = e.playerInfo().profile().getUniqueId();
     boolean isClientPlayer = uuid.equals(player.getUniqueId());
 
-
     if (e.type().equals(UpdateType.GAME_MODE)) {
-
-      switch (e.playerInfo().gameMode()) {
-        case SURVIVAL -> {
-          Laby.fireEvent(new PlayerRespawnEvent(isClientPlayer, uuid));
+        if (e.playerInfo().gameMode() == GameMode.SURVIVAL) {
+            Laby.fireEvent(new PlayerRespawnEvent(isClientPlayer, uuid));
         }
-        case SPECTATOR -> {
-          if (!this.manager.isPlaying(CubeGame.TEAM_EGGWARS)) { // Moderation can join games in spectator mode
-            DiscordAPI.getInstance().registerDeath(e.playerInfo());
-            Minecraft minecraft = addon.labyAPI().minecraft();
-            if (isClientPlayer) {
-                EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
-                if (!config.getOnElimination().get() || !config.isEnabled().get()) { // EndGameSubConfig should be enabled as well
-                    return;
-                }
-                GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-                gameEndMessage.send(minecraft.chatExecutor(), config,
-                        manager.getPartyManager().isInParty());
-                manager.setEliminated(true);
-            }
-          }
-        }
-      }
     }
   }
 

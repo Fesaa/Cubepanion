@@ -7,6 +7,7 @@ import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.events.PlayerRespawnEvent;
 import org.cubepanion.core.gui.imp.SpawnProtectionComponent;
+import org.cubepanion.core.utils.CubeGame;
 
 public class ClientPlayerSpawnProtection {
 
@@ -22,7 +23,15 @@ public class ClientPlayerSpawnProtection {
   }
 
   @Subscribe
-  public void onPlayerDeath(PlayerRespawnEvent e) {
+  public void onPlayerRespawn(PlayerRespawnEvent e) {
+    if (!Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+      return;
+    }
+
+    if (!e.isClientPlayer()) {
+      return;
+    }
+
     this.actionBarComponent.enable(true);
   }
 

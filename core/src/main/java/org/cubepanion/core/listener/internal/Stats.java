@@ -1,18 +1,22 @@
-package org.cubepanion.core.listener.chat;
+package org.cubepanion.core.listener.internal;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
+import org.cubepanion.core.events.GameWinEvent;
+import org.cubepanion.core.events.PlayerDeathEvent;
+import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 
-public class StatsTracker {
+public class Stats {
 
   private final Cubepanion addon;
   private final CubepanionManager manager;
@@ -20,10 +24,13 @@ public class StatsTracker {
   private final String assistRegex = "(\\s{0,5}\\(\\+\\d{1,2} assists?\\))?";
   private final Pattern mightBeKillMessage = Pattern.compile(
       this.userNameRegex + ".{1,100}" + this.userNameRegex + ".{1,100}" + this.assistRegex);
+  private final Pattern playerElimination = Pattern.compile(
+      "([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
+
   private final HashMap<Pattern, Integer> customKillMessages = new HashMap<>(69);
   private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>(8);
 
-  public StatsTracker(Cubepanion addon) {
+  public Stats(Cubepanion addon) {
     this.addon = addon;
     this.manager = addon.getManager();
 
@@ -282,19 +289,17 @@ public class StatsTracker {
 
     String userName = p.getName();
 
-    // Win Streak Counter
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-        .getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled()) {
-      if (msg.equals("Congratulations, you win!")) {
-        GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getOrCreate(manager.getDivision());
-        if (gameStatsTracker != null) {
-          gameStatsTracker.registerWin(
-              (int) (System.currentTimeMillis() - manager.getGameStartTime()));
-        }
-        manager.setWon(true);
-        return;
-      }
+    if (msg.equals("Congratulations, you win!")) {
+      Laby.fireEvent(new GameWinEvent(manager.getDivision(), manager.getGameStartTime()));
+      manager.setWon(true);
+      return;
+    }
+
+    Matcher eliminationMatcher = this.playerElimination.matcher(msg);
+    if (eliminationMatcher.matches()) {
+      String eliminatedPlayer = eliminationMatcher.group(1);
+      Laby.fireEvent(new PlayerEliminationEvent(userName.equals(eliminatedPlayer) , eliminatedPlayer));
+      return;
     }
 
     // Kills & Death Tracker
@@ -320,9 +325,9 @@ public class StatsTracker {
       if (msg.equals(userName + " tried to survive in the void.")
           || msg.equals(userName + " died in the void.")
           || msg.equals(userName + " thought they could survive in the void.")) {
-        this.registerCustomDeath("void");
+        Laby.fireEvent(new PlayerDeathEvent(true, "void", userName));
       } else if (msg.equals(userName + " blew up.")) {
-        this.registerCustomDeath("tnt");
+        Laby.fireEvent(new PlayerDeathEvent(true, "tnt", userName));
       }
 
     }
@@ -346,30 +351,12 @@ public class StatsTracker {
       }
 
       if (killer.equals(userName)) {
-        this.registerCustomKill(other);
+        Laby.fireEvent(new PlayerDeathEvent(false, userName, other));
       } else {
-        this.registerCustomDeath(other);
+        Laby.fireEvent(new PlayerDeathEvent(true, killer, userName));
       }
       return true;
     }
     return false;
-  }
-
-  private void registerCustomDeath(String reason) {
-    CubepanionManager manager = this.addon.getManager();
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig()
-        .getOrCreate(manager.getDivision());
-    if (gameStatsTracker != null) {
-      gameStatsTracker.registerDeath(reason);
-    }
-  }
-
-  private void registerCustomKill(String reason) {
-    CubepanionManager manager = this.addon.getManager();
-    GameStatsTracker gameStatsTracker = this.addon.configuration().getStatsTrackerSubConfig()
-        .getOrCreate(manager.getDivision());
-    if (gameStatsTracker != null) {
-      gameStatsTracker.registerKill(reason);
-    }
   }
 }

@@ -7,6 +7,8 @@ public class InternalTrackers {
   public static void register(Cubepanion addon) {
     addon.registerCubepanionListener(new TeamColour());
     addon.registerCubepanionListener(new GameEvents());
+    addon.registerCubepanionListener(new Stats(addon));
+    addon.registerCubepanionListener(new Party(addon));
   }
 
 }

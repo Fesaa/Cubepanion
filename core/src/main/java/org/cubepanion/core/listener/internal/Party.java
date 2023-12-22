@@ -1,4 +1,4 @@
-package org.cubepanion.core.listener.chat;
+package org.cubepanion.core.listener.internal;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +8,7 @@ import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.managers.submanagers.PartyManager;
 
-public class PartyTracker {
+public class Party {
 
   private final Cubepanion addon;
   private final PartyManager partyManager;
@@ -29,7 +29,7 @@ public class PartyTracker {
   private boolean tryingToReadPartyMembers;
   private int partySize;
 
-  public PartyTracker(Cubepanion addon) {
+  public Party(Cubepanion addon) {
     this.addon = addon;
     this.partyManager = addon.getManager().getPartyManager();
 

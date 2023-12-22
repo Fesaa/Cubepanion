@@ -8,7 +8,12 @@ import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
+import org.cubepanion.core.events.GameUpdateEvent;
+import org.cubepanion.core.events.GameWinEvent;
+import org.cubepanion.core.events.PlayerDeathEvent;
+import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.managers.CubepanionManager;
+import org.cubepanion.core.utils.CubeGame;
 
 public class AutoGG {
 
@@ -20,31 +25,59 @@ public class AutoGG {
     this.manager = Cubepanion.get().getManager();
   }
 
+  private boolean hasSentGG = false;
+
   @Subscribe
-  public void onChatMessage(ChatReceiveEvent e) {
-    if (!config.isEnabled().get() || manager.isEliminated()) {
+  public void onGameUpdate(GameUpdateEvent e) {
+    if (!e.isSwitch()) {
       return;
     }
-
-    Minecraft minecraft = Laby.labyAPI().minecraft();
-    String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = minecraft.getClientPlayer();
-    if (p == null) {
-      return;
-    }
-
-    // TODO make this a global variable that changes on authorize event or something
-    String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
-
-    String eliminationMessage = playerRegex + " has been eliminated from the game.";
-    boolean doElim = msg.matches(eliminationMessage) && config.getOnElimination().get();
-
-    if (msg.equals("Congratulations, you win!") || doElim) {
-      GameEndMessage gameEndMessage = config.getGameEndMessage().get();
-      gameEndMessage.send(minecraft.chatExecutor(), config,
-          manager.getPartyManager().isInParty());
-      manager.setEliminated(true);
-    }
+    hasSentGG = false;
   }
 
+  @Subscribe
+  public void onPlayerElimination(PlayerEliminationEvent e) {
+    if (!config.isEnabled().get()) {
+      return;
+    }
+    if (hasSentGG) {
+      return;
+    }
+    if (!e.isClientPlayer()) {
+      return;
+    }
+    doMessage();
+  }
+
+  @Subscribe
+  public void onGameWin(GameWinEvent e) {
+    if (!config.isEnabled().get()) {
+      return;
+    }
+    if (hasSentGG) {
+      return;
+    }
+    doMessage();
+  }
+
+  @Subscribe
+  public void onDeath(PlayerDeathEvent e) {
+    if (!config.isEnabled().get()) {
+      return;
+    }
+    if (hasSentGG || !e.isClientPlayer()) {
+      return;
+    }
+    if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+      return;
+    }
+    doMessage();
+  }
+
+  private void doMessage() {
+    GameEndMessage gameEndMessage = config.getGameEndMessage().get();
+    gameEndMessage.send(Laby.labyAPI().minecraft().chatExecutor(), config,
+        manager.getPartyManager().isInParty());
+    hasSentGG = true;
+  }
 }
