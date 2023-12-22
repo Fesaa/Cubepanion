@@ -26,6 +26,7 @@ import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
 import org.cubepanion.core.listener.ScreenListener;
 import org.cubepanion.core.listener.chat.Automations;
+import org.cubepanion.core.listener.internal.InternalTrackers;
 import org.cubepanion.core.listener.internal.Party;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
@@ -135,6 +136,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     GameListeners.register(this);
     MiscListeners.register(this);
+    InternalTrackers.register(this);
 
     RespawnTags respawnTags = new RespawnTags(this);
     RankTag rankTag = new RankTag(this);
