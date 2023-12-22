@@ -22,14 +22,8 @@ public class Automations {
   private final CubepanionManager manager;
   private final Pattern playerElimination = Pattern.compile(
       "([a-zA-Z0-9_]{2,16}) has been eliminated from the game\\.");
-  private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
   private final Pattern WhereAmIOutPut = Pattern.compile(
       "You are on proxy: (\\w{0,2}bungeecord\\d{1,3})\\nYou are on server: (.{5})");
-  private final Pattern FriendListTop = Pattern.compile(
-      "------- Friends \\(\\d{1,10}\\/\\d{1,10}\\) -------");
-  private final Pattern FriendListOffline = Pattern.compile(
-      "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
-  private boolean friendListBeingSend = false;
 
   public Automations(Cubepanion addon) {
     this.addon = addon;
@@ -50,35 +44,13 @@ public class Automations {
 
     CubepanionConfig mainConfig = this.addon.configuration();
 
-    // Start of game
-    if (msg.equals("Let the games begin!")) {
-      this.manager.setInPreLobby(false);
-      this.manager.setGameStartTime(System.currentTimeMillis());
-      return;
-    }
-
     // RPC
     Matcher matcher = playerElimination.matcher(msg);
     if (matcher.matches()) {
       DiscordAPI.getInstance().registerDeath(matcher.group(1));
     }
 
-    // Spawn protection countdown
-    if (msg.equals("You are now invincible for 10 seconds.")) {
-      manager.getSpawnProtectionManager().getClientPlayerSpawnProtection().registerDeath();
-      return;
-    }
 
-    // TeamColour Tracker
-    Matcher teamColourMatcher = this.EggWarsTeamJoin.matcher(msg);
-    if (teamColourMatcher.matches()) {
-      List<Component> children = e.chatMessage().component().getChildren();
-      if (children.isEmpty()) {
-        this.manager.setTeamColour("yellow");
-      } else {
-        this.manager.setTeamColour(children.get(0).getColor().toString());
-      }
-    }
 
     // Bungee & serverid matcher
     Matcher whereAmIMatcher = this.WhereAmIOutPut.matcher(msg);

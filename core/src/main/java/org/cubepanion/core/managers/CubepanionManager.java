@@ -8,7 +8,6 @@ import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubepanion.core.managers.submanagers.FireballManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
-import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.ChestAPI;
@@ -21,7 +20,6 @@ public class CubepanionManager implements Manager {
 
   private final PartyManager partyManager;
   private final EggWarsMapInfoManager eggWarsMapInfoManager;
-  private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final FireballManager fireballManager;
 
@@ -48,7 +46,6 @@ public class CubepanionManager implements Manager {
   public CubepanionManager(Cubepanion addon) {
     this.partyManager = new PartyManager();
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
-    this.spawnProtectionManager = new SpawnProtectionManager(addon);
     this.durabilityManager = new DurabilityManager();
     this.fireballManager = new FireballManager();
 
@@ -83,10 +80,6 @@ public class CubepanionManager implements Manager {
     return this.durabilityManager;
   }
 
-  public SpawnProtectionManager getSpawnProtectionManager() {
-    return spawnProtectionManager;
-  }
-
   public void reset() {
     this.serverIP = "";
     this.lastDivision = CubeGame.NONE;
@@ -105,7 +98,6 @@ public class CubepanionManager implements Manager {
     this.gameStartTime = -1;
 
     this.partyManager.reset();
-    this.spawnProtectionManager.reset();
     this.durabilityManager.reset();
     this.fireballManager.reset();
   }
@@ -136,7 +128,6 @@ public class CubepanionManager implements Manager {
     this.inPreLobby = true;
     this.gameStartTime = -1;
     this.won = false;
-    this.spawnProtectionManager.resetHasMap();
   }
 
   public boolean onCubeCraft() {

@@ -139,10 +139,12 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     GameListeners.register(this);
     MiscListeners.register(this);
 
-    this.labyAPI().tagRegistry()
-        .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
-    this.labyAPI().tagRegistry()
-        .register("rank_tag", PositionType.ABOVE_NAME, new RankTag(this));
+    RespawnTags respawnTags = new RespawnTags(this);
+    RankTag rankTag = new RankTag(this);
+
+    this.registerListener(respawnTags);
+    this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, respawnTags);
+    this.labyAPI().tagRegistry().register("rank_tag", PositionType.ABOVE_NAME, rankTag);
 
     WidgetManager.register(this);
 

@@ -1,6 +1,7 @@
 package org.cubepanion.core.listener.network;
 
 import java.util.UUID;
+import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
@@ -10,6 +11,7 @@ import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent.Upd
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
+import org.cubepanion.core.events.PlayerRespawnEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.utils.CubeGame;
@@ -39,33 +41,33 @@ public class PlayerInfo {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
+    ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
+    if (player == null) {
+      return;
+    }
+    UUID uuid = e.playerInfo().profile().getUniqueId();
+    boolean isClientPlayer = uuid.equals(player.getUniqueId());
+
+
     if (e.type().equals(UpdateType.GAME_MODE)) {
-      UUID uuid = e.playerInfo().profile().getUniqueId();
+
       switch (e.playerInfo().gameMode()) {
         case SURVIVAL -> {
-          if (this.manager.isPlaying(CubeGame.TEAM_EGGWARS)) {
-            this.manager.getSpawnProtectionManager().registerDeath(uuid);
-          }
+          Laby.fireEvent(new PlayerRespawnEvent(isClientPlayer, uuid));
         }
         case SPECTATOR -> {
-          if (!this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS)
-              && !this.manager.isInPreLobby()) { // Moderation can join games in spectator mode
+          if (!this.manager.isPlaying(CubeGame.TEAM_EGGWARS)) { // Moderation can join games in spectator mode
             DiscordAPI.getInstance().registerDeath(e.playerInfo());
-            ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
             Minecraft minecraft = addon.labyAPI().minecraft();
-            if (player != null) {
-              if (uuid.equals(player.getUniqueId())) {
-                EndGameSubConfig config = addon.configuration().getAutomationConfig()
-                    .getEndGameSubConfig();
-                if (!config.getOnElimination().get() || !config.isEnabled()
-                    .get()) { // EndGameSubConfig should be enabled as well
-                  return;
+            if (isClientPlayer) {
+                EndGameSubConfig config = addon.configuration().getAutomationConfig().getEndGameSubConfig();
+                if (!config.getOnElimination().get() || !config.isEnabled().get()) { // EndGameSubConfig should be enabled as well
+                    return;
                 }
                 GameEndMessage gameEndMessage = config.getGameEndMessage().get();
                 gameEndMessage.send(minecraft.chatExecutor(), config,
-                    manager.getPartyManager().isInParty());
+                        manager.getPartyManager().isInParty());
                 manager.setEliminated(true);
-              }
             }
           }
         }

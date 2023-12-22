@@ -123,6 +123,7 @@ public class WidgetManager {
               }
               return addon.getManager().getPartyManager().isInParty();
             }, 5, 1, () -> true));
+
     // Distance to build limit
     AtomicBoolean done = new AtomicBoolean(false);
     ResourceLocation sound = ResourceLocation.create("minecraft", "entity.experience_orb.pickup");
@@ -139,7 +140,7 @@ public class WidgetManager {
                 return "";
               }
 
-              int d = (int) (map.getBuildLimit() - p.getPosY());
+              int d = (int) (map.getBuildLimit() + 1 - p.getPosY());
               if (d < 3 && d > 0) {
                 if (!done.get() && !addon.getManager().isInPreLobby()
                     && !addon.getManager().isEliminated()) {

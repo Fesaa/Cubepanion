@@ -1,5 +1,6 @@
 package org.cubepanion.core.gui.hud.nametags;
 
+import java.util.HashMap;
 import java.util.UUID;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -7,16 +8,40 @@ import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.NameTag;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.render.font.RenderableComponent;
+import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.GameUpdateEvent;
+import org.cubepanion.core.events.PlayerRespawnEvent;
 import org.cubepanion.core.gui.imp.SpawnProtectionComponent;
+import org.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 public class RespawnTags extends NameTag {
 
   private final Cubepanion addon;
+  private final HashMap<UUID, SpawnProtectionComponent> components;
 
   public RespawnTags(Cubepanion addon) {
     this.addon = addon;
+    this.components = new HashMap<>();
+  }
+
+  @Subscribe
+  public void onGameUpdate(GameUpdateEvent e) {
+    if (e.isSwitch()) {
+      this.components.clear();
+    }
+  }
+
+  @Subscribe
+  public void onPlayerRespawn(PlayerRespawnEvent e) {
+    if (!Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+      return;
+    }
+
+    SpawnProtectionComponent spawnProtectionComponent = new SpawnProtectionComponent(this.addon);
+    spawnProtectionComponent.enable(false);
+    this.components.put(e.getUUID(), spawnProtectionComponent);
   }
 
   @Override
@@ -34,22 +59,19 @@ public class RespawnTags extends NameTag {
       return null;
     }
     UUID uuid = playerInfo.profile().getUniqueId();
-    SpawnProtectionComponent spawnProtectionComponentGen = this.addon.getManager()
-        .getSpawnProtectionManager().getSpawnProtectionComponent(uuid);
-    if (spawnProtectionComponentGen == null) {
+    SpawnProtectionComponent gen = components.get(uuid);
+    if (gen == null) {
       return null;
     }
 
-    Component spawnProtectionComponent = spawnProtectionComponentGen.getComponent(
-        System.currentTimeMillis());
-    if (spawnProtectionComponent == Component.empty()
-        || ((TextComponent) spawnProtectionComponent).getText()
-        .equals(Component.empty().getText())) {
-      this.addon.getManager().getSpawnProtectionManager().removeSpawnProtectionComponent(uuid);
+    Component component = gen.getComponent(System.currentTimeMillis());
+    if (component == Component.empty()
+        || ((TextComponent) component).getText().equals(Component.empty().getText())) {
+      components.remove(uuid);
       return null;
     }
 
-    return RenderableComponent.of(spawnProtectionComponent);
+    return RenderableComponent.of(component);
   }
 
 }
