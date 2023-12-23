@@ -4,7 +4,7 @@ import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.events.GameWinEvent;
+import org.cubepanion.core.events.GameEndEvent;
 import org.cubepanion.core.events.PlayerDeathEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 
@@ -25,18 +25,20 @@ public class Stats {
     }
 
     CubepanionManager manager = this.addon.getManager();
-    GameStatsTracker gameStatsTracker = config.getOrCreate(manager.getDivision());
-    if (gameStatsTracker != null) {
-      if (e.isClientPlayer()) {
-        gameStatsTracker.registerDeath(e.getKiller());
-      } else {
-        gameStatsTracker.registerKill(e.getKilled());
-      }
+    GameStatsTracker tracker = config.getOrCreate(manager.getDivision());
+    if (tracker == null) {
+      return;
+    }
+
+    if (e.isClientPlayer()) {
+      tracker.registerDeath(e.getKiller());
+    } else {
+      tracker.registerKill(e.getKilled());
     }
   }
 
   @Subscribe
-  public void onGameWin(GameWinEvent e) {
+  public void onGameWin(GameEndEvent e) {
     if (!config.isEnabled()) {
       return;
     }
@@ -46,7 +48,11 @@ public class Stats {
       return;
     }
 
-    tracker.registerWin((int) e.getGameDuration());
+    if (e.hasWon()) {
+      tracker.registerWin((int) e.getGameDuration());
+    } else {
+      tracker.registerLoss((int) e.getGameDuration());
+    }
   }
 
 }

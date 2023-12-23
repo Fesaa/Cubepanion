@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
 public class ChestFinder {
-  private final Task task;
+    private final Task task;
 
   public ChestFinder(Cubepanion addon, @NotNull ChestFinderLink link) {
       task = Task.builder(() -> {
@@ -22,8 +22,8 @@ public class ChestFinder {
 
   @Subscribe
   public void onChatMessage(ChatReceiveEvent e) {
-    if (e.chatMessage().getPlainText()
-        .equals("A chest has been hidden somewhere in the Lobby with some goodies inside!\"")) {
+      String chestMessage = "A chest has been hidden somewhere in the Lobby with some goodies inside!";
+      if (e.chatMessage().getPlainText().equals(chestMessage)) {
       task.execute();
     }
   }

@@ -5,6 +5,8 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.network.server.ServerSwitchEvent;
+import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubepanion.core.Cubepanion;
@@ -20,6 +22,7 @@ public class ScoreboardListener {
 
   private String previousText;
   private boolean updatedMap;
+  private boolean updatedDivision;
 
   public ScoreboardListener(Cubepanion addon) {
     this.addon = addon;
@@ -30,14 +33,23 @@ public class ScoreboardListener {
   }
 
   @Subscribe
+  public void onServerSwitch(SubServerSwitchEvent e) {
+    updatedDivision = false;
+  }
+
+  @Subscribe
   public void onScoreboardTeamEntryAddEvent(ScoreboardTeamEntryAddEvent e) {
     if (this.updatedMap || !this.addon.getManager().onCubeCraft()) {
       return;
     }
 
     List<Component> children = e.team().getPrefix().getChildren();
-    if (!children.isEmpty()) {
-      if (this.manager.getDivision().equals(CubeGame.FFA)) {
+    if (children.isEmpty()) {
+      return;
+    }
+
+    switch (manager.getDivision()) {
+      case FFA -> {
         List<Component> ffaComponent = children.get(0).getChildren();
         if (ffaComponent.size() == 2) {
           if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
@@ -45,11 +57,14 @@ public class ScoreboardListener {
             this.updatedMap = true;
           }
         }
-      } else if (this.manager.getDivision().equals(CubeGame.LOBBY)
-          && this.manager.hasUpdatedAfterServerSwitch()) {
-        this.manager.setMapName("Main Lobby");
-        this.updatedMap = true;
-      } else {
+      }
+      case LOBBY -> {
+        if (updatedDivision) {
+          this.manager.setMapName("Main Lobby");
+          this.updatedMap = true;
+        }
+      }
+      default -> {
         String text = ((TextComponent) children.get(0)).getText();
         if (this.previousText.equals("Map:") || this.previousText.equals("Dimension:")) {
           this.manager.setMapName(text);
@@ -71,16 +86,15 @@ public class ScoreboardListener {
     if (!e.objective().getName().equals("sidebar")) {
       return;
     }
-    if (this.manager.hasUpdatedAfterServerSwitch() && !CubeGame.isParkour(
-        this.manager.getDivision())) {
+    if (updatedDivision && !CubeGame.isParkour(this.manager.getDivision())) {
       return;
     }
 
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
-    if (titleText != null && titleText.matches("[a-zA-Z ]*") && !titleText.isEmpty()) {
+    if (titleText != null && !titleText.isEmpty() && titleText.matches("[a-zA-Z ]*")) {
       this.manager.setDivision(CubeGame.stringToGame(titleText.trim()));
-      this.manager.setHasUpdatedAfterServerSwitch(true);
+      updatedDivision = true;
     } else {
       for (Component child : title.getChildren()) {
         String text = ((TextComponent) child).getText();
@@ -90,7 +104,7 @@ public class ScoreboardListener {
         text = text.replaceAll("[^a-zA-Z \\.]", "").trim();
         if (text.matches("[a-zA-Z ]+")) {
           this.manager.setDivision(CubeGame.stringToGame(text.trim()));
-          this.manager.setHasUpdatedAfterServerSwitch(true);
+          updatedDivision = true;
           break;
         }
       }

@@ -1,15 +1,12 @@
 package org.cubepanion.core.listener.games;
 
 import net.labymod.api.Laby;
-import net.labymod.api.client.Minecraft;
-import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.events.GameUpdateEvent;
-import org.cubepanion.core.events.GameWinEvent;
+import org.cubepanion.core.events.GameEndEvent;
 import org.cubepanion.core.events.PlayerDeathEvent;
 import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.managers.CubepanionManager;
@@ -29,9 +26,6 @@ public class AutoGG {
 
   @Subscribe
   public void onGameUpdate(GameUpdateEvent e) {
-    if (!e.isSwitch()) {
-      return;
-    }
     hasSentGG = false;
   }
 
@@ -50,11 +44,14 @@ public class AutoGG {
   }
 
   @Subscribe
-  public void onGameWin(GameWinEvent e) {
+  public void onGameEnd(GameEndEvent e) {
     if (!config.isEnabled().get()) {
       return;
     }
     if (hasSentGG) {
+      return;
+    }
+    if (e.hasSwitchedServer()) {
       return;
     }
     doMessage();

@@ -1,5 +1,6 @@
 package org.cubepanion.core.listener.internal;
 
+import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
@@ -7,6 +8,7 @@ import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
 import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
+import org.cubepanion.core.events.GameEndEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 
 public class ServerNavigation {
@@ -28,46 +30,27 @@ public class ServerNavigation {
       return;
     }
     this.manager.onCubeJoin();
-    this.executeWhereAmI();
   }
 
   @Subscribe
   public void onServerDisconnectEvent(ServerDisconnectEvent e) {
-    if (this.manager.onCubeCraft()) {
-      register_game_leave();
-      this.manager.reset();
+    if (!manager.onCubeCraft()) {
+      return;
     }
+    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true, manager.getGameStartTime());
+    Laby.fireEvent(event);
+    this.manager.reset();
   }
 
-  private void register_game_leave() {
-    StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
-        .getStatsTrackerSubConfig();
-    if (statsTrackerSubConfig.isEnabled() && this.manager.hasLost()
-        && !this.manager.isInPreLobby()) {
-      GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getOrCreate(this.manager.getDivision());
-      if (gameStatsTracker != null) {
-        gameStatsTracker.registerLoss(
-            (int) (System.currentTimeMillis() - manager.getGameStartTime()));
-        gameStatsTracker.registerDeath("leave");
-      }
-    }
-  }
 
   // This event is called when switching from server instance
   @Subscribe
   public void onSubServerSwitchEvent(SubServerSwitchEvent e) {
-    if (!this.manager.onCubeCraft()) {
+    if (!manager.onCubeCraft()) {
       return;
     }
-    this.manager.setHasUpdatedAfterServerSwitch(false);
-    register_game_leave();
-    this.executeWhereAmI();
-    this.manager.onServerSwitch();
-  }
-
-  private void executeWhereAmI() {
-    if (this.addon.configuration().getAutomationConfig().displayWhereAmI().get()) {
-      this.addon.labyAPI().minecraft().chatExecutor().chat("/whereami", false);
-    }
+    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true, manager.getGameStartTime());
+    Laby.fireEvent(event);
+    manager.onServerSwitch();
   }
 }

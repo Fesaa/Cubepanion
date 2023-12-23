@@ -30,15 +30,12 @@ public class CubepanionManager implements Manager {
   private CubeGame lastDivision;
   private String mapName;
   private String teamColour;
-  private String bungeecord;
-  private String serverID;
   private String rankString;
   private LoadedEggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
   private boolean inPreLobby;
   private boolean won;
-  private boolean hasUpdatedAfterServerSwitch;
 
   private long gameStartTime;
 
@@ -54,15 +51,12 @@ public class CubepanionManager implements Manager {
     this.lastDivision = CubeGame.NONE;
     this.mapName = "";
     this.teamColour = "";
-    this.bungeecord = "";
-    this.serverID = "";
     this.rankString = "";
     this.currentEggWarsMap = null;
 
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.hasUpdatedAfterServerSwitch = false;
 
     this.gameStartTime = -1;
   }
@@ -86,14 +80,11 @@ public class CubepanionManager implements Manager {
     this.division = CubeGame.NONE;
     this.teamColour = "";
     this.mapName = "";
-    this.bungeecord = "";
-    this.serverID = "";
     this.rankString = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.hasUpdatedAfterServerSwitch = false;
 
     this.gameStartTime = -1;
 
@@ -158,14 +149,6 @@ public class CubepanionManager implements Manager {
     this.won = won;
   }
 
-  public boolean hasUpdatedAfterServerSwitch() {
-    return hasUpdatedAfterServerSwitch;
-  }
-
-  public void setHasUpdatedAfterServerSwitch(boolean hasUpdatedAfterServerSwitch) {
-    this.hasUpdatedAfterServerSwitch = hasUpdatedAfterServerSwitch;
-  }
-
   public CubeGame getDivision() {
     return division;
   }
@@ -213,22 +196,6 @@ public class CubepanionManager implements Manager {
 
   public void setTeamColour(String teamColour) {
     this.teamColour = teamColour;
-  }
-
-  public String getBungeecord() {
-    return bungeecord;
-  }
-
-  public void setBungeecord(String bungeecord) {
-    this.bungeecord = bungeecord;
-  }
-
-  public String getServerID() {
-    return serverID;
-  }
-
-  public void setServerID(String serverID) {
-    this.serverID = serverID;
   }
 
   public long getGameStartTime() {

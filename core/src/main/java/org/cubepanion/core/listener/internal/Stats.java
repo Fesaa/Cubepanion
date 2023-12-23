@@ -5,13 +5,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.Laby;
-import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.imp.GameStatsTracker;
-import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import org.cubepanion.core.events.GameWinEvent;
+import org.cubepanion.core.events.GameEndEvent;
 import org.cubepanion.core.events.PlayerDeathEvent;
 import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.managers.CubepanionManager;
@@ -273,6 +271,14 @@ public class Stats {
   }
 
   @Subscribe
+  public void onPlayerElimination(PlayerEliminationEvent e) {
+    if (!e.isClientPlayer()) {
+      return;
+    }
+    manager.setEliminated(true);
+  }
+
+  @Subscribe
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
@@ -281,7 +287,7 @@ public class Stats {
     String userName = SessionTracker.get().username();
 
     if (msg.equals("Congratulations, you win!")) {
-      Laby.fireEvent(new GameWinEvent(manager.getDivision(), manager.getGameStartTime()));
+      Laby.fireEvent(new GameEndEvent(manager.getDivision(), true, false, manager.getGameStartTime()));
       manager.setWon(true);
       return;
     }
