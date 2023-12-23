@@ -18,14 +18,12 @@ labyMod {
         displayName = "Cubepanion"
         author = "Fesa"
         description = "A CubeCraft focused LabyMod addon that provides a ton of useful features!\nNot affiliated with Ziax/CubeCraft in any way."
-        minecraftVersion = "1.19<*"
+        minecraftVersion = "1.19.4<*"
         version = System.getenv().getOrDefault("VERSION", "0.0.1")
     }
 
     minecraft {
         registerVersions(
-                "1.19.2",
-                "1.19.3",
                 "1.19.4",
                 "1.20.1",
                 "1.20.2",

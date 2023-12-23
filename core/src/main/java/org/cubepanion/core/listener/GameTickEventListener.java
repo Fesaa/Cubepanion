@@ -13,13 +13,11 @@ import net.labymod.api.notification.Notification;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
-import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.Colours;
 
 public class GameTickEventListener {
 
   private final Cubepanion addon;
-  private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig;
   private int counter = 0;
@@ -27,7 +25,6 @@ public class GameTickEventListener {
   public GameTickEventListener(Cubepanion addon) {
     this.addon = addon;
 
-    this.spawnProtectionManager = addon.getManager().getSpawnProtectionManager();
     this.durabilityManager = this.addon.getManager().getDurabilityManager();
     this.armourBreakWarningSubConfig = this.addon.configuration().getAutomationConfig()
         .getArmourBreakWarningSubConfig();
@@ -47,7 +44,6 @@ public class GameTickEventListener {
       this.durabilityUpdater(
           this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig()
               .getEnabled().get());
-      this.spawnProtectionManager.getClientPlayerSpawnProtection().update();
     }
     this.counter++;
   }

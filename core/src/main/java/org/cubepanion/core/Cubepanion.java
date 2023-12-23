@@ -21,20 +21,15 @@ import org.cubepanion.core.config.CubepanionConfig;
 import org.cubepanion.core.generated.DefaultReferenceStorage;
 import org.cubepanion.core.gui.hud.nametags.RankTag;
 import org.cubepanion.core.gui.hud.nametags.RespawnTags;
-import org.cubepanion.core.listener.FireballCooldown;
 import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
 import org.cubepanion.core.listener.ScreenListener;
-import org.cubepanion.core.listener.chat.Automations;
-import org.cubepanion.core.listener.chat.PartyTracker;
-import org.cubepanion.core.listener.chat.StatsTracker;
+import org.cubepanion.core.listener.internal.InternalTrackers;
+import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
-import org.cubepanion.core.listener.network.PlayerInfo;
-import org.cubepanion.core.listener.network.ScoreboardListener;
-import org.cubepanion.core.listener.network.ServerNavigation;
+import org.cubepanion.core.listener.misc.MiscListeners;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.LOGGER;
@@ -46,11 +41,18 @@ import org.cubepanion.core.versionlinkers.VotingLink;
 import org.cubepanion.core.weave.ChestAPI;
 import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.LeaderboardAPI;
+import org.jetbrains.annotations.Nullable;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private static Cubepanion instance;
   private CubepanionManager manager;
+
+  private VotingLink votingLink;
+  private ChestFinderLink chestFinderLink;
+  private LeaderboardTrackerLink leaderboardTrackerLink;
+  private QOLMapSelectorLink qolMapSelectorLink;
+  private FunctionLink functionLink;
 
   public Cubepanion() {
     instance = this;
@@ -75,14 +77,13 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     ChestAPI.Init();
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
-    DiscordAPI.Init(this);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
-    VotingLink votingLink = storage.getVotingLink();
-    LeaderboardTrackerLink leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
-    QOLMapSelectorLink qolMapSelectorLink = storage.getQOLMapSelectorLink();
-    ChestFinderLink chestFinderLink = storage.getChestFinderLink();
-    FunctionLink functionLink = storage.getFunctionLink();
+    votingLink = storage.getVotingLink();
+    leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
+    qolMapSelectorLink = storage.getQOLMapSelectorLink();
+    chestFinderLink = storage.getChestFinderLink();
+    functionLink = storage.getFunctionLink();
     if (votingLink == null) {
       LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -115,23 +116,22 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new LeaderboardMappings(this));
 
-    this.registerListener(new PlayerInfo(this));
-    this.registerListener(new ServerNavigation(this));
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
-    this.registerListener(new Automations(this, votingLink, chestFinderLink));
-    this.registerListener(new PartyTracker(this));
-    this.registerListener(new StatsTracker(this));
-    this.registerListener(new ScoreboardListener(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
-    this.registerListener(new FireballCooldown(this, functionLink));
 
-    this.labyAPI().tagRegistry()
-        .register("respawn_timer", PositionType.ABOVE_NAME, new RespawnTags(this));
-    this.labyAPI().tagRegistry()
-        .register("rank_tag", PositionType.ABOVE_NAME, new RankTag(this));
+    GameListeners.register(this);
+    MiscListeners.register(this);
+    InternalTrackers.register(this);
+
+    RespawnTags respawnTags = new RespawnTags(this);
+    RankTag rankTag = new RankTag(this);
+
+    this.registerListener(respawnTags);
+    this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, respawnTags);
+    this.labyAPI().tagRegistry().register("rank_tag", PositionType.ABOVE_NAME, rankTag);
 
     WidgetManager.register(this);
 
@@ -146,6 +146,35 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     return Component.text("[", Colours.Title)
         .append(Component.text("Cubepanion", Colours.Primary))
         .append(Component.text("]", Colours.Title));
+  }
+
+  @Nullable
+  public VotingLink getVotingLink() {
+    return votingLink;
+  }
+
+  @Nullable
+  public ChestFinderLink getChestFinderLink() {
+    return chestFinderLink;
+  }
+
+  @Nullable
+  public LeaderboardTrackerLink getLeaderboardTrackerLink() {
+    return leaderboardTrackerLink;
+  }
+
+  @Nullable
+  public QOLMapSelectorLink getQolMapSelectorLink() {
+    return qolMapSelectorLink;
+  }
+
+  @Nullable
+  public FunctionLink getFunctionLink() {
+    return functionLink;
+  }
+
+  public void registerCubepanionListener(Object listener) {
+    this.registerListener(listener);
   }
 
   @Override

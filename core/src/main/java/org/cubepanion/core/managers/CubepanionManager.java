@@ -2,11 +2,12 @@ package org.cubepanion.core.managers;
 
 import net.labymod.api.Laby;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.GameUpdateEvent;
+import org.cubepanion.core.events.RequestEvent;
 import org.cubepanion.core.managers.submanagers.DurabilityManager;
 import org.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
 import org.cubepanion.core.managers.submanagers.FireballManager;
 import org.cubepanion.core.managers.submanagers.PartyManager;
-import org.cubepanion.core.managers.submanagers.SpawnProtectionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.ChestAPI;
@@ -19,7 +20,6 @@ public class CubepanionManager implements Manager {
 
   private final PartyManager partyManager;
   private final EggWarsMapInfoManager eggWarsMapInfoManager;
-  private final SpawnProtectionManager spawnProtectionManager;
   private final DurabilityManager durabilityManager;
   private final FireballManager fireballManager;
 
@@ -30,20 +30,12 @@ public class CubepanionManager implements Manager {
   private CubeGame lastDivision;
   private String mapName;
   private String teamColour;
-  private String bungeecord;
-  private String serverID;
   private String rankString;
   private LoadedEggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
   private boolean inPreLobby;
   private boolean won;
-  private boolean hasUpdatedAfterServerSwitch;
-
-  private boolean requestedFullFriendsList;
-  private boolean requestedRankString;
-
-  private int chestPartyAnnounceCounter;
 
   private long gameStartTime;
 
@@ -51,7 +43,6 @@ public class CubepanionManager implements Manager {
   public CubepanionManager(Cubepanion addon) {
     this.partyManager = new PartyManager();
     this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
-    this.spawnProtectionManager = new SpawnProtectionManager(addon);
     this.durabilityManager = new DurabilityManager();
     this.fireballManager = new FireballManager();
 
@@ -60,18 +51,13 @@ public class CubepanionManager implements Manager {
     this.lastDivision = CubeGame.NONE;
     this.mapName = "";
     this.teamColour = "";
-    this.bungeecord = "";
-    this.serverID = "";
     this.rankString = "";
     this.currentEggWarsMap = null;
 
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.requestedFullFriendsList = false;
-    this.hasUpdatedAfterServerSwitch = false;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
   }
 
@@ -88,31 +74,21 @@ public class CubepanionManager implements Manager {
     return this.durabilityManager;
   }
 
-  public SpawnProtectionManager getSpawnProtectionManager() {
-    return spawnProtectionManager;
-  }
-
   public void reset() {
     this.serverIP = "";
     this.lastDivision = CubeGame.NONE;
     this.division = CubeGame.NONE;
     this.teamColour = "";
     this.mapName = "";
-    this.bungeecord = "";
-    this.serverID = "";
     this.rankString = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
     this.won = false;
-    this.requestedFullFriendsList = false;
-    this.hasUpdatedAfterServerSwitch = false;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
 
     this.partyManager.reset();
-    this.spawnProtectionManager.reset();
     this.durabilityManager.reset();
     this.fireballManager.reset();
   }
@@ -128,7 +104,6 @@ public class CubepanionManager implements Manager {
     this.eliminated = false;
     this.inPreLobby = true;
 
-    this.chestPartyAnnounceCounter = 0;
     this.gameStartTime = -1;
 
     this.partyManager.reset();
@@ -144,7 +119,6 @@ public class CubepanionManager implements Manager {
     this.inPreLobby = true;
     this.gameStartTime = -1;
     this.won = false;
-    this.spawnProtectionManager.resetHasMap();
   }
 
   public boolean onCubeCraft() {
@@ -175,18 +149,6 @@ public class CubepanionManager implements Manager {
     this.won = won;
   }
 
-  public boolean hasUpdatedAfterServerSwitch() {
-    return hasUpdatedAfterServerSwitch;
-  }
-
-  public void setHasUpdatedAfterServerSwitch(boolean hasUpdatedAfterServerSwitch) {
-    this.hasUpdatedAfterServerSwitch = hasUpdatedAfterServerSwitch;
-  }
-
-  public int getChestPartyAnnounceCounter() {
-    return chestPartyAnnounceCounter;
-  }
-
   public CubeGame getDivision() {
     return division;
   }
@@ -202,6 +164,9 @@ public class CubepanionManager implements Manager {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
+
+    GameUpdateEvent e = new GameUpdateEvent(this.lastDivision, this.division, this.inPreLobby);
+    Laby.fireEvent(e);
   }
 
   public boolean isPlaying(CubeGame game) {
@@ -233,30 +198,6 @@ public class CubepanionManager implements Manager {
     this.teamColour = teamColour;
   }
 
-  public String getBungeecord() {
-    return bungeecord;
-  }
-
-  public void setBungeecord(String bungeecord) {
-    this.bungeecord = bungeecord;
-  }
-
-  public String getServerID() {
-    return serverID;
-  }
-
-  public void setServerID(String serverID) {
-    this.serverID = serverID;
-  }
-
-  public boolean hasRequestedFullFriendsList() {
-    return requestedFullFriendsList;
-  }
-
-  public void setRequestedFullFriendsList(boolean requestedFullFriendsList) {
-    this.requestedFullFriendsList = requestedFullFriendsList;
-  }
-
   public long getGameStartTime() {
     return gameStartTime;
   }
@@ -274,16 +215,8 @@ public class CubepanionManager implements Manager {
   }
 
   public void updateRankString() {
-    this.requestedRankString = true;
+    Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.RANK_TAG));
     Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
-  }
-
-  public boolean hasRequestedRankString() {
-    return requestedRankString;
-  }
-
-  public void setRequestedRankString(boolean requestedRankString) {
-    this.requestedRankString = requestedRankString;
   }
 
   public @Nullable LoadedEggWarsMap getCurrentEggWarsMap() {

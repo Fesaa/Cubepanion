@@ -33,15 +33,6 @@
         "friendMessageSoundId": {
           "name": "Choose which sound to play"
         },
-        "whereAmI": {
-          "name": "/whereami on server switch"
-        },
-        "copyServerID": {
-          "name": "Copy Server ID"
-        },
-        "copyBungeecord": {
-          "name": "Copy Bungeecord Instance"
-        },
         "armourBreakWarningSubConfig": {
           "name": "Durability Warning",
           "durabilityWarning": {

@@ -33,15 +33,7 @@ public class FindChestCommand extends Command {
         || !this.addon.configuration().getCommandSystemSubConfig().getChestFinderCommand().get()) {
       return false;
     }
-    List<ChestLocation> chestLocations = this.chestFinderLink.getChestLocations();
-    if (!chestLocations.isEmpty()) {
-      for (ChestLocation loc : chestLocations) {
-        addon.displayMessage(chestLocationsComponent(loc));
-      }
-    } else {
-      addon.displayMessage(
-          Component.translatable("cubepanion.messages.chests_finder.not_found", Colours.Error));
-    }
+    chestFinderLink.displayLocations();
     return true;
   }
 }
