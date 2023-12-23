@@ -278,16 +278,7 @@ public class Stats {
       return;
     }
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
-    if (p == null) {
-      return;
-    }
-
-    if (!this.addon.configuration().getStatsTrackerSubConfig().isEnabled()) {
-      return;
-    }
-
-    String userName = p.getName();
+    String userName = SessionTracker.get().username();
 
     if (msg.equals("Congratulations, you win!")) {
       Laby.fireEvent(new GameWinEvent(manager.getDivision(), manager.getGameStartTime()));

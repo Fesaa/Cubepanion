@@ -43,10 +43,6 @@ public class Party {
       return;
     }
     String msg = e.chatMessage().getPlainText();
-    ClientPlayer p = this.addon.labyAPI().minecraft().getClientPlayer();
-    if (p == null) {
-      return;
-    }
 
     // Party Chat
     if (msg.equals("Party chat is now enabled!")) {
@@ -138,7 +134,7 @@ public class Party {
     if (this.partyManager.isInParty()) {
       Matcher ownerChangeMatcher = this.ownerChange.matcher(msg);
       if (ownerChangeMatcher.matches()) {
-        this.partyManager.setPartyOwner(ownerChangeMatcher.group(1).equals(p.getName()));
+        this.partyManager.setPartyOwner(ownerChangeMatcher.group(1).equals(SessionTracker.get().username()));
       }
     }
   }

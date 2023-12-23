@@ -148,9 +148,6 @@ public class CubepanionManager implements Manager {
 
   public void setInPreLobby(boolean inPreLobby) {
     this.inPreLobby = inPreLobby;
-
-    GameUpdateEvent e = new GameUpdateEvent(this.division, this.division, this.inPreLobby);
-    Laby.fireEvent(e);
   }
 
   public boolean hasLost() {

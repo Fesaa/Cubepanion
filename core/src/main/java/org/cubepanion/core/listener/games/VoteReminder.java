@@ -2,12 +2,12 @@ package org.cubepanion.core.listener.games;
 
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.QOLConfig;
 import org.cubepanion.core.events.GameUpdateEvent;
+import org.cubepanion.core.listener.internal.SessionTracker;
 import org.cubepanion.core.utils.Colours;
 import java.util.regex.Pattern;
 
@@ -42,11 +42,7 @@ public class VoteReminder {
       return;
     }
     Minecraft minecraft = this.addon.labyAPI().minecraft();
-    ClientPlayer p = minecraft.getClientPlayer();
-    if (p == null) {
-      return;
-    }
-    String playerRegex = ".{0,5}" + p.getName() + ".{0,5}";
+    String playerRegex = ".{0,5}" + SessionTracker.get().username() + ".{0,5}";
     String msg = e.chatMessage().getPlainText();
     String voteMessage = playerRegex + " voted for .*\\. \\d{1,4} votes?";
 

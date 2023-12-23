@@ -5,7 +5,9 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.events.PlayerRespawnEvent;
+import org.cubepanion.core.managers.CubepanionManager;
 
 public class GameEvents {
 
@@ -13,19 +15,18 @@ public class GameEvents {
   public void onChatMessage(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
 
-    ClientPlayer player = Laby.labyAPI().minecraft().getClientPlayer();
-    if (player == null) {
-      return;
-    }
-
     if (msg.equals("Let the games begin!")) {
-      Cubepanion.get().getManager().setInPreLobby(false);
-      Cubepanion.get().getManager().setGameStartTime(System.currentTimeMillis());
+      CubepanionManager m = Cubepanion.get().getManager();
+      m.setInPreLobby(false);
+      m.setGameStartTime(System.currentTimeMillis());
+
+      GameUpdateEvent event = new GameUpdateEvent(m.getDivision(), m.getDivision(), false);
+      Laby.fireEvent(event);
       return;
     }
 
     if (msg.equals("You are now invincible for 10 seconds.")) {
-      Laby.fireEvent(new PlayerRespawnEvent(true, player.getUniqueId()));
+      Laby.fireEvent(new PlayerRespawnEvent(true, SessionTracker.get().uuid()));
     }
   }
 

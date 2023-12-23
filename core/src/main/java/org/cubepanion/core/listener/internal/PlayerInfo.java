@@ -43,12 +43,8 @@ public class PlayerInfo {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
-    ClientPlayer player = addon.labyAPI().minecraft().getClientPlayer();
-    if (player == null) {
-      return;
-    }
     UUID uuid = e.playerInfo().profile().getUniqueId();
-    boolean isClientPlayer = uuid.equals(player.getUniqueId());
+    boolean isClientPlayer = uuid.equals(SessionTracker.get().uuid());
 
     if (e.type().equals(UpdateType.GAME_MODE)) {
         if (e.playerInfo().gameMode() == GameMode.SURVIVAL) {

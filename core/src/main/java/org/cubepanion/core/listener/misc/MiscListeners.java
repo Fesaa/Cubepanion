@@ -11,6 +11,7 @@ public class MiscListeners {
 
     addon.registerCubepanionListener(new RankTag());
     addon.registerCubepanionListener(new FriendList());
+    addon.registerCubepanionListener(new DiscordRPC());
   }
 
 }
