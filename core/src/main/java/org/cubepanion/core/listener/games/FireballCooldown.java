@@ -21,7 +21,7 @@ public class FireballCooldown {
 
   @Subscribe
   public void onItemUse(ItemUseEvent e) {
-    if ( addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
+    if ( addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)
         && e.getUseType() == UseType.USE
         && e.getItemStack().getAsItem().getIdentifier().getPath().equals("fire_charge")
         && !addon.getManager().getFireballManager().onCooldown()) {
