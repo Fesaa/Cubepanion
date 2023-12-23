@@ -16,11 +16,8 @@ public class SessionTracker {
     return instance;
   }
 
-  public static void initialize() {
-    if (instance != null) {
-      throw new IllegalStateException("SessionTracker has already been initialized!");
-    }
-    instance = new SessionTracker();
+  public SessionTracker() {
+    instance = this;
   }
 
   private UUID uuid;

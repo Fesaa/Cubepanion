@@ -1,14 +1,16 @@
 package org.cubepanion.core.listener.internal;
 
 import java.util.List;
+import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.events.RequestEvent;
+import org.cubepanion.core.events.RequestEvent.RequestType;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.utils.CubeGame;
 
 public class ScoreboardListener {
@@ -57,7 +59,7 @@ public class ScoreboardListener {
       }
     }
     if (this.updatedMap) {
-      DiscordAPI.getInstance().updateRPC();
+      Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
     }
   }
 

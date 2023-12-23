@@ -1,20 +1,12 @@
 package org.cubepanion.core.listener.chat;
 
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.labymod.api.client.Minecraft;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.CubepanionConfig;
-import org.cubepanion.core.config.subconfig.EndGameSubConfig;
-import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.managers.DiscordAPI;
 
 public class Automations {
 
@@ -36,14 +28,6 @@ public class Automations {
       return;
     }
     String msg = e.chatMessage().getPlainText();
-
-    // RPC
-    Matcher matcher = playerElimination.matcher(msg);
-    if (matcher.matches()) {
-      DiscordAPI.getInstance().registerDeath(matcher.group(1));
-    }
-
-
 
     // Bungee & serverid matcher
     Matcher whereAmIMatcher = this.WhereAmIOutPut.matcher(msg);

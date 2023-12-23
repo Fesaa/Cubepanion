@@ -18,5 +18,6 @@ public class RequestEvent implements Event {
   public enum RequestType {
     FULL_FRIEND_LIST,
     RANK_TAG,
+    UPDATE_RPC,
   }
 }

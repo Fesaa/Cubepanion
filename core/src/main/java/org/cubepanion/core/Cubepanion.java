@@ -30,9 +30,7 @@ import org.cubepanion.core.listener.internal.InternalTrackers;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
 import org.cubepanion.core.listener.misc.MiscListeners;
-import org.cubepanion.core.listener.internal.ServerNavigation;
 import org.cubepanion.core.managers.CubepanionManager;
-import org.cubepanion.core.managers.DiscordAPI;
 import org.cubepanion.core.managers.WidgetManager;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.LOGGER;
@@ -80,7 +78,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     ChestAPI.Init();
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
-    DiscordAPI.Init(this);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     votingLink = storage.getVotingLink();
@@ -126,7 +123,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerListener(new Automations(this));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));
-    this.registerListener(DiscordAPI.getInstance());
 
     GameListeners.register(this);
     MiscListeners.register(this);

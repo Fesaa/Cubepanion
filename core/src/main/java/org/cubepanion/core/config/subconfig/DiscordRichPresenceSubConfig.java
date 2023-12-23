@@ -1,5 +1,6 @@
 package org.cubepanion.core.config.subconfig;
 
+import net.labymod.api.Laby;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
@@ -7,8 +8,8 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.property.Property;
 import net.labymod.api.util.function.ChangeListener;
-import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.managers.DiscordAPI;
+import org.cubepanion.core.events.RequestEvent;
+import org.cubepanion.core.events.RequestEvent.RequestType;
 
 public class DiscordRichPresenceSubConfig extends Config {
 
@@ -26,10 +27,7 @@ public class DiscordRichPresenceSubConfig extends Config {
   public DiscordRichPresenceSubConfig() {
 
     ChangeListener<Property<Boolean>, Boolean> listener = (type, oldValue, newValue) -> {
-      DiscordAPI api = DiscordAPI.getInstance();
-      if (api != null) {
-        api.updateRPC();
-      }
+      Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
     };
 
     this.enabled.addChangeListener(listener);
