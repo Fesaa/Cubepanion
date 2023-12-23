@@ -65,7 +65,10 @@ public class AutoGG {
     if (hasSentGG || !e.isClientPlayer()) {
       return;
     }
-    if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+    if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
+    || Cubepanion.get().getManager().isPlaying(CubeGame.FFA)
+    || Cubepanion.get().getManager().isPlaying(CubeGame.SKYBLOCK)
+    || CubeGame.isParkour(Cubepanion.get().getManager().getDivision())) {
       return;
     }
     doMessage();

@@ -19,7 +19,7 @@ public class AutoVote {
 
   @Subscribe
   public void onGameJoin(GameUpdateEvent e) {
-    if (e.getDestination() == e.getOrigin()) {
+    if (!e.isPreLobby()) {
       return;
     }
 
