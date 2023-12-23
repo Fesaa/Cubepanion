@@ -158,34 +158,53 @@ public class Utils {
     int days = Math.floorDiv(hours, 24);
     hours = hours - days * 24;
 
-    if (layout.equals(layoutEnum.WORDS)) {
-      String out = "";
-      if (days > 0) {
-        out += days + " day" + (days != 1 ? "s " : " ");
+    switch (layout) {
+      case WORDS -> {
+        String out = "";
+        if (days > 0) {
+          out += days + " day" + (days != 1 ? "s " : " ");
+        }
+        if (hours > 0) {
+          out += hours + " hour" + (hours != 1 ? "s " : " ");
+        }
+        if (minutes > 0) {
+          out += minutes + " minute" + (minutes != 1 ? "s " : " ");
+        }
+        if (seconds > 0) {
+          out += seconds + " second" + (seconds != 1 ? "s" : "");
+        }
+        return out;
       }
-      if (hours > 0) {
-        out += hours + " hour" + (hours != 1 ? "s " : " ");
+      case COLON -> {
+        String tail = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        if (hours > 0) {
+          tail = (hours < 10 ? "0" : "") + hours + ":" + tail;
+        }
+        if (days > 0) {
+          tail = days + ":" + tail;
+        }
+        return tail;
       }
-      if (minutes > 0) {
-        out += minutes + " minute" + (minutes != 1 ? "s " : " ");
+      case SECONDS -> {
+          return String.valueOf(seconds);
       }
-      if (seconds > 0) {
-        out += seconds + " second" + (seconds != 1 ? "s" : "");
+      case WORDS_SHORT -> {
+        String out = "";
+        if (days > 0) {
+          out += days + "d";
+        }
+        if (hours > 0) {
+          out += hours + "h";
+        }
+        if (minutes > 0) {
+          out += minutes + "m";
+        }
+        if (seconds > 0) {
+          out += seconds + "s";
+        }
+        return out;
       }
-      return out;
-    } else if (layout.equals(layoutEnum.COLON)) {
-      String tail = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-      if (hours > 0) {
-        tail = (hours < 10 ? "0" : "") + hours + ":" + tail;
-      }
-      if (days > 0) {
-        tail = days + ":" + tail;
-      }
-      return tail;
-    } else if (layout.equals(layoutEnum.SECONDS)) {
-      return String.valueOf(seconds);
     }
-
     return "";
   }
 
