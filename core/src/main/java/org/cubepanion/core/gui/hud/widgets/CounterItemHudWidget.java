@@ -39,14 +39,16 @@ public class CounterItemHudWidget extends CustomItemWidget {
 
   @Override
   public void onTick(boolean inEditor) {
+    if (this.itemStackSupplier != null) {
+      this.updateItemStack(this.itemStackSupplier.get(), inEditor);
+    } else {
+      this.updateItemStack(item, inEditor);
+    }
     if (inEditor) {
       this.updateItemName(Component.text("1", this.config.getTextColor()), true);
       return;
     }
     this.counter = this.supplier.getAsInt();
-    if (this.itemStackSupplier != null) {
-      this.updateItemStack(this.itemStackSupplier.get(), false);
-    }
     this.updateItemName(Component.text(this.counter, this.config.getTextColor()), false);
   }
 
