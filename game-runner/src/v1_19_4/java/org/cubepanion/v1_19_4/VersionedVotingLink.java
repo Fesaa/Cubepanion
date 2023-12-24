@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 @Singleton
 @Implements(VotingLink.class)
 public class VersionedVotingLink extends VotingLink {
+
   private final Task clickOnMenu = Task.builder(() -> {
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {

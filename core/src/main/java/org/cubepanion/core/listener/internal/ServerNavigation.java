@@ -6,8 +6,6 @@ import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import org.cubepanion.core.Cubepanion;
-import org.cubepanion.core.config.imp.GameStatsTracker;
-import org.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import org.cubepanion.core.events.GameEndEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 
@@ -37,7 +35,8 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
-    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true, manager.getGameStartTime());
+    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
+        manager.getGameStartTime());
     Laby.fireEvent(event);
     this.manager.reset();
   }
@@ -49,7 +48,8 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
-    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true, manager.getGameStartTime());
+    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
+        manager.getGameStartTime());
     Laby.fireEvent(event);
     manager.onServerSwitch();
   }

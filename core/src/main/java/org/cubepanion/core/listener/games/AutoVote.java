@@ -1,13 +1,13 @@
 package org.cubepanion.core.listener.games;
 
+import java.util.Collection;
+import java.util.List;
 import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.utils.CubeGame;
 import org.cubepanion.core.versionlinkers.VotingLink;
-import java.util.Collection;
-import java.util.List;
 
 public class AutoVote {
 

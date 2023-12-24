@@ -5,7 +5,6 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.network.server.ServerSwitchEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;

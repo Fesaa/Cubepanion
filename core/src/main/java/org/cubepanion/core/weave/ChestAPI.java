@@ -1,39 +1,34 @@
 package org.cubepanion.core.weave;
 
-import org.cubepanion.core.utils.LOGGER;
-import javax.inject.Singleton;
-
 import static org.cubepanion.core.weave.Utils.makeRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import javax.inject.Singleton;
+import org.cubepanion.core.utils.LOGGER;
 
 
 @Singleton
 public class ChestAPI {
 
-  private static ChestAPI instance;
-
-  public static ChestAPI getInstance() {
-    return instance;
-  }
-
   private static final String baseURL = "https://ameliah.art/cubepanion_api";
-
-  private String Season = "";
+  private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
-
-
-  public static void Init() {
-    instance = new ChestAPI();
-  }
-
+  private String Season = "";
   private ChestAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }
     instance = this;
+  }
+
+  public static ChestAPI getInstance() {
+    return instance;
+  }
+
+  public static void Init() {
+    instance = new ChestAPI();
   }
 
   public String getSeason() {

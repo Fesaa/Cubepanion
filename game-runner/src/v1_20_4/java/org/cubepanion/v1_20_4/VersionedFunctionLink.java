@@ -13,7 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class VersionedFunctionLink extends FunctionLink {
 
   @Override
-  public void setCoolDown(@NotNull net.labymod.api.client.world.item.ItemStack itemStack, int duration) {
+  public void setCoolDown(@NotNull net.labymod.api.client.world.item.ItemStack itemStack,
+      int duration) {
     if (Minecraft.getInstance().player == null) {
       return;
     }

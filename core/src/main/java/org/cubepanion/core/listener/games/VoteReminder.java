@@ -1,5 +1,6 @@
 package org.cubepanion.core.listener.games;
 
+import java.util.regex.Pattern;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.event.Subscribe;
@@ -9,21 +10,21 @@ import org.cubepanion.core.config.QOLConfig;
 import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.listener.internal.SessionTracker;
 import org.cubepanion.core.utils.Colours;
-import java.util.regex.Pattern;
 
 public class VoteReminder {
 
   private final Cubepanion addon;
   private final QOLConfig config;
-  private final Pattern fiveSecondsRemaining = Pattern.compile("[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
-  private final Component voteReminderComponent = Component.translatable("cubepanion.messages.voteReminder", Colours.Primary);
+  private final Pattern fiveSecondsRemaining = Pattern.compile(
+      "[a-zA-Z ]{0,30} is starting in 5 seconds\\.");
+  private final Component voteReminderComponent = Component.translatable(
+      "cubepanion.messages.voteReminder", Colours.Primary);
+  private boolean hasVoted = false;
 
   public VoteReminder(Cubepanion addon) {
     this.addon = addon;
     this.config = addon.configuration().getQolConfig();
   }
-
-  private boolean hasVoted = false;
 
   @Subscribe
   public void onGameUpdate(GameUpdateEvent e) {

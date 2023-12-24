@@ -1,5 +1,7 @@
 package org.cubepanion.core.listener.misc;
 
+import java.util.HashSet;
+import java.util.Set;
 import net.labymod.api.client.network.ClientPacketListener;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoRemoveEvent;
@@ -15,23 +17,20 @@ import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.events.RequestEvent;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.CubeGame;
-import org.cubepanion.core.utils.I18nNamespaces;
 import org.jetbrains.annotations.Nullable;
-import java.util.HashSet;
-import java.util.Set;
 
 public class DiscordRPC {
-  private final Cubepanion addon;
-  public DiscordRPC(Cubepanion addon) {
-    this.addon = addon;
-  }
 
+  private final Cubepanion addon;
+  private final Set<String> removedPlayers = new HashSet<>();
   private boolean busy;
 
   private int deaths = 0;
   private int totalPlayers = 0;
 
-  private final Set<String> removedPlayers = new HashSet<>();
+  public DiscordRPC(Cubepanion addon) {
+    this.addon = addon;
+  }
 
   private int getTotalPlayers() {
     ClientPacketListener clientPacketListener = this.addon.labyAPI().minecraft()
@@ -140,7 +139,7 @@ public class DiscordRPC {
 
   @Subscribe
   public void onPlayerRemove(PlayerInfoRemoveEvent e) {
-    String name =  e.playerInfo().profile().getUsername();
+    String name = e.playerInfo().profile().getUsername();
     if (removedPlayers.contains(name)) {
       return;
     }

@@ -1,6 +1,11 @@
 package org.cubepanion.v1_20_2;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
 import net.labymod.api.util.concurrent.task.Task;
 import net.minecraft.client.Minecraft;
@@ -20,11 +25,6 @@ import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.versionlinkers.VotingLink;
 import org.jetbrains.annotations.NotNull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 @Implements(VotingLink.class)

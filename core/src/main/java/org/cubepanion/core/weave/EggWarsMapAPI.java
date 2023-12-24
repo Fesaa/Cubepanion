@@ -1,39 +1,35 @@
 package org.cubepanion.core.weave;
 
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.gfx.pipeline.post.data.EffectData;
-import org.cubepanion.core.utils.LOGGER;
-import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
-import javax.inject.Singleton;
-
 import static org.cubepanion.core.utils.Utils.fromAPIMap;
 import static org.cubepanion.core.weave.Utils.makeRequest;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import javax.inject.Singleton;
+import net.labymod.api.client.component.Component;
+import org.cubepanion.core.utils.LOGGER;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 @Singleton
 public class EggWarsMapAPI {
 
+  private static final String baseURL = "https://ameliah.art/cubepanion_api";
   private static EggWarsMapAPI instance;
+  private final HashMap<String, LoadedEggWarsMap> convertedEggWarsMaps = new HashMap<>();
+
+  private EggWarsMapAPI() {
+    if (instance != null) {
+      throw new RuntimeException("Class already initialized");
+    }
+    instance = this;
+  }
 
   public static EggWarsMapAPI getInstance() {
     return instance;
   }
 
-  private static final String baseURL = "https://ameliah.art/cubepanion_api";
-
-  private final HashMap<String, LoadedEggWarsMap> convertedEggWarsMaps = new HashMap<>();
-
   public static void Init() {
     instance = new EggWarsMapAPI();
-  }
-
-   private EggWarsMapAPI() {
-    if (instance != null) {
-      throw new RuntimeException("Class already initialized");
-    }
-    instance = this;
   }
 
   public void loadMaps() {

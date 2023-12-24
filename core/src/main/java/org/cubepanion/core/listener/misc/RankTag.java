@@ -1,5 +1,7 @@
 package org.cubepanion.core.listener.misc;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
@@ -7,8 +9,6 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.events.RequestEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RankTag {
 

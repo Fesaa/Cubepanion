@@ -4,8 +4,8 @@ import static org.cubepanion.core.utils.Utils.getDoubleIndex;
 
 import java.util.List;
 import net.labymod.api.client.component.Component;
-import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 public class SquareEggWarsMap extends LoadedEggWarsMap {
 

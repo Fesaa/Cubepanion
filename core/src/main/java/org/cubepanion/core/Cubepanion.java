@@ -25,9 +25,9 @@ import org.cubepanion.core.listener.GameShutdownEventListener;
 import org.cubepanion.core.listener.GameTickEventListener;
 import org.cubepanion.core.listener.KeyEventListener;
 import org.cubepanion.core.listener.ScreenListener;
-import org.cubepanion.core.listener.internal.InternalTrackers;
 import org.cubepanion.core.listener.games.GameListeners;
 import org.cubepanion.core.listener.hud.HudEvents;
+import org.cubepanion.core.listener.internal.InternalTrackers;
 import org.cubepanion.core.listener.misc.MiscListeners;
 import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.managers.WidgetManager;
@@ -45,6 +45,7 @@ import org.jetbrains.annotations.Nullable;
 
 @AddonMain
 public class Cubepanion extends LabyAddon<CubepanionConfig> {
+
   private static Cubepanion instance;
   private CubepanionManager manager;
 
@@ -69,7 +70,8 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerSettingCategory();
 
     if (Laby.labyAPI().labyModLoader().isAddonDevelopmentEnvironment()) {
-      LOGGER.debug(getClass(), "Set LeaderboardAPIConfig#errorInfo & CubepanionConfig#showDebug true");
+      LOGGER.debug(getClass(),
+          "Set LeaderboardAPIConfig#errorInfo & CubepanionConfig#showDebug true");
       this.configuration().getLeaderboardAPIConfig().getErrorInfo().set(true);
       this.configuration().getShowDebug().set(true);
     }

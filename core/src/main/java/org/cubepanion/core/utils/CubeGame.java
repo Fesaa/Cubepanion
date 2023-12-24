@@ -33,10 +33,6 @@ public enum CubeGame {
         || e.equals(CubeGame.PARKOUR);
   }
 
-  public boolean shouldTrack() {
-    return shouldTrack;
-  }
-
   public static CubeGame stringToGame(String s) {
     switch (s.toLowerCase().replace("_", " ")) {
       case "skyblock" -> {
@@ -79,6 +75,10 @@ public enum CubeGame {
         return CubeGame.NONE;
       }
     }
+  }
+
+  public boolean shouldTrack() {
+    return shouldTrack;
   }
 
   public String getString() {

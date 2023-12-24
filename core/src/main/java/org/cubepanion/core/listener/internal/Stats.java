@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.Laby;
-import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
@@ -287,7 +286,8 @@ public class Stats {
     String userName = SessionTracker.get().username();
 
     if (msg.equals("Congratulations, you win!")) {
-      Laby.fireEvent(new GameEndEvent(manager.getDivision(), true, false, manager.getGameStartTime()));
+      Laby.fireEvent(
+          new GameEndEvent(manager.getDivision(), true, false, manager.getGameStartTime()));
       manager.setWon(true);
       return;
     }
@@ -295,7 +295,8 @@ public class Stats {
     Matcher eliminationMatcher = this.playerElimination.matcher(msg);
     if (eliminationMatcher.matches()) {
       String eliminatedPlayer = eliminationMatcher.group(1);
-      Laby.fireEvent(new PlayerEliminationEvent(userName.equals(eliminatedPlayer) , eliminatedPlayer));
+      Laby.fireEvent(
+          new PlayerEliminationEvent(userName.equals(eliminatedPlayer), eliminatedPlayer));
       return;
     }
 

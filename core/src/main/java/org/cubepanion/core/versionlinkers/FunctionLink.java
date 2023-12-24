@@ -1,6 +1,5 @@
 package org.cubepanion.core.versionlinkers;
 
-import net.labymod.api.client.world.item.Item;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.reference.annotation.Referenceable;
 import org.jetbrains.annotations.NotNull;

@@ -14,35 +14,33 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import javax.inject.Singleton;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
 import org.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.Nullable;
-import javax.inject.Singleton;
 
 
 @Singleton
 public class LeaderboardAPI {
 
-  private static LeaderboardAPI instance;
-
-  public static LeaderboardAPI getInstance() {
-    return instance;
-  }
-
   private static final String baseURL = "https://ameliah.art/cubepanion_api";
-
+  private static LeaderboardAPI instance;
   private final HashMap<String, Leaderboard> converter = new HashMap<>();
-
-  public static void Init() {
-    instance = new LeaderboardAPI();
-  }
 
   private LeaderboardAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
     }
     instance = this;
+  }
+
+  public static LeaderboardAPI getInstance() {
+    return instance;
+  }
+
+  public static void Init() {
+    instance = new LeaderboardAPI();
   }
 
   public void loadLeaderboards() {

@@ -2,7 +2,6 @@ package org.cubepanion.core.listener.internal;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
@@ -134,7 +133,8 @@ public class Party {
     if (this.partyManager.isInParty()) {
       Matcher ownerChangeMatcher = this.ownerChange.matcher(msg);
       if (ownerChangeMatcher.matches()) {
-        this.partyManager.setPartyOwner(ownerChangeMatcher.group(1).equals(SessionTracker.get().username()));
+        this.partyManager.setPartyOwner(
+            ownerChangeMatcher.group(1).equals(SessionTracker.get().username()));
       }
     }
   }

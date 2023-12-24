@@ -1,5 +1,6 @@
 package org.cubepanion.v1_20_1;
 
+import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
 import net.labymod.v1_20_1.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
@@ -7,14 +8,13 @@ import net.minecraft.world.item.ItemStack;
 import org.cubepanion.core.versionlinkers.FunctionLink;
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Singleton;
-
 @Singleton
 @Implements(FunctionLink.class)
 public class VersionedFunctionLink extends FunctionLink {
 
   @Override
-  public void setCoolDown(@NotNull net.labymod.api.client.world.item.ItemStack itemStack, int duration) {
+  public void setCoolDown(@NotNull net.labymod.api.client.world.item.ItemStack itemStack,
+      int duration) {
     if (Minecraft.getInstance().player == null) {
       return;
     }

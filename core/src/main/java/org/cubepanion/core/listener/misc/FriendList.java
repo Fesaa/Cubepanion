@@ -1,11 +1,11 @@
 package org.cubepanion.core.listener.misc;
 
+import java.util.regex.Pattern;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.QOLConfig;
 import org.cubepanion.core.events.RequestEvent;
-import java.util.regex.Pattern;
 
 public class FriendList {
 
@@ -15,12 +15,11 @@ public class FriendList {
   private final Pattern FriendListOffline = Pattern.compile(
       "^(?:[a-zA-Z0-9_]{2,16}, )*[a-zA-Z0-9_]{2,16}$");
   private boolean friendListBeingSend = false;
+  private boolean hasRequested = false;
 
   public FriendList() {
     config = Cubepanion.get().configuration().getQolConfig();
   }
-
-  private boolean hasRequested = false;
 
   @Subscribe
   public void onRequest(RequestEvent e) {

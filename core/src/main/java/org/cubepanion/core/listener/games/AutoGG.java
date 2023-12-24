@@ -5,8 +5,8 @@ import net.labymod.api.event.Subscribe;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig;
 import org.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
-import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.events.GameEndEvent;
+import org.cubepanion.core.events.GameUpdateEvent;
 import org.cubepanion.core.events.PlayerDeathEvent;
 import org.cubepanion.core.events.PlayerEliminationEvent;
 import org.cubepanion.core.managers.CubepanionManager;
@@ -16,13 +16,12 @@ public class AutoGG {
 
   private final EndGameSubConfig config;
   private final CubepanionManager manager;
+  private boolean hasSentGG = false;
 
   public AutoGG() {
     this.config = Cubepanion.get().configuration().getAutomationConfig().getEndGameSubConfig();
     this.manager = Cubepanion.get().getManager();
   }
-
-  private boolean hasSentGG = false;
 
   @Subscribe
   public void onGameUpdate(GameUpdateEvent e) {
@@ -66,9 +65,9 @@ public class AutoGG {
       return;
     }
     if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
-    || Cubepanion.get().getManager().isPlaying(CubeGame.FFA)
-    || Cubepanion.get().getManager().isPlaying(CubeGame.SKYBLOCK)
-    || CubeGame.isParkour(Cubepanion.get().getManager().getDivision())) {
+        || Cubepanion.get().getManager().isPlaying(CubeGame.FFA)
+        || Cubepanion.get().getManager().isPlaying(CubeGame.SKYBLOCK)
+        || CubeGame.isParkour(Cubepanion.get().getManager().getDivision())) {
       return;
     }
     doMessage();

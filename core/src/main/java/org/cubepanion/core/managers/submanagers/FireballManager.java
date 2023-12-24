@@ -6,16 +6,12 @@ import org.cubepanion.core.utils.Utils;
 
 public class FireballManager implements Manager {
 
-  public static long COOLDOWN_TIME = 30*1000L;
+  public static long COOLDOWN_TIME = 30 * 1000L;
 
   private long lastUse;
 
   public FireballManager() {
     this.lastUse = 0L;
-  }
-
-  public void setLastUse(long lastUse) {
-    this.lastUse = lastUse;
   }
 
   public long getCooldown() {
@@ -25,6 +21,10 @@ public class FireballManager implements Manager {
 
   public long getLastUse() {
     return this.lastUse;
+  }
+
+  public void setLastUse(long lastUse) {
+    this.lastUse = lastUse;
   }
 
   public boolean canUse() {

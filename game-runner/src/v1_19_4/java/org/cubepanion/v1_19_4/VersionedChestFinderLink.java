@@ -1,6 +1,5 @@
 package org.cubepanion.v1_19_4;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Singleton;

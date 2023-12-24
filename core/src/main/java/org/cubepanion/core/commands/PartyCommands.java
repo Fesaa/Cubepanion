@@ -37,7 +37,14 @@ public class PartyCommands extends InjectedSubCommand {
   private final Component helpReInviteComponent = Component.text("\n/party reinvite <username*>",
           Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party reinvite "))
-      .append(this.helpComponent.apply("reinv").color(Colours.Secondary));  private final Task remakeTask = Task.builder(() -> {
+      .append(this.helpComponent.apply("reinv").color(Colours.Secondary));
+  private final Component helpRemakeComponent = Component.text("\n/party remake [username*]",
+          Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party remake "))
+      .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
+      .append(this.helpComponent.apply("remake.middle").color(Colours.Primary)
+          .decorate(TextDecoration.BOLD))
+      .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));  private final Task remakeTask = Task.builder(() -> {
     if (!this.toRemake.isEmpty()) {
       String username = this.toRemake.get(0);
       this.toRemake.remove(0);
@@ -45,13 +52,6 @@ public class PartyCommands extends InjectedSubCommand {
       this.remakeTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-  private final Component helpRemakeComponent = Component.text("\n/party remake [username*]",
-          Colours.Primary)
-      .clickEvent(ClickEvent.suggestCommand("/party remake "))
-      .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
-      .append(this.helpComponent.apply("remake.middle").color(Colours.Primary)
-          .decorate(TextDecoration.BOLD))
-      .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
   private final Component helpExtraComponent = Component.text("\n/party extra [command]",
           Colours.Primary)
       .clickEvent(ClickEvent.suggestCommand("/party extra "))
@@ -100,6 +100,14 @@ public class PartyCommands extends InjectedSubCommand {
       }
     }
     return false;
+  }
+
+  private void noPermissions() {
+    this.displayMessage(this.noPermissionComponent);
+  }
+
+  private void missingArguments() {
+    this.displayMessage(this.missingArgumentsComponent);
   }  private final Task reInviteTask = Task.builder(() -> {
     if (!this.toReInv.isEmpty()) {
       String username = this.toReInv.get(0);
@@ -109,14 +117,6 @@ public class PartyCommands extends InjectedSubCommand {
       this.reInviteTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-
-  private void noPermissions() {
-    this.displayMessage(this.noPermissionComponent);
-  }
-
-  private void missingArguments() {
-    this.displayMessage(this.missingArgumentsComponent);
-  }
 
   private void helpCommand(String command) {
     Component helpComponent = this.helpTitleComponent.copy();

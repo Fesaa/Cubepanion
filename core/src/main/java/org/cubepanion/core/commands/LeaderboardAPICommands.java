@@ -1,11 +1,7 @@
 package org.cubepanion.core.commands;
 
 import static org.cubepanion.core.utils.Utils.handleAPIError;
-import static org.cubepanion.core.utils.Utils.timeOutAPIError;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
@@ -15,7 +11,6 @@ import net.labymod.api.client.component.format.TextDecoration;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.weave.LeaderboardAPI;
 import org.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import org.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
@@ -34,7 +29,8 @@ public class LeaderboardAPICommands extends Command {
       .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
       .append(Component.text("\n/leaderboardAPI ", Colours.Primary))
       .append(Component.text("<game>", Colours.Primary)
-          .hoverEvent(HoverEvent.showText(Component.translatable(this.mainKey + "help.clickForMore").color(Colours.Hover) ))
+          .hoverEvent(HoverEvent.showText(
+              Component.translatable(this.mainKey + "help.clickForMore").color(Colours.Hover)))
           .clickEvent(ClickEvent.runCommand("/lbmappings")))
       .append(Component.text(" [start]", Colours.Primary))
       .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary))

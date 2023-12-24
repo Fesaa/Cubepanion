@@ -1,6 +1,5 @@
 package org.cubepanion.v1_20_2.mixins;
 
-import net.labymod.api.client.world.item.ItemStackFactory;
 import net.labymod.v1_20_2.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
@@ -38,12 +37,12 @@ public abstract class PackerMixin {
       Cubepanion.get().labyAPI().eventBus().fire(e);
 
     } else if (packet instanceof ServerboundSwingPacket swingPacket) {
-      Hand hand = swingPacket.getHand() == InteractionHand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
+      Hand hand =
+          swingPacket.getHand() == InteractionHand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
       ItemStack itemStack = mc.player.getItemInHand(swingPacket.getHand());
       ItemUseEvent e = new ItemUseEvent(UseType.SWING, ItemUtil.getLabyItemStack(itemStack), hand);
       Cubepanion.get().labyAPI().eventBus().fire(e);
     }
-
 
 
   }

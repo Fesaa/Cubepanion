@@ -1,7 +1,7 @@
 package org.cubepanion.core.events;
 
-import net.labymod.api.event.Event;
 import java.util.UUID;
+import net.labymod.api.event.Event;
 
 public class PlayerRespawnEvent implements Event {
 

@@ -1,7 +1,6 @@
 package org.cubepanion.core.listener.internal;
 
 import net.labymod.api.Laby;
-import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import org.cubepanion.core.Cubepanion;

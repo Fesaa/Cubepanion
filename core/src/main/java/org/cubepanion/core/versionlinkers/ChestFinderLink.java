@@ -1,6 +1,10 @@
 package org.cubepanion.core.versionlinkers;
 
 
+import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.reference.annotation.Referenceable;
 import org.cubepanion.core.Cubepanion;
@@ -8,10 +12,6 @@ import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.cubepanion.core.utils.Utils.chestLocationsComponent;
 
 @Nullable
 @Referenceable

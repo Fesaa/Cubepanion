@@ -21,13 +21,14 @@ public class FireballCooldown {
 
   @Subscribe
   public void onItemUse(ItemUseEvent e) {
-    if ( addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
+    if (addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
         && e.getUseType() == UseType.USE
         && e.getItemStack().getAsItem().getIdentifier().getPath().equals("fire_charge")
         && !addon.getManager().getFireballManager().onCooldown()) {
       addon.getManager().getFireballManager().setLastUse(System.currentTimeMillis());
       if (addon.configuration().getQolConfig().getFireBallCoolDown().get()) {
-        functionLink.setCoolDown(e.getItemStack(), (int) ((FireballManager.COOLDOWN_TIME / 1000) * 20));
+        functionLink.setCoolDown(e.getItemStack(),
+            (int) ((FireballManager.COOLDOWN_TIME / 1000) * 20));
       }
     }
   }

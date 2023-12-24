@@ -16,10 +16,10 @@ import org.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.TriangleEggWarsMap;
-import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
 import org.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
+import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.cubepanion.core.weave.EggWarsMapAPI;
 import org.cubepanion.core.weave.EggWarsMapAPI.Generator;
@@ -176,7 +176,8 @@ public class Utils {
         return out;
       }
       case COLON -> {
-        String tail = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        String tail =
+            (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
         if (hours > 0) {
           tail = (hours < 10 ? "0" : "") + hours + ":" + tail;
         }
@@ -186,7 +187,7 @@ public class Utils {
         return tail;
       }
       case SECONDS -> {
-          return String.valueOf(seconds);
+        return String.valueOf(seconds);
       }
       case WORDS_SHORT -> {
         String out = "";

@@ -4,8 +4,8 @@ import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Event;
 
 /**
- * Attack destroy is always called with UseType = SWING
- * Use Item / Place Block is only called if ItemStack isn't air
+ * Attack destroy is always called with UseType = SWING Use Item / Place Block is only called if
+ * ItemStack isn't air
  */
 public class ItemUseEvent implements Event {
 

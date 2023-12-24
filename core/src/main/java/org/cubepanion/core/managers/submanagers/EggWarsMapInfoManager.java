@@ -1,21 +1,13 @@
 package org.cubepanion.core.managers.submanagers;
 
-import static org.cubepanion.core.utils.Utils.fromAPIMap;
-
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.I18nNamespaces;
-import org.cubepanion.core.utils.LOGGER;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import org.cubepanion.core.weave.EggWarsMapAPI;
-import org.jetbrains.annotations.Nullable;
 
 public class EggWarsMapInfoManager {
 
@@ -85,7 +77,7 @@ public class EggWarsMapInfoManager {
       return;
     }
     String name = this.addon.getManager().getMapName().toLowerCase();
-    LoadedEggWarsMap map =  EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
+    LoadedEggWarsMap map = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
     if (map == null) {
       return;
     }

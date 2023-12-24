@@ -1,8 +1,8 @@
 package org.cubepanion.core.managers.submanagers;
 
-import org.cubepanion.core.managers.Manager;
 import java.util.ArrayList;
 import java.util.List;
+import org.cubepanion.core.managers.Manager;
 
 public class PartyManager implements Manager {
 
