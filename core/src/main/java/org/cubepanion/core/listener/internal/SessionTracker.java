@@ -50,7 +50,6 @@ public class SessionTracker {
   private void query() {
     ClientPlayer p = Laby.labyAPI().minecraft().getClientPlayer();
     if (p == null) {
-      LOGGER.info(getClass(), "FUCK");
       return;
     }
 

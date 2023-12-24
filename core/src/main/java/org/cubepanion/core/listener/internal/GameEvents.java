@@ -19,7 +19,11 @@ public class GameEvents {
       m.setInPreLobby(false);
       m.setGameStartTime(System.currentTimeMillis());
 
-      GameUpdateEvent event = new GameUpdateEvent(m.getDivision(), m.getDivision(), false);
+      GameUpdateEvent event = new GameUpdateEvent(
+          m.getDivision(),
+          m.getDivision(),
+          false,
+          false);
       Laby.fireEvent(event);
       return;
     }

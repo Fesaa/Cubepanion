@@ -165,7 +165,11 @@ public class CubepanionManager implements Manager {
       this.gameStartTime = System.currentTimeMillis();
     }
 
-    GameUpdateEvent e = new GameUpdateEvent(this.lastDivision, this.division, this.inPreLobby);
+    GameUpdateEvent e = new GameUpdateEvent(
+        this.lastDivision,
+        this.division,
+        this.inPreLobby,
+        false);
     Laby.fireEvent(e);
   }
 

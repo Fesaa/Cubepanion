@@ -2,6 +2,9 @@ package org.cubepanion.core.events;
 
 import net.labymod.api.event.Event;
 
+/**
+ * Internal event used for requested things in other classes
+ */
 public class RequestEvent implements Event {
 
   private final RequestType type;

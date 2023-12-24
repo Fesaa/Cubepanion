@@ -286,8 +286,12 @@ public class Stats {
     String userName = SessionTracker.get().username();
 
     if (msg.equals("Congratulations, you win!")) {
-      Laby.fireEvent(
-          new GameEndEvent(manager.getDivision(), true, false, manager.getGameStartTime()));
+      GameEndEvent event = new GameEndEvent(
+          manager.getDivision(),
+          true,
+          false,
+          manager.getGameStartTime());
+      Laby.fireEvent(event);
       manager.setWon(true);
       return;
     }
@@ -295,8 +299,9 @@ public class Stats {
     Matcher eliminationMatcher = this.playerElimination.matcher(msg);
     if (eliminationMatcher.matches()) {
       String eliminatedPlayer = eliminationMatcher.group(1);
-      Laby.fireEvent(
-          new PlayerEliminationEvent(userName.equals(eliminatedPlayer), eliminatedPlayer));
+      boolean isClient = userName.equals(eliminatedPlayer);
+      PlayerEliminationEvent event = new PlayerEliminationEvent(isClient, eliminatedPlayer);
+      Laby.fireEvent(event);
       return;
     }
 
