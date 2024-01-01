@@ -165,43 +165,7 @@ public class DiscordRPC {
           "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808",
           "CubeCraft");
     }
-    switch (game) {
-      case SKYBLOCK -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png",
-            game.getString());
-      }
-      case TEAM_EGGWARS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png",
-            game.getString());
-      }
-      case SOLO_SKYWARS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png",
-            game.getString());
-      }
-      case SOLO_LUCKYISLANDS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png",
-            game.getString());
-      }
-      case FFA -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png",
-            game.getString());
-      }
-      case SIMPLE_PARKOUR, EASY_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png",
-            game.getString());
-      }
-      default -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808",
-            "CubeCraft");
-      }
-    }
+    return Asset.of(game.getUrl(), game.getString());
   }
 
 }

@@ -2,6 +2,8 @@ package org.cubepanion.core.config.subconfig;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import net.labymod.api.client.gui.screen.activity.Activity;
+import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.ActivitySettingWidget.ActivitySetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
@@ -10,7 +12,10 @@ import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.util.MethodOrder;
+import org.cubepanion.core.Cubepanion;
 import org.cubepanion.core.config.imp.GameStatsTracker;
+import org.cubepanion.core.gui.activity.GameList;
+import org.cubepanion.core.managers.CubepanionManager;
 import org.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,6 +73,13 @@ public class StatsTrackerSubConfig extends Config {
     for (GameStatsTracker gameStatsTracker : this.gameStatsTrackers.get().values()) {
       gameStatsTracker.resetAllPlayerStats();
     }
+  }
+
+  @MethodOrder(before = "resetTime")
+  @ActivitySetting
+  public Activity openStats() {
+    CubepanionManager m = Cubepanion.get().getManager();
+    return new GameList(m.getDivision(), getGameStatsTrackers());
   }
 
   public boolean isEnabled() {

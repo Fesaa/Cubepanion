@@ -1,28 +1,33 @@
 package org.cubepanion.core.utils;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 // ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
-  TEAM_EGGWARS("Team EggWars", true),
-  SOLO_LUCKYISLANDS("Lucky Islands", true),
-  SOLO_SKYWARS("Solo SkyWars", true),
-  FFA("Free For All", true),
-  SIMPLE_PARKOUR("Simple Parkour", false),
-  EASY_PARKOUR("Easy Parkour", false),
-  MEDIUM_PARKOUR("Medium Parkour", false),
-  HARD_PARKOUR("Hard Parkour", false),
-  PARKOUR("Parkour", false),
-  SKYBLOCK("Skyblock", false),
-  SNOWMAN_SURVIVAL("Snowman Survival", true),
-  LOBBY("Main Lobby", false),
-  NONE("", false);
+  TEAM_EGGWARS("Team EggWars", true, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png"),
+  SOLO_LUCKYISLANDS("Lucky Islands", true, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"),
+  SOLO_SKYWARS("Solo SkyWars", true, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png"),
+  FFA("Free For All", true, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png"),
+  SIMPLE_PARKOUR("Simple Parkour", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"),
+  EASY_PARKOUR("Easy Parkour", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"),
+  MEDIUM_PARKOUR("Medium Parkour", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"),
+  HARD_PARKOUR("Hard Parkour", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"),
+  PARKOUR("Parkour", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"),
+  SKYBLOCK("Skyblock", false, "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png"),
+  SNOWMAN_SURVIVAL("Snowman Survival", true, null),
+  LOBBY("Main Lobby", false, null),
+  NONE("", false, null);
 
 
   private final String string;
   private final boolean shouldTrack;
+  private final String url;
 
-  CubeGame(String s, boolean shouldTrack) {
+  CubeGame(String s, boolean shouldTrack, @Nullable String assetURL) {
     this.string = s;
     this.shouldTrack = shouldTrack;
+    this.url = assetURL;
   }
 
   public static boolean isParkour(CubeGame e) {
@@ -83,5 +88,11 @@ public enum CubeGame {
 
   public String getString() {
     return string;
+  }
+
+  public @NotNull String getUrl() {
+    return url == null
+        ? "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+        : url;
   }
 }

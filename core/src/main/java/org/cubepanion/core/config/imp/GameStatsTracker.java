@@ -80,6 +80,42 @@ public class GameStatsTracker {
 
   }
 
+  public StatsTracker getDeathsTracker() {
+    return deaths;
+  }
+
+  public StatsTracker getKillsTracker() {
+    return kills;
+  }
+
+  public StatsTracker getPlayedTracker() {
+    return played;
+  }
+
+  public StatsTracker getWinsTracker() {
+    return wins;
+  }
+
+  public StatsTracker getWinStreakTracker() {
+    return winStreak;
+  }
+
+  public StatsTracker getTotalPlayTimeTracker() {
+    return totalPlayTime;
+  }
+
+  public HashMap<String, StatsTracker> getPerPlayerDeathsTracker() {
+    return perPlayerDeaths;
+  }
+
+  public HashMap<String, StatsTracker> getPerPlayerKillsTracker() {
+    return perPlayerKills;
+  }
+
+  public HashMap<String, GameStatsTracker> getHistoricalDataTracker() {
+    return historicalData;
+  }
+
   // Games Played Getters
   public int getDailyPlayed() {
     return this.played.getDaily();
