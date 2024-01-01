@@ -2,16 +2,19 @@ package org.cubepanion.core.weave;
 
 import static org.cubepanion.core.utils.Utils.fromAPIMap;
 import static org.cubepanion.core.weave.Utils.makeRequest;
+import static org.cubepanion.core.weave.Utils.toast;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
 import net.labymod.api.client.component.Component;
-import org.cubepanion.core.utils.LOGGER;
+import net.labymod.api.util.logging.Logging;
 import org.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 @Singleton
 public class EggWarsMapAPI {
+
+  private final Logging log = Logging.create(getClass());
 
   private static final String baseURL = "https://ameliah.art/cubepanion_api";
   private static EggWarsMapAPI instance;
@@ -36,7 +39,8 @@ public class EggWarsMapAPI {
     getAllEggWarsMaps()
         .whenComplete((eggWarsMaps, throwable) -> {
           if (throwable != null) {
-            LOGGER.error(getClass(), throwable, "Could not load EggWars maps.");
+            log.error("Could not load EggWars maps.", throwable);
+            toast("maps.error");
             return;
           }
 
@@ -45,7 +49,7 @@ public class EggWarsMapAPI {
             if (eggWarsMap != null) {
               convertedEggWarsMaps.put(map.map_name().toLowerCase(), eggWarsMap);
             } else {
-              LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
+              log.error("Could not convert EggWars map: " + map.map_name());
             }
           }
         });

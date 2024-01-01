@@ -611,6 +611,20 @@
           }
         }
       }
+    },
+    "notifications": {
+      "api": {
+        "title": "CubepanionAPI",
+        "chestLocations": {
+          "error": "Unable to load chests locations"
+        },
+        "seasons": {
+          "error": "Unable to load chest season"
+        },
+        "maps": {
+          "error": "Unable to load maps"
+        }
+      }
     }
   }
 }

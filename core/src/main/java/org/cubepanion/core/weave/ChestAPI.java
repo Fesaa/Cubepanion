@@ -1,17 +1,26 @@
 package org.cubepanion.core.weave;
 
 import static org.cubepanion.core.weave.Utils.makeRequest;
+import static org.cubepanion.core.weave.Utils.toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
-import org.cubepanion.core.utils.LOGGER;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.gui.icon.Icon;
+import net.labymod.api.notification.Notification;
+import net.labymod.api.notification.Notification.Builder;
+import net.labymod.api.notification.NotificationType;
+import net.labymod.api.util.I18n;
+import net.labymod.api.util.logging.Logging;
 
 
 @Singleton
 public class ChestAPI {
 
+  private final Logging log = Logging.create(getClass());
   private static final String baseURL = "https://ameliah.art/cubepanion_api";
   private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
@@ -51,7 +60,8 @@ public class ChestAPI {
     getCurrentChestLocations()
         .whenComplete((chestLocations, throwable) -> {
           if (throwable != null) {
-            LOGGER.error(getClass(), throwable, "Could not load chest locations");
+            log.error("Could not update chestLocations", throwable);
+            toast("chestLocations.error");
             return;
           }
           setChestLocations(List.of(chestLocations));
@@ -62,7 +72,8 @@ public class ChestAPI {
     getSeasons(SeasonType.RUNNING)
         .whenComplete((seasons, throwable) -> {
           if (throwable != null) {
-            LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
+            log.error("Could not update seasons", throwable);
+            toast("seasons.error");
             return;
           }
           if (seasons.length > 0) {
