@@ -11,19 +11,16 @@ import org.cubepanion.core.managers.CubepanionManager;
 
 public class ServerNavigation {
 
-  private final Cubepanion addon;
   private final CubepanionManager manager;
 
   public ServerNavigation(Cubepanion addon) {
-    this.addon = addon;
-    this.manager = addon.getManager();
+      this.manager = addon.getManager();
   }
 
   @Subscribe
   public void onServerJoinEvent(ServerJoinEvent e) {
-    String serverAddress = e.serverData().address().toString().toLowerCase();
-    if (!(serverAddress.contains("cubecraft") || (serverAddress.contains("ccgn.co")
-        && !serverAddress.contains("maps")) || serverAddress.contains("dev-cc"))) {
+    String serverAddress = e.serverData().address().toString();
+    if (!isKubusMaken(serverAddress)) {
       this.manager.reset();
       return;
     }
@@ -52,5 +49,16 @@ public class ServerNavigation {
         manager.getGameStartTime());
     Laby.fireEvent(event);
     manager.onServerSwitch();
+  }
+
+  private boolean isKubusMaken(String address) {
+    address = address.toLowerCase();
+    if (address.endsWith("cubecraft.net")) {
+      return true;
+    }
+    if (address.endsWith("ccgn.co") && !address.contains("maps")) {
+      return true;
+    }
+    return address.endsWith("-dev-cc");
   }
 }
