@@ -33,7 +33,12 @@ public class MultiPlayerGameModeMixin {
       cubepanion$addon = Cubepanion.get();
     }
     AbstractContainerMenu inv = $$4.containerMenu;
-    Slot slot = inv.getSlot($$1);
+    Slot slot;
+    try {
+      slot = inv.getSlot($$1);
+    } catch (IndexOutOfBoundsException e) {
+      return;
+    }
     ItemStack itemStack = slot.getItem();
     if ((itemStack.is(ItemTags.TOOLS) || itemStack.is(Items.BOW)
         || itemStack.getItem() instanceof ArmorItem)
