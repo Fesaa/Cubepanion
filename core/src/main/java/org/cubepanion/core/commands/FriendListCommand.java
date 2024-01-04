@@ -30,12 +30,4 @@ public class FriendListCommand extends Command {
     }
     return false;
   }
-
-  private String stringJoiner(String[] string) {
-    StringBuilder out = new StringBuilder();
-    for (String s : string) {
-      out.append(" ").append(s);
-    }
-    return out.toString();
-  }
 }
