@@ -62,6 +62,9 @@ public class ServerNavigation {
     if (address.endsWith("cubecraft.net")) {
       return true;
     }
+    if (address.endsWith("cubecraftgames.net")) {
+      return true;
+    }
     if (address.endsWith("ccgn.co") && !address.contains("maps")) {
       return true;
     }

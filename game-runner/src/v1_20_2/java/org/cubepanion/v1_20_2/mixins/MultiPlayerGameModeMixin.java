@@ -1,5 +1,6 @@
 package org.cubepanion.v1_20_2.mixins;
 
+import net.labymod.api.client.component.Component;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +11,9 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.cubepanion.core.Cubepanion;
+import org.cubepanion.core.utils.Colours;
 import org.cubepanion.core.utils.CubeGame;
+import org.cubepanion.core.utils.LOGGER;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,25 +29,33 @@ public class MultiPlayerGameModeMixin {
   @Inject(at = @At("HEAD"), method = "handleInventoryMouseClick", cancellable = true)
   private void handleInventoryMouseClick(int $$0, int $$1, int $$2, ClickType $$3, Player $$4,
       CallbackInfo ci) {
-    if ($$3 != ClickType.THROW) {
-      return;
-    }
     if (cubepanion$addon == null) {
       cubepanion$addon = Cubepanion.get();
+    }
+    if (!cubepanion$addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
+      return;
+    }
+    if (!cubepanion$addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)) {
+      return;
+    }
+    if ($$3 != ClickType.THROW) {
+      return;
     }
     AbstractContainerMenu inv = $$4.containerMenu;
     Slot slot;
     try {
       slot = inv.getSlot($$1);
     } catch (IndexOutOfBoundsException e) {
+      LOGGER.debug(getClass(), e, "Ignoring handleInventoryMouseClick as the index is out of bounds");
       return;
     }
     ItemStack itemStack = slot.getItem();
-    if ((itemStack.is(ItemTags.TOOLS) || itemStack.is(Items.BOW)
-        || itemStack.getItem() instanceof ArmorItem)
-        && cubepanion$addon.configuration().getQolConfig().getNoDropSkyBlock().get()
-        && cubepanion$addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)) {
+    if ((itemStack.is(ItemTags.TOOLS)
+        || itemStack.is(Items.BOW)
+        || itemStack.getItem() instanceof ArmorItem)) {
       ci.cancel();
+      cubepanion$addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
+          Component.translatable("cubepanion.messages.preventedDrop").color(Colours.Error), true);
     }
   }
 }
