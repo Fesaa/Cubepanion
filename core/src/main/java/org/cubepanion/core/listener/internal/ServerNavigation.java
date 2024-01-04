@@ -32,6 +32,9 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
+    if (manager.isInPreLobby()) {
+      return;
+    }
     GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
         manager.getGameStartTime());
     Laby.fireEvent(event);
@@ -43,6 +46,9 @@ public class ServerNavigation {
   @Subscribe
   public void onSubServerSwitchEvent(SubServerSwitchEvent e) {
     if (!manager.onCubeCraft()) {
+      return;
+    }
+    if (manager.isInPreLobby()) {
       return;
     }
     GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
