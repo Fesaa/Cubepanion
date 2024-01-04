@@ -22,18 +22,13 @@ public class FriendListCommand extends Command {
       return false;
     }
 
-    if ((
-        arguments.length > 0 ?
-            this.stringJoiner(arguments) :
-            ""
-    ).contains("full")
-        || prefix.equals("flf")) {
+    boolean full = arguments.length >= 1 && arguments[0].equals("full");
+    if (full|| prefix.equals("flf")) {
       Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.FULL_FRIEND_LIST));
       this.addon.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       return true;
     }
     return false;
-
   }
 
   private String stringJoiner(String[] string) {
