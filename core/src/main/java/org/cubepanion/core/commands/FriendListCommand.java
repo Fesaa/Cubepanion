@@ -22,12 +22,31 @@ public class FriendListCommand extends Command {
       return false;
     }
 
-    boolean full = arguments.length >= 1 && arguments[0].equals("full");
-    if (full|| prefix.equals("flf")) {
+    if (isFullFriendList(prefix, arguments)) {
       Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.FULL_FRIEND_LIST));
       this.addon.labyAPI().minecraft().chatExecutor().chat("/fl", false);
       return true;
     }
     return false;
+  }
+
+  private boolean isFullFriendList(String prefix, String[] arguments) {
+      return switch (prefix) {
+          case "friend", "friends", "f" -> listAndFull(arguments);
+          case "fl" -> full(arguments);
+          case "flf" -> true;
+          default -> false;
+      };
+  }
+
+  private boolean listAndFull(String[] arguments) {
+    if (arguments.length != 2) {
+      return false;
+    }
+    return arguments[0].equals("list") && arguments[1].equals("full");
+  }
+
+  private boolean full(String[] arguments) {
+    return arguments.length == 1 && arguments[0].equals("full");
   }
 }
