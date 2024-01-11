@@ -32,12 +32,11 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
-    if (manager.isInPreLobby()) {
-      return;
-    }
-    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
+    if (!manager.isInPreLobby()) {
+      GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
         manager.getGameStartTime());
-    Laby.fireEvent(event);
+      Laby.fireEvent(event);
+    }
     this.manager.reset();
   }
 
@@ -48,12 +47,11 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
-    if (manager.isInPreLobby()) {
-      return;
-    }
-    GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
+    if (!manager.isInPreLobby()) {
+      GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
         manager.getGameStartTime());
-    Laby.fireEvent(event);
+      Laby.fireEvent(event);
+    }
     manager.onServerSwitch();
   }
 
