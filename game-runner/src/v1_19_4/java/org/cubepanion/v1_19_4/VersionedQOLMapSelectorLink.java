@@ -9,7 +9,11 @@ import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
@@ -65,7 +69,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
               break;
             }
             List<Component> hoverText = itemStack.getTooltipLines(player, TooltipFlag.NORMAL);
-            if (hoverText.size() != 4) {
+            if (hoverText.size() < 4) {
               break;
             }
             int gameCount = -1;
@@ -73,7 +77,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
             List<Component> currentGamesSiblings = currentGamesComponent.getSiblings();
             if (!currentGamesSiblings.isEmpty()) {
               currentGamesSiblings = currentGamesSiblings.get(0).getSiblings();
-              if (currentGamesSiblings.size() == 4) {
+              if (currentGamesSiblings.size() >= 4) {
                 String gameCountString = currentGamesSiblings.get(3).getString();
                 try {
                   gameCount = Integer.parseInt(gameCountString);

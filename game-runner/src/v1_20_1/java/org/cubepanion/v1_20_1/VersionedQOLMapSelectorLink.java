@@ -65,7 +65,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
               break;
             }
             List<Component> hoverText = itemStack.getTooltipLines(player, TooltipFlag.NORMAL);
-            if (hoverText.size() != 4) {
+            if (hoverText.size() < 4) {
               break;
             }
             int gameCount = -1;
@@ -73,7 +73,7 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
             List<Component> currentGamesSiblings = currentGamesComponent.getSiblings();
             if (!currentGamesSiblings.isEmpty()) {
               currentGamesSiblings = currentGamesSiblings.get(0).getSiblings();
-              if (currentGamesSiblings.size() == 4) {
+              if (currentGamesSiblings.size() >= 4) {
                 String gameCountString = currentGamesSiblings.get(3).getString();
                 try {
                   gameCount = Integer.parseInt(gameCountString);
