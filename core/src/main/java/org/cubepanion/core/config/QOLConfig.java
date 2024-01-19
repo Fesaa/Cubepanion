@@ -16,8 +16,6 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> rankTag = new ConfigProperty<>(true);
   @SwitchSetting
-  private final ConfigProperty<Boolean> shortFriendsList = new ConfigProperty<>(false);
-  @SwitchSetting
   private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);
   @SwitchSetting
   private final ConfigProperty<Boolean> chestLocation = new ConfigProperty<>(true);
@@ -45,10 +43,6 @@ public class QOLConfig extends Config {
 
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
-  }
-
-  public ConfigProperty<Boolean> getShortFriendsList() {
-    return shortFriendsList;
   }
 
   public ConfigProperty<Boolean> getReminderToVote() {

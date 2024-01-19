@@ -10,7 +10,6 @@ import org.cubepanion.core.commands.AppealSiteCommand;
 import org.cubepanion.core.commands.DivisionCommand;
 import org.cubepanion.core.commands.EggWarsMapInfoCommand;
 import org.cubepanion.core.commands.FindChestCommand;
-import org.cubepanion.core.commands.FriendListCommand;
 import org.cubepanion.core.commands.LeaderboardAPICommands;
 import org.cubepanion.core.commands.LeaderboardMappings;
 import org.cubepanion.core.commands.MapCommand;
@@ -110,7 +109,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new EggWarsMapInfoCommand(this));
     this.registerCommand(new StatCommands(this));
-    this.registerCommand(new FriendListCommand(this));
     this.registerCommand(new MapCommand(this));
     this.registerCommand(new TeamColourCommand(this));
     this.registerCommand(new DivisionCommand(this));
