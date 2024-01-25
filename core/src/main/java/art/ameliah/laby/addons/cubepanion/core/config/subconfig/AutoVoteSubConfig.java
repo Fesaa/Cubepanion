@@ -1,13 +1,43 @@
 package art.ameliah.laby.addons.cubepanion.core.config.subconfig;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import net.labymod.api.Laby;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import net.labymod.api.notification.Notification;
+import net.labymod.api.notification.Notification.NotificationButton;
+import net.labymod.api.notification.Notification.Type;
 
 public class AutoVoteSubConfig extends Config {
+
+  public AutoVoteSubConfig() {
+    enabled.addChangeListener((prop, oldV, newV) -> {
+      if (oldV || !newV) {
+        return;
+      }
+
+      if (experiments.get()) {
+        return;
+      }
+
+      Notification notification = Notification
+          .builder()
+          .type(Type.SYSTEM)
+          .title(Component.translatable("cubepanion.notifications.experimentsIsOff.title", Colours.Primary))
+          .text(Component.translatable("cubepanion.notifications.experimentsIsOff.text", Colours.Secondary))
+          .addButton(NotificationButton.of(
+                  Component.translatable("cubepanion.notifications.experimentsIsOff.enable"),
+              () -> experiments.set(true)))
+          .duration(5000)
+          .build();
+      Laby.labyAPI().notificationController().push(notification);
+    });
+  }
 
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);

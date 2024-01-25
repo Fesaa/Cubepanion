@@ -212,7 +212,8 @@
           }
         },
         "experiments": {
-          "name": "Experiments"
+          "name": "Experiments",
+          "description": "Only turn off, if autovote doesn't work without it. "
         }
       },
       "statsTrackerSubConfig": {
@@ -610,6 +611,13 @@
             "lbmappings": "All leaderboards with their accepted abrasions\n"
           }
         }
+      }
+    },
+    "notifications": {
+      "experimentsIsOff": {
+        "title": "Recommended!",
+        "text": "Turn experiments on",
+        "enable": "Enable"
       }
     }
   }
