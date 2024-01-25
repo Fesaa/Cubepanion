@@ -4,10 +4,12 @@ plugins {
     id("java-library")
     id("net.labymod.gradle")
     id("net.labymod.gradle.addon")
+    id("signing")
+    id("maven-publish")
 }
 
-group = "org.example"
-version = "1.0.0"
+group = "art.ameliah.laby.addons"
+version = "2.0.6"
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
@@ -97,3 +99,33 @@ fun configureRun(provider: net.labymod.gradle.core.minecraft.provider.VersionPro
         minVersion = mixinMinVersion
     }
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            artifactId = "Cubepanion"
+            from(components["java"])
+
+            pom {
+                name.set("Cubepanion")
+                description.set("CubeCraft Laby Addon")
+                url.set("https://github.com/Fesaa/Cubepanion")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://mit-license.org/")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("amelia")
+                        name.set("Amelia")
+                    }
+                }
+            }
+        }
+    }
+}
+
