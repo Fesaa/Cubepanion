@@ -1,9 +1,9 @@
-package org.cubepanion.core.commands;
+package org.cubepanion.core.commands.debug;
 
-import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.chat.command.SubCommand;
 import org.cubepanion.core.Cubepanion;
 
-public class MapCommand extends Command {
+public class MapCommand extends SubCommand {
 
   private final Cubepanion addon;
 

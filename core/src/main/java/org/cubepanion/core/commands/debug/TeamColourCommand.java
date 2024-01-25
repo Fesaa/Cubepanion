@@ -1,9 +1,9 @@
-package org.cubepanion.core.commands;
+package org.cubepanion.core.commands.debug;
 
-import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.chat.command.SubCommand;
 import org.cubepanion.core.Cubepanion;
 
-public class TeamColourCommand extends Command {
+public class TeamColourCommand extends SubCommand {
 
   private final Cubepanion addon;
 
