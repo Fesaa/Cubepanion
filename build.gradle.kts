@@ -100,14 +100,25 @@ fun configureRun(provider: net.labymod.gradle.core.minecraft.provider.VersionPro
     }
 }
 
+configurations {
+    create("conf")
+}
+val rFile = layout.buildDirectory.file("libs//cubepanion-release.jar")
+val rArtifact = artifacts.add("conf", rFile.get().asFile) {
+    type = "jar"
+    builtBy("build")
+}
+
+
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifactId = "Cubepanion"
-            from(components["java"])
+            artifactId = "cubepanion"
+            artifact(rArtifact)
 
             pom {
-                name.set("Cubepanion")
+                name.set("cubepanion")
                 description.set("CubeCraft Laby Addon")
                 url.set("https://github.com/Fesaa/Cubepanion")
 
