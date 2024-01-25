@@ -12,7 +12,7 @@ version = "1.0.0"
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 labyMod {
-    defaultPackageName = "org.cubepanion" //change this to your main package name (used by all modules)
+    defaultPackageName = "art.ameliah.laby.addons.cubepanion" //change this to your main package name (used by all modules)
     addonInfo {
         namespace = "cubepanion"
         displayName = "Cubepanion"
