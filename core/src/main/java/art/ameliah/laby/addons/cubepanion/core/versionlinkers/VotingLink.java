@@ -66,22 +66,24 @@ public abstract class VotingLink {
           autoVoteConfig.getLuckyIslandsBlocks().get().slot,
           autoVoteConfig.getLuckyIslandsTime().get().slot
       );
-      case TEAM_EGGWARS -> this.voteEggWars(autoVoteConfig.getEggWarsItems().get().slot,
-          autoVoteConfig.getEggWarsHealth().get().slot
+      case TEAM_EGGWARS -> this.voteEggWars(
+          autoVoteConfig.getEggWarsItems().get().slot,
+          autoVoteConfig.getEggWarsHealth().get().slot,
+          autoVoteConfig.getEggWarsPerk().get().slot
       );
     }
   }
 
-  public void voteEggWars(int mode, int health) {
+  public void voteEggWars(int mode, int health, int perk) {
     if (mode == -1 && health == -1) {
       return;
     }
     this.hotbarSlotIndex = 2;
-    this.leftChoiceIndex = 12;
-    this.leftVoteIndex = mode;
-    this.middleChoiceIndex = -1;
-    this.middleVoteIndex = -1;
-    this.rightChoiceIndex = 14;
+    this.leftChoiceIndex = 11;
+    this.leftVoteIndex = perk;
+    this.middleChoiceIndex = 13;
+    this.middleVoteIndex = mode;
+    this.rightChoiceIndex = 15;
     this.rightVoteIndex = health;
 
     this.startAutoVote();

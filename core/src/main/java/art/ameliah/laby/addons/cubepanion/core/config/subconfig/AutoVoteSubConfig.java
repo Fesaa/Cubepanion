@@ -53,6 +53,10 @@ public class AutoVoteSubConfig extends Config {
       ThreeOptionsMode.MIDDLE);
 
   @DropdownSetting
+  private final ConfigProperty<TwoOptionsMode> eggWarsPerk = new ConfigProperty<>(
+      TwoOptionsMode.RIGHT);
+
+  @DropdownSetting
   @SpriteSlot(y = 1)
   private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(
       ThreeOptionsMode.RIGHT);
@@ -97,6 +101,10 @@ public class AutoVoteSubConfig extends Config {
     return eggWarsItems;
   }
 
+  public ConfigProperty<TwoOptionsMode> getEggWarsPerk() {
+    return eggWarsPerk;
+  }
+
   public ConfigProperty<ThreeOptionsMode> getLuckyIslandsTime() {
     return luckyIslandsTime;
   }
@@ -115,6 +123,18 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<Boolean> getExperiments() {
     return experiments;
+  }
+
+  public enum TwoOptionsMode {
+    LEFT(12),
+    RIGHT(14),
+    NONE(-1);
+
+    public final int slot;
+
+    TwoOptionsMode(int slot) {
+      this.slot = slot;
+    }
   }
 
   public enum FourOptionsMode {
