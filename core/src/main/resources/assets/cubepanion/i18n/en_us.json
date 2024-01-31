@@ -165,6 +165,14 @@
             "none": "Don't vote"
           }
         },
+        "eggWarsPerk": {
+          "name": "EggWars Perk",
+          "entries": {
+            "left": "No Perk",
+            "right": "Free Perk",
+            "none": "Don't vote"
+          }
+        },
         "skyWarsChests": {
           "name": "SkyWars Chests",
           "entries": {
