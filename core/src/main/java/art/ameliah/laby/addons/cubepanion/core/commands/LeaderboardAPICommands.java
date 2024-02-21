@@ -91,7 +91,7 @@ public class LeaderboardAPICommands extends Command {
           }
 
           displayMessage(toDisplay);
-        });
+        }).exceptionally(this::handleError);
   }
 
   private void gameLeaderboard(String last, Leaderboard leaderboard) {
@@ -147,7 +147,7 @@ public class LeaderboardAPICommands extends Command {
                 ).color(Colours.Success));
           }
           displayMessage(toDisplay);
-        });
+        }).exceptionally(this::handleError);
   }
 
   @Override
@@ -201,6 +201,14 @@ public class LeaderboardAPICommands extends Command {
       }
     }
     return null;
+  }
+
+  private Void handleError(Throwable throwable) {
+    handleAPIError(getClass(), addon, throwable,
+        "Encountered an exception while getting getLeaderboardsForPlayer",
+        this.mainKey + "APIError_info",
+        this.mainKey + "APIError");
+      return null;
   }
 
 }

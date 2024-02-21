@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -44,7 +45,9 @@ public class LeaderboardAPI {
   }
 
   public void loadLeaderboards() {
-    String url2 = String.format("%s/leaderboard_api/games/true", baseURL);
+    // Players may be on non-active games, load all of them so ensure /lb commands
+    // can display them correctly
+    String url2 = String.format("%s/leaderboard_api/games/false", baseURL);
     CompletableFuture<JsonArray> completableFuture = makeRequest(url2, JsonArray.class);
     completableFuture
         .whenComplete((leaderboards, throwable) -> {
@@ -125,7 +128,9 @@ public class LeaderboardAPI {
     for (JsonElement el : array) {
       JsonObject row = el.getAsJsonObject();
       rows.add(new LeaderboardRow(
-          this.converter.get(row.get("game").getAsString()),
+          // Making sure that no null values are passed as the addon later assumes they're known
+          // The leaderboard will be assumed unknown if null
+          getNotNullLeaderboard(row.get("game").getAsString()),
           row.get("player").getAsString(),
           row.get("position").getAsInt(),
           row.get("score").getAsInt(),
@@ -204,10 +209,24 @@ public class LeaderboardAPI {
    * Tries getting the Leaderboard class for a game
    *
    * @param game Can be the display name, name or an alias
-   * @return Leaderboard or Error wrapped in Result
+   * @return Leaderboard or null
    */
   public @Nullable Leaderboard getLeaderboard(String game) {
     return this.converter.get(game);
+  }
+
+  /**
+   * Tries getting the Leaderboard class for a game, but null safe
+   *
+   * @param game Can be the display name, name or an alias
+   * @return Leaderboard or Leaderboard.UNKNOWN
+   */
+  public @NotNull Leaderboard getNotNullLeaderboard(String game) {
+    Leaderboard leaderboard = this.converter.get(game);
+    if (leaderboard == null) {
+      return Leaderboard.UNKNOWN;
+    }
+    return leaderboard;
   }
 
   /**
@@ -228,7 +247,7 @@ public class LeaderboardAPI {
    * @param active      if the leaderboard is active (and can be submitted to)
    */
   public record Leaderboard(String name, String displayName, boolean active, String scoreType) {
-
+    public static Leaderboard UNKNOWN = new Leaderboard("unknown", "Unknown", false, "Unknown");
   }
 
   /**

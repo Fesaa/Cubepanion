@@ -2,7 +2,6 @@ package art.ameliah.laby.addons.cubepanion.v1_20_4;
 
 import javax.inject.Singleton;
 import net.labymod.api.models.Implements;
-import net.labymod.v1_20_4.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
@@ -18,7 +17,7 @@ public class VersionedFunctionLink extends FunctionLink {
     if (Minecraft.getInstance().player == null) {
       return;
     }
-    ItemStack mcItem = ItemUtil.getMinecraftItemStack(itemStack);
+    ItemStack mcItem = (ItemStack) (Object) itemStack;
     if (mcItem == null) {
       return;
     }

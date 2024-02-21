@@ -54,7 +54,7 @@ public class RespawnTags extends NameTag {
       return null;
     }
 
-    NetworkPlayerInfo playerInfo = ((Player) this.entity).networkPlayerInfo();
+    NetworkPlayerInfo playerInfo = ((Player) this.entity).getNetworkPlayerInfo();
     if (playerInfo == null) {
       return null;
     }

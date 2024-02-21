@@ -1,6 +1,5 @@
 package art.ameliah.laby.addons.cubepanion.v1_19_4.mixins;
 
-import net.labymod.v1_19_4.client.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -40,7 +39,7 @@ public abstract class PackerMixin {
   }
 
   private void cubepanion$fireEvent(UseType type, Hand hand, ItemStack item) {
-    ItemUseEvent e = new ItemUseEvent(type, ItemUtil.getLabyItemStack(item), hand);
+    ItemUseEvent e = new ItemUseEvent(type, (net.labymod.api.client.world.item.ItemStack) (Object) item, hand);
     Cubepanion.get().labyAPI().eventBus().fire(e);
   }
 
