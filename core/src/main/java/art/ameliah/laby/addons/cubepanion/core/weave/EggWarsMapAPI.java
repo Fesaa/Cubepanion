@@ -41,13 +41,23 @@ public class EggWarsMapAPI {
           }
 
           for (EggWarsMapAPI.EggWarsMap map : eggWarsMaps) {
-            LoadedEggWarsMap eggWarsMap = fromAPIMap(map);
+            LoadedEggWarsMap eggWarsMap;
+            try {
+              eggWarsMap = fromAPIMap(map);
+            } catch (Exception e) {
+              LOGGER.warn(getClass(), e, "Could not convert EggWars map: " + map.map_name());
+              continue;
+            }
             if (eggWarsMap != null) {
               convertedEggWarsMaps.put(map.map_name().toLowerCase(), eggWarsMap);
             } else {
               LOGGER.warn(getClass(), "Could not convert EggWars map: " + map.map_name());
             }
           }
+        })
+        .exceptionally(throwable -> {
+          LOGGER.error(getClass(), throwable, "Could not load EggWars maps.");
+          return null;
         });
   }
 

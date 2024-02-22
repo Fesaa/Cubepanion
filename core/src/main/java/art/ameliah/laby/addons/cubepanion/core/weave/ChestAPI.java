@@ -55,6 +55,9 @@ public class ChestAPI {
             return;
           }
           setChestLocations(List.of(chestLocations));
+        }).exceptionally(throwable -> {
+            LOGGER.error(getClass(), throwable, "Could not load chest locations");
+            return null;
         });
   }
 
@@ -70,6 +73,9 @@ public class ChestAPI {
           } else {
             setSeason("");
           }
+        }).exceptionally(throwable -> {
+          LOGGER.error(getClass(), throwable, "Could not load chest locations");
+          return null;
         });
   }
 
