@@ -1,10 +1,21 @@
 package art.ameliah.laby.addons.cubepanion.core.managers;
 
-import java.util.Arrays;
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
-import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -12,18 +23,6 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.gui.hud.HudWidgetRegistry;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.resources.ResourceLocation;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 //TODO: Maybe! Add ...
 // Custom text widget

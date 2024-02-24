@@ -1,16 +1,16 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")

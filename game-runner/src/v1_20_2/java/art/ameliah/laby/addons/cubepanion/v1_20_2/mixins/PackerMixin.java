@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_2.mixins;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.Hand;
+import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -8,10 +12,6 @@ import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.Hand;
-import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,7 +39,8 @@ public abstract class PackerMixin {
   }
 
   private void cubepanion$fireEvent(UseType type, Hand hand, ItemStack item) {
-    ItemUseEvent e = new ItemUseEvent(type, (net.labymod.api.client.world.item.ItemStack) (Object) item, hand);
+    ItemUseEvent e = new ItemUseEvent(type,
+        (net.labymod.api.client.world.item.ItemStack) (Object) item, hand);
     Cubepanion.get().labyAPI().eventBus().fire(e);
   }
 

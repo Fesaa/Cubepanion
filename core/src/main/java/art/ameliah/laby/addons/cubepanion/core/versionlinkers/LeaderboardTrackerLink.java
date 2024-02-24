@@ -2,6 +2,12 @@ package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.handleAPIError;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,12 +17,6 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.reference.annotation.Referenceable;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable

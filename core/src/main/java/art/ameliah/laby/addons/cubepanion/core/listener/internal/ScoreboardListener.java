@@ -1,5 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
@@ -8,11 +13,6 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 
 public class ScoreboardListener {
 

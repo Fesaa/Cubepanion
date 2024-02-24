@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.events;
 
-import net.labymod.api.event.Event;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import net.labymod.api.event.Event;
 
 /**
  * Fired when a CubeGame ends, if possible.

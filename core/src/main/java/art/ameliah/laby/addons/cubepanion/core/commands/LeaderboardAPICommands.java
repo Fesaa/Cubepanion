@@ -2,18 +2,18 @@ package art.ameliah.laby.addons.cubepanion.core.commands;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.handleAPIError;
 
-import net.labymod.api.client.chat.command.Command;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.event.ClickEvent;
-import net.labymod.api.client.component.event.HoverEvent;
-import net.labymod.api.client.component.format.NamedTextColor;
-import net.labymod.api.client.component.format.TextDecoration;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
+import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.ClickEvent;
+import net.labymod.api.client.component.event.HoverEvent;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.client.component.format.TextDecoration;
 import org.jetbrains.annotations.Nullable;
 
 public class LeaderboardAPICommands extends Command {

@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_4.mixins;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import net.labymod.api.client.component.Component;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.tags.ItemTags;
@@ -10,10 +14,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,7 +46,8 @@ public class MultiPlayerGameModeMixin {
     try {
       slot = inv.getSlot($$1);
     } catch (IndexOutOfBoundsException e) {
-      LOGGER.debug(getClass(), e, "Ignoring handleInventoryMouseClick as the index is out of bounds");
+      LOGGER.debug(getClass(), e,
+          "Ignoring handleInventoryMouseClick as the index is out of bounds");
       return;
     }
     ItemStack itemStack = slot.getItem();

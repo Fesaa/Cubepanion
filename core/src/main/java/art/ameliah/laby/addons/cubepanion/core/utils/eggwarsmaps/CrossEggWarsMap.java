@@ -1,9 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps;
 
-import java.util.List;
-import net.labymod.api.client.component.Component;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import java.util.List;
+import net.labymod.api.client.component.Component;
 
 public class CrossEggWarsMap extends LoadedEggWarsMap {
 

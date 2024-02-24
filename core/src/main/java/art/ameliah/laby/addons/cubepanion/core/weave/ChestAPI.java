@@ -2,11 +2,11 @@ package art.ameliah.laby.addons.cubepanion.core.weave;
 
 import static art.ameliah.laby.addons.cubepanion.core.weave.Utils.makeRequest;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 
 
 @Singleton

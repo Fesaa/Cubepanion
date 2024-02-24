@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.managers.submanagers;
 
-import net.labymod.api.client.chat.ChatExecutor;
-import net.labymod.api.client.component.Component;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import net.labymod.api.client.chat.ChatExecutor;
+import net.labymod.api.client.component.Component;
 
 public class EggWarsMapInfoManager {
 

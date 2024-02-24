@@ -1,11 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.listener;
 
-import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.gui.screen.ScreenDisplayEvent;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.gui.screen.ScreenDisplayEvent;
 
 public class ScreenListener {
 

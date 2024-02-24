@@ -1,5 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
+import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashMap;
 import java.util.UUID;
 import net.labymod.api.client.component.Component;
@@ -9,11 +14,6 @@ import net.labymod.api.client.entity.player.tag.tags.NameTag;
 import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.event.Subscribe;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
-import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 public class RespawnTags extends NameTag {

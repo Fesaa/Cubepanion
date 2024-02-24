@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import java.util.UUID;
 import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.GameMode;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent;
 import net.labymod.api.event.client.network.playerinfo.PlayerInfoUpdateEvent.UpdateType;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 
 public class PlayerInfo {
 

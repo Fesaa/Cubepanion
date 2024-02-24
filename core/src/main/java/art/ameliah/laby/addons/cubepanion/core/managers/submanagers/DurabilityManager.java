@@ -1,11 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.managers.submanagers;
 
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.TextDecoration;
-import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 import art.ameliah.laby.addons.cubepanion.core.managers.Manager;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.format.TextDecoration;
+import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
 
 public class DurabilityManager implements Manager {
 

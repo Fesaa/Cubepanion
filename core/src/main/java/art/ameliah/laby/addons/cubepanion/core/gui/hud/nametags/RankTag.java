@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.NameTag;
 import net.labymod.api.client.entity.player.tag.tags.NameTagBackground;
 import net.labymod.api.client.render.font.RenderableComponent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 public class RankTag extends NameTag {

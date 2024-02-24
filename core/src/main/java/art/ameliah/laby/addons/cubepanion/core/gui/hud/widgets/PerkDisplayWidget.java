@@ -3,13 +3,14 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.ItemDisplayWidget;
+import java.util.ArrayList;
+import java.util.List;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PerkDisplayWidget extends ItemDisplayWidget {
   private final PerkCategory category;
@@ -45,6 +46,11 @@ public class PerkDisplayWidget extends ItemDisplayWidget {
     @Override
     public @NotNull RenderableComponent getRenderableComponent() {
       return RenderableComponent.of(itemStack.getDisplayName());
+    }
+
+    @Override
+    public @NotNull Component getComponent() {
+      return itemStack.getDisplayName();
     }
 
     @Override

@@ -1,6 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.labymod.api.Laby;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.background.BackgroundHudWidget;
 import net.labymod.api.client.gui.hud.position.HudSize;
@@ -12,9 +16,6 @@ import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.client.render.matrix.Stack;
 import net.labymod.api.client.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayConfig> {
 
@@ -154,6 +155,9 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
 
     @NotNull
     RenderableComponent getRenderableComponent();
+
+    @NotNull
+    Component getComponent();
 
     @NotNull
     ItemStack backingItemStack();

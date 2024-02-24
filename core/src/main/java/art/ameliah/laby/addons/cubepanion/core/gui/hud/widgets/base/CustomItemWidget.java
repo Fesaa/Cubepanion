@@ -1,5 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base;
 
+import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
@@ -8,7 +9,6 @@ import net.labymod.api.client.gui.hud.hudwidget.item.ItemHudWidget;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
-import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 
 public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 

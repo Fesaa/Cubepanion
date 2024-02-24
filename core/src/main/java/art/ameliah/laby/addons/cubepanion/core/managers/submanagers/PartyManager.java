@@ -1,8 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.managers.submanagers;
 
+import art.ameliah.laby.addons.cubepanion.core.managers.Manager;
 import java.util.ArrayList;
 import java.util.List;
-import art.ameliah.laby.addons.cubepanion.core.managers.Manager;
 
 public class PartyManager implements Manager {
 

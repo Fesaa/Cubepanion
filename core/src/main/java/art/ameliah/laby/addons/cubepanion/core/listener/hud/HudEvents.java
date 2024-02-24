@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.hud;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.IntSupplier;
@@ -14,8 +16,6 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import net.labymod.api.util.Pair;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.NotNull;
 
 public class HudEvents {

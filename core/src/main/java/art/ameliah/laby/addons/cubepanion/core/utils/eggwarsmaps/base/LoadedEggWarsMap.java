@@ -1,8 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base;
 
-import net.labymod.api.client.component.Component;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
+import net.labymod.api.client.component.Component;
 
 public abstract class LoadedEggWarsMap {
 

@@ -1,12 +1,12 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import net.labymod.api.event.Subscribe;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
+import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 public class FireballCooldown {

@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import net.labymod.api.client.chat.ChatExecutor;
-import net.labymod.api.event.Phase;
-import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import net.labymod.api.client.chat.ChatExecutor;
+import net.labymod.api.event.Phase;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.lifecycle.GameTickEvent;
 
 public class ClientPlayerSpawnProtection {
 

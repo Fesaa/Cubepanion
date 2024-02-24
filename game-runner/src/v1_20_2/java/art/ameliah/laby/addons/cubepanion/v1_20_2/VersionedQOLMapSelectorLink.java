@@ -1,5 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_2;
 
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +18,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Blocks;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 
 @Singleton
 @Implements(QOLMapSelectorLink.class)

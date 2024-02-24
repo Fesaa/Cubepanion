@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_4;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
+import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Singleton;
@@ -13,10 +17,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.LevelChunk;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton

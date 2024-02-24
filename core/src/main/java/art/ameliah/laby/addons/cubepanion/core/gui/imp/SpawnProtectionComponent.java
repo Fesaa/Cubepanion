@@ -1,9 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.imp;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextColor;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 
 public class SpawnProtectionComponent {
 

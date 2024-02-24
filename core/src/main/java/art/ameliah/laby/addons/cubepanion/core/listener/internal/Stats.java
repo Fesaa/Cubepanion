@@ -1,5 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -7,11 +12,6 @@ import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 
 public class Stats {
 

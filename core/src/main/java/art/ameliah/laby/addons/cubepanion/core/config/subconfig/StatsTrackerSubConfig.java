@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.config.subconfig;
 
+import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.Calendar;
 import java.util.HashMap;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
@@ -10,8 +12,6 @@ import net.labymod.api.configuration.loader.annotation.ParentSwitch;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.util.MethodOrder;
-import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 public class StatsTrackerSubConfig extends Config {
