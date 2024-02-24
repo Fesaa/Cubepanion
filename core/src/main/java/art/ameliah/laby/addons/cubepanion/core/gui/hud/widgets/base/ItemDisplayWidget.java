@@ -86,15 +86,16 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
           (int) (padding + margin),
           (int) (y + segmentHeight / 2.0F - 8.0F));
 
-      componentRenderer
-          .builder()
-          .pos((int) (padding + margin) + itemSize * 2.0F,
-              y + segmentHeight / 2.0F - 4.0F  + (floatingPointPosition ? 0.5F : 0.0F))
-          .useFloatingPointPosition(floatingPointPosition)
-          .centered(true)
-          .text(text)
-          .render(stack);
-
+      if (config.getShowName().get()) {
+        componentRenderer
+            .builder()
+            .pos((int) (padding + margin) + itemSize * 2.0F,
+                y + segmentHeight / 2.0F - 4.0F  + (floatingPointPosition ? 0.5F : 0.0F))
+            .useFloatingPointPosition(floatingPointPosition)
+            .centered(true)
+            .text(text)
+            .render(stack);
+      }
       segmentHeight = itemSize + padding * 2.0F;
       if (segmentHeight % 2.0F != 0.0F) {
         ++segmentHeight;
@@ -129,14 +130,17 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
 
       itemStackRenderer.renderItemStack(stack, item.backingItemStack(),
           (int) (x + segmentWidth / 2.0F - 8.0F + margin), (int) (padding + margin));
-      componentRenderer
-          .builder()
-          .pos(x + segmentWidth / 2.0F + margin + (floatingPointPosition ? 0.5F : 0.0F),
-              itemSize + padding + margin)
-          .useFloatingPointPosition(floatingPointPosition)
-          .centered(true)
-          .text(text)
-          .render(stack);
+
+      if (config.getShowName().get()) {
+        componentRenderer
+            .builder()
+            .pos(x + segmentWidth / 2.0F + margin + (floatingPointPosition ? 0.5F : 0.0F),
+                itemSize + padding + margin)
+            .useFloatingPointPosition(floatingPointPosition)
+            .centered(true)
+            .text(text)
+            .render(stack);
+      }
       segmentWidth = Math.max(itemSize, text.getWidth()) + padding * 2.0F;
       if (segmentWidth % 2.0F != 0.0F) {
         ++segmentWidth;

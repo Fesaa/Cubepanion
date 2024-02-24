@@ -4,6 +4,7 @@ import net.labymod.api.client.gui.hud.hudwidget.background.BackgroundHudWidget;
 import net.labymod.api.client.gui.screen.key.Key;
 import net.labymod.api.client.gui.screen.widget.widgets.input.KeybindWidget.KeyBindSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
+import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
@@ -15,6 +16,9 @@ public class ItemDisplayConfig extends BackgroundHudWidget.BackgroundHudWidgetCo
   @DropdownSetting
   private final ConfigProperty<Orientation> orientation = new ConfigProperty<>(
       Orientation.HORIZONTAL);
+
+  @SwitchSetting
+  private final ConfigProperty<Boolean> showName = new ConfigProperty<>(true);
 
   @SliderSetting(min = 0.0F, max = 20.0F)
   private final ConfigProperty<Float> segmentSpacing = new ConfigProperty<>(2.0F);
@@ -29,6 +33,10 @@ public class ItemDisplayConfig extends BackgroundHudWidget.BackgroundHudWidgetCo
 
   public ConfigProperty<Orientation> getOrientation() {
     return orientation;
+  }
+
+  public ConfigProperty<Boolean> getShowName() {
+    return showName;
   }
 
   public static enum Orientation {
