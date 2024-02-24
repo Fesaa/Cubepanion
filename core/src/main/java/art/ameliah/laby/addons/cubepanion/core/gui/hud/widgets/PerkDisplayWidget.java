@@ -18,7 +18,7 @@ public class PerkDisplayWidget extends ItemDisplayWidget {
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {
-    super("cubepanion_perk_tracking_" + category.name(), hudWidgetCategory);
+    super("perk_tracking_" + category.name().toLowerCase(), hudWidgetCategory);
 
     this.category = category;
 

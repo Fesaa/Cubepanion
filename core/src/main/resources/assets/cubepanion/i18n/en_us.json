@@ -448,7 +448,65 @@
       },
       "fireball_cooldown": {
         "name": "Fireball cooldown"
+      },
+      "perk_tracking_personal": {
+        "name": "Personal Perk Tracker",
+        "key": {
+          "name": "Hotkey"
+        },
+        "orientation": {
+          "name": "Orientation",
+          "entries": {
+            "horizontal": "Horizontal",
+            "vertical": "Vertical"
+          }
+        },
+        "showName": {
+          "name": "Show name"
+        },
+        "segmentSpacing": {
+          "name": "Segment spacing"
+        }
+      },
+      "perk_tracking_team": {
+        "name": "Team Perk Tracker",
+        "key": {
+          "name": "Hotkey"
+        },
+        "orientation": {
+          "name": "Orientation",
+          "entries": {
+            "horizontal": "Horizontal",
+            "vertical": "Vertical"
+          }
+        },
+        "showName": {
+          "name": "Show name"
+        },
+        "segmentSpacing": {
+          "name": "Segment spacing"
+        }
+      },
+      "perk_tracking_game": {
+        "name": "Game Perk Tracker",
+        "key": {
+          "name": "Hotkey"
+        },
+        "orientation": {
+          "name": "Orientation",
+          "entries": {
+            "horizontal": "Horizontal",
+            "vertical": "Vertical"
+          }
+        },
+        "showName": {
+          "name": "Show name"
+        },
+        "segmentSpacing": {
+          "name": "Segment spacing"
+        }
       }
+    }
     },
     "hudWidgetCategory": {
       "Cubepanion": {
@@ -629,4 +687,3 @@
       }
     }
   }
-}
