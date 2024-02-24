@@ -1,7 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.managers;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
+import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -167,6 +170,11 @@ public class WidgetManager {
 
     // Game Timer
     hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker", 5, 1));
+
+    // Perk trackers
+    for (PerkCategory perkCategory : PerkCategory.values()) {
+      hudWidgetRegistry.register(new PerkDisplayWidget(category, perkCategory));
+    }
   }
 
   private static boolean booleanSupplier() {
