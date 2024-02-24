@@ -30,6 +30,11 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
     bindCategory(hudWidgetCategory);
   }
 
+  protected void setDummyItems(List<DisplayItem> items) {
+    this.dummyItems.clear();
+    this.dummyItems.addAll(items);
+  }
+
   protected void setItems(List<DisplayItem> items) {
     this.items.clear();
     this.items.addAll(items);

@@ -5,9 +5,11 @@ import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.ItemDisplayWidget;
 import java.util.ArrayList;
 import java.util.List;
+import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.render.font.RenderableComponent;
+import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +21,13 @@ public class PerkDisplayWidget extends ItemDisplayWidget {
     super("cubepanion_perk_tracking_" + category.name(), hudWidgetCategory);
 
     this.category = category;
+
+    ItemStack stone = Laby.references().itemStackFactory()
+        .create(ResourceLocation.create("minecraft", "stone"));
+    ItemStack dirt = Laby.references().itemStackFactory()
+        .create(ResourceLocation.create("minecraft", "dirt"));
+
+    setDummyItems(List.of(new PerkItem(stone), new PerkItem(dirt)));
   }
 
   @Subscribe
