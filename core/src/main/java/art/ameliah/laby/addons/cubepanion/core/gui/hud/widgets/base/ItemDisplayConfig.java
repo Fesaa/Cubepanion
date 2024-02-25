@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base;
 
-import net.labymod.api.client.gui.hud.hudwidget.background.BackgroundHudWidget;
+import net.labymod.api.client.gui.Orientation;
+import net.labymod.api.client.gui.hud.hudwidget.HudWidgetConfig;
 import net.labymod.api.client.gui.screen.key.Key;
 import net.labymod.api.client.gui.screen.widget.widgets.input.KeybindWidget.KeyBindSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
@@ -8,7 +9,7 @@ import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.Switc
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
-public class ItemDisplayConfig extends BackgroundHudWidget.BackgroundHudWidgetConfig {
+public class ItemDisplayConfig extends HudWidgetConfig {
 
   @KeyBindSetting
   private final ConfigProperty<Key> key = new ConfigProperty<>(Key.NONE);
@@ -37,10 +38,5 @@ public class ItemDisplayConfig extends BackgroundHudWidget.BackgroundHudWidgetCo
 
   public ConfigProperty<Boolean> getShowName() {
     return showName;
-  }
-
-  public static enum Orientation {
-    HORIZONTAL,
-    VERTICAL;
   }
 }

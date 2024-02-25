@@ -6,7 +6,7 @@ import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
-import net.labymod.api.client.gui.hud.hudwidget.background.BackgroundHudWidget;
+import net.labymod.api.client.gui.hud.hudwidget.SimpleHudWidget;
 import net.labymod.api.client.gui.hud.position.HudSize;
 import net.labymod.api.client.gui.mouse.MutableMouse;
 import net.labymod.api.client.gui.screen.key.Key;
@@ -17,10 +17,11 @@ import net.labymod.api.client.render.matrix.Stack;
 import net.labymod.api.client.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayConfig> {
+public abstract class ItemDisplayWidget extends SimpleHudWidget<ItemDisplayConfig> {
 
   private final List<DisplayItem> items = new ArrayList<>();
   private final List<DisplayItem> dummyItems = new ArrayList<>();
+  private final float itemSize = 16.0F;
 
   public ItemDisplayWidget(String id, HudWidgetCategory hudWidgetCategory,
       DisplayItem... dummyItems) {
@@ -29,6 +30,8 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
 
     bindCategory(hudWidgetCategory);
   }
+
+  protected abstract boolean shouldRenderName();
 
   protected void setDummyItems(List<DisplayItem> items) {
     this.dummyItems.clear();
@@ -59,97 +62,94 @@ public abstract class ItemDisplayWidget extends BackgroundHudWidget<ItemDisplayC
   private void verticalRender(Stack stack, MutableMouse mouse, HudSize size) {
     ItemStackRenderer itemStackRenderer = this.labyAPI.minecraft().itemStackRenderer();
     ComponentRenderer componentRenderer = this.labyAPI.renderPipeline().componentRenderer();
-    float itemSize = 16.0F;
-    float margin = config.background().getMargin();
-    float padding = config.background().getPadding();
     float segmentSpacing = config.segmentSpacing().get();
+    float textOffSet = 4.0F;
 
     List<DisplayItem> toRender = items.isEmpty() ? dummyItems : items;
 
     boolean floatingPointPosition = Laby.references().themeService().currentTheme().metadata()
         .get("hud_widget_floating_point_position", false);
     float y = 0.0F;
-    float segmentHeight = 0.0F;
+    float segmentHeight;
+    float textWidth = 0.0F;
 
     for (DisplayItem item : toRender) {
-      super.renderBackgroundSegment(stack,
-          margin,
-          y + margin,
-          itemSize + componentRenderer.height() + padding * 2.0F,
-          itemSize);
-
       RenderableComponent text = item.getRenderableComponent();
 
-      itemStackRenderer.renderItemStack(
-          stack,
-          item.backingItemStack(),
-          (int) (padding + margin),
-          (int) (y + segmentHeight / 2.0F - 8.0F));
+      int itemStackX = anchor().isRight() ? - (int) itemSize : 0;
+      int itemStackY = (int) y;
+      itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
 
-      if (config.getShowName().get()) {
+      if (config.getShowName().get() && shouldRenderName()) {
+        float textX;
+        if (anchor().isRight()) {
+          textX = itemStackX - (text.getWidth() + textOffSet + (floatingPointPosition ? 0.5F : 0.0F));
+          textWidth = Math.min(textWidth, -text.getWidth());
+        } else {
+          textX = itemStackX + itemSize + textOffSet + (floatingPointPosition ? 0.5F : 0.0F);
+          textWidth = Math.max(textWidth, text.getWidth());
+        }
+
+        float textY = itemStackY + itemSize/2.0F - text.getHeight()/2.0F;
         componentRenderer
             .builder()
-            .pos((int) (padding + margin) + itemSize * 2.0F,
-                y + segmentHeight / 2.0F - 4.0F  + (floatingPointPosition ? 0.5F : 0.0F))
+            .pos(textX, textY)
             .useFloatingPointPosition(floatingPointPosition)
-            .centered(true)
+            .centered(false)
             .text(text)
             .render(stack);
       }
-      segmentHeight = itemSize + padding * 2.0F;
+      segmentHeight = Math.max(itemSize, text.getHeight());
       if (segmentHeight % 2.0F != 0.0F) {
         ++segmentHeight;
       }
       y += segmentHeight + segmentSpacing;
     }
 
-    size.set(itemSize  + segmentHeight + padding * 2.0F + margin * 2.0F,
-        Math.max(y - segmentSpacing, segmentSpacing) + margin * 2.0F);
+    float itemSizeOffSet = anchor().isRight() ? -itemSize : itemSize;
+    size.set(itemSizeOffSet + textWidth, Math.max(y - segmentSpacing, segmentSpacing));
   }
 
   private void horizontalRender(Stack stack, MutableMouse mouse, HudSize size) {
     ItemStackRenderer itemStackRenderer = this.labyAPI.minecraft().itemStackRenderer();
     ComponentRenderer componentRenderer = this.labyAPI.renderPipeline().componentRenderer();
-    float itemSize = 16.0F;
-    float margin = config.background().getMargin();
-    float padding = config.background().getPadding();
     float segmentSpacing = config.segmentSpacing().get();
+    boolean renderName = config.getShowName().get() && shouldRenderName();
 
     List<DisplayItem> toRender = items.isEmpty() ? dummyItems : items;
 
     boolean floatingPointPosition = Laby.references().themeService().currentTheme().metadata()
         .get("hud_widget_floating_point_position", false);
     float x = 0.0F;
-    float segmentWidth = 0.0F;
+    float segmentWidth;
 
     for (DisplayItem item : toRender) {
-      super.renderBackgroundSegment(stack, x + margin, margin, segmentWidth,
-          itemSize + componentRenderer.height() + padding * 2.0F);
-
       RenderableComponent text = item.getRenderableComponent();
 
-      itemStackRenderer.renderItemStack(stack, item.backingItemStack(),
-          (int) (x + segmentWidth / 2.0F - 8.0F + margin), (int) (padding + margin));
+      int itemStackX = (int) x;
+      int itemStackY = 0;
+      itemStackRenderer.renderItemStack(stack, item.backingItemStack(),itemStackX, itemStackY);
 
-      if (config.getShowName().get()) {
+      if (renderName) {
         componentRenderer
             .builder()
-            .pos(x + segmentWidth / 2.0F + margin + (floatingPointPosition ? 0.5F : 0.0F),
-                itemSize + padding + margin)
+            .pos(itemStackX + itemSize/2.0F + (floatingPointPosition ? 0.5F : 0.0F),
+                itemStackY + itemSize)
             .useFloatingPointPosition(floatingPointPosition)
             .centered(true)
             .text(text)
             .render(stack);
       }
-      segmentWidth = Math.max(itemSize, text.getWidth()) + padding * 2.0F;
+
+      segmentWidth = Math.max(itemSize, text.getWidth());
       if (segmentWidth % 2.0F != 0.0F) {
         ++segmentWidth;
       }
       x += segmentWidth + segmentSpacing;
     }
 
-    size.set(Math.max(x - segmentSpacing, segmentSpacing) + margin * 2.0F,
-        itemSize + componentRenderer.height() + padding * 2.0F + margin * 2.0F);
+    float textOffSet = renderName ? componentRenderer.height() : 0.0F;
+    size.set(Math.max(x-segmentSpacing, segmentSpacing), itemSize + textOffSet);
   }
 
 

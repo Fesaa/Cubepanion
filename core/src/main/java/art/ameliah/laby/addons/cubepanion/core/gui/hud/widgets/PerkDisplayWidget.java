@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.gui.Orientation;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -42,6 +43,11 @@ public class PerkDisplayWidget extends ItemDisplayWidget {
     }
 
     setItems(perks);
+  }
+
+  @Override
+  protected boolean shouldRenderName() {
+    return config.getOrientation().get().equals(Orientation.VERTICAL);
   }
 
   public static class PerkItem implements DisplayItem {
