@@ -64,6 +64,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     ComponentRenderer componentRenderer = this.labyAPI.renderPipeline().componentRenderer();
     float segmentSpacing = config.segmentSpacing().get();
     float textOffSet = 4.0F;
+    boolean renderName = config.getShowName().get() && shouldRenderName();
 
     List<DisplayItem> toRender = items.isEmpty() ? dummyItems : items;
 
@@ -72,19 +73,27 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     float y = 0.0F;
     float segmentHeight;
     float textWidth = 0.0F;
+    float maxTextWidth = -1.0F;
+
+    if (anchor().isRight()) {
+      for (DisplayItem item : toRender) {
+        RenderableComponent text = item.getRenderableComponent();
+        maxTextWidth = Math.max(maxTextWidth, text.getWidth());
+      }
+      textWidth = maxTextWidth;
+    }
 
     for (DisplayItem item : toRender) {
       RenderableComponent text = item.getRenderableComponent();
 
-      int itemStackX = anchor().isRight() ? - (int) itemSize : 0;
+      int itemStackX = anchor().isRight() ? (int) (maxTextWidth + textOffSet): 0;
       int itemStackY = (int) y;
       itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
 
-      if (config.getShowName().get() && shouldRenderName()) {
+      if (renderName) {
         float textX;
         if (anchor().isRight()) {
-          textX = itemStackX - (text.getWidth() + textOffSet + (floatingPointPosition ? 0.5F : 0.0F));
-          textWidth = Math.min(textWidth, -text.getWidth());
+          textX = maxTextWidth - text.getWidth();
         } else {
           textX = itemStackX + itemSize + textOffSet + (floatingPointPosition ? 0.5F : 0.0F);
           textWidth = Math.max(textWidth, text.getWidth());
@@ -105,9 +114,8 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
       }
       y += segmentHeight + segmentSpacing;
     }
-
-    float itemSizeOffSet = anchor().isRight() ? -itemSize : itemSize;
-    size.set(itemSizeOffSet + textWidth, Math.max(y - segmentSpacing, segmentSpacing));
+    float textSize = renderName ? textWidth + textOffSet : 0.0F;
+    size.set(itemSize + textSize, Math.max(y - segmentSpacing, segmentSpacing));
   }
 
   private void horizontalRender(Stack stack, MutableMouse mouse, HudSize size) {
