@@ -506,7 +506,6 @@
           "name": "Segment spacing"
         }
       }
-    }
     },
     "hudWidgetCategory": {
       "Cubepanion": {
@@ -687,3 +686,4 @@
       }
     }
   }
+}
