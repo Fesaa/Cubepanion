@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.listener;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -10,10 +14,6 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import net.labymod.api.notification.Notification;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 
 public class GameTickEventListener {
 

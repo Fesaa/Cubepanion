@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
-import net.labymod.api.client.chat.command.SubCommand;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import net.labymod.api.client.chat.command.SubCommand;
 
 public class MapCommand extends SubCommand {
 

@@ -1,12 +1,12 @@
 package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
-import net.labymod.api.reference.annotation.Referenceable;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import net.labymod.api.reference.annotation.Referenceable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Nullable
 @Referenceable

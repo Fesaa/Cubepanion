@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import art.ameliah.laby.addons.cubepanion.core.utils.Utils;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
@@ -9,10 +13,6 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.Utils;
 
 public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
 

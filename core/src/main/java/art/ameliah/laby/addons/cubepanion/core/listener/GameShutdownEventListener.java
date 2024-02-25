@@ -1,11 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.listener;
 
-import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.lifecycle.GameShutdownEvent;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.lifecycle.GameShutdownEvent;
 
 public class GameShutdownEventListener {
 

@@ -5,7 +5,6 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.session.SessionUpdateEvent;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.NotNull;
 
 public class SessionTracker {

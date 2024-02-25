@@ -1,14 +1,14 @@
 package art.ameliah.laby.addons.cubepanion.core.commands;
 
-import net.labymod.api.client.chat.command.Command;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.event.HoverEvent;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.HoverEvent;
 
 public class EggWarsMapInfoCommand extends Command {
 

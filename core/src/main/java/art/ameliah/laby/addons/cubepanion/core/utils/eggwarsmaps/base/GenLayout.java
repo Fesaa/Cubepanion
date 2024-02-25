@@ -1,11 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextColor;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 
 public class GenLayout {
 

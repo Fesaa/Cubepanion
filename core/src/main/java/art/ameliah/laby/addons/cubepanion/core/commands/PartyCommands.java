@@ -1,5 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.commands;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -11,10 +15,6 @@ import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.util.concurrent.task.Task;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 
 public class PartyCommands extends InjectedSubCommand {
 

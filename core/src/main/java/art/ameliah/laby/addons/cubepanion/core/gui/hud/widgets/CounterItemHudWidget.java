@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
+import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 import net.labymod.api.Laby;
@@ -7,8 +9,6 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
-import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 import org.jetbrains.annotations.Nullable;
 
 public class CounterItemHudWidget extends CustomItemWidget {

@@ -1,5 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.v1_19_4;
 
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,11 +10,7 @@ import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
@@ -21,7 +18,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Blocks;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 
 @Singleton
 @Implements(QOLMapSelectorLink.class)

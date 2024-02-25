@@ -1,5 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
@@ -10,9 +13,6 @@ import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.Switc
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget.NextArmourBuyHudConfig.whereToDisplay;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 
 public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfig> {
 

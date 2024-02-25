@@ -1,12 +1,12 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import net.labymod.api.event.Subscribe;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import net.labymod.api.event.Subscribe;
 
 public class Stats {
 

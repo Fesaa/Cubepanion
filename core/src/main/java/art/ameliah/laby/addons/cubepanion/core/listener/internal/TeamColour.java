@@ -1,12 +1,12 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 
 public class TeamColour {
 

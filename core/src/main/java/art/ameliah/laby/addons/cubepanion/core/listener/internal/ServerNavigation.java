@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 
 public class ServerNavigation {
 

@@ -1,11 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 
 public class Party {
 
