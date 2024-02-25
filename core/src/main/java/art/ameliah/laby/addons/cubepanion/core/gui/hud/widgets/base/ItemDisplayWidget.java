@@ -17,15 +17,15 @@ import net.labymod.api.client.render.matrix.Stack;
 import net.labymod.api.client.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ItemDisplayWidget extends SimpleHudWidget<ItemDisplayConfig> {
+public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends SimpleHudWidget<T> {
 
   private final List<DisplayItem> items = new ArrayList<>();
   private final List<DisplayItem> dummyItems = new ArrayList<>();
   private final float itemSize = 16.0F;
 
-  public ItemDisplayWidget(String id, HudWidgetCategory hudWidgetCategory,
+  public ItemDisplayWidget(String id, HudWidgetCategory hudWidgetCategory, Class<T> configClass,
       DisplayItem... dummyItems) {
-    super(id, ItemDisplayConfig.class);
+    super(id, configClass);
     this.dummyItems.addAll(Arrays.asList(dummyItems));
 
     bindCategory(hudWidgetCategory);

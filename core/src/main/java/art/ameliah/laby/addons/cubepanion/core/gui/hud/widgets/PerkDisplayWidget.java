@@ -2,6 +2,8 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget.PerkConfig;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.ItemDisplayConfig;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.ItemDisplayWidget;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,11 @@ import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
-public class PerkDisplayWidget extends ItemDisplayWidget {
+public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {
-    super("perk_tracking_" + category.name().toLowerCase(), hudWidgetCategory);
+    super("perk_tracking_" + category.name().toLowerCase(), hudWidgetCategory, PerkConfig.class);
 
     this.category = category;
 
@@ -48,6 +50,12 @@ public class PerkDisplayWidget extends ItemDisplayWidget {
   @Override
   protected boolean shouldRenderName() {
     return config.getOrientation().get().equals(Orientation.VERTICAL);
+  }
+
+  public static class PerkConfig extends ItemDisplayConfig {
+    public PerkConfig() {
+      getShowName().customRequires((b) -> getOrientation().get().equals(Orientation.VERTICAL));
+    }
   }
 
   public static class PerkItem implements DisplayItem {
