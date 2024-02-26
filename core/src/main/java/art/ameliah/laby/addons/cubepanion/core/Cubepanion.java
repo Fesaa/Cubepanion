@@ -1,19 +1,14 @@
 package art.ameliah.laby.addons.cubepanion.core;
 
 
-import net.labymod.api.Laby;
-import net.labymod.api.addon.LabyAddon;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.entity.player.tag.PositionType;
-import net.labymod.api.models.addon.annotation.AddonMain;
 import art.ameliah.laby.addons.cubepanion.core.commands.AppealSiteCommand;
-import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.commands.EggWarsMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardAPICommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardMappings;
 import art.ameliah.laby.addons.cubepanion.core.commands.PartyCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
+import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
 import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
@@ -38,6 +33,11 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
+import net.labymod.api.Laby;
+import net.labymod.api.addon.LabyAddon;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.entity.player.tag.PositionType;
+import net.labymod.api.models.addon.annotation.AddonMain;
 import org.jetbrains.annotations.Nullable;
 
 @AddonMain
@@ -120,7 +120,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     GameListeners.register(this);
     MiscListeners.register(this);
-    InternalTrackers.register(this);
+    InternalTrackers.register(this, functionLink);
 
     RespawnTags respawnTags = new RespawnTags(this);
     RankTag rankTag = new RankTag(this);

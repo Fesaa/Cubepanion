@@ -1,15 +1,15 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import java.util.regex.Pattern;
-import net.labymod.api.client.Minecraft;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import java.util.regex.Pattern;
+import net.labymod.api.client.Minecraft;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
 public class VoteReminder {
 

@@ -18,7 +18,6 @@ class Utils {
           if (e != null) {
             throw new RuntimeException(e);
           }
-          System.out.println(c.get());
           try {
             future.complete((new Gson()).fromJson(c.get(), clazz));
           } catch (JsonSyntaxException exp) {

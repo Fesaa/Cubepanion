@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.events;
 
-import net.labymod.api.event.Event;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import net.labymod.api.event.Event;
 
 /**
  * Called when the division updates, or the game starts. GameEnds should be listened to with the

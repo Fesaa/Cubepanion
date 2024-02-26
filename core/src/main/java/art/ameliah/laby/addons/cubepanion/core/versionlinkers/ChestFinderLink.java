@@ -3,13 +3,13 @@ package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.chestLocationsComponent;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import java.util.ArrayList;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.reference.annotation.Referenceable;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

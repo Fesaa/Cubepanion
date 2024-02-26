@@ -1,13 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import java.util.Collection;
-import java.util.List;
-import net.labymod.api.event.Subscribe;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
+import java.util.Collection;
+import java.util.List;
+import net.labymod.api.event.Subscribe;
 
 public class AutoVote {
 

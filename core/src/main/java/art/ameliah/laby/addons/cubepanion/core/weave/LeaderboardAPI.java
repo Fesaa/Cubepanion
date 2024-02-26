@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.weave;
 
 import static art.ameliah.laby.addons.cubepanion.core.weave.Utils.makeRequest;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,7 +18,6 @@ import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

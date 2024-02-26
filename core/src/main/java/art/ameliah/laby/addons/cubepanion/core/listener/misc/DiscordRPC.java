@@ -1,5 +1,12 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.misc;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashSet;
 import java.util.Set;
 import net.labymod.api.client.network.ClientPacketListener;
@@ -10,13 +17,6 @@ import net.labymod.api.thirdparty.discord.DiscordActivity;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Asset;
 import net.labymod.api.thirdparty.discord.DiscordActivity.Builder;
 import net.labymod.api.util.I18n;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import org.jetbrains.annotations.Nullable;
 
 public class DiscordRPC {

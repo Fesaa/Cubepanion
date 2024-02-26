@@ -1,11 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
-import net.labymod.api.Laby;
-import net.labymod.api.client.chat.command.SubCommand;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
+import net.labymod.api.client.chat.command.SubCommand;
 
 public class State extends SubCommand {
 

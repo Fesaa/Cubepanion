@@ -1,5 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_1;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,9 +24,6 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import org.jetbrains.annotations.NotNull;
 
 @Singleton

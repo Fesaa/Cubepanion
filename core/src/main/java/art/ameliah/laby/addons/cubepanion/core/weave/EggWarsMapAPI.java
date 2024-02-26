@@ -3,12 +3,12 @@ package art.ameliah.laby.addons.cubepanion.core.weave;
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.fromAPIMap;
 import static art.ameliah.laby.addons.cubepanion.core.weave.Utils.makeRequest;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
+import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
 import net.labymod.api.client.component.Component;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 
 @Singleton
 public class EggWarsMapAPI {

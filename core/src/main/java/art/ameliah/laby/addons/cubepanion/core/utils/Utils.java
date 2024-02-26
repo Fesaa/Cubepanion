@@ -1,15 +1,5 @@
 package art.ameliah.laby.addons.cubepanion.core.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.component.format.NamedTextColor;
-import net.labymod.api.util.Pair;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
@@ -23,6 +13,16 @@ import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggW
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI.Generator;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.component.format.NamedTextColor;
+import net.labymod.api.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

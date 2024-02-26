@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -8,8 +10,6 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingRequires;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig;
 
 @SpriteTexture("setting_icons.png")
 public class AutomationConfig extends Config {

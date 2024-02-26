@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
-import net.labymod.api.client.chat.command.Command;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import net.labymod.api.client.chat.command.Command;
 
 public class Debug extends Command {
 

@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.config.subconfig;
 
+import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import net.labymod.api.Laby;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.Config;
@@ -8,8 +10,6 @@ import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.property.Property;
 import net.labymod.api.util.function.ChangeListener;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 
 public class DiscordRichPresenceSubConfig extends Config {
 

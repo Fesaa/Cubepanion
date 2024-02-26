@@ -1,10 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.commands;
 
-import net.labymod.api.client.chat.command.Command;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
+import net.labymod.api.client.chat.command.Command;
 
 public class FindChestCommand extends Command {
 

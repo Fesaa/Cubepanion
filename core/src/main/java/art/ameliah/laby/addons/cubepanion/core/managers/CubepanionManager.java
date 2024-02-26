@@ -1,6 +1,5 @@
 package art.ameliah.laby.addons.cubepanion.core.managers;
 
-import net.labymod.api.Laby;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
@@ -13,6 +12,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggW
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
+import net.labymod.api.Laby;
 import org.jetbrains.annotations.Nullable;
 
 public class CubepanionManager implements Manager {

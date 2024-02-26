@@ -2,10 +2,10 @@ package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.getDoubleIndex;
 
-import java.util.List;
-import net.labymod.api.client.component.Component;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
 import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import java.util.List;
+import net.labymod.api.client.component.Component;
 
 public class SquareEggWarsMap extends LoadedEggWarsMap {
 

@@ -1,5 +1,13 @@
 package art.ameliah.laby.addons.cubepanion.core.commands;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,14 +19,6 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.TextDecoration;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 
 public class StatCommands extends Command {
 

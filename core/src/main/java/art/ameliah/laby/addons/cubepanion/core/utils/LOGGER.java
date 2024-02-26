@@ -1,10 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.utils;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.Laby;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.util.logging.Logging;
-import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import org.jetbrains.annotations.NotNull;
 
 public class LOGGER {

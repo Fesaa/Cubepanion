@@ -1,7 +1,5 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
-import net.labymod.api.Laby;
-import net.labymod.api.event.Subscribe;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
@@ -11,6 +9,8 @@ import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import net.labymod.api.Laby;
+import net.labymod.api.event.Subscribe;
 
 public class AutoGG {
 

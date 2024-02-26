@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
+import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.TextColor;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -7,8 +9,6 @@ import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.util.Color;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CustomItemWidget;
-import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 
 public class DurabilityItemHudWidget extends CustomItemWidget {
 
