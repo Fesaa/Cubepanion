@@ -52,12 +52,12 @@ public class WeaveException extends Exception {
 
     if (response.getStatusCode() != wantedStatus) {
       String msg = String.format("Got %d as status code, wanted %d.\n%s",
-          wantedStatus, response.getStatusCode(),
-          response.get().isEmpty() ? response.get() : "Unknown.");
+          response.getStatusCode(), wantedStatus,
+          response.isPresent() ? response.get() : "Unknown.");
       return new WeaveException(msg);
     }
 
-    if (needsBody && response.get().isEmpty()) {
+    if (needsBody && response.isEmpty()) {
       return new WeaveException("Wanted a response body, but did not get one");
     }
 
