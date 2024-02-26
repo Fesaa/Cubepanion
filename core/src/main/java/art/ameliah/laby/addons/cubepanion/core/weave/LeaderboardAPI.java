@@ -25,7 +25,9 @@ import org.jetbrains.annotations.Nullable;
 @Singleton
 public class LeaderboardAPI {
 
-  private static final String baseURL = "https://ameliah.art/cubepanion_api";
+  private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
+      ? "http://localhost"
+      : "https://ameliah.art/cubepanion_api";
   private static LeaderboardAPI instance;
   private final HashMap<String, Leaderboard> converter = new HashMap<>();
 

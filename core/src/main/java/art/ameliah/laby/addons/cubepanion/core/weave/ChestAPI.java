@@ -12,7 +12,9 @@ import javax.inject.Singleton;
 @Singleton
 public class ChestAPI {
 
-  private static final String baseURL = "https://ameliah.art/cubepanion_api";
+  private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
+      ? "http://localhost"
+      : "https://ameliah.art/cubepanion_api";
   private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
   private String Season = "";
