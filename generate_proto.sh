@@ -1,0 +1,1 @@
+curl https://raw.githubusercontent.com/Fesaa/CubepanionAPI/master/packets.proto | protoc I=./ --java_out=./ -
