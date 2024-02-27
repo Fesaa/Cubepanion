@@ -1,5 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets;
 
+import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget.PerkConfig;
@@ -19,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
 
+  private static final ArrayList<DisplayItem> EMPTY = new ArrayList<>();
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {
@@ -46,6 +49,16 @@ public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
     }
 
     setItems(perks);
+  }
+
+  @Subscribe
+  public void clearItems(GameUpdateEvent e) {
+    setItems(EMPTY);
+  }
+
+  @Subscribe
+  public void clearItems(GameEndEvent e) {
+    setItems(EMPTY);
   }
 
   @Override
