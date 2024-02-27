@@ -18,6 +18,7 @@ public class ChestAPI {
   private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
   private String Season = "";
+
   private ChestAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
@@ -58,8 +59,8 @@ public class ChestAPI {
           }
           setChestLocations(List.of(chestLocations));
         }).exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable, "Could not load chest locations");
-            return null;
+          LOGGER.error(getClass(), throwable, "Could not load chest locations");
+          return null;
         });
   }
 

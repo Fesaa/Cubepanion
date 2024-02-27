@@ -1,6 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.v1_20_4;
 
 
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,8 +18,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 
 @Singleton
 @Implements(LeaderboardTrackerLink.class)

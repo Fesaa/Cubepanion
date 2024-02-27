@@ -14,8 +14,8 @@ public class CubeSocketNotifications {
   private final NotificationController notificationController;
 
   public CubeSocketNotifications(CubeSocket socket, NotificationController notificationController) {
-      this.socket = socket;
-      this.notificationController = notificationController;
+    this.socket = socket;
+    this.notificationController = notificationController;
   }
 
   @Subscribe

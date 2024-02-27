@@ -16,7 +16,8 @@ public class GameUpdateEvent implements Event {
   private final boolean preLobby;
   private final boolean isSwitch;
 
-  public GameUpdateEvent(CubeGame origin, CubeGame destination, boolean preLobby, boolean isSwitch) {
+  public GameUpdateEvent(CubeGame origin, CubeGame destination, boolean preLobby,
+      boolean isSwitch) {
     this.origin = origin;
     this.destination = destination;
     this.preLobby = preLobby;

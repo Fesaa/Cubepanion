@@ -208,7 +208,7 @@ public class LeaderboardAPICommands extends Command {
         "Encountered an exception while getting getLeaderboardsForPlayer",
         this.mainKey + "APIError_info",
         this.mainKey + "APIError");
-      return null;
+    return null;
   }
 
 }

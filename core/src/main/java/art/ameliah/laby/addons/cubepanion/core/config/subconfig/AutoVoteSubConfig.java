@@ -15,6 +15,42 @@ import net.labymod.api.notification.Notification.Type;
 
 public class AutoVoteSubConfig extends Config {
 
+  @ParentSwitch
+  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
+  @DropdownSetting
+  @SpriteSlot(x = 1, y = 1)
+  private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(
+      ThreeOptionsMode.RIGHT);
+  @DropdownSetting
+  @SpriteSlot(x = 7)
+  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(
+      ThreeOptionsMode.MIDDLE);
+  @DropdownSetting
+  private final ConfigProperty<TwoOptionsMode> eggWarsPerk = new ConfigProperty<>(
+      TwoOptionsMode.RIGHT);
+  @DropdownSetting
+  @SpriteSlot(y = 1)
+  private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(
+      ThreeOptionsMode.RIGHT);
+  @DropdownSetting
+  @SpriteSlot(x = 2, y = 1)
+  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
+  @DropdownSetting
+  @SpriteSlot(x = 3, y = 1)
+  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
+  @DropdownSetting
+  @SpriteSlot(x = 4, y = 1)
+  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(
+      FourOptionsMode.RIGHT);
+  @DropdownSetting
+  @SpriteSlot(x = 3, y = 1)
+  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(
+      ThreeOptionsMode.LEFT);
+  @SwitchSetting
+  private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
+
   public AutoVoteSubConfig() {
     enabled.addChangeListener((prop, oldV, newV) -> {
       if (oldV || !newV) {
@@ -28,62 +64,18 @@ public class AutoVoteSubConfig extends Config {
       Notification notification = Notification
           .builder()
           .type(Type.SYSTEM)
-          .title(Component.translatable("cubepanion.notifications.experimentsIsOff.title", Colours.Primary))
-          .text(Component.translatable("cubepanion.notifications.experimentsIsOff.text", Colours.Secondary))
+          .title(Component.translatable("cubepanion.notifications.experimentsIsOff.title",
+              Colours.Primary))
+          .text(Component.translatable("cubepanion.notifications.experimentsIsOff.text",
+              Colours.Secondary))
           .addButton(NotificationButton.of(
-                  Component.translatable("cubepanion.notifications.experimentsIsOff.enable"),
+              Component.translatable("cubepanion.notifications.experimentsIsOff.enable"),
               () -> experiments.set(true)))
           .duration(5000)
           .build();
       Laby.labyAPI().notificationController().push(notification);
     });
   }
-
-  @ParentSwitch
-  private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
-
-  @DropdownSetting
-  @SpriteSlot(x = 1, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> eggWarsItems = new ConfigProperty<>(
-      ThreeOptionsMode.RIGHT);
-
-  @DropdownSetting
-  @SpriteSlot(x = 7)
-  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(
-      ThreeOptionsMode.MIDDLE);
-
-  @DropdownSetting
-  private final ConfigProperty<TwoOptionsMode> eggWarsPerk = new ConfigProperty<>(
-      TwoOptionsMode.RIGHT);
-
-  @DropdownSetting
-  @SpriteSlot(y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsChests = new ConfigProperty<>(
-      ThreeOptionsMode.RIGHT);
-
-  @DropdownSetting
-  @SpriteSlot(x = 2, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsProjectiles = new ConfigProperty<>(
-      ThreeOptionsMode.LEFT);
-
-  @DropdownSetting
-  @SpriteSlot(x = 3, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> skyWarsTime = new ConfigProperty<>(
-      ThreeOptionsMode.LEFT);
-
-  @DropdownSetting
-  @SpriteSlot(x = 4, y = 1)
-  private final ConfigProperty<FourOptionsMode> luckyIslandsBlocks = new ConfigProperty<>(
-      FourOptionsMode.RIGHT);
-
-  @DropdownSetting
-  @SpriteSlot(x = 3, y = 1)
-  private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(
-      ThreeOptionsMode.LEFT);
-
-  @SwitchSetting
-  private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
-
 
   public boolean isEnabled() {
     return this.enabled.get();

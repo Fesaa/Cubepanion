@@ -12,26 +12,28 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import net.labymod.api.client.session.SessionAccessor;
-import net.labymod.api.client.world.item.ItemStack;
-import net.labymod.api.util.logging.Logging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import net.labymod.api.client.session.SessionAccessor;
+import net.labymod.api.client.world.item.ItemStack;
+import net.labymod.api.util.logging.Logging;
 
 public class CubeSocketSession extends PacketHandler {
+
   private static final Logging LOGGER = Logging.create(CubeSocketSession.class);
   private static final Gson gson = new Gson();
   private final CubeSocket socket;
   private final SessionAccessor sessionAccessor;
   private final CodecLink codecLink;
 
-  public CubeSocketSession(CubeSocket socket, WebSocketClientHandshaker handshaker, SessionAccessor sessionAccessor, CodecLink codecLink) {
-      super(handshaker);
-      this.socket = socket;
-      this.sessionAccessor = sessionAccessor;
-      this.codecLink = codecLink;
+  public CubeSocketSession(CubeSocket socket, WebSocketClientHandshaker handshaker,
+      SessionAccessor sessionAccessor, CodecLink codecLink) {
+    super(handshaker);
+    this.socket = socket;
+    this.sessionAccessor = sessionAccessor;
+    this.codecLink = codecLink;
   }
 
   @Override
@@ -61,7 +63,8 @@ public class CubeSocketSession extends PacketHandler {
       stack.ifPresent(perks::add);
     }
 
-    LOGGER.info("Received perk update for " + packet.getUuid() + " with " + perks.size() + " perks");
+    LOGGER.info(
+        "Received perk update for " + packet.getUuid() + " with " + perks.size() + " perks");
     PerkCategory category = PerkCategory.fromProtoCategory(packet.getCategory());
     this.socket.fireEventSync(new PerkLoadEvent(category, perks, true));
   }

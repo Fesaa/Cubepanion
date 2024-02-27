@@ -27,8 +27,8 @@ public class PlayerDeathEvent implements Event {
   }
 
   /**
-   * This may be a non player, if isClientPlayer is True
-   * Such as; `void`, `leave`, `tnt`, etc.
+   * This may be a non player, if isClientPlayer is True Such as; `void`, `leave`, `tnt`, etc.
+   *
    * @return Who made the kill
    */
   public String getKiller() {

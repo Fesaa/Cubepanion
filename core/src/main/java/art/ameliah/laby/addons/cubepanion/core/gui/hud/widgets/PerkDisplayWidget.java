@@ -18,6 +18,7 @@ import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
+
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {
@@ -53,6 +54,7 @@ public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
   }
 
   public static class PerkConfig extends ItemDisplayConfig {
+
     public PerkConfig() {
       getShowName().customRequires((b) -> getOrientation().get().equals(Orientation.VERTICAL));
     }

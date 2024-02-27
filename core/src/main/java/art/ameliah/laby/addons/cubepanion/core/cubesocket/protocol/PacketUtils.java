@@ -38,15 +38,18 @@ public class PacketUtils {
     return UpdateLocationPacket(e.getOrigin(), e.getDestination(), e.isPreLobby());
   }
 
-  public static C2SPacket UpdateLocationPacket(CubeGame origin, CubeGame destination, boolean preLobby) {
+  public static C2SPacket UpdateLocationPacket(CubeGame origin, CubeGame destination,
+      boolean preLobby) {
     String serverID = Cubepanion.get().getManager().getServerID();
     String lastServerID = Cubepanion.get().getManager().getLastServerID();
 
     String map = Cubepanion.get().getManager().getMapName().toLowerCase().replace(" ", "_");
     String lastMap = Cubepanion.get().getManager().getLastMapName().toLowerCase().replace(" ", "_");
 
-    String originString = origin.getString().toLowerCase().replace(" ", "_") + "-" + lastMap + "-" + lastServerID;
-    String destinationString = destination.getString().toLowerCase().replace(" ", "_") + "-" + map + "-" + serverID;
+    String originString =
+        origin.getString().toLowerCase().replace(" ", "_") + "-" + lastMap + "-" + lastServerID;
+    String destinationString =
+        destination.getString().toLowerCase().replace(" ", "_") + "-" + map + "-" + serverID;
 
     return C2SPacket
         .newBuilder()

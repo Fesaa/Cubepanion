@@ -99,5 +99,6 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
   }
 
   protected abstract void handle(S2CPerkUpdatePacket packet);
+
   protected abstract void handle(S2CHelloPacket packet);
 }

@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 
 public class CubeSocketHandler extends ChannelInitializer<SocketChannel> {
+
   private final CubeSocket cubeSocket;
   private final PacketHandler handler;
 

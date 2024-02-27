@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.commands.PartyCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
@@ -32,7 +33,6 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTracker
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;

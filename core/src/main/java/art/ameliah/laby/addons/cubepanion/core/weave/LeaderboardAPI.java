@@ -249,6 +249,7 @@ public class LeaderboardAPI {
    * @param active      if the leaderboard is active (and can be submitted to)
    */
   public record Leaderboard(String name, String displayName, boolean active, String scoreType) {
+
     public static Leaderboard UNKNOWN = new Leaderboard("unknown", "Unknown", false, "Unknown");
   }
 

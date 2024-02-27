@@ -2,19 +2,17 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket;
 
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketStateUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketUtils;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketGameTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketPerkTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketState;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketStateUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.proto.C2SPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -25,6 +23,11 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import java.net.URI;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import net.labymod.api.Laby;
 import net.labymod.api.client.session.Session;
 import net.labymod.api.client.session.SessionAccessor;
@@ -39,11 +42,6 @@ import net.labymod.api.util.I18n;
 import net.labymod.api.util.logging.Logging;
 import net.labymod.api.util.time.TimeUtil;
 import org.jetbrains.annotations.Nullable;
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 
 public class CubeSocket extends Service {
@@ -54,7 +52,7 @@ public class CubeSocket extends Service {
 
   private static final int port;
 
-  static  {
+  static {
     if (System.getenv("CUBEPANION_DEV") != null) {
       host = "ws://127.0.0.1/ws/";
       port = 80;
@@ -66,8 +64,10 @@ public class CubeSocket extends Service {
 
 
   private final Cubepanion addon;
-  private final NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).withNameFormat("CubeSocketNio#d").build());
-  private final ExecutorService executor = Executors.newFixedThreadPool(2, (new ThreadFactoryBuilder()).withNameFormat("CubeSocketExecutor#d").build());
+  private final NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup(0,
+      (new ThreadFactoryBuilder()).withNameFormat("CubeSocketNio#d").build());
+  private final ExecutorService executor = Executors.newFixedThreadPool(2,
+      (new ThreadFactoryBuilder()).withNameFormat("CubeSocketExecutor#d").build());
   private final SessionAccessor sessionAccessor;
   private final EventBus eventBus;
   private final NotificationController notificationController;
@@ -82,7 +82,8 @@ public class CubeSocket extends Service {
   private long lastConnectTriesReset;
   private String lastDisconnectReason;
 
-  public CubeSocket(Cubepanion addon, SessionAccessor sessionAccessor, EventBus eventBus, NotificationController notifications) {
+  public CubeSocket(Cubepanion addon, SessionAccessor sessionAccessor, EventBus eventBus,
+      NotificationController notifications) {
     this.addon = addon;
     this.state = CubeSocketState.OFFLINE;
     this.timeNextConnect = System.currentTimeMillis();
@@ -142,7 +143,8 @@ public class CubeSocket extends Service {
         final WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(
             uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
 
-        this.session = new CubeSocketSession(this, handshaker, this.sessionAccessor, this.addon.getCodecLink());
+        this.session = new CubeSocketSession(this, handshaker, this.sessionAccessor,
+            this.addon.getCodecLink());
         this.channelHandler = new CubeSocketHandler(this, this.session);
         this.lastDisconnectReason = null;
 
@@ -177,7 +179,7 @@ public class CubeSocket extends Service {
   }
 
   private void disconnect(String reason) {
-    long delay = (long)(1000.0 * Math.random() * 60.0);
+    long delay = (long) (1000.0 * Math.random() * 60.0);
     this.timeNextConnect = TimeUtil.getMillis() + 10000L + delay;
     this.lastDisconnectReason = reason;
     if (this.state == CubeSocketState.OFFLINE) {

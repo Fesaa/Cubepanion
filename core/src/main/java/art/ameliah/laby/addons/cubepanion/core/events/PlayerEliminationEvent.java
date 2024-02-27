@@ -3,8 +3,8 @@ package art.ameliah.laby.addons.cubepanion.core.events;
 import net.labymod.api.event.Event;
 
 /**
- * Called when a player is eliminated. This is only called in EggWars
- * PlayerDeathEvent is still called in EggWars (the event is stripped from chat)
+ * Called when a player is eliminated. This is only called in EggWars PlayerDeathEvent is still
+ * called in EggWars (the event is stripped from chat)
  */
 public class PlayerEliminationEvent implements Event {
 

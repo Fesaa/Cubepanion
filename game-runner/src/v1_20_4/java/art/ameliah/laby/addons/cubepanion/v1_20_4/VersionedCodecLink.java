@@ -4,10 +4,10 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import java.util.Optional;
+import javax.inject.Singleton;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.models.Implements;
-import javax.inject.Singleton;
-import java.util.Optional;
 
 @Singleton
 @Implements(CodecLink.class)
@@ -24,7 +24,7 @@ public class VersionedCodecLink extends CodecLink {
   public Optional<ItemStack> decode(JsonElement jsonElement) {
     Optional<net.minecraft.world.item.ItemStack> decoded = net.minecraft.world.item.ItemStack.CODEC
         .parse(JsonOps.INSTANCE, jsonElement).result();
-      return decoded.map(itemStack -> (ItemStack) (Object) itemStack);
+    return decoded.map(itemStack -> (ItemStack) (Object) itemStack);
 
   }
 }

@@ -12,7 +12,7 @@ public class CubeSocketGameTracker {
   private final CubeSocket socket;
 
   public CubeSocketGameTracker(CubeSocket socket) {
-      this.socket = socket;
+    this.socket = socket;
   }
 
   @Subscribe

@@ -192,14 +192,14 @@ public class CubepanionManager implements Manager {
     return mapName;
   }
 
-  public String getLastMapName() {
-    return lastMapName;
-  }
-
   public void setMapName(String mapName) {
     this.lastMapName = this.mapName;
     this.mapName = mapName;
     this.currentEggWarsMap = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(mapName);
+  }
+
+  public String getLastMapName() {
+    return lastMapName;
   }
 
   public String getServerIP() {
@@ -247,10 +247,6 @@ public class CubepanionManager implements Manager {
     return serverID;
   }
 
-  public String getLastServerID() {
-    return lastServerID;
-  }
-
   public void setServerID(String serverID) {
     this.lastServerID = this.serverID;
     this.serverID = serverID;
@@ -260,5 +256,9 @@ public class CubepanionManager implements Manager {
         this.inPreLobby,
         false);
     Laby.fireEvent(e);
+  }
+
+  public String getLastServerID() {
+    return lastServerID;
   }
 }
