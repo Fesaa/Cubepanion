@@ -43,6 +43,10 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     this.items.addAll(items);
   }
 
+  protected void clearItems() {
+    this.items.clear();
+  }
+
   public void render(Stack stack, MutableMouse mouse, float partialTicks, boolean isEditorContext,
       HudSize size) {
     if ((items.isEmpty() && !isEditorContext) || stack == null) {

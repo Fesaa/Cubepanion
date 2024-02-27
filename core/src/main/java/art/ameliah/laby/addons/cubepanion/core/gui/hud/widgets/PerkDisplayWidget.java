@@ -20,8 +20,6 @@ import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
-
-  private static final ArrayList<DisplayItem> EMPTY = new ArrayList<>();
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {
@@ -53,12 +51,12 @@ public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
 
   @Subscribe
   public void clearItems(GameUpdateEvent e) {
-    setItems(EMPTY);
+    clearItems();
   }
 
   @Subscribe
   public void clearItems(GameEndEvent e) {
-    setItems(EMPTY);
+    clearItems();
   }
 
   @Override
