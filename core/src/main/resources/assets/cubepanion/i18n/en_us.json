@@ -683,6 +683,18 @@
         "title": "Recommended!",
         "text": "Turn experiments on",
         "enable": "Enable"
+      },
+      "cubesocket": {
+        "connect": {
+          "title": "CubeSocket",
+          "text": "Successfully connected"
+        },
+        "disconnect": {
+          "title": "CubeSocket",
+          "text": "Disconnected",
+          "timeout": "Connection timed out",
+          "server": "Server closed the connection"
+        }
       }
     }
   }

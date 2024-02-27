@@ -40,6 +40,7 @@ import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.tag.PositionType;
 import net.labymod.api.models.addon.annotation.AddonMain;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @AddonMain
@@ -47,6 +48,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   private static Cubepanion instance;
   private CubepanionManager manager;
+  private CubeSocket socket;
 
   private VotingLink votingLink;
   private ChestFinderLink chestFinderLink;
@@ -80,12 +82,12 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
 
-    CubeSocket cubeSocket = new CubeSocket(
+    socket = new CubeSocket(
         this,
         labyAPI().minecraft().sessionAccessor(),
         labyAPI().eventBus(),
         labyAPI().notificationController());
-    registerListener(cubeSocket);
+    registerListener(socket);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     votingLink = storage.getVotingLink();
@@ -186,6 +188,11 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @Nullable
   public CodecLink getCodecLink() {
     return codecLink;
+  }
+
+  @NotNull
+  public CubeSocket getSocket() {
+    return socket;
   }
 
   public void registerCubepanionListener(Object listener) {

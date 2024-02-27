@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakeException;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
@@ -60,6 +61,8 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
     WebSocketFrame frame = (WebSocketFrame) msg;
     if (frame instanceof BinaryWebSocketFrame binaryFrame) {
       handle(ctx, binaryFrame);
+    }else if (frame instanceof CloseWebSocketFrame) {
+      ctx.close();
     }
   }
 
@@ -81,11 +84,13 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
     }
   }
 
-  private void handle(S2CPacket packet) {
-    LOGGER.debug("[CUBESOCKET] [IN] "
-        + packet.getPacketCase().getNumber()
-        + " "
-        + packet.getPacketCase().name());
+  protected void handle(S2CPacket packet) {
+    if (!packet.hasHello()) {
+      LOGGER.debug("[CUBESOCKET] [IN] "
+          + packet.getPacketCase().getNumber()
+          + " "
+          + packet.getPacketCase().name());
+    }
 
     switch (packet.getPacketCase()) {
       case UPDATEPERK -> handle(packet.getUpdatePerk());

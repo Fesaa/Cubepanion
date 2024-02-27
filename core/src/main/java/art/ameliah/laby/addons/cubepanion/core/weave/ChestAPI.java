@@ -57,6 +57,11 @@ public class ChestAPI {
             LOGGER.error(getClass(), throwable, "Could not load chest locations");
             return;
           }
+          if (chestLocations == null) {
+            LOGGER.error(getClass(), "Could not load chest locations. chestLocations is null");
+            return;
+
+          }
           setChestLocations(List.of(chestLocations));
         }).exceptionally(throwable -> {
           LOGGER.error(getClass(), throwable, "Could not load chest locations");
@@ -71,7 +76,7 @@ public class ChestAPI {
             LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
             return;
           }
-          if (seasons.length > 0) {
+          if (seasons != null && seasons.length > 0) {
             setSeason(seasons[0]);
           } else {
             setSeason("");

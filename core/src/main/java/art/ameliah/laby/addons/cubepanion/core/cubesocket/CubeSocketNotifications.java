@@ -36,7 +36,7 @@ public class CubeSocketNotifications {
         Notification
             .builder()
             .title(Component.translatable("cubepanion.notifications.cubesocket.disconnect.title"))
-            .text(Component.translatable("cubepanion.notifications.cubesocket.disconnect.text"))
+            .text(Component.text(e.getReason()))
             .type(Type.SYSTEM)
             .build()
     );

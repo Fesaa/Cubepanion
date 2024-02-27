@@ -2,10 +2,14 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.session;
 
 
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketConnectEvent;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketUtils;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CHelloPacket;
+import art.ameliah.laby.addons.cubepanion.core.proto.S2CPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CPerkUpdatePacket;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.Gson;
@@ -16,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import net.labymod.api.Laby;
 import net.labymod.api.client.session.SessionAccessor;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.util.logging.Logging;
@@ -39,6 +45,13 @@ public class CubeSocketSession extends PacketHandler {
   @Override
   public void channelInactive(ChannelHandlerContext ctx) {
     socket.updateState(CubeSocketState.OFFLINE);
+    socket.fireEventSync(new CubeSocketDisconnectEvent("Server Disconnected"));
+  }
+
+  @Override
+  protected void handle(S2CPacket packet) {
+    super.handle(packet);
+    this.socket.keepAlive();
   }
 
   @Override
@@ -71,6 +84,17 @@ public class CubeSocketSession extends PacketHandler {
 
   @Override
   protected void handle(S2CHelloPacket packet) {
-    socket.updateState(CubeSocketState.CONNECTED);
+    if (socket.getState() != CubeSocketState.CONNECTED) {
+      socket.updateState(CubeSocketState.CONNECTED);
+      socket.fireEventSync(new CubeSocketConnectEvent());
+    }
+
+    Laby.labyAPI()
+        .taskExecutor()
+        .getScheduledPool()
+        .schedule(
+            () -> this.socket.sendPacket(PacketUtils.HelloPingPacket())
+            ,5L,
+            TimeUnit.SECONDS);
   }
 }

@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
@@ -11,7 +12,7 @@ public class State extends SubCommand {
   private final Cubepanion addon;
 
   protected State(Cubepanion addon) {
-    super("state");
+    super("state", "s");
 
     this.addon = addon;
   }
@@ -53,7 +54,14 @@ public class State extends SubCommand {
         fireballManager.getCooldown(),
         fireballManager.onCooldown());
 
-    displayMessage(addonState + "\n" + state + "\n" + partyState + "\n" + fireballState);
+    CubeSocket socket = addon.getSocket();
+    String socketState = String.format(
+        "Socket State:\nConnected: %s\nCubeStocketState: %s\n",
+        socket.isConnected(),
+        socket.getState());
+
+
+    displayMessage(addonState + "\n" + state + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
     return true;
   }
 }

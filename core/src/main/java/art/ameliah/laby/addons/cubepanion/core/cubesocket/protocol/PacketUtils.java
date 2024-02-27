@@ -12,6 +12,11 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 
 public class PacketUtils {
 
+
+  public static C2SPacket HelloPingPacket() {
+    return HelloPingPacket(System.currentTimeMillis());
+  }
+
   public static C2SPacket HelloPingPacket(long time) {
     return C2SPacket
         .newBuilder()

@@ -86,7 +86,7 @@ public class CubeSocket extends Service {
       NotificationController notifications) {
     this.addon = addon;
     this.state = CubeSocketState.OFFLINE;
-    this.timeNextConnect = System.currentTimeMillis();
+    this.timeNextConnect = TimeUtil.getMillis();
     this.connectTries = 0;
     this.lastConnectTriesReset = 0L;
     this.sessionAccessor = sessionAccessor;
@@ -98,24 +98,31 @@ public class CubeSocket extends Service {
     this.eventBus.registerListener(new CubeSocketGameTracker(this));
 
     Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(() -> {
-      if (!this.addon.getManager().onCubeCraft()) {
-        return;
-      }
+      try {
+        if (this.addon.getManager() == null) {
+          return;
+        }
+        if (!this.addon.getManager().onCubeCraft()) {
+          return;
+        }
 
-      long durationKeepAlive = System.currentTimeMillis() - this.timeLastKeepAlive;
-      long durationConnect = System.currentTimeMillis() - this.timeNextConnect;
+        long durationKeepAlive = TimeUtil.getMillis() - this.timeLastKeepAlive;
+        long durationConnect = this.timeNextConnect - TimeUtil.getMillis();
 
-      if (state != CubeSocketState.OFFLINE && durationKeepAlive > 25000L) {
-        disconnect(I18n.translate("cubepanion.cubesocket.protocol.disconnect.timeout"));
-      }
+        if (state != CubeSocketState.OFFLINE && durationKeepAlive > 25000L) {
+          disconnect(I18n.translate("cubepanion.cubesocket.protocol.disconnect.timeout"));
+        }
 
-      if (state == CubeSocketState.OFFLINE && durationConnect < 0L) {
-        connect();
-      }
+        if (state == CubeSocketState.OFFLINE && durationConnect < 0L) {
+          connect();
+        }
 
-      if (this.lastConnectTriesReset + 300000L < TimeUtil.getMillis()) {
-        this.lastConnectTriesReset = TimeUtil.getMillis();
-        this.connectTries = 0;
+        if (this.lastConnectTriesReset + 300000L < TimeUtil.getMillis()) {
+          this.lastConnectTriesReset = TimeUtil.getMillis();
+          this.connectTries = 0;
+        }
+      } catch (Exception e) {
+        LOGGER.error("Error in CubeSocket keep alive", e);
       }
     }, 0L, 5L, TimeUnit.SECONDS);
   }
@@ -159,7 +166,7 @@ public class CubeSocket extends Service {
           this.sendPacket(PacketUtils.HelloPingPacket(System.currentTimeMillis()));
         } catch (Exception e) {
           this.updateState(CubeSocketState.OFFLINE);
-          LOGGER.error("Failed to connect to CubeSocket", e);
+          LOGGER.warn("Failed to connect to CubeSocket", e);
         }
       }
     });
@@ -204,7 +211,7 @@ public class CubeSocket extends Service {
     this.fireEventSync(new CubeSocketStateUpdateEvent(state));
   }
 
-  private void keepAlive() {
+  public void keepAlive() {
     this.timeLastKeepAlive = TimeUtil.getMillis();
   }
 
@@ -222,10 +229,12 @@ public class CubeSocket extends Service {
       return;
     }
 
-    LOGGER.debug("[CUBESOCKET] [OUT] "
-        + packet.getPacketCase().getNumber()
-        + " "
-        + packet.getPacketCase().name());
+    if (!packet.hasHelloPing()) {
+      LOGGER.debug("[CUBESOCKET] [OUT] "
+          + packet.getPacketCase().getNumber()
+          + " "
+          + packet.getPacketCase().name());
+    }
 
     ByteBuf buf = getChannel().alloc().buffer();
     WebSocketFrame frame = new BinaryWebSocketFrame(buf.writeBytes(packet.toByteArray()));
