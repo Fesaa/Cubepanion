@@ -79,7 +79,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     float textWidth = 0.0F;
     float maxTextWidth = -1.0F;
 
-    if (anchor().isRight()) {
+    if (anchor().isRight() && renderName) {
       for (DisplayItem item : toRender) {
         RenderableComponent text = item.getRenderableComponent();
         maxTextWidth = Math.max(maxTextWidth, text.getWidth());
