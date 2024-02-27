@@ -18,6 +18,7 @@ dependencies {
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
 
     maven(mavenCentral(), "com.google.protobuf:protobuf-java:3.25.3")
+    maven(mavenCentral(), "io.netty:netty-all:4.1.107.Final")
 }
 
 labyModProcessor {

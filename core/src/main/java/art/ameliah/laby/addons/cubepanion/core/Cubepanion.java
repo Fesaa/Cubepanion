@@ -26,11 +26,13 @@ import art.ameliah.laby.addons.cubepanion.core.managers.WidgetManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
@@ -51,6 +53,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private LeaderboardTrackerLink leaderboardTrackerLink;
   private QOLMapSelectorLink qolMapSelectorLink;
   private FunctionLink functionLink;
+  private CodecLink codecLink;
 
   public Cubepanion() {
     instance = this;
@@ -77,12 +80,20 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
 
+    CubeSocket cubeSocket = new CubeSocket(
+        this,
+        labyAPI().minecraft().sessionAccessor(),
+        labyAPI().eventBus(),
+        labyAPI().notificationController());
+    registerListener(cubeSocket);
+
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     votingLink = storage.getVotingLink();
     leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     qolMapSelectorLink = storage.getQOLMapSelectorLink();
     chestFinderLink = storage.getChestFinderLink();
     functionLink = storage.getFunctionLink();
+    codecLink = storage.getCodecLink();
     if (votingLink == null) {
       LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -97,6 +108,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
     if (functionLink == null) {
       LOGGER.warn(getClass(), "FunctionLink is null. Some features will not work.");
+    }
+    if (codecLink == null) {
+      LOGGER.warn(getClass(), "CodecLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
@@ -167,6 +181,11 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @Nullable
   public FunctionLink getFunctionLink() {
     return functionLink;
+  }
+
+  @Nullable
+  public CodecLink getCodecLink() {
+    return codecLink;
   }
 
   public void registerCubepanionListener(Object listener) {

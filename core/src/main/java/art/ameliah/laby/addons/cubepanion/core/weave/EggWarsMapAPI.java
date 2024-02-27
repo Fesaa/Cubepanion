@@ -14,7 +14,7 @@ import net.labymod.api.client.component.Component;
 public class EggWarsMapAPI {
 
   private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
-      ? "http://localhost"
+      ? "http://127.0.0.1"
       : "https://ameliah.art/cubepanion_api";
   private static EggWarsMapAPI instance;
   private final HashMap<String, LoadedEggWarsMap> convertedEggWarsMaps = new HashMap<>();
