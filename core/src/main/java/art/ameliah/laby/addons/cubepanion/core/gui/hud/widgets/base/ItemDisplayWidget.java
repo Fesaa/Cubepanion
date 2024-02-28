@@ -73,7 +73,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     float y = 0.0F;
     float segmentHeight;
     float textWidth = 0.0F;
-    float maxTextWidth = -1.0F;
+    float maxTextWidth = 0.0F;
 
     if (anchor().isRight() && renderName) {
       for (DisplayItem item : toRender) {
@@ -86,7 +86,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     for (DisplayItem item : toRender) {
       RenderableComponent text = item.getRenderableComponent();
 
-      int itemStackX = anchor().isRight() ? (int) (maxTextWidth + textOffSet): 0;
+      int itemStackX = anchor().isRight() && renderName ? (int) (maxTextWidth + textOffSet): 0;
       int itemStackY = (int) y;
       itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
 
