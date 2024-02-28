@@ -2,12 +2,10 @@ version = "0.1.0"
 
 plugins {
     id("java-library")
-    id("com.github.johnrengelman.shadow") version ("7.0.0")
 }
 
 dependencies {
     api(project(":api"))
-    shade(files("../libs/weave.jar"))
 
     // If you want to use external libraries, you can do that here.
     // The dependencies that are specified here are loaded into your project but will also
@@ -17,8 +15,8 @@ dependencies {
     // other repository has to be specified with their url. Example:
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
 
-    maven(mavenCentral(), "com.google.protobuf:protobuf-java:3.25.3")
-    maven(mavenCentral(), "io.netty:netty-all:4.1.107.Final")
+    implementation("com.google.protobuf:protobuf-java:3.25.3")
+    implementation("io.netty:netty-all:4.1.107.Final")
 }
 
 labyModProcessor {
@@ -28,17 +26,4 @@ labyModProcessor {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks {
-    shadowJar {
-        archiveClassifier.set("")
-        archiveBaseName.set("core")
-
-        dependencyFilter.exclude {
-            !(it.moduleGroup.startsWith("Cubepanion") || it.moduleGroup.equals("org.cubepanion"))
-        }
-    }
-
-    getByName("jar").finalizedBy("shadowJar")
 }

@@ -76,7 +76,7 @@ public class CubeSocketSession extends PacketHandler {
       stack.ifPresent(perks::add);
     }
 
-    LOGGER.info(
+    LOGGER.debug(
         "Received perk update for " + packet.getUuid() + " with " + perks.size() + " perks");
     PerkCategory category = PerkCategory.fromProtoCategory(packet.getCategory());
     this.socket.fireEventSync(new PerkLoadEvent(category, perks, true));
