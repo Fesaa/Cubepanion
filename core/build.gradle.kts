@@ -15,8 +15,12 @@ dependencies {
     // other repository has to be specified with their url. Example:
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
 
-    implementation("com.google.protobuf:protobuf-java:3.25.3")
-    implementation("io.netty:netty-all:4.1.107.Final")
+    maven(mavenCentral(), "com.google.protobuf:protobuf-java:3.25.3")
+    maven(mavenCentral(), "io.netty:netty-codec-http:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-transport:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-buffer:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-common:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-handler:4.1.107.Final")
 }
 
 labyModProcessor {
