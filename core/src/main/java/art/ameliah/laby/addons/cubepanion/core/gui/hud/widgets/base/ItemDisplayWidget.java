@@ -77,7 +77,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     float y = 0.0F;
     float segmentHeight;
     float textWidth = 0.0F;
-    float maxTextWidth = -1.0F;
+    float maxTextWidth = 0.0F;
 
     if (anchor().isRight() && renderName) {
       for (DisplayItem item : toRender) {
