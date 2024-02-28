@@ -44,8 +44,10 @@ public class CubeSocketSession extends PacketHandler {
 
   @Override
   public void channelInactive(ChannelHandlerContext ctx) {
-    socket.updateState(CubeSocketState.OFFLINE);
-    socket.fireEventSync(new CubeSocketDisconnectEvent("Server Disconnected"));
+    if (socket.getState() != CubeSocketState.OFFLINE) {
+      socket.updateState(CubeSocketState.OFFLINE);
+      socket.fireEventSync(new CubeSocketDisconnectEvent("Server Disconnected"));
+    }
   }
 
   @Override
