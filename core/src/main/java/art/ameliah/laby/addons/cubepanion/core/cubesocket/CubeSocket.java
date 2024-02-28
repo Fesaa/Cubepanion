@@ -28,6 +28,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import net.labymod.api.Laby;
 import net.labymod.api.client.session.Session;
 import net.labymod.api.client.session.SessionAccessor;
@@ -43,6 +46,8 @@ import net.labymod.api.util.logging.Logging;
 import net.labymod.api.util.time.TimeUtil;
 import org.jetbrains.annotations.Nullable;
 
+import javax.net.ssl.SSLException;
+
 
 public class CubeSocket extends Service {
 
@@ -57,7 +62,7 @@ public class CubeSocket extends Service {
       host = "ws://127.0.0.1/ws/";
       port = 80;
     } else {
-      host = "ws://ameliah.art/cubepanion_api/ws/";
+      host = "wss://ameliah.art/cubepanion_api/ws/";
       port = 443;
     }
   }
@@ -146,13 +151,26 @@ public class CubeSocket extends Service {
           return;
         }
 
+        final SslContext sslCtx;
+        if (host.startsWith("wss")) {
+            try {
+                sslCtx = SslContextBuilder.forClient()
+                    .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+            } catch (SSLException e) {
+                LOGGER.error("Failed to create SSL context", e);
+                return;
+            }
+        } else {
+          sslCtx = null;
+        }
+
         URI uri = URI.create(host + session.getUniqueId());
         final WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(
             uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
 
         this.session = new CubeSocketSession(this, handshaker, this.sessionAccessor,
             this.addon.getCodecLink());
-        this.channelHandler = new CubeSocketHandler(this, this.session);
+        this.channelHandler = new CubeSocketHandler(this, this.session, sslCtx);
         this.lastDisconnectReason = null;
 
         this.bootstrap = new Bootstrap();
@@ -161,7 +179,7 @@ public class CubeSocket extends Service {
         this.bootstrap.handler(this.channelHandler);
 
         try {
-          this.bootstrap.connect(uri.getHost(), 80).syncUninterruptibly();
+          this.bootstrap.connect(uri.getHost(), port).syncUninterruptibly();
           this.session.getHandshakeFuture().syncUninterruptibly();
           this.sendPacket(PacketUtils.HelloPingPacket(System.currentTimeMillis()));
         } catch (Exception e) {
@@ -274,6 +292,14 @@ public class CubeSocket extends Service {
 
   public String getLastDisconnectReason() {
     return lastDisconnectReason;
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public String getHost() {
+    return host;
   }
 }
 
