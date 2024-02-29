@@ -693,7 +693,7 @@
           "title": "CubeSocket",
           "text": "Disconnected",
           "timeout": "Connection timed out",
-          "server": "Server closed the connection"
+          "server": "Logged off CubeCraft"
         }
       }
     }
