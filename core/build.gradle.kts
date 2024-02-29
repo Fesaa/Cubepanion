@@ -2,7 +2,6 @@ version = "0.1.0"
 
 plugins {
     id("java-library")
-    id("com.github.johnrengelman.shadow") version ("7.0.0")
 }
 
 dependencies {
@@ -32,17 +31,4 @@ labyModProcessor {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks {
-    shadowJar {
-        archiveClassifier.set("")
-        archiveBaseName.set("core")
-
-        dependencyFilter.exclude {
-            !(it.moduleGroup.startsWith("Cubepanion") || it.moduleGroup.equals("org.cubepanion"))
-        }
-    }
-
-    getByName("jar").finalizedBy("shadowJar")
 }
