@@ -90,7 +90,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     for (DisplayItem item : toRender) {
       RenderableComponent text = item.getRenderableComponent();
 
-      int itemStackX = anchor().isRight() ? (int) (maxTextWidth + textOffSet) : 0;
+      int itemStackX = anchor().isRight() && renderName ? (int) (maxTextWidth + textOffSet): 0;
       int itemStackY = (int) y;
       itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
 
