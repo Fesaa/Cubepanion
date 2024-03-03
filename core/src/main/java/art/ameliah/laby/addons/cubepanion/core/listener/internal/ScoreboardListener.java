@@ -27,6 +27,7 @@ public class ScoreboardListener {
   private String previousText;
   private boolean updatedMap;
   private boolean updatedDivision;
+  private boolean updatedServerID;
 
   public ScoreboardListener(Cubepanion addon) {
     this.addon = addon;
@@ -39,11 +40,12 @@ public class ScoreboardListener {
   @Subscribe
   public void onServerSwitch(SubServerSwitchEvent e) {
     updatedDivision = false;
+    updatedMap = false;
   }
 
   @Subscribe
   public void serverIdTracker(ScoreboardTeamEntryAddEvent e) {
-    if (!this.addon.getManager().onCubeCraft()) {
+    if (!this.addon.getManager().onCubeCraft() || updatedServerID) {
       return;
     }
 
@@ -53,10 +55,11 @@ public class ScoreboardListener {
     }
 
     String t = ((TextComponent) children.get(0)).getText();
-    Matcher matcher = DATE_SERVER_ID_REGEX.matcher(((TextComponent) children.get(0)).getText());
+    Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
     if (matcher.matches()) {
       String serverId = matcher.group(1);
       this.manager.setServerID(serverId);
+      this.updatedServerID = true;
     }
   }
 
