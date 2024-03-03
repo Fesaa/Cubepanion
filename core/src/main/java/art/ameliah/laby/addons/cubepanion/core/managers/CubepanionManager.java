@@ -169,7 +169,7 @@ public class CubepanionManager implements Manager {
         this.lastDivision,
         this.division,
         this.inPreLobby,
-        false);
+        true);
     Laby.fireEvent(e);
   }
 

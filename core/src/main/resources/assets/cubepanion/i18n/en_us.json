@@ -109,6 +109,19 @@
         "fireBallCoolDown": {
           "name": "Fireball cooldown",
           "description": "Display the cooldown animation on fireballs after using it."
+        },
+        "levelTag": {
+          "name": "Level tag",
+          "description": "Adds a level tag to name tags"
+        },
+        "levelTagDisplayLocation": {
+          "name": "Level tag display location",
+          "description": "Where to show players' level",
+          "entries": {
+            "preLobby": "Pre-lobby",
+            "game": "In-game",
+            "both": "Both"
+          }
         }
       },
       "eggWarsMapInfoSubConfig": {
