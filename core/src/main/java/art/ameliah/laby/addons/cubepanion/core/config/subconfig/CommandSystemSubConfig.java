@@ -30,10 +30,6 @@ public class CommandSystemSubConfig extends Config {
 
   @SwitchSetting
   @SettingRequires(value = "enabled")
-  private final ConfigProperty<Boolean> friendsTrackerCommand = new ConfigProperty<>(true);
-
-  @SwitchSetting
-  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> chestFinderCommand = new ConfigProperty<>(true);
 
   public ConfigProperty<Boolean> getAppealSiteCommand() {
@@ -50,10 +46,6 @@ public class CommandSystemSubConfig extends Config {
 
   public ConfigProperty<Boolean> getEggWarsMapInfoCommand() {
     return EggWarsMapInfoCommand;
-  }
-
-  public ConfigProperty<Boolean> getFriendsTrackerCommand() {
-    return friendsTrackerCommand;
   }
 
   public ConfigProperty<Boolean> getChestFinderCommand() {
