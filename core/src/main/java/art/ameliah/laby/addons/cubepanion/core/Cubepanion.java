@@ -12,6 +12,7 @@ import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
@@ -140,10 +141,12 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     RespawnTags respawnTags = new RespawnTags(this);
     RankTag rankTag = new RankTag(this);
+    LevelTag levelTag = new LevelTag(this);
 
     this.registerListener(respawnTags);
     this.labyAPI().tagRegistry().register("respawn_timer", PositionType.ABOVE_NAME, respawnTags);
     this.labyAPI().tagRegistry().register("rank_tag", PositionType.ABOVE_NAME, rankTag);
+    this.labyAPI().tagRegistry().register("level_tag", PositionType.RIGHT_TO_NAME, levelTag);
 
     WidgetManager.register(this);
 

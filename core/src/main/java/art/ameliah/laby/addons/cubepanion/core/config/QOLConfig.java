@@ -3,6 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.config;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
+import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
@@ -15,6 +16,12 @@ public class QOLConfig extends Config {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> rankTag = new ConfigProperty<>(true);
+  @SwitchSetting
+  private final ConfigProperty<Boolean> levelTag = new ConfigProperty<>(false);
+
+  @DropdownSetting
+  private final ConfigProperty<DisplayLocation> levelTagDisplayLocation = new ConfigProperty<>(DisplayLocation.BOTH);
+
   @SwitchSetting
   private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);
   @SwitchSetting
@@ -39,6 +46,10 @@ public class QOLConfig extends Config {
 
   public ConfigProperty<Boolean> getRankTag() {
     return this.rankTag;
+  }
+
+  public ConfigProperty<Boolean> getLevelTag() {
+    return this.levelTag;
   }
 
   public ConfigProperty<Boolean> getRespawnTimer() {
@@ -71,5 +82,9 @@ public class QOLConfig extends Config {
 
   public ConfigProperty<Boolean> getFireBallCoolDown() {
     return fireBallCoolDown;
+  }
+
+  public enum DisplayLocation {
+    PRE_LOBBY, GAME, BOTH
   }
 }
