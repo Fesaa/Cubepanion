@@ -8,9 +8,9 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketUtils;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CHelloPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CPerkUpdatePacket;
+import art.ameliah.laby.addons.cubepanion.core.proto.S2CPingPacket;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -85,7 +85,7 @@ public class CubeSocketSession extends PacketHandler {
   }
 
   @Override
-  protected void handle(S2CHelloPacket packet) {
+  protected void handle(S2CPingPacket packet) {
     if (socket.getState() != CubeSocketState.CONNECTED) {
       socket.updateState(CubeSocketState.CONNECTED);
       socket.fireEventSync(new CubeSocketConnectEvent());
@@ -95,7 +95,7 @@ public class CubeSocketSession extends PacketHandler {
         .taskExecutor()
         .getScheduledPool()
         .schedule(
-            () -> this.socket.sendPacket(PacketUtils.HelloPingPacket())
+            () -> this.socket.sendPacket(PacketUtils.PingPacket())
             ,5L,
             TimeUnit.SECONDS);
   }

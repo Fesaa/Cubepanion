@@ -181,7 +181,7 @@ public class CubeSocket extends Service {
         try {
           this.bootstrap.connect(uri.getHost(), port).syncUninterruptibly();
           this.session.getHandshakeFuture().syncUninterruptibly();
-          this.sendPacket(PacketUtils.HelloPingPacket(System.currentTimeMillis()));
+          this.sendPacket(PacketUtils.PingPacket());
         } catch (Exception e) {
           this.updateState(CubeSocketState.OFFLINE);
           LOGGER.warn("Failed to connect to CubeSocket", e);
@@ -247,7 +247,7 @@ public class CubeSocket extends Service {
       return;
     }
 
-    if (!packet.hasHelloPing()) {
+    if (!packet.hasPing()) {
       LOGGER.debug("[CUBESOCKET] [OUT] "
           + packet.getPacketCase().getNumber()
           + " "

@@ -1,8 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol;
 
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CHelloPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.S2CPerkUpdatePacket;
+import art.ameliah.laby.addons.cubepanion.core.proto.S2CPingPacket;
 import com.google.protobuf.InvalidProtocolBufferException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -85,7 +85,7 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
   }
 
   protected void handle(S2CPacket packet) {
-    if (!packet.hasHello()) {
+    if (!packet.hasPing()) {
       LOGGER.debug("[CUBESOCKET] [IN] "
           + packet.getPacketCase().getNumber()
           + " "
@@ -94,7 +94,7 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
 
     switch (packet.getPacketCase()) {
       case UPDATEPERK -> handle(packet.getUpdatePerk());
-      case HELLO -> handle(packet.getHello());
+      case PING -> handle(packet.getPing());
 
       default -> LOGGER.warn("[CUBESOCKET] [IN] Unknown packet type: "
           + packet.getPacketCase().getNumber()
@@ -105,5 +105,5 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
 
   protected abstract void handle(S2CPerkUpdatePacket packet);
 
-  protected abstract void handle(S2CHelloPacket packet);
+  protected abstract void handle(S2CPingPacket packet);
 }

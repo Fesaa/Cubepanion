@@ -3,9 +3,9 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.proto.C2SDisconnectPacket;
-import art.ameliah.laby.addons.cubepanion.core.proto.C2SHelloPingPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.C2SPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.C2SPerkUpdatePacket;
+import art.ameliah.laby.addons.cubepanion.core.proto.C2SPingPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.C2SUpdateLocationPacket;
 import art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
@@ -13,17 +13,12 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 public class PacketUtils {
 
 
-  public static C2SPacket HelloPingPacket() {
-    return HelloPingPacket(System.currentTimeMillis());
-  }
-
-  public static C2SPacket HelloPingPacket(long time) {
+  public static C2SPacket PingPacket() {
     return C2SPacket
         .newBuilder()
-        .setHelloPing(
-            C2SHelloPingPacket
+        .setPing(
+            C2SPingPacket
                 .newBuilder()
-                .setTime(time)
                 .build())
         .build();
   }
@@ -87,10 +82,10 @@ public class PacketUtils {
         .build();
   }
 
-  public static C2SPacket wrap(C2SHelloPingPacket packet) {
+  public static C2SPacket wrap(C2SPingPacket packet) {
     return C2SPacket
         .newBuilder()
-        .setHelloPing(packet)
+        .setPing(packet)
         .build();
   }
 
