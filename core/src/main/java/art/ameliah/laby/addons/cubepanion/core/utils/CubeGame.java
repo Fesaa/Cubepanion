@@ -14,6 +14,7 @@ public enum CubeGame {
   SKYBLOCK("Skyblock", false),
   SNOWMAN_SURVIVAL("Snowman Survival", true),
   LOBBY("Main Lobby", false),
+  PILLARS_OF_FORTUNE("Pillars of Fortune", true),
   NONE("", false);
 
 
@@ -70,6 +71,9 @@ public enum CubeGame {
       }
       case "cubecraft" -> {
         return CubeGame.LOBBY;
+      }
+      case "pillars of fortune" -> {
+        return CubeGame.PILLARS_OF_FORTUNE;
       }
       default -> {
         return CubeGame.NONE;
