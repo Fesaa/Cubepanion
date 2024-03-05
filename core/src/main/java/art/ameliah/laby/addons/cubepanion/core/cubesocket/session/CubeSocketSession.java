@@ -24,15 +24,17 @@ import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
 import net.labymod.api.client.session.SessionAccessor;
 import net.labymod.api.client.world.item.ItemStack;
-import net.labymod.api.util.logging.Logging;
+import net.labymod.api.util.I18n;
 
 public class CubeSocketSession extends PacketHandler {
 
-  private static final Logging LOGGER = Logging.create(CubeSocketSession.class);
   private static final Gson gson = new Gson();
   private final CubeSocket socket;
   private final SessionAccessor sessionAccessor;
   private final CodecLink codecLink;
+
+  private int keepAlivesSent = 0;
+  private int keepAlivesReceived = 0;
 
   public CubeSocketSession(CubeSocket socket, WebSocketClientHandshaker handshaker,
       SessionAccessor sessionAccessor, CodecLink codecLink) {
@@ -42,11 +44,19 @@ public class CubeSocketSession extends PacketHandler {
     this.codecLink = codecLink;
   }
 
+  public int getKeepAlivesReceived() {
+    return keepAlivesReceived;
+  }
+
+  public int getKeepAlivesSent() {
+    return keepAlivesSent;
+  }
+
   @Override
   public void channelInactive(ChannelHandlerContext ctx) {
     if (socket.getState() != CubeSocketState.OFFLINE) {
       socket.updateState(CubeSocketState.OFFLINE);
-      socket.fireEventSync(new CubeSocketDisconnectEvent("Server Disconnected"));
+      socket.fireEventSync(new CubeSocketDisconnectEvent(I18n.translate("cubepanion.notifications.cubesocket.disconnect.apiServer")));
     }
   }
 
@@ -78,8 +88,6 @@ public class CubeSocketSession extends PacketHandler {
       stack.ifPresent(perks::add);
     }
 
-    LOGGER.debug(
-        "Received perk update for " + packet.getUuid() + " with " + perks.size() + " perks");
     PerkCategory category = PerkCategory.fromProtoCategory(packet.getCategory());
     this.socket.fireEventSync(new PerkLoadEvent(category, perks, true));
   }
@@ -90,13 +98,14 @@ public class CubeSocketSession extends PacketHandler {
       socket.updateState(CubeSocketState.CONNECTED);
       socket.fireEventSync(new CubeSocketConnectEvent());
     }
+    this.keepAlivesReceived++;
 
     Laby.labyAPI()
         .taskExecutor()
         .getScheduledPool()
-        .schedule(
-            () -> this.socket.sendPacket(PacketUtils.PingPacket())
-            ,5L,
-            TimeUnit.SECONDS);
+        .schedule(() -> {
+          this.socket.sendPacket(PacketUtils.PingPacket());
+          this.keepAlivesSent++;
+        },5L, TimeUnit.SECONDS);
   }
 }

@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
@@ -55,10 +56,13 @@ public class State extends SubCommand {
         fireballManager.onCooldown());
 
     CubeSocket socket = addon.getSocket();
+    CubeSocketSession session = socket.getSession();
     String socketState = String.format(
-        "Socket State:\nConnected: %s\nCubeStocketState: %s\n",
+        "Socket State:\nConnected: %s\nCubeStocketState: %s\nKeep Alive Sent: %d\nKeep Alive Received: %d\n",
         socket.isConnected(),
-        socket.getState());
+        socket.getState(),
+        session != null ? session.getKeepAlivesSent() : 0,
+        session != null ? session.getKeepAlivesReceived() : 0);
 
 
     displayMessage(addonState + "\n" + state + "\n" + partyState + "\n" + fireballState + "\n" + socketState);

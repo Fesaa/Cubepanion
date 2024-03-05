@@ -17,7 +17,7 @@ import net.labymod.api.util.logging.Logging;
 
 public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> {
 
-  private static final Logging LOGGER = Logging.create(PacketHandler.class);
+  protected static final Logging LOGGER = Logging.create(PacketHandler.class);
   private final WebSocketClientHandshaker handshaker;
   private Promise<Void> handshakeFuture;
 

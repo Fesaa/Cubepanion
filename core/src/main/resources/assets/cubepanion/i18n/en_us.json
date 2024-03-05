@@ -706,7 +706,8 @@
           "title": "CubeSocket",
           "text": "Disconnected",
           "timeout": "Connection timed out",
-          "server": "Logged off CubeCraft"
+          "server": "Logged off CubeCraft",
+          "apiServer": "Server forced a disconnect"
         }
       }
     }
