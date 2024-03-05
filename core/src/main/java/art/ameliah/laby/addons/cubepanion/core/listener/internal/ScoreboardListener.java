@@ -41,6 +41,7 @@ public class ScoreboardListener {
   public void onServerSwitch(SubServerSwitchEvent e) {
     updatedDivision = false;
     updatedMap = false;
+    updatedServerID = false;
   }
 
   @Subscribe
