@@ -6,6 +6,9 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSess
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
+import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.client.chat.command.SubCommand;
 
 public class State extends SubCommand {
@@ -21,15 +24,12 @@ public class State extends SubCommand {
   @Override
   public boolean execute(String s, String[] strings) {
     if (!addon.getManager().onCubeCraft()) {
-      return false;
+      //return false;
     }
-
-    String addonState = String.format("RunTimeLoaded: ‰s",
-        addon.wasLoadedInRuntime());
 
     CubepanionManager manager = addon.getManager();
     String state = String.format(
-        "Cubepanion State:\nCubeGame: %s\nLast CubeGame: %s\nMap Name: %s\nTeam Colour: %s\nRank: %s\nEliminated: %s\nIn Pre-Lobby: %s\nLost: %s\nGame Start Time: %d\n",
+        "Cubepanion State:\n\tCubeGame: %s\n\tLast CubeGame: %s\n\tMap Name: %s\n\tTeam Colour: %s\n\tRank: %s\n\tEliminated: %s\n\tIn Pre-Lobby: %s\n\tLost: %s\n\tGame Start Time: %d\n\t",
         addon.getManager().getDivision().getString(),
         manager.getLastDivision().getString(),
         manager.getMapName(),
@@ -39,10 +39,17 @@ public class State extends SubCommand {
         manager.isInPreLobby(),
         manager.hasLost(),
         manager.getGameStartTime());
+    
+    String weaveState = String.format(
+        "Weave State:\n\tChest Seasons: %s\n\tChests loaded: %d\n\tEggWars Maps loaded: %d\n\tGames Loaded: %d\n\t",
+        ChestAPI.getInstance().getSeason(),
+        ChestAPI.getInstance().getChestLocations().size(),
+        EggWarsMapAPI.getInstance().getConvertedEggWarsMaps().size(),
+        LeaderboardAPI.getInstance().getAliases().size());
 
     PartyManager partyManager = addon.getManager().getPartyManager();
     String partyState = String.format(
-        "Party State:\nIn Party: %s\nParty Owner: %s\nParty Chat: %s\nParty Members: %s\n",
+        "Party State:\n\tIn Party: %s\n\tParty Owner: %s\n\tParty Chat: %s\n\tParty Members: %s\n\t",
         partyManager.isInParty(),
         partyManager.isPartyOwner(),
         partyManager.isPartyChat(),
@@ -50,7 +57,7 @@ public class State extends SubCommand {
 
     FireballManager fireballManager = addon.getManager().getFireballManager();
     String fireballState = String.format(
-        "Fireball State:\nLast Use: %d\nCooldown: %d\nOn Cooldown: %s\n",
+        "Fireball State:\n\tLast Use: %d\n\tCooldown: %d\n\tOn Cooldown: %s\n\t",
         fireballManager.getLastUse(),
         fireballManager.getCooldown(),
         fireballManager.onCooldown());
@@ -58,14 +65,14 @@ public class State extends SubCommand {
     CubeSocket socket = addon.getSocket();
     CubeSocketSession session = socket.getSession();
     String socketState = String.format(
-        "Socket State:\nConnected: %s\nCubeStocketState: %s\nKeep Alive Sent: %d\nKeep Alive Received: %d\n",
+        "Socket State:\n\tConnected: %s\n\tCubeStocketState: %s\n\tKeep Alive Sent: %d\n\tKeep Alive Received: %d\n\t",
         socket.isConnected(),
         socket.getState(),
         session != null ? session.getKeepAlivesSent() : 0,
         session != null ? session.getKeepAlivesReceived() : 0);
 
 
-    displayMessage(addonState + "\n" + state + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
+    displayMessage(state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
     return true;
   }
 }

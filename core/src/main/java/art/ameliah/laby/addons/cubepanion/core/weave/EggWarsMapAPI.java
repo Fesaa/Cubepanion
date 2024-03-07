@@ -67,6 +67,9 @@ public class EggWarsMapAPI {
     return convertedEggWarsMaps.get(name.toLowerCase());
   }
 
+  public HashMap<String, LoadedEggWarsMap> getConvertedEggWarsMaps() {
+    return convertedEggWarsMaps;
+  }
 
   public Component getAllMapNames() {
     Component out = Component.empty();
