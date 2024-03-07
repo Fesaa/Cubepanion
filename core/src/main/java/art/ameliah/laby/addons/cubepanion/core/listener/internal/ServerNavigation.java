@@ -14,7 +14,7 @@ public class ServerNavigation {
   private final CubepanionManager manager;
 
   public ServerNavigation(Cubepanion addon) {
-      this.manager = addon.getManager();
+    this.manager = addon.getManager();
   }
 
   @Subscribe
@@ -34,7 +34,7 @@ public class ServerNavigation {
     }
     if (!manager.isInPreLobby() && manager.hasLost()) {
       GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
-        manager.getGameStartTime());
+          manager.getGameStartTime());
       Laby.fireEvent(event);
     }
     this.manager.reset();
@@ -49,7 +49,7 @@ public class ServerNavigation {
     }
     if (!manager.isInPreLobby() && manager.hasLost()) {
       GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
-        manager.getGameStartTime());
+          manager.getGameStartTime());
       Laby.fireEvent(event);
     }
     manager.onServerSwitch();

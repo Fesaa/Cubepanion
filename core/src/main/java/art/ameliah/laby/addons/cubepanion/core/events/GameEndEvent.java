@@ -4,8 +4,8 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.event.Event;
 
 /**
- * Fired when a CubeGame ends, if possible.
- * May be fired due to winning, leaving the game, or quiting the server.
+ * Fired when a CubeGame ends, if possible. May be fired due to winning, leaving the game, or
+ * quiting the server.
  */
 public class GameEndEvent implements Event {
 
@@ -46,8 +46,9 @@ public class GameEndEvent implements Event {
   }
 
   /**
-   * Check this before you do anything that should happen on the server in which
-   * the game was played. (Send chat message, ...)
+   * Check this before you do anything that should happen on the server in which the game was
+   * played. (Send chat message, ...)
+   *
    * @return Whether the player has already switched servers
    */
   public boolean hasSwitchedServer() {

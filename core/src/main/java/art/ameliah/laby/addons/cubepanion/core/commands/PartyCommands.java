@@ -44,7 +44,11 @@ public class PartyCommands extends InjectedSubCommand {
       .append(this.helpComponent.apply("remake.first").color(Colours.Secondary))
       .append(this.helpComponent.apply("remake.middle").color(Colours.Primary)
           .decorate(TextDecoration.BOLD))
-      .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));  private final Task remakeTask = Task.builder(() -> {
+      .append(this.helpComponent.apply("remake.last").color(Colours.Secondary));
+  private final Component helpExtraComponent = Component.text("\n/party extra [command]",
+          Colours.Primary)
+      .clickEvent(ClickEvent.suggestCommand("/party extra "))
+      .append(this.helpComponent.apply("extra").color(Colours.Secondary));  private final Task remakeTask = Task.builder(() -> {
     if (!this.toRemake.isEmpty()) {
       String username = this.toRemake.get(0);
       this.toRemake.remove(0);
@@ -52,10 +56,6 @@ public class PartyCommands extends InjectedSubCommand {
       this.remakeTask.execute();
     }
   }).delay(500, TimeUnit.MILLISECONDS).build();
-  private final Component helpExtraComponent = Component.text("\n/party extra [command]",
-          Colours.Primary)
-      .clickEvent(ClickEvent.suggestCommand("/party extra "))
-      .append(this.helpComponent.apply("extra").color(Colours.Secondary));
   public PartyCommands(String prefix, Cubepanion addon) {
     super(prefix, "remake", "extra", "reinv", "reinvite");
 
@@ -108,15 +108,7 @@ public class PartyCommands extends InjectedSubCommand {
 
   private void missingArguments() {
     this.displayMessage(this.missingArgumentsComponent);
-  }  private final Task reInviteTask = Task.builder(() -> {
-    if (!this.toReInv.isEmpty()) {
-      String username = this.toReInv.get(0);
-      this.toReInv.remove(0);
-      this.chatExecutor.chat("/p kick " + username, false);
-      this.chatExecutor.chat("/p invite " + username, false);
-      this.reInviteTask.execute();
-    }
-  }).delay(500, TimeUnit.MILLISECONDS).build();
+  }
 
   private void helpCommand(String command) {
     Component helpComponent = this.helpTitleComponent.copy();
@@ -146,7 +138,15 @@ public class PartyCommands extends InjectedSubCommand {
       }
     }
     this.remakeTask.execute();
-  }
+  }  private final Task reInviteTask = Task.builder(() -> {
+    if (!this.toReInv.isEmpty()) {
+      String username = this.toReInv.get(0);
+      this.toReInv.remove(0);
+      this.chatExecutor.chat("/p kick " + username, false);
+      this.chatExecutor.chat("/p invite " + username, false);
+      this.reInviteTask.execute();
+    }
+  }).delay(500, TimeUnit.MILLISECONDS).build();
 
   private void reInviteCommand(String[] Usernames) {
     if (Usernames.length == 0) {

@@ -43,6 +43,10 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     this.items.addAll(items);
   }
 
+  protected void clearItems() {
+    this.items.clear();
+  }
+
   public void render(Stack stack, MutableMouse mouse, float partialTicks, boolean isEditorContext,
       HudSize size) {
     if ((items.isEmpty() && !isEditorContext) || stack == null) {
@@ -99,7 +103,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
           textWidth = Math.max(textWidth, text.getWidth());
         }
 
-        float textY = itemStackY + itemSize/2.0F - text.getHeight()/2.0F;
+        float textY = itemStackY + itemSize / 2.0F - text.getHeight() / 2.0F;
         componentRenderer
             .builder()
             .pos(textX, textY)
@@ -136,12 +140,12 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
 
       int itemStackX = (int) x;
       int itemStackY = 0;
-      itemStackRenderer.renderItemStack(stack, item.backingItemStack(),itemStackX, itemStackY);
+      itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
 
       if (renderName) {
         componentRenderer
             .builder()
-            .pos(itemStackX + itemSize/2.0F + (floatingPointPosition ? 0.5F : 0.0F),
+            .pos(itemStackX + itemSize / 2.0F + (floatingPointPosition ? 0.5F : 0.0F),
                 itemStackY + itemSize)
             .useFloatingPointPosition(floatingPointPosition)
             .centered(true)
@@ -157,7 +161,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     }
 
     float textOffSet = renderName ? componentRenderer.height() : 0.0F;
-    size.set(Math.max(x-segmentSpacing, segmentSpacing), itemSize + textOffSet);
+    size.set(Math.max(x - segmentSpacing, segmentSpacing), itemSize + textOffSet);
   }
 
 

@@ -4,9 +4,9 @@ import java.util.UUID;
 import net.labymod.api.event.Event;
 
 /**
- * Called when a player respawn (This is equivalent to a gamemode changes to survival)
- * Or the respawn message in case of the client player.
- * Look Out! This means that the client player has two RespawnEvents in EggWars per respawn.
+ * Called when a player respawn (This is equivalent to a gamemode changes to survival) Or the
+ * respawn message in case of the client player. Look Out! This means that the client player has two
+ * RespawnEvents in EggWars per respawn.
  */
 public class PlayerRespawnEvent implements Event {
 

@@ -144,3 +144,4 @@ gradle.properties
 .vscode
 .assetsroot
 /.idea/
+/packets.proto

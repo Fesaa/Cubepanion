@@ -13,11 +13,12 @@ import javax.inject.Singleton;
 public class ChestAPI {
 
   private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
-      ? "http://localhost"
+      ? "http://127.0.0.1"
       : "https://ameliah.art/cubepanion_api";
   private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
   private String Season = "";
+
   private ChestAPI() {
     if (instance != null) {
       throw new RuntimeException("Class already initialized");
@@ -56,10 +57,15 @@ public class ChestAPI {
             LOGGER.error(getClass(), throwable, "Could not load chest locations");
             return;
           }
+          if (chestLocations == null) {
+            LOGGER.error(getClass(), "Could not load chest locations. chestLocations is null");
+            return;
+
+          }
           setChestLocations(List.of(chestLocations));
         }).exceptionally(throwable -> {
-            LOGGER.error(getClass(), throwable, "Could not load chest locations");
-            return null;
+          LOGGER.error(getClass(), throwable, "Could not load chest locations");
+          return null;
         });
   }
 
@@ -70,7 +76,7 @@ public class ChestAPI {
             LOGGER.error(getClass(), throwable, "Could not update Cubepanion#season");
             return;
           }
-          if (seasons.length > 0) {
+          if (seasons != null && seasons.length > 0) {
             setSeason(seasons[0]);
           } else {
             setSeason("");

@@ -2,7 +2,6 @@ version = "0.1.0"
 
 plugins {
     id("java-library")
-    id("com.github.johnrengelman.shadow") version ("7.0.0")
 }
 
 dependencies {
@@ -16,6 +15,13 @@ dependencies {
     // You have to specify the repository, there are getters for maven central and sonatype, every
     // other repository has to be specified with their url. Example:
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
+
+    maven(mavenCentral(), "com.google.protobuf:protobuf-java:3.25.3")
+    maven(mavenCentral(), "io.netty:netty-codec-http:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-transport:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-buffer:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-common:4.1.107.Final")
+    maven(mavenCentral(), "io.netty:netty-handler:4.1.107.Final")
 }
 
 labyModProcessor {
@@ -25,17 +31,4 @@ labyModProcessor {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks {
-    shadowJar {
-        archiveClassifier.set("")
-        archiveBaseName.set("core")
-
-        dependencyFilter.exclude {
-            !(it.moduleGroup.startsWith("Cubepanion") || it.moduleGroup.equals("org.cubepanion"))
-        }
-    }
-
-    getByName("jar").finalizedBy("shadowJar")
 }

@@ -6,6 +6,8 @@ import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -16,12 +18,16 @@ import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 
 public class ScoreboardListener {
 
+  private static final Pattern DATE_SERVER_ID_REGEX = Pattern.compile(
+      "[0-9]{2}/[0-9]{2}/[0-9]{2} \\((.{5})\\)");
+
   private final Cubepanion addon;
   private final CubepanionManager manager;
 
   private String previousText;
   private boolean updatedMap;
   private boolean updatedDivision;
+  private boolean updatedServerID;
 
   public ScoreboardListener(Cubepanion addon) {
     this.addon = addon;
@@ -34,6 +40,28 @@ public class ScoreboardListener {
   @Subscribe
   public void onServerSwitch(SubServerSwitchEvent e) {
     updatedDivision = false;
+    updatedMap = false;
+    updatedServerID = false;
+  }
+
+  @Subscribe
+  public void serverIdTracker(ScoreboardTeamEntryAddEvent e) {
+    if (!this.addon.getManager().onCubeCraft() || updatedServerID) {
+      return;
+    }
+
+    List<Component> children = e.team().getPrefix().getChildren();
+    if (children.isEmpty()) {
+      return;
+    }
+
+    String t = ((TextComponent) children.get(0)).getText();
+    Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
+    if (matcher.matches()) {
+      String serverId = matcher.group(1);
+      this.manager.setServerID(serverId);
+      this.updatedServerID = true;
+    }
   }
 
   @Subscribe

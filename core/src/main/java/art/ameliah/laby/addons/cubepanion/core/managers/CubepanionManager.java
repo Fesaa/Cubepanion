@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.managers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
@@ -29,8 +30,11 @@ public class CubepanionManager implements Manager {
   private CubeGame division;
   private CubeGame lastDivision;
   private String mapName;
+  private String lastMapName;
   private String teamColour;
   private String rankString;
+  private String serverID;
+  private String lastServerID;
   private LoadedEggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
@@ -50,8 +54,11 @@ public class CubepanionManager implements Manager {
     this.division = CubeGame.NONE;
     this.lastDivision = CubeGame.NONE;
     this.mapName = "";
+    this.lastMapName = "";
     this.teamColour = "";
     this.rankString = "";
+    this.serverID = "";
+    this.lastServerID = "";
     this.currentEggWarsMap = null;
 
     this.eliminated = false;
@@ -80,7 +87,10 @@ public class CubepanionManager implements Manager {
     this.division = CubeGame.NONE;
     this.teamColour = "";
     this.mapName = "";
+    this.lastMapName = "";
     this.rankString = "";
+    this.serverID = "";
+    this.lastServerID = "";
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -94,11 +104,15 @@ public class CubepanionManager implements Manager {
   }
 
   public void onCubeJoin() {
+    Laby.fireEvent(new CubeJoinEvent());
     this.serverIP = "play.cubecraft.net";
     this.division = CubeGame.LOBBY;
     this.lastDivision = this.division;
     this.mapName = "Lobby";
+    this.lastMapName = this.mapName;
     this.teamColour = "";
+    this.rankString = "";
+    this.serverID = "";
     this.updateRankString();
 
     this.eliminated = false;
@@ -164,13 +178,6 @@ public class CubepanionManager implements Manager {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
-
-    GameUpdateEvent e = new GameUpdateEvent(
-        this.lastDivision,
-        this.division,
-        this.inPreLobby,
-        true);
-    Laby.fireEvent(e);
   }
 
   public boolean isPlaying(CubeGame game) {
@@ -186,8 +193,13 @@ public class CubepanionManager implements Manager {
   }
 
   public void setMapName(String mapName) {
+    this.lastMapName = this.mapName;
     this.mapName = mapName;
     this.currentEggWarsMap = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(mapName);
+  }
+
+  public String getLastMapName() {
+    return lastMapName;
   }
 
   public String getServerIP() {
@@ -231,4 +243,22 @@ public class CubepanionManager implements Manager {
     return fireballManager;
   }
 
+  public String getServerID() {
+    return serverID;
+  }
+
+  public void setServerID(String serverID) {
+    this.lastServerID = this.serverID;
+    this.serverID = serverID;
+    GameUpdateEvent e = new GameUpdateEvent(
+        this.lastDivision,
+        this.division,
+        this.inPreLobby,
+        true);
+    Laby.fireEvent(e);
+  }
+
+  public String getLastServerID() {
+    return lastServerID;
+  }
 }

@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.commands.PartyCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
@@ -27,6 +28,7 @@ import art.ameliah.laby.addons.cubepanion.core.managers.WidgetManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
@@ -39,6 +41,7 @@ import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.tag.PositionType;
 import net.labymod.api.models.addon.annotation.AddonMain;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @AddonMain
@@ -46,12 +49,14 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   private static Cubepanion instance;
   private CubepanionManager manager;
+  private CubeSocket socket;
 
   private VotingLink votingLink;
   private ChestFinderLink chestFinderLink;
   private LeaderboardTrackerLink leaderboardTrackerLink;
   private QOLMapSelectorLink qolMapSelectorLink;
   private FunctionLink functionLink;
+  private CodecLink codecLink;
 
   public Cubepanion() {
     instance = this;
@@ -78,12 +83,20 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
 
+    socket = new CubeSocket(
+        this,
+        labyAPI().minecraft().sessionAccessor(),
+        labyAPI().eventBus(),
+        labyAPI().notificationController());
+    registerListener(socket);
+
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     votingLink = storage.getVotingLink();
     leaderboardTrackerLink = storage.getLeaderboardTrackerLink();
     qolMapSelectorLink = storage.getQOLMapSelectorLink();
     chestFinderLink = storage.getChestFinderLink();
     functionLink = storage.getFunctionLink();
+    codecLink = storage.getCodecLink();
     if (votingLink == null) {
       LOGGER.warn(getClass(), "VotingLink is null. Some features will not work.");
     }
@@ -98,6 +111,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
     if (functionLink == null) {
       LOGGER.warn(getClass(), "FunctionLink is null. Some features will not work.");
+    }
+    if (codecLink == null) {
+      LOGGER.warn(getClass(), "CodecLink is null. Some features will not work.");
     }
 
     this.manager = new CubepanionManager(this);
@@ -170,6 +186,16 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @Nullable
   public FunctionLink getFunctionLink() {
     return functionLink;
+  }
+
+  @Nullable
+  public CodecLink getCodecLink() {
+    return codecLink;
+  }
+
+  @NotNull
+  public CubeSocket getSocket() {
+    return socket;
   }
 
   public void registerCubepanionListener(Object listener) {
