@@ -115,7 +115,7 @@ public class CubeSocket extends Service {
         long durationConnect = this.timeNextConnect - TimeUtil.getMillis();
 
         if (state != CubeSocketState.OFFLINE && durationKeepAlive > 25000L) {
-          disconnect(I18n.translate("cubepanion.cubesocket.protocol.disconnect.timeout"));
+          disconnect(I18n.translate("cubepanion.notifications.cubesocket.disconnect.timeout"));
         }
 
         if (state == CubeSocketState.OFFLINE && durationConnect < 0L) {
@@ -199,7 +199,7 @@ public class CubeSocket extends Service {
   @Subscribe
   public void onNetworkDisconnect(ServerDisconnectEvent e) {
     if (this.isConnected()) {
-      this.disconnect(I18n.translate("cubepanion.notifications.disconnect.server"));
+      this.disconnect(I18n.translate("cubepanion.notifications.cubesocket.disconnect.server"));
     }
   }
 
