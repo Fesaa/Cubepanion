@@ -26,8 +26,13 @@ import org.jetbrains.annotations.Nullable;
 public class LeaderboardAPI {
 
   private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
-      ? "http://127.0.0.1"
-      : "https://ameliah.art/cubepanion_api";
+      ? "http://127.0.0.1/cubepanion/leaderboard"
+      : "https://ameliah.art/cubepanion/leaderboard";
+
+  private static final String gamesBaseURL = System.getenv("CUBEPANION_DEV") != null
+      ? "http://127.0.0.1/cubepanion/games"
+      : "https://ameliah.art/cubepanion/games";
+
   private static LeaderboardAPI instance;
   private final HashMap<String, Leaderboard> converter = new HashMap<>();
 
@@ -49,8 +54,8 @@ public class LeaderboardAPI {
   public void loadLeaderboards() {
     // Players may be on non-active games, load all of them so ensure /lb commands
     // can display them correctly
-    String url2 = String.format("%s/leaderboard_api/games/false", baseURL);
-    CompletableFuture<JsonArray> completableFuture = makeRequest(url2, JsonArray.class);
+    String url = String.format("%s/false", gamesBaseURL);
+    CompletableFuture<JsonArray> completableFuture = makeRequest(url, JsonArray.class);
     completableFuture
         .whenComplete((leaderboards, throwable) -> {
           if (throwable != null) {
@@ -104,12 +109,9 @@ public class LeaderboardAPI {
     }
     main.add("entries", cachedEntries);
 
-    String url = baseURL + "/leaderboard_api";
-
     CompletableFuture<Integer> future = new CompletableFuture<>();
-
     Request.ofString()
-        .url(url)
+        .url(baseURL)
         .method(Method.POST)
         .addHeader("Content-Type", "application/json")
         .json(main)
@@ -172,7 +174,7 @@ public class LeaderboardAPI {
    * @return Array of LeaderboardRow's
    */
   public CompletableFuture<LeaderboardRow[]> getLeaderboardsForPlayer(String player) {
-    String url = String.format("%s/leaderboard_api/player/%s", baseURL, player);
+    String url = String.format("%s/player/%s", baseURL, player);
     return leaderBoardRowRequest(url);
   }
 
@@ -201,7 +203,7 @@ public class LeaderboardAPI {
       return CompletableFuture.failedFuture(
           new WeaveException("Upper bound must be higher than the lower bound"));
     }
-    String url = String.format("%s/leaderboard_api/leaderboard/%s/bounded?lower=%d&upper=%d",
+    String url = String.format("%s/game/%s/bounded?lower=%d&upper=%d",
         baseURL,
         game.displayName().replace(" ", "%20"), low, up);
     return leaderBoardRowRequest(url);

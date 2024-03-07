@@ -13,8 +13,8 @@ import javax.inject.Singleton;
 public class ChestAPI {
 
   private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
-      ? "http://127.0.0.1"
-      : "https://ameliah.art/cubepanion_api";
+      ? "http://127.0.0.1/cubepanion/chests"
+      : "https://ameliah.art/cubepanion/chests";
   private static ChestAPI instance;
   public List<ChestLocation> chestLocations = new ArrayList<>();
   private String Season = "";
@@ -94,7 +94,7 @@ public class ChestAPI {
    * @return Array of ChestLocation's
    */
   public CompletableFuture<ChestLocation[]> getCurrentChestLocations() {
-    String url = baseURL + "/chest_api/current";
+    String url = baseURL + "/";
     return makeRequest(url, ChestLocation[].class);
   }
 
@@ -105,7 +105,7 @@ public class ChestAPI {
    * @return Array of ChestLocation's
    */
   public CompletableFuture<ChestLocation[]> getChestLocationsForSeason(String season) {
-    String url = baseURL + "/chest_api/season/" + season;
+    String url = baseURL + "/" + season;
     return makeRequest(url, ChestLocation[].class);
   }
 
@@ -125,7 +125,7 @@ public class ChestAPI {
    * @return Array of seasons (String)
    */
   public CompletableFuture<String[]> getSeasons(SeasonType seasonType) {
-    String url = baseURL + "/chest_api/seasons/" + seasonType.bool();
+    String url = baseURL + "/seasons/" + seasonType.bool();
     return makeRequest(url, String[].class);
   }
 

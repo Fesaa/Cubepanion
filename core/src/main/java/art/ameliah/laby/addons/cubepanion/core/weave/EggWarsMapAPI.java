@@ -14,8 +14,8 @@ import net.labymod.api.client.component.Component;
 public class EggWarsMapAPI {
 
   private static final String baseURL = System.getenv("CUBEPANION_DEV") != null
-      ? "http://127.0.0.1"
-      : "https://ameliah.art/cubepanion_api";
+      ? "http://127.0.0.1/cubepanion/maps/"
+      : "https://ameliah.art/cubepanion/maps/";
   private static EggWarsMapAPI instance;
   private final HashMap<String, LoadedEggWarsMap> convertedEggWarsMaps = new HashMap<>();
 
@@ -82,9 +82,8 @@ public class EggWarsMapAPI {
    *
    * @return all EggWars maps
    */
-  public CompletableFuture<EggWarsMap[]> getAllEggWarsMaps() {
-    String url = baseURL + "/eggwars_map_api";
-    return makeRequest(url, EggWarsMap[].class);
+  public CompletableFuture<EggWarsMap[]> getAllEggWarsMaps() {;
+    return makeRequest(baseURL, EggWarsMap[].class);
   }
 
   /**
@@ -94,7 +93,7 @@ public class EggWarsMapAPI {
    * @return EggWars map
    */
   public CompletableFuture<EggWarsMap> getEggWarsMap(String name) {
-    String url = baseURL + "/eggwars_map_api/" + name;
+    String url = baseURL + name;
     return makeRequest(url, EggWarsMap.class);
   }
 

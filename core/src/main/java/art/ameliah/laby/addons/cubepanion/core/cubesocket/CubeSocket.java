@@ -59,10 +59,10 @@ public class CubeSocket extends Service {
 
   static {
     if (System.getenv("CUBEPANION_DEV") != null) {
-      host = "ws://127.0.0.1/ws/";
+      host = "ws://127.0.0.1/cubepanion/ws/";
       port = 80;
     } else {
-      host = "wss://ameliah.art/cubepanion_api/ws/";
+      host = "wss://ameliah.art/cubepanion/ws/";
       port = 443;
     }
   }
