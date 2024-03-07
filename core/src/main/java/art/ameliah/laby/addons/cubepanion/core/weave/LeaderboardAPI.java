@@ -111,7 +111,7 @@ public class LeaderboardAPI {
 
     CompletableFuture<Integer> future = new CompletableFuture<>();
     Request.ofString()
-        .url(baseURL)
+        .url(baseURL + "/")
         .method(Method.POST)
         .addHeader("Content-Type", "application/json")
         .json(main)
