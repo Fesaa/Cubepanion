@@ -24,7 +24,7 @@ public class State extends SubCommand {
   @Override
   public boolean execute(String s, String[] strings) {
     if (!addon.getManager().onCubeCraft()) {
-      //return false;
+      return false;
     }
 
     CubepanionManager manager = addon.getManager();
