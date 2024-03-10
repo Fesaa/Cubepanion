@@ -23,10 +23,13 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.util.Pair;
+import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Utils {
+
+  private static final Logging LOGGER = Logging.getLogger();
 
 
   public static <T> @NotNull Pair<Integer, Integer> getDoubleIndex(List<List<T>> list, T value) {
@@ -49,6 +52,13 @@ public class Utils {
 
   public static @Nullable LoadedEggWarsMap fromAPIMap(EggWarsMapAPI.EggWarsMap map) {
     Generator[] gens = map.generators();
+    if (gens == null) {
+      // Generators aren't that important. We don't want to entire map to fail if
+      // they're null for some reason. We can just ignore them.
+      gens = new Generator[0];
+      LOGGER.warn("Generators are null for map", map.map_name());
+    }
+
     List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
     for (Generator gen : gens) {
       MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()),
@@ -74,7 +84,7 @@ public class Utils {
             twoDeepStringList(transformColours(map)));
       }
       default -> {
-        LOGGER.error(Utils.class, "Unknown map layout", map.layout(), "for map", map.map_name());
+        LOGGER.error("Unknown map layout", map.layout(), "for map", map.map_name());
         return null;
       }
     }
@@ -105,8 +115,7 @@ public class Utils {
     try {
       array = (new Gson()).fromJson(map.colours(), JsonArray.class);
     } catch (JsonSyntaxException e) {
-      LOGGER.error(Utils.class, e, "Failed to parse colours for", map.map_name(),
-          " using empty list.");
+      LOGGER.error("Failed to parse colours for " +  map.map_name() + " using empty list.", e);
     }
     return array != null ? array : new JsonArray();
   }
@@ -135,7 +144,7 @@ public class Utils {
 
   public static void handleAPIError(Class<?> origin, Cubepanion addon, Throwable e,
       String msg, String keyError, String key) {
-    LOGGER.debug(origin, e, msg);
+    LOGGER.debug(origin.getCanonicalName() + " " +  msg, e);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
       addon.displayMessage(
           Component.translatable(keyError, Component.text(e.getMessage())).color(Colours.Error));
