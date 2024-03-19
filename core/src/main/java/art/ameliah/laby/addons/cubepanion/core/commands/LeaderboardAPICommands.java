@@ -4,6 +4,7 @@ import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.handleAPIError
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
@@ -14,6 +15,7 @@ import net.labymod.api.client.component.event.ClickEvent;
 import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
+import net.labymod.api.client.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class LeaderboardAPICommands extends Command {
@@ -34,6 +36,8 @@ public class LeaderboardAPICommands extends Command {
           .clickEvent(ClickEvent.runCommand("/lbmappings")))
       .append(Component.text(" [start]", Colours.Primary))
       .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary))
+      .append(Component.text("\n/leaderboardAPI players", Colours.Primary))
+      .append(Component.translatable(this.mainKey + "help.players", Colours.Secondary))
       .append(Component.newline());
   private long lastUsed = 0;
 
@@ -41,6 +45,63 @@ public class LeaderboardAPICommands extends Command {
     super("leaderboardAPI", "leaderboard", "lb");
     this.addon = addon;
     this.messagePrefix = addon.prefix();
+  }
+
+  private void displayPlayerRows(LeaderboardRow[]rows, Component title) {
+    if (rows == null) {
+      return;
+    }
+
+    if (rows.length == 0) {
+      displayMessage(
+          Component.translatable(this.mainKey + "noLeaderboards")
+          .color(Colours.Primary));
+      return;
+    }
+
+    Component toDisplay = title;
+
+    for (LeaderboardRow row : rows) {
+      toDisplay = toDisplay.append(
+          Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
+              Component.text(row.game().displayName()).color(Colours.Primary)
+                  .decorate(TextDecoration.BOLD),
+              Component.text(row.position()).color(Colours.Secondary),
+              Component.text(row.score()).color(Colours.Secondary),
+              Component.text(row.game().scoreType())
+          ).color(Colours.Success));
+    }
+
+    displayMessage(toDisplay);
+  }
+
+  private void batchLeaderboard() {
+    // Stream should be fine, it's only on command execution.
+    // It just looks so much cleaner :rolling_eyes:
+    String[] players = this.addon.labyAPI().minecraft().clientWorld().getPlayers()
+        .stream()
+        .map(Player::getName)
+        .toList()
+        .toArray(new String[0]);
+
+    CubeGame game = this.addon.getManager().getDivision();
+    LeaderboardAPI.getInstance()
+        .getLeaderboardForPlayers(game, players)
+        .exceptionally(throwable -> {
+          handleAPIError(getClass(), addon, throwable,
+              "Encountered an exception while getting getLeaderboardsForPlayer",
+              this.mainKey + "APIError_info",
+              this.mainKey + "APIError");
+          return null;
+        })
+        .thenAcceptAsync(rows -> {
+          Component title = Component.translatable(this.mainKey + "leaderboards.title.game",
+                  Component.text(rows.length, Colours.Secondary),
+                  Component.text(game.getString(), Colours.Secondary).decorate(TextDecoration.BOLD))
+              .color(Colours.Primary);
+          this.displayPlayerRows(rows, title);
+        })
+        .exceptionally(this::handleError);
   }
 
   private void playerLeaderboards(String userName) {
@@ -61,37 +122,13 @@ public class LeaderboardAPICommands extends Command {
           return null;
         })
         .thenAcceptAsync(rows -> {
-          if (rows == null) {
-            return;
-          }
-
-          if (rows.length == 0) {
-            displayMessage(
-                Component.translatable(this.mainKey + "noLeaderboards",
-                        Component.text(userName, Colours.Secondary).decorate(TextDecoration.BOLD))
-                    .color(Colours.Primary));
-            return;
-          }
-
-          Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-                  Component.text(rows[0].player(),
-                      Colours.Secondary).decorate(TextDecoration.BOLD),
+          Component title = Component.translatable(this.mainKey + "leaderboards.title.player",
+                  Component.text(rows[0].player(), Colours.Secondary).decorate(TextDecoration.BOLD),
                   Component.text(rows.length, Colours.Secondary))
               .color(Colours.Primary);
-
-          for (LeaderboardRow row : rows) {
-            toDisplay = toDisplay.append(
-                Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-                    Component.text(row.game().displayName()).color(Colours.Primary)
-                        .decorate(TextDecoration.BOLD),
-                    Component.text(row.position()).color(Colours.Secondary),
-                    Component.text(row.score()).color(Colours.Secondary),
-                    Component.text(row.game().scoreType())
-                ).color(Colours.Success));
-          }
-
-          displayMessage(toDisplay);
-        }).exceptionally(this::handleError);
+          this.displayPlayerRows(rows, title);
+        })
+        .exceptionally(this::handleError);
   }
 
   private void gameLeaderboard(String last, Leaderboard leaderboard) {
@@ -163,7 +200,7 @@ public class LeaderboardAPICommands extends Command {
     }
 
     long now = System.currentTimeMillis();
-    if (now - this.lastUsed < 5000) {
+    if (now - this.lastUsed < 2000) {
       displayMessage(Component.translatable(this.mainKey + "coolDown",
           Component.text(5 - (now - this.lastUsed) / 1000,
               NamedTextColor.DARK_RED)).color(Colours.Error));
@@ -174,6 +211,20 @@ public class LeaderboardAPICommands extends Command {
     Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
 
     if (arguments.length == 1 && leaderboard == null) { // User leaderboards
+      boolean allowBatch = true;
+      allowBatch &= !this.addon.getManager().isInPreLobby();
+      allowBatch &= LeaderboardAPI.getInstance()
+          .getLeaderboard(this.addon.getManager().getDivision().getString()) != null;
+
+      if (arguments[0].equalsIgnoreCase("players")) {
+        if (allowBatch) {
+          batchLeaderboard();
+        } else {
+          this.displayMessage(Component.translatable(this.mainKey + "noBatch", Colours.Error));
+        }
+        return true;
+      }
+
       playerLeaderboards(arguments[0]);
       return true;
     }
@@ -205,7 +256,7 @@ public class LeaderboardAPICommands extends Command {
 
   private Void handleError(Throwable throwable) {
     handleAPIError(getClass(), addon, throwable,
-        "Encountered an exception while getting getLeaderboardsForPlayer",
+        "Encountered an exception during command execution",
         this.mainKey + "APIError_info",
         this.mainKey + "APIError");
     return null;

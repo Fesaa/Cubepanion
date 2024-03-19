@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.weave;
 
 import static art.ameliah.laby.addons.cubepanion.core.weave.Utils.makeRequest;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -145,11 +146,21 @@ public class LeaderboardAPI {
   }
 
   private CompletableFuture<LeaderboardRow[]> leaderBoardRowRequest(String url) {
+    return leaderBoardRowRequest(url, null);
+  }
+
+  private CompletableFuture<LeaderboardRow[]> leaderBoardRowRequest(String url, Object json) {
     CompletableFuture<LeaderboardRow[]> completableFuture = new CompletableFuture<>();
 
-    Request.ofString()
+    Request<String> request = Request.ofString()
         .url(url)
-        .async()
+        .async();
+
+    if (json != null) {
+      request.json(json);
+    }
+
+    request
         .execute(c -> {
           WeaveException e = WeaveException.fromResponse(c, 200, true);
           if (e != null) {
@@ -165,6 +176,20 @@ public class LeaderboardAPI {
           }
         });
     return completableFuture;
+  }
+
+  public CompletableFuture<LeaderboardRow[]> getLeaderboardForPlayers(CubeGame game, String[] players) {
+    String url = String.format("%s/batch", baseURL);
+
+    JsonObject main = new JsonObject();
+    main.addProperty("game", game.getString());
+    JsonArray playersArray = new JsonArray();
+    for (String player : players) {
+      playersArray.add(player);
+    }
+    main.add("players", playersArray);
+
+    return leaderBoardRowRequest(url, main);
   }
 
   /**
