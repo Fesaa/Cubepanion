@@ -534,29 +534,6 @@
       "EggWarsMapInfoCommand": {
         "mapNotFound": "Could not find map with name %s"
       },
-      "OnlineFriendTrackerCommand": {
-        "error": {
-          "notTrackingAnyOneSuggestion": "Currently not tracking anyone. Track someone with ",
-          "notTrackingAnyOne": "Currently not tracking anyone.",
-          "notAnInteger": "Second argument is not an integer.",
-          "notAValidCommand": "Not a recognised option! /tracker (un)track/interval [username|number]"
-        },
-        "success": {
-          "currentlyTracking": "Currently tracking: ",
-          "clickToUntrack": "Click to untrack: ",
-          "intervalLengthResponse": "Currently checking each %s seconds.",
-          "setIntervalTo": "Set checking interval to %s",
-          "startedTracking": "Started tracking: ",
-          "stoppedTracking": "Stopped tracking: "
-        },
-        "helpCommand": {
-          "title": "------- Friend Tracker Commands -------\n",
-          "description": "Track your friends movements through CubeCraft. Checks the friends list every n seconds for updates.",
-          "track": " - Display everyone you're currently tracking, or add new friends to be tracked.",
-          "untrack": " - Display everyone you're currently tracking, click to untrack. Or remove friends.",
-          "interval": " - Set update interval, min 10."
-        }
-      },
       "PartyCommands": {
         "error": {
           "noPermissions": "You need to be party owner to use this command.",
@@ -669,7 +646,7 @@
           "invalidLeaderBoard": "Did not find a leaderboard in your command. %s",
           "invalidNumber": "%s is not a valid number. Must be between 1 and 200.",
           "invalidResponse": "The API returned invalid data as a response. Please try again later. (Contact Fesa if this persists)",
-          "noLeaderboards": "%s has no recorded leaderboards. :(",
+          "noLeaderboards": "No recorded leaderboards. :(",
           "noPlayers": "No players where found for %s between places %s and %s.",
           "leaderboards": {
             "title": "All recorded leaderboards for %s {%s}:",
@@ -686,7 +663,8 @@
             "player": " - Get all leaderboards of a player",
             "leaderboard": " - Get players from a game's leaderboards in range [start, start+10]. Defaults to 1.",
             "clickForMore": "Click to display leaderboard mappings",
-            "lbmappings": "All leaderboards with their accepted abrasions\n"
+            "lbmappings": "All leaderboards with their accepted abrasions\n",
+            "players": " Get leaderboard places for players in your current game, for this game."
           }
         }
       }
