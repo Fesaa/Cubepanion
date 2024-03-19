@@ -648,8 +648,12 @@
           "invalidResponse": "The API returned invalid data as a response. Please try again later. (Contact Fesa if this persists)",
           "noLeaderboards": "No recorded leaderboards. :(",
           "noPlayers": "No players where found for %s between places %s and %s.",
+          "noBatch": "Leaderboard for all players may only be requested in running games.",
           "leaderboards": {
-            "title": "All recorded leaderboards for %s {%s}:",
+            "title": {
+              "player": "All recorded leaderboards for %s {%s}:",
+              "game": "%s player(s) on the %s leaderboard:"
+            },
             "leaderboardInfo": "\n- %s {%s}: %s %s"
           },
           "places": {

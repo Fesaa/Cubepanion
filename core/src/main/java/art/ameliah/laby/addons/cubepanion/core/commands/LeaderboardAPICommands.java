@@ -4,6 +4,7 @@ import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.handleAPIError
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
@@ -46,7 +47,7 @@ public class LeaderboardAPICommands extends Command {
     this.messagePrefix = addon.prefix();
   }
 
-  private void displayPlayerRows(LeaderboardRow[]rows) {
+  private void displayPlayerRows(LeaderboardRow[]rows, Component title) {
     if (rows == null) {
       return;
     }
@@ -58,11 +59,7 @@ public class LeaderboardAPICommands extends Command {
       return;
     }
 
-    Component toDisplay = Component.translatable(this.mainKey + "leaderboards.title",
-            Component.text(rows[0].player(),
-                Colours.Secondary).decorate(TextDecoration.BOLD),
-            Component.text(rows.length, Colours.Secondary))
-        .color(Colours.Primary);
+    Component toDisplay = title;
 
     for (LeaderboardRow row : rows) {
       toDisplay = toDisplay.append(
@@ -87,8 +84,9 @@ public class LeaderboardAPICommands extends Command {
         .toList()
         .toArray(new String[0]);
 
+    CubeGame game = this.addon.getManager().getDivision();
     LeaderboardAPI.getInstance()
-        .getLeaderboardForPlayers(this.addon.getManager().getDivision(), players)
+        .getLeaderboardForPlayers(game, players)
         .exceptionally(throwable -> {
           handleAPIError(getClass(), addon, throwable,
               "Encountered an exception while getting getLeaderboardsForPlayer",
@@ -96,7 +94,13 @@ public class LeaderboardAPICommands extends Command {
               this.mainKey + "APIError");
           return null;
         })
-        .thenAcceptAsync(this::displayPlayerRows)
+        .thenAcceptAsync(rows -> {
+          Component title = Component.translatable(this.mainKey + "leaderboards.title.game",
+                  Component.text(rows.length, Colours.Secondary),
+                  Component.text(game.getString(), Colours.Secondary).decorate(TextDecoration.BOLD))
+              .color(Colours.Primary);
+          this.displayPlayerRows(rows, title);
+        })
         .exceptionally(this::handleError);
   }
 
@@ -117,7 +121,13 @@ public class LeaderboardAPICommands extends Command {
               this.mainKey + "APIError");
           return null;
         })
-        .thenAcceptAsync(this::displayPlayerRows)
+        .thenAcceptAsync(rows -> {
+          Component title = Component.translatable(this.mainKey + "leaderboards.title.player",
+                  Component.text(rows[0].player(), Colours.Secondary).decorate(TextDecoration.BOLD),
+                  Component.text(rows.length, Colours.Secondary))
+              .color(Colours.Primary);
+          this.displayPlayerRows(rows, title);
+        })
         .exceptionally(this::handleError);
   }
 
@@ -190,7 +200,7 @@ public class LeaderboardAPICommands extends Command {
     }
 
     long now = System.currentTimeMillis();
-    if (now - this.lastUsed < 5000) {
+    if (now - this.lastUsed < 2000) {
       displayMessage(Component.translatable(this.mainKey + "coolDown",
           Component.text(5 - (now - this.lastUsed) / 1000,
               NamedTextColor.DARK_RED)).color(Colours.Error));
@@ -201,8 +211,17 @@ public class LeaderboardAPICommands extends Command {
     Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
 
     if (arguments.length == 1 && leaderboard == null) { // User leaderboards
+      boolean allowBatch = true;
+      allowBatch &= !this.addon.getManager().isInPreLobby();
+      allowBatch &= LeaderboardAPI.getInstance()
+          .getLeaderboard(this.addon.getManager().getDivision().getString()) != null;
+
       if (arguments[0].equalsIgnoreCase("players")) {
-        batchLeaderboard();
+        if (allowBatch) {
+          batchLeaderboard();
+        } else {
+          this.displayMessage(Component.translatable(this.mainKey + "noBatch", Colours.Error));
+        }
         return true;
       }
 
