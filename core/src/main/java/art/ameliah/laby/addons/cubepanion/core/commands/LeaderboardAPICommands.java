@@ -17,6 +17,7 @@ import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
+import java.util.function.Function;
 
 public class LeaderboardAPICommands extends Command {
 
@@ -47,7 +48,7 @@ public class LeaderboardAPICommands extends Command {
     this.messagePrefix = addon.prefix();
   }
 
-  private void displayPlayerRows(LeaderboardRow[]rows, Component title) {
+  private void displayPlayerRows(LeaderboardRow[]rows, Component title, Function<LeaderboardRow, String> f) {
     if (rows == null) {
       return;
     }
@@ -64,7 +65,7 @@ public class LeaderboardAPICommands extends Command {
     for (LeaderboardRow row : rows) {
       toDisplay = toDisplay.append(
           Component.translatable(this.mainKey + "leaderboards.leaderboardInfo",
-              Component.text(row.game().displayName()).color(Colours.Primary)
+              Component.text(f.apply(row)).color(Colours.Primary)
                   .decorate(TextDecoration.BOLD),
               Component.text(row.position()).color(Colours.Secondary),
               Component.text(row.score()).color(Colours.Secondary),
@@ -99,7 +100,7 @@ public class LeaderboardAPICommands extends Command {
                   Component.text(rows.length, Colours.Secondary),
                   Component.text(game.getString(), Colours.Secondary).decorate(TextDecoration.BOLD))
               .color(Colours.Primary);
-          this.displayPlayerRows(rows, title);
+          this.displayPlayerRows(rows, title, LeaderboardRow::player);
         })
         .exceptionally(this::handleError);
   }
@@ -126,7 +127,7 @@ public class LeaderboardAPICommands extends Command {
                   Component.text(rows[0].player(), Colours.Secondary).decorate(TextDecoration.BOLD),
                   Component.text(rows.length, Colours.Secondary))
               .color(Colours.Primary);
-          this.displayPlayerRows(rows, title);
+          this.displayPlayerRows(rows, title, row -> row.game().displayName());
         })
         .exceptionally(this::handleError);
   }
