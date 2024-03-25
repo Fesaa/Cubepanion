@@ -5,17 +5,17 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketConnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketUtils;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLogin;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPacket;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPerkUpdatePacket;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPingPacket;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +36,7 @@ public class CubeSocketSession extends PacketHandler {
   private int keepAlivesSent = 0;
   private int keepAlivesReceived = 0;
 
-  public CubeSocketSession(CubeSocket socket, WebSocketClientHandshaker handshaker,
-      SessionAccessor sessionAccessor, CodecLink codecLink) {
-    super(handshaker);
+  public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor, CodecLink codecLink) {
     this.socket = socket;
     this.sessionAccessor = sessionAccessor;
     this.codecLink = codecLink;
@@ -61,13 +59,7 @@ public class CubeSocketSession extends PacketHandler {
   }
 
   @Override
-  protected void handle(S2CPacket packet) {
-    super.handle(packet);
-    this.socket.keepAlive();
-  }
-
-  @Override
-  protected void handle(S2CPerkUpdatePacket packet) {
+  public void handle(PacketPerkUpdate packet) {
     if (sessionAccessor.getSession() == null) {
       return;
     }
@@ -77,35 +69,51 @@ public class CubeSocketSession extends PacketHandler {
 
     // Ignore updates from ourselves, the LoadPerkEvent has already fired
     UUID uuid = sessionAccessor.getSession().getUniqueId();
-    if (packet.getUuid().equals(uuid.toString())) {
+    if (packet.getSender().equals(uuid)) {
       return;
     }
 
-    List<ItemStack> perks = new ArrayList<>(packet.getPerksList().size());
-    for (String perk : packet.getPerksList()) {
+    List<ItemStack> perks = new ArrayList<>(packet.getPerks().length);
+    for (String perk : packet.getPerks()) {
       JsonObject json = gson.fromJson(perk, JsonObject.class);
       Optional<ItemStack> stack = codecLink.decode(json);
       stack.ifPresent(perks::add);
     }
 
-    PerkCategory category = PerkCategory.fromProtoCategory(packet.getCategory());
-    this.socket.fireEventSync(new PerkLoadEvent(category, perks, true));
+    this.socket.fireEventSync(new PerkLoadEvent(packet.getPerkCategory(), perks, true));
   }
 
   @Override
-  protected void handle(S2CPingPacket packet) {
-    if (socket.getState() != CubeSocketState.CONNECTED) {
-      socket.updateState(CubeSocketState.CONNECTED);
-      socket.fireEventSync(new CubeSocketConnectEvent());
+  public void handle(PacketHelloPong packet) {
+    this.socket.updateState(CubeSocketState.LOGIN);
+    UUID uuid;
+    if (this.sessionAccessor.getSession() != null) {
+      uuid = this.sessionAccessor.getSession().getUniqueId();
+    } else {
+      uuid = UUID.randomUUID();
     }
+
+    this.socket.sendPacket(new PacketLogin(uuid));
+  }
+
+  @Override
+  public void handle(PacketPong packet) {
     this.keepAlivesReceived++;
+    this.socket.keepAlive();
 
     Laby.labyAPI()
         .taskExecutor()
         .getScheduledPool()
         .schedule(() -> {
-          this.socket.sendPacket(PacketUtils.PingPacket());
+          this.socket.sendPacket(new PacketPing());
           this.keepAlivesSent++;
         },5L, TimeUnit.SECONDS);
+  }
+
+  @Override
+  public void handle(PacketLoginComplete packet) {
+    this.socket.updateState(CubeSocketState.CONNECTED);
+    socket.fireEventSync(new CubeSocketConnectEvent());
+    this.socket.sendPacket(new PacketPing());
   }
 }

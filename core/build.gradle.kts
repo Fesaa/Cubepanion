@@ -6,7 +6,6 @@ plugins {
 
 dependencies {
     api(project(":api"))
-    shade(files("../libs/weave.jar"))
 
     // If you want to use external libraries, you can do that here.
     // The dependencies that are specified here are loaded into your project but will also
@@ -16,12 +15,7 @@ dependencies {
     // other repository has to be specified with their url. Example:
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
 
-    maven(mavenCentral(), "com.google.protobuf:protobuf-java:3.25.3")
-    maven(mavenCentral(), "io.netty:netty-codec-http:4.1.107.Final")
-    maven(mavenCentral(), "io.netty:netty-transport:4.1.107.Final")
-    maven(mavenCentral(), "io.netty:netty-buffer:4.1.107.Final")
-    maven(mavenCentral(), "io.netty:netty-common:4.1.107.Final")
-    maven(mavenCentral(), "io.netty:netty-handler:4.1.107.Final")
+    compileOnly("io.netty:netty-all:4.0.23.Final")
 }
 
 labyModProcessor {

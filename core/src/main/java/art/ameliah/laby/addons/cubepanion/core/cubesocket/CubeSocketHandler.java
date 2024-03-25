@@ -1,41 +1,40 @@
 package art.ameliah.laby.addons.cubepanion.core.cubesocket;
 
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.pipeline.PacketDecoder;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.pipeline.PacketEncoder;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.pipeline.PacketPrepender;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.pipeline.PacketSplitter;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.http.HttpClientCodec;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
-import io.netty.handler.ssl.SslContext;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import java.util.concurrent.TimeUnit;
 
-public class CubeSocketHandler extends ChannelInitializer<SocketChannel> {
+public class CubeSocketHandler extends ChannelInitializer<NioSocketChannel> {
 
   private final CubeSocket cubeSocket;
   private final PacketHandler handler;
-  private final SslContext sslCtx;
 
-  private SocketChannel channel;
+  private NioSocketChannel channel;
 
-  public CubeSocketHandler(CubeSocket cubeSocket, PacketHandler handler, SslContext sslCtx) {
+  public CubeSocketHandler(CubeSocket cubeSocket, PacketHandler handler) {
     this.cubeSocket = cubeSocket;
     this.handler = handler;
-    this.sslCtx = sslCtx;
   }
 
   @Override
-  protected void initChannel(SocketChannel channel) throws Exception {
+  protected void initChannel(NioSocketChannel channel) {
     this.channel = channel;
-    if (sslCtx != null) {
-      this.channel.pipeline().addLast(sslCtx.newHandler(channel.alloc(), cubeSocket.getHost(), cubeSocket.getPort()));
-    }
     channel.pipeline()
-        .addLast(new HttpClientCodec())
-        .addLast(new HttpObjectAggregator(8192))
-        .addLast(WebSocketClientCompressionHandler.INSTANCE)
+        .addLast("timeout", new ReadTimeoutHandler(30L, TimeUnit.SECONDS))
+        .addLast("splitter", new PacketSplitter())
+        .addLast("decoder", new PacketDecoder(this.cubeSocket))
+        .addLast("prepender", new PacketPrepender())
+        .addLast("encoder", new PacketEncoder(this.cubeSocket))
         .addLast(this.handler);
   }
 
-  public SocketChannel getChannel() {
+  public NioSocketChannel getChannel() {
     return this.channel;
   }
 }

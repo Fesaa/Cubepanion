@@ -3,7 +3,6 @@ package art.ameliah.laby.addons.cubepanion.core.events;
 import java.util.List;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Event;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PerkLoadEvent implements Event {
@@ -45,18 +44,18 @@ public class PerkLoadEvent implements Event {
 
 
   public enum PerkCategory {
-    PERSONAL("difficulty_easy",
-        art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory.PERSONAL),
-    TEAM("difficulty_medium", art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory.TEAM),
-    GAME("difficulty_plus", art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory.GAME);
+    PERSONAL("difficulty_easy"),
+    TEAM("difficulty_medium"),
+    GAME("difficulty_plus");
 
     private final String CubeTapItemVariant;
-    private final art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory protoCategory;
 
-    PerkCategory(String CubeTapItemVariant,
-        art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory protoCategory) {
+    PerkCategory(String CubeTapItemVariant) {
       this.CubeTapItemVariant = CubeTapItemVariant;
-      this.protoCategory = protoCategory;
+    }
+
+    public String getCubeTapItemVariant() {
+      return CubeTapItemVariant;
     }
 
     @Nullable
@@ -67,22 +66,6 @@ public class PerkLoadEvent implements Event {
         }
       }
       return null;
-    }
-
-    @NotNull
-    public static PerkCategory fromProtoCategory(
-        art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory protoCategory) {
-      for (PerkCategory category : values()) {
-        if (category.protoCategory == protoCategory) {
-          return category;
-        }
-      }
-      throw new IllegalArgumentException(
-          "No PerkCategory found for proto category " + protoCategory);
-    }
-
-    public art.ameliah.laby.addons.cubepanion.core.proto.PerkCategory getProtoCategory() {
-      return protoCategory;
     }
   }
 

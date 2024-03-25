@@ -1,109 +1,38 @@
 package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol;
 
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPacket;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPerkUpdatePacket;
-import art.ameliah.laby.addons.cubepanion.core.proto.S2CPingPacket;
-import com.google.protobuf.InvalidProtocolBufferException;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakeException;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import io.netty.util.concurrent.Promise;
 import net.labymod.api.util.logging.Logging;
 
 public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> {
 
   protected static final Logging LOGGER = Logging.create(PacketHandler.class);
-  private final WebSocketClientHandshaker handshaker;
-  private Promise<Void> handshakeFuture;
 
-  public PacketHandler(WebSocketClientHandshaker handshaker) {
-    this.handshaker = handshaker;
+  protected void channelRead0(ChannelHandlerContext ctx, Object packet) {
+    this.handlePacket((Packet)packet);
   }
 
-  public Promise<Void> getHandshakeFuture() {
-    return handshakeFuture;
+  protected void handlePacket(Packet packet) {
+    packet.handle(this);
   }
 
-  @Override
-  public void handlerAdded(ChannelHandlerContext ctx) {
-    handshakeFuture = ctx.newPromise();
-  }
-
-  @Override
-  public void channelActive(ChannelHandlerContext ctx) {
-    handshaker.handshake(ctx.channel());
-  }
-
-  @Override
-  public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-    if (!handshaker.isHandshakeComplete()) {
-      try {
-        handshaker.finishHandshake(ctx.channel(), (FullHttpResponse) msg);
-        handshakeFuture.setSuccess(null);
-      } catch (WebSocketClientHandshakeException e) {
-        handshakeFuture.setFailure(e);
-        Logging.getLogger().error("WebSocket Client failed to connect!", e);
-      }
-      return;
-    }
-
-    if (msg instanceof FullHttpResponse response) {
-      throw new IllegalStateException(
-          "Unexpected FullHttpResponse (getStatus=" + response.status() + ", content="
-              + response.content().toString(io.netty.util.CharsetUtil.UTF_8) + ')');
-    }
-
-    WebSocketFrame frame = (WebSocketFrame) msg;
-    if (frame instanceof BinaryWebSocketFrame binaryFrame) {
-      handle(ctx, binaryFrame);
-    }else if (frame instanceof CloseWebSocketFrame) {
-      ctx.close();
-    }
-  }
-
-  @Override
-  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    super.exceptionCaught(ctx, cause);
     cause.printStackTrace();
-    if (!handshakeFuture.isDone()) {
-      handshakeFuture.setFailure(cause);
-    }
-    ctx.close();
   }
 
-  private void handle(ChannelHandlerContext ctx, BinaryWebSocketFrame frame) {
-    try {
-      S2CPacket packet = S2CPacket.parseFrom(frame.content().nioBuffer());
-      handle(packet);
-    } catch (InvalidProtocolBufferException e) {
-      LOGGER.warn("[CUBESOCKET] [IN] Failed to read packet", e);
-    }
-  }
 
-  protected void handle(S2CPacket packet) {
-    if (!packet.hasPing()) {
-      LOGGER.debug("[CUBESOCKET] [IN] "
-          + packet.getPacketCase().getNumber()
-          + " "
-          + packet.getPacketCase().name());
-    }
+  public abstract void handle(PacketPong packet);
 
-    switch (packet.getPacketCase()) {
-      case UPDATEPERK -> handle(packet.getUpdatePerk());
-      case PING -> handle(packet.getPing());
+  public abstract void handle(PacketPerkUpdate packet);
 
-      default -> LOGGER.warn("[CUBESOCKET] [IN] Unknown packet type: "
-          + packet.getPacketCase().getNumber()
-          + " "
-          + packet.getPacketCase().name());
-    }
-  }
+  public abstract void handle(PacketHelloPong packet);
 
-  protected abstract void handle(S2CPerkUpdatePacket packet);
+  public abstract void handle(PacketLoginComplete packet);
 
-  protected abstract void handle(S2CPingPacket packet);
+
 }
