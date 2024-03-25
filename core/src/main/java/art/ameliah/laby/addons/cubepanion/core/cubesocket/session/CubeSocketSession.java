@@ -20,15 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import net.labymod.api.Laby;
 import net.labymod.api.client.session.SessionAccessor;
 import net.labymod.api.client.world.item.ItemStack;
+import net.labymod.api.concurrent.ThreadFactoryBuilder;
 import net.labymod.api.util.I18n;
 
 public class CubeSocketSession extends PacketHandler {
 
   private static final Gson gson = new Gson();
+  private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1,
+      (new ThreadFactoryBuilder()).withNameFormat("CubeSocketSessionExecutor#d").build());
   private final CubeSocket socket;
   private final SessionAccessor sessionAccessor;
   private final CodecLink codecLink;
@@ -103,13 +107,10 @@ public class CubeSocketSession extends PacketHandler {
     this.keepAlivesReceived++;
     this.socket.keepAlive();
 
-    Laby.labyAPI()
-        .taskExecutor()
-        .getScheduledPool()
-        .schedule(() -> {
-          this.socket.sendPacket(new PacketPing());
-          this.keepAlivesSent++;
-        }, 5L, TimeUnit.SECONDS);
+    this.executorService.schedule(() -> {
+      this.socket.sendPacket(new PacketPing());
+      this.keepAlivesSent++;
+    }, 5L, TimeUnit.SECONDS);
   }
 
   @Override
