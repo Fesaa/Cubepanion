@@ -38,7 +38,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
     packet.read(packetBuffer);
     if (byteBuf.readableBytes() > 0) {
       String packetName = packet.getClass().getSimpleName();
-      throw new IOException("Packet " + packetName + " (" + id + ") was larger than I expected, found " + byteBuf.readableBytes() + " bytes extra whilst reading packet " + packet );
+      throw new IOException(
+          "Packet " + packetName + " (" + id + ") was larger than I expected, found "
+              + byteBuf.readableBytes() + " bytes extra whilst reading packet " + packet);
     }
 
     objects.add(packet);

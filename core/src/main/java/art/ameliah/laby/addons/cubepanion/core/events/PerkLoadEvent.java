@@ -54,10 +54,6 @@ public class PerkLoadEvent implements Event {
       this.CubeTapItemVariant = CubeTapItemVariant;
     }
 
-    public String getCubeTapItemVariant() {
-      return CubeTapItemVariant;
-    }
-
     @Nullable
     public static PerkCategory fromCubeTapItemVariant(String CubeTapItemVariant) {
       for (PerkCategory category : values()) {
@@ -66,6 +62,10 @@ public class PerkLoadEvent implements Event {
         }
       }
       return null;
+    }
+
+    public String getCubeTapItemVariant() {
+      return CubeTapItemVariant;
     }
   }
 

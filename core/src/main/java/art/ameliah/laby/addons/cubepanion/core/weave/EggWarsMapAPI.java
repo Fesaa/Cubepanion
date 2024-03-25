@@ -85,7 +85,8 @@ public class EggWarsMapAPI {
    *
    * @return all EggWars maps
    */
-  public CompletableFuture<EggWarsMap[]> getAllEggWarsMaps() {;
+  public CompletableFuture<EggWarsMap[]> getAllEggWarsMaps() {
+    ;
     return makeRequest(baseURL, EggWarsMap[].class);
   }
 

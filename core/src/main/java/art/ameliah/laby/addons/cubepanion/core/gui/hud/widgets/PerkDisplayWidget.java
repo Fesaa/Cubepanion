@@ -20,6 +20,7 @@ import net.labymod.api.event.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
+
   private final PerkCategory category;
 
   public PerkDisplayWidget(HudWidgetCategory hudWidgetCategory, PerkCategory category) {

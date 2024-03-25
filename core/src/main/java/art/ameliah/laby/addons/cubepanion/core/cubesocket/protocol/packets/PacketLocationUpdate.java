@@ -30,8 +30,10 @@ public class PacketLocationUpdate extends Packet {
     String map = Cubepanion.get().getManager().getMapName().toLowerCase().replace(" ", "_");
     String lastMap = Cubepanion.get().getManager().getLastMapName().toLowerCase().replace(" ", "_");
 
-    this.origin= e.getOrigin().getString().toLowerCase().replace(" ", "_") + "-" + lastMap + "-" + lastServerID;
-    this.destination = e.getDestination().getString().toLowerCase().replace(" ", "_") + "-" + map + "-" + serverID;
+    this.origin = e.getOrigin().getString().toLowerCase().replace(" ", "_") + "-" + lastMap + "-"
+        + lastServerID;
+    this.destination =
+        e.getDestination().getString().toLowerCase().replace(" ", "_") + "-" + map + "-" + serverID;
     this.preLobby = e.isPreLobby();
   }
 

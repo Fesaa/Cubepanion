@@ -26,7 +26,7 @@ public abstract class LoadedEggWarsMap {
   }
 
   protected static Component spaceMaker(int n) {
-    return Component.text(" " .repeat(Math.max(0, n)));
+    return Component.text(" ".repeat(Math.max(0, n)));
   }
 
   public int getBuildLimit() {

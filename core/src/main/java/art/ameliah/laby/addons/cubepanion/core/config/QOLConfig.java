@@ -20,7 +20,8 @@ public class QOLConfig extends Config {
   private final ConfigProperty<Boolean> levelTag = new ConfigProperty<>(false);
 
   @DropdownSetting
-  private final ConfigProperty<DisplayLocation> levelTagDisplayLocation = new ConfigProperty<>(DisplayLocation.BOTH);
+  private final ConfigProperty<DisplayLocation> levelTagDisplayLocation = new ConfigProperty<>(
+      DisplayLocation.BOTH);
 
   @SwitchSetting
   private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);

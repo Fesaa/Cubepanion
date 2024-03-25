@@ -9,6 +9,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
+import java.util.function.Function;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
@@ -17,7 +18,6 @@ import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
-import java.util.function.Function;
 
 public class LeaderboardAPICommands extends Command {
 
@@ -48,7 +48,8 @@ public class LeaderboardAPICommands extends Command {
     this.messagePrefix = addon.prefix();
   }
 
-  private void displayPlayerRows(LeaderboardRow[]rows, Component title, Function<LeaderboardRow, String> f) {
+  private void displayPlayerRows(LeaderboardRow[] rows, Component title,
+      Function<LeaderboardRow, String> f) {
     if (rows == null) {
       return;
     }
@@ -56,7 +57,7 @@ public class LeaderboardAPICommands extends Command {
     if (rows.length == 0) {
       displayMessage(
           Component.translatable(this.mainKey + "noLeaderboards")
-          .color(Colours.Primary));
+              .color(Colours.Primary));
       return;
     }
 

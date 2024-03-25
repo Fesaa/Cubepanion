@@ -178,7 +178,8 @@ public class LeaderboardAPI {
     return completableFuture;
   }
 
-  public CompletableFuture<LeaderboardRow[]> getLeaderboardForPlayers(CubeGame game, String[] players) {
+  public CompletableFuture<LeaderboardRow[]> getLeaderboardForPlayers(CubeGame game,
+      String[] players) {
     String url = String.format("%s/batch", baseURL);
 
     JsonObject main = new JsonObject();

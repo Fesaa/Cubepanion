@@ -2,9 +2,13 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -22,20 +26,17 @@ import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LevelTag extends NameTag {
+
   private static final Logging LOGGER = Logging.create(LevelTag.class);
 
   private final Cubepanion addon;
   private final QOLConfig config;
   private final Map<String, Integer> levels = new HashMap<>();
   private final Pattern whoList = Pattern.compile("There are \\d{1,3} players online: .*");
-  private final Pattern joinMessage = Pattern.compile("\\[\\+\\] (?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) joined your game \\(\\d{1,2}\\/\\d{1,2}\\)\\.");
+  private final Pattern joinMessage = Pattern.compile(
+      "\\[\\+\\] (?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) joined your game \\(\\d{1,2}\\/\\d{1,2}\\)\\.");
 
   private boolean readingWhoMessage;
   private boolean readingJoinMessage;
@@ -96,9 +97,9 @@ public class LevelTag extends NameTag {
         continue;
       }
 
-      if (t.getText().equals(", ") || i == children.size()-1) {
-        int offSet = i == children.size()-1 ? 1 : 0;
-        if (i != children.size()-1) {
+      if (t.getText().equals(", ") || i == children.size() - 1) {
+        int offSet = i == children.size() - 1 ? 1 : 0;
+        if (i != children.size() - 1) {
           groupSize--;
         }
 
@@ -143,7 +144,7 @@ public class LevelTag extends NameTag {
     }
     TextComponent hoverText = (TextComponent) e.value();
     int hoverSize = hoverText.getChildren().size();
-    TextComponent level = (TextComponent) hoverText.getChildren().get(hoverSize-1);
+    TextComponent level = (TextComponent) hoverText.getChildren().get(hoverSize - 1);
 
     int levelInt;
     try {

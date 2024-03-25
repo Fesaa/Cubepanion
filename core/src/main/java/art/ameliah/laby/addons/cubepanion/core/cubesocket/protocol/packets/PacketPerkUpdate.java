@@ -104,10 +104,11 @@ public class PacketPerkUpdate extends Packet {
       if (this.perks != null && this.perks.length != 0) {
         if (this.isCompressed(this.perks)) {
           GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(this.perks));
-          BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(gis, StandardCharsets.UTF_8));
+          BufferedReader bufferedReader = new BufferedReader(
+              new InputStreamReader(gis, StandardCharsets.UTF_8));
 
           String line;
-          while((line = bufferedReader.readLine()) != null) {
+          while ((line = bufferedReader.readLine()) != null) {
             outStr.append(line);
           }
         } else {

@@ -12,6 +12,41 @@ public class PacketBuffer {
     this.buffer = buffer;
   }
 
+  public static int getVarIntSize(int input) {
+    for (int var1 = 1; var1 < 5; ++var1) {
+      if ((input & -1 << var1 * 7) == 0) {
+        return var1;
+      }
+    }
+
+    return 5;
+  }
+
+  public static void writeVarIntToBuffer(ByteBuf buf, int input) {
+    while ((input & -128) != 0) {
+      buf.writeByte(input & 127 | 128);
+      input >>>= 7;
+    }
+
+    buf.writeByte(input);
+  }
+
+  public static int readVarIntFromBuffer(ByteBuf buffer) {
+    int var1 = 0;
+    int var2 = 0;
+
+    byte var3;
+    do {
+      var3 = buffer.readByte();
+      var1 |= (var3 & 127) << var2++ * 7;
+      if (var2 > 5) {
+        throw new RuntimeException("VarInt too big");
+      }
+    } while ((var3 & 128) == 128);
+
+    return var1;
+  }
+
   public int readVarIntFromBuffer() {
     return readVarIntFromBuffer(this.buffer);
   }
@@ -23,7 +58,7 @@ public class PacketBuffer {
   public byte[] readByteArray() {
     byte[] b = new byte[this.buffer.readInt()];
 
-    for(int i = 0; i < b.length; ++i) {
+    for (int i = 0; i < b.length; ++i) {
       b[i] = this.buffer.readByte();
     }
 
@@ -110,7 +145,7 @@ public class PacketBuffer {
   public String readString() {
     byte[] a = new byte[this.buffer.readInt()];
 
-    for(int i = 0; i < a.length; ++i) {
+    for (int i = 0; i < a.length; ++i) {
       a[i] = this.buffer.readByte();
     }
 
@@ -124,41 +159,6 @@ public class PacketBuffer {
 
   public ByteBuf getBuffer() {
     return this.buffer;
-  }
-
-  public static int getVarIntSize(int input) {
-    for(int var1 = 1; var1 < 5; ++var1) {
-      if ((input & -1 << var1 * 7) == 0) {
-        return var1;
-      }
-    }
-
-    return 5;
-  }
-
-  public static void writeVarIntToBuffer(ByteBuf buf, int input) {
-    while((input & -128) != 0) {
-      buf.writeByte(input & 127 | 128);
-      input >>>= 7;
-    }
-
-    buf.writeByte(input);
-  }
-
-  public static int readVarIntFromBuffer(ByteBuf buffer) {
-    int var1 = 0;
-    int var2 = 0;
-
-    byte var3;
-    do {
-      var3 = buffer.readByte();
-      var1 |= (var3 & 127) << var2++ * 7;
-      if (var2 > 5) {
-        throw new RuntimeException("VarInt too big");
-      }
-    } while((var3 & 128) == 128);
-
-    return var1;
   }
 
 }

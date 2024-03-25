@@ -115,7 +115,7 @@ public class Utils {
     try {
       array = (new Gson()).fromJson(map.colours(), JsonArray.class);
     } catch (JsonSyntaxException e) {
-      LOGGER.error("Failed to parse colours for " +  map.map_name() + " using empty list.", e);
+      LOGGER.error("Failed to parse colours for " + map.map_name() + " using empty list.", e);
     }
     return array != null ? array : new JsonArray();
   }
@@ -144,7 +144,7 @@ public class Utils {
 
   public static void handleAPIError(Class<?> origin, Cubepanion addon, Throwable e,
       String msg, String keyError, String key) {
-    LOGGER.debug(origin.getCanonicalName() + " " +  msg, e);
+    LOGGER.debug(origin.getCanonicalName() + " " + msg, e);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
       addon.displayMessage(
           Component.translatable(keyError, Component.text(e.getMessage())).color(Colours.Error));

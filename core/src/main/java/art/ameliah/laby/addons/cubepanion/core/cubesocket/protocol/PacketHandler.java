@@ -13,7 +13,7 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
   protected static final Logging LOGGER = Logging.create(PacketHandler.class);
 
   protected void channelRead0(ChannelHandlerContext ctx, Object packet) {
-    this.handlePacket((Packet)packet);
+    this.handlePacket((Packet) packet);
   }
 
   protected void handlePacket(Packet packet) {

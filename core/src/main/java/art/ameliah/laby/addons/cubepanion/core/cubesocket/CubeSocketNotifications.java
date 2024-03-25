@@ -14,7 +14,8 @@ public class CubeSocketNotifications {
 
   private final CubeSocket socket;
   private final NotificationController notificationController;
-  private final ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites_64.png");
+  private final ResourceLocation resourceLocation = ResourceLocation.create("cubepanion",
+      "sprites_64.png");
 
   public CubeSocketNotifications(CubeSocket socket, NotificationController notificationController) {
     this.socket = socket;

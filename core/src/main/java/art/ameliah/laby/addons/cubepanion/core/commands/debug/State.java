@@ -39,7 +39,7 @@ public class State extends SubCommand {
         manager.isInPreLobby(),
         manager.hasLost(),
         manager.getGameStartTime());
-    
+
     String weaveState = String.format(
         "Weave State:\n\tChest Seasons: %s\n\tChests loaded: %d\n\tEggWars Maps loaded: %d\n\tGames Loaded: %d\n\t",
         ChestAPI.getInstance().getSeason(),
@@ -71,8 +71,8 @@ public class State extends SubCommand {
         session != null ? session.getKeepAlivesSent() : 0,
         session != null ? session.getKeepAlivesReceived() : 0);
 
-
-    displayMessage(state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
+    displayMessage(
+        state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
     return true;
   }
 }

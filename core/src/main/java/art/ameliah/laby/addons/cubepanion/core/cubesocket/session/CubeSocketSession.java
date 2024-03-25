@@ -36,7 +36,8 @@ public class CubeSocketSession extends PacketHandler {
   private int keepAlivesSent = 0;
   private int keepAlivesReceived = 0;
 
-  public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor, CodecLink codecLink) {
+  public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor,
+      CodecLink codecLink) {
     this.socket = socket;
     this.sessionAccessor = sessionAccessor;
     this.codecLink = codecLink;
@@ -54,7 +55,8 @@ public class CubeSocketSession extends PacketHandler {
   public void channelInactive(ChannelHandlerContext ctx) {
     if (socket.getState() != CubeSocketState.OFFLINE) {
       socket.updateState(CubeSocketState.OFFLINE);
-      socket.fireEventSync(new CubeSocketDisconnectEvent(I18n.translate("cubepanion.notifications.cubesocket.disconnect.apiServer")));
+      socket.fireEventSync(new CubeSocketDisconnectEvent(
+          I18n.translate("cubepanion.notifications.cubesocket.disconnect.apiServer")));
     }
   }
 
@@ -107,7 +109,7 @@ public class CubeSocketSession extends PacketHandler {
         .schedule(() -> {
           this.socket.sendPacket(new PacketPing());
           this.keepAlivesSent++;
-        },5L, TimeUnit.SECONDS);
+        }, 5L, TimeUnit.SECONDS);
   }
 
   @Override
