@@ -6,7 +6,6 @@ import art.ameliah.laby.addons.cubepanion.core.commands.EggWarsMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardAPICommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardMappings;
-import art.ameliah.laby.addons.cubepanion.core.commands.PartyCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
@@ -119,8 +118,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.manager = new CubepanionManager(this);
     LOGGER.setManager(this.manager);
 
-    this.registerCommand(new PartyCommands("party", this));
-    this.registerCommand(new PartyCommands("p", this));
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new EggWarsMapInfoCommand(this));
     this.registerCommand(new StatCommands(this));
