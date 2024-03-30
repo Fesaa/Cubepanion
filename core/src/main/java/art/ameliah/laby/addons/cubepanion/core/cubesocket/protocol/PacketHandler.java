@@ -1,5 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol;
 
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
@@ -33,6 +34,8 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
   public abstract void handle(PacketHelloPong packet);
 
   public abstract void handle(PacketLoginComplete packet);
+
+  public abstract void handle(PacketDisconnect packet);
 
 
 }

@@ -5,6 +5,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketConnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLogin;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
@@ -118,5 +119,11 @@ public class CubeSocketSession extends PacketHandler {
     this.socket.updateState(CubeSocketState.CONNECTED);
     socket.fireEventSync(new CubeSocketConnectEvent());
     this.socket.sendPacket(new PacketPing());
+  }
+
+  @Override
+  public void handle(PacketDisconnect packet) {
+    this.socket.updateState(CubeSocketState.OFFLINE);
+    this.socket.fireEventSync(new CubeSocketDisconnectEvent(packet.getReason()));
   }
 }
