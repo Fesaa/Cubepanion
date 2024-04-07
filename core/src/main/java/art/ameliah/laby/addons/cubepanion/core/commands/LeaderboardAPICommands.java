@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.ClickEvent;
@@ -48,7 +49,7 @@ public class LeaderboardAPICommands extends Command {
     this.messagePrefix = addon.prefix();
   }
 
-  private void displayPlayerRows(LeaderboardRow[] rows, Component title,
+  private void displayPlayerRows(LeaderboardRow[] rows, Supplier<Component> title,
       Function<LeaderboardRow, String> f) {
     if (rows == null) {
       return;
@@ -61,7 +62,7 @@ public class LeaderboardAPICommands extends Command {
       return;
     }
 
-    Component toDisplay = title;
+    Component toDisplay = title.get();
 
     for (LeaderboardRow row : rows) {
       toDisplay = toDisplay.append(
@@ -97,7 +98,7 @@ public class LeaderboardAPICommands extends Command {
           return null;
         })
         .thenAcceptAsync(rows -> {
-          Component title = Component.translatable(this.mainKey + "leaderboards.title.game",
+          Supplier<Component> title = () -> Component.translatable(this.mainKey + "leaderboards.title.game",
                   Component.text(rows.length, Colours.Secondary),
                   Component.text(game.getString(), Colours.Secondary).decorate(TextDecoration.BOLD))
               .color(Colours.Primary);
@@ -124,7 +125,7 @@ public class LeaderboardAPICommands extends Command {
           return null;
         })
         .thenAcceptAsync(rows -> {
-          Component title = Component.translatable(this.mainKey + "leaderboards.title.player",
+          Supplier<Component> title = () -> Component.translatable(this.mainKey + "leaderboards.title.player",
                   Component.text(rows[0].player(), Colours.Secondary).decorate(TextDecoration.BOLD),
                   Component.text(rows.length, Colours.Secondary))
               .color(Colours.Primary);
