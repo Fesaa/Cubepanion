@@ -28,5 +28,10 @@ public class PacketDisconnect extends Packet {
 
   @Override
   public void handle(PacketHandler packetHandler) {
+    packetHandler.handle(this);
+  }
+
+  public String getReason() {
+    return this.reason;
   }
 }
