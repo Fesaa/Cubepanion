@@ -10,6 +10,7 @@ import net.labymod.api.configuration.loader.property.ConfigProperty;
 
 public class EggWarsMapInfoSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 

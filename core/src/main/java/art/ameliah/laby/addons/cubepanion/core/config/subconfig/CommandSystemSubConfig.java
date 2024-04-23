@@ -9,6 +9,7 @@ import net.labymod.api.configuration.settings.annotation.SettingRequires;
 
 public class CommandSystemSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 

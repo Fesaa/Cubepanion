@@ -15,6 +15,7 @@ import net.labymod.api.notification.Notification.Type;
 
 public class AutoVoteSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
   @DropdownSetting

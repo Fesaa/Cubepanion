@@ -12,6 +12,7 @@ import net.labymod.api.configuration.settings.annotation.SettingRequires;
 
 public class EndGameSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
   @SwitchSetting

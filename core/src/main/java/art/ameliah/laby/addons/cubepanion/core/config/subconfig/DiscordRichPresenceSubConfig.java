@@ -13,6 +13,7 @@ import net.labymod.api.util.function.ChangeListener;
 
 public class DiscordRichPresenceSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
   @SwitchSetting

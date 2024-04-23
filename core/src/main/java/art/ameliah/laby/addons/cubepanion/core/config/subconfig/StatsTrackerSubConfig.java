@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class StatsTrackerSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 

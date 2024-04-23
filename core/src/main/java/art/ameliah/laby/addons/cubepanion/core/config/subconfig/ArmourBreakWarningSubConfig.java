@@ -15,6 +15,7 @@ import net.labymod.api.configuration.settings.annotation.SettingRequires;
 @SpriteTexture("setting_icons.png")
 public class ArmourBreakWarningSubConfig extends Config {
 
+  @SwitchSetting
   @ParentSwitch
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
