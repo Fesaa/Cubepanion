@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.block.Blocks;
 
 @Singleton
@@ -90,6 +91,12 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
 
             ItemStack newItemStack = new ItemStack(Blocks.RED_STAINED_GLASS_PANE);
             newItemStack.set(DataComponents.CUSTOM_NAME, itemStack.getHoverName());
+            List<Component> lines = itemStack.getTooltipLines(TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
+            if (!lines.isEmpty()) {
+              lines.removeFirst();
+            }
+            ItemLore itemLore = new ItemLore(lines);
+            newItemStack.set(DataComponents.LORE, itemLore);
 
             if (gameCount == 0) {
               menu.setItem(slot.index, menu.getStateId(), newItemStack);
