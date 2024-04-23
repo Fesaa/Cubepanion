@@ -40,6 +40,10 @@ public class WeaveException extends Exception {
 
   static @Nullable WeaveException fromResponse(Response<String> response, int wantedStatus,
       boolean needsBody) {
+    if (response.hasException()) {
+      return new WeaveException(response.exception());
+    }
+
     if (response.isEmpty()) {
       return new WeaveException("Failed to get a response");
     }
