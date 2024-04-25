@@ -9,6 +9,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class Protocol {
     this.register(6, PacketDisconnect.class);
     this.register(7, PacketLogin.class);
     this.register(8, PacketLoginComplete.class);
+    this.register(9, PacketSetProtocol.class);
   }
 
   private void register(int id, Class<? extends Packet> clazz) {

@@ -12,6 +12,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.Gson;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import net.labymod.api.Laby;
 import net.labymod.api.client.session.SessionAccessor;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.concurrent.ThreadFactoryBuilder;
@@ -119,6 +121,8 @@ public class CubeSocketSession extends PacketHandler {
     this.socket.updateState(CubeSocketState.CONNECTED);
     socket.fireEventSync(new CubeSocketConnectEvent());
     this.socket.sendPacket(new PacketPing());
+    int protocolVersion = Laby.labyAPI().minecraft().getProtocolVersion();
+    this.socket.sendPacket(new PacketSetProtocol(protocolVersion));
   }
 
   @Override
