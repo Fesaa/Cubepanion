@@ -6,7 +6,7 @@ import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.Slide
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
-import net.labymod.api.configuration.loader.annotation.ParentSwitch;
+import net.labymod.api.configuration.loader.annotation.ShowSettingInParent;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
@@ -16,7 +16,7 @@ import net.labymod.api.configuration.settings.annotation.SettingRequires;
 public class ArmourBreakWarningSubConfig extends Config {
 
   @SwitchSetting
-  @ParentSwitch
+  @ShowSettingInParent
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
   @SpriteSlot(x = 7, y = 2)
