@@ -121,8 +121,10 @@ public class CubeSocketSession extends PacketHandler {
     this.socket.updateState(CubeSocketState.CONNECTED);
     socket.fireEventSync(new CubeSocketConnectEvent());
     this.socket.sendPacket(new PacketPing());
-    int protocolVersion = Laby.labyAPI().minecraft().getProtocolVersion();
-    this.socket.sendPacket(new PacketSetProtocol(protocolVersion));
+    this.executorService.schedule(() -> {
+      int protocolVersion = Laby.labyAPI().minecraft().getProtocolVersion();
+      this.socket.sendPacket(new PacketSetProtocol(protocolVersion));
+    }, 1L, TimeUnit.SECONDS);
   }
 
   @Override
