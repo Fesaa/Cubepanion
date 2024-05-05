@@ -12,6 +12,7 @@ public class Debug extends Command {
     withSubCommand(new MapCommand(addon));
     withSubCommand(new TeamColourCommand(addon));
     withSubCommand(new State(addon));
+    withSubCommand(new ResetConnectionTries(addon));
   }
 
   @Override

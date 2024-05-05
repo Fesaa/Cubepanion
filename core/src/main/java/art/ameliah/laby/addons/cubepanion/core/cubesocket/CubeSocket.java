@@ -69,7 +69,6 @@ public class CubeSocket extends Service {
   private long timeLastKeepAlive;
   private long timeNextConnect;
   private int connectTries;
-  private long lastConnectTriesReset;
   private String lastDisconnectReason;
 
   public CubeSocket(Cubepanion addon, SessionAccessor sessionAccessor, EventBus eventBus,
@@ -78,7 +77,6 @@ public class CubeSocket extends Service {
     this.state = CubeSocketState.OFFLINE;
     this.timeNextConnect = TimeUtil.getMillis();
     this.connectTries = 0;
-    this.lastConnectTriesReset = 0L;
     this.sessionAccessor = sessionAccessor;
     this.eventBus = eventBus;
     this.notificationController = notifications;
@@ -105,11 +103,6 @@ public class CubeSocket extends Service {
 
         if (state == CubeSocketState.OFFLINE && durationConnect < 0L) {
           connect();
-        }
-
-        if (this.lastConnectTriesReset + 300000L < TimeUtil.getMillis()) {
-          this.lastConnectTriesReset = TimeUtil.getMillis();
-          this.connectTries = 0;
         }
       } catch (Exception e) {
         LOGGER.error("Error in CubeSocket keep alive", e);
@@ -267,6 +260,11 @@ public class CubeSocket extends Service {
   public Protocol getProtocol() {
     return protocol;
   }
+
+  public void setConnectTries(int connectTries) {
+    this.connectTries = connectTries;
+  }
+
 }
 
 
