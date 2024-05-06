@@ -160,6 +160,7 @@ public class CubeSocket extends Service {
     if (this.isConnected()) {
       this.disconnect(I18n.translate("cubepanion.notifications.cubesocket.disconnect.server"));
     }
+    this.connectTries = 0;
   }
 
   private void disconnect(String reason) {
