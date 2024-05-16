@@ -47,7 +47,22 @@ public abstract class VotingLink {
           autoVoteConfig.getEggWarsHealth().get().slot,
           autoVoteConfig.getEggWarsPerk().get().slot
       );
+      case PILLARS_OF_FORTUNE -> this.votePof(
+          autoVoteConfig.getPofGameMode().get().slot,
+          autoVoteConfig.getPofMapMode().get().slot
+      );
     }
+  }
+
+  public void votePof(int gameMode, int mapMode) {
+    if (gameMode == -1 && mapMode == -1) {
+      return;
+    }
+    hotbarSlotIndex = 0;
+    deque.clear();
+    addToDeque(12, gameMode);
+    addToDeque(14, mapMode);
+    this.startAutoVote();
   }
 
   public void voteEggWars(int mode, int health, int perk) {

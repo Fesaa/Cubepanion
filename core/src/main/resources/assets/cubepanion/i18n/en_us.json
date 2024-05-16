@@ -232,6 +232,27 @@
             "none": "Don't vote"
           }
         },
+        "pofGameMode": {
+          "name": "POF GameMode",
+          "entries": {
+            "left": "Normal",
+            "middleLeft": "Shuffle",
+            "middleRight": "Balanced",
+            "right": "Swapper",
+            "none": "Don't vote"
+          }
+        },
+        "pofMapMode": {
+          "name": "POF MapMod",
+          "entries": {
+            "left": "Normal",
+            "middleLeft": "Rising Lava",
+            "middle": "Portals",
+            "middleRight": "Ablockalypse",
+            "right": "Fragile Blocks",
+            "none": "Don't vote"
+          }
+        },
         "experiments": {
           "name": "Experiments",
           "description": "Only turn off, if autovote doesn't work without it. "

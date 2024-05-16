@@ -14,7 +14,8 @@ public class AutoVote {
   private static final Collection<CubeGame> autoVote = List.of(
       CubeGame.TEAM_EGGWARS,
       CubeGame.SOLO_SKYWARS,
-      CubeGame.SOLO_LUCKYISLANDS
+      CubeGame.SOLO_LUCKYISLANDS,
+      CubeGame.PILLARS_OF_FORTUNE
   );
 
   @Subscribe

@@ -49,6 +49,13 @@ public class AutoVoteSubConfig extends Config {
   @SpriteSlot(x = 3, y = 1)
   private final ConfigProperty<ThreeOptionsMode> luckyIslandsTime = new ConfigProperty<>(
       ThreeOptionsMode.LEFT);
+  @DropdownSetting
+  private final ConfigProperty<FourOptionsMode> pofGameMode = new ConfigProperty<>(
+      FourOptionsMode.LEFT);
+  @DropdownSetting
+  private final ConfigProperty<FiveOptionsMode> pofMapMode = new ConfigProperty<>(
+      FiveOptionsMode.LEFT);
+
   @SwitchSetting
   private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
 
@@ -114,6 +121,14 @@ public class AutoVoteSubConfig extends Config {
     return skyWarsTime;
   }
 
+  public ConfigProperty<FourOptionsMode> getPofGameMode() {
+    return pofGameMode;
+  }
+
+  public ConfigProperty<FiveOptionsMode> getPofMapMode() {
+    return pofMapMode;
+  }
+
   public ConfigProperty<Boolean> getExperiments() {
     return experiments;
   }
@@ -154,6 +169,20 @@ public class AutoVoteSubConfig extends Config {
       this.slot = slot;
     }
 
+  }
+
+  public enum FiveOptionsMode {
+    LEFT(11),
+    MIDDLE_LEFT(12),
+    MIDDLE(13),
+    MIDDLE_RIGHT(14),
+    RIGHT(15),
+    NONE(-1);
+    public final int slot;
+
+    FiveOptionsMode(int slot) {
+      this.slot = slot;
+    }
   }
 
 }
