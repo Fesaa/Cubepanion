@@ -23,6 +23,10 @@ public class AutoVoteProvider {
     return new AutoVoteProvider(hotbarSlot, List.of(supplier));
   }
 
+  public static AutoVoteProvider of(int hotbarSlot, List<Supplier<VotePair>> suppliers) {
+    return new AutoVoteProvider(hotbarSlot, suppliers);
+  }
+
   public int getHotbarSlot() {
     return hotbarSlot;
   }

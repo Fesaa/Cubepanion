@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core;
 
 
 import art.ameliah.laby.addons.cubepanion.core.commands.AppealSiteCommand;
+import art.ameliah.laby.addons.cubepanion.core.commands.AutoVoteCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.EggWarsMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardAPICommands;
@@ -127,6 +128,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new LeaderboardMappings(this));
     this.registerCommand(new Debug(this));
+    this.registerCommand(new AutoVoteCommand(this));
 
     this.registerListener(new GameTickEventListener(this));
     this.registerListener(new GameShutdownEventListener(this));

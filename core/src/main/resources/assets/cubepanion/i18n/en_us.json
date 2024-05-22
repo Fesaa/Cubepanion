@@ -592,6 +592,19 @@
           "this": " - Display this message.",
           "tracking": "\n\nGames tracked: "
         }
+      },
+      "autoVoteCommand": {
+        "help": {
+          "title": "------- AutoVote Help -------",
+          "info": " Automatically votes for the specified game settings. /av <game> <overrides*>",
+          "disclaimer": "  This command is not made for ease of use. Use the normal settings"
+        },
+        "error": {
+          "gameNotFound": "Could not find the specified game. %s ",
+          "providerNotFound": "Can not vote for this game. %s",
+          "notEnoughArguments": "Not enough override arguments provided.",
+          "invalidSlot": "Override is not an integer %s."
+        }
       }
     },
     "managers": {
