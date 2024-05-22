@@ -90,7 +90,8 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
 
             ItemStack newItemStack = new ItemStack(Blocks.RED_STAINED_GLASS_PANE);
             newItemStack.set(DataComponents.CUSTOM_NAME, itemStack.getHoverName());
-            List<Component> lines = itemStack.getTooltipLines(TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
+            List<Component> lines = itemStack.getTooltipLines(
+                TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
             if (!lines.isEmpty()) {
               lines.removeFirst();
             }

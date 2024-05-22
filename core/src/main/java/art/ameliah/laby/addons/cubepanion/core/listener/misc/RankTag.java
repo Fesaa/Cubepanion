@@ -2,13 +2,13 @@ package art.ameliah.laby.addons.cubepanion.core.listener.misc;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RankTag {
 

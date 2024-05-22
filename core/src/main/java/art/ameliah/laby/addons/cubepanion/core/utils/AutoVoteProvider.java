@@ -11,6 +11,13 @@ import java.util.function.Supplier;
 public class AutoVoteProvider {
 
   private static Map<CubeGame, AutoVoteProvider> providers;
+  private final int hotbarSlot;
+  private final List<Supplier<VotePair>> votePairSuppliers = new ArrayList<>();
+
+  private AutoVoteProvider(int hotbarSlot, List<Supplier<VotePair>> votePairSuppliers) {
+    this.votePairSuppliers.addAll(votePairSuppliers);
+    this.hotbarSlot = hotbarSlot;
+  }
 
   public static void init(AutoVoteSubConfig config) {
     providers = new HashMap<>();
@@ -36,14 +43,6 @@ public class AutoVoteProvider {
 
   public static AutoVoteProvider getProvider(CubeGame game) {
     return providers.get(game);
-  }
-
-  private final int hotbarSlot;
-  private final List<Supplier<VotePair>> votePairSuppliers = new ArrayList<>();
-
-  private AutoVoteProvider(int hotbarSlot, List<Supplier<VotePair>> votePairSuppliers) {
-    this.votePairSuppliers.addAll(votePairSuppliers);
-    this.hotbarSlot = hotbarSlot;
   }
 
   @SafeVarargs

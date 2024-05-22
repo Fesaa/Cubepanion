@@ -10,7 +10,6 @@ import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -91,7 +90,8 @@ public class VersionedQOLMapSelectorLink extends QOLMapSelectorLink {
 
             ItemStack newItemStack = new ItemStack(Blocks.RED_STAINED_GLASS_PANE);
             newItemStack.set(DataComponents.CUSTOM_NAME, itemStack.getHoverName());
-            List<Component> lines = itemStack.getTooltipLines(TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
+            List<Component> lines = itemStack.getTooltipLines(
+                TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
             if (!lines.isEmpty()) {
               lines.removeFirst();
             }

@@ -1,9 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.function.Supplier;
-import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import net.labymod.api.reference.annotation.Referenceable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

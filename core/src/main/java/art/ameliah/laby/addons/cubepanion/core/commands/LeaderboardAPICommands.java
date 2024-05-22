@@ -98,7 +98,8 @@ public class LeaderboardAPICommands extends Command {
           return null;
         })
         .thenAcceptAsync(rows -> {
-          Supplier<Component> title = () -> Component.translatable(this.mainKey + "leaderboards.title.game",
+          Supplier<Component> title = () -> Component.translatable(
+                  this.mainKey + "leaderboards.title.game",
                   Component.text(rows.length, Colours.Secondary),
                   Component.text(game.getString(), Colours.Secondary).decorate(TextDecoration.BOLD))
               .color(Colours.Primary);
@@ -125,7 +126,8 @@ public class LeaderboardAPICommands extends Command {
           return null;
         })
         .thenAcceptAsync(rows -> {
-          Supplier<Component> title = () -> Component.translatable(this.mainKey + "leaderboards.title.player",
+          Supplier<Component> title = () -> Component.translatable(
+                  this.mainKey + "leaderboards.title.player",
                   Component.text(rows[0].player(), Colours.Secondary).decorate(TextDecoration.BOLD),
                   Component.text(rows.length, Colours.Secondary))
               .color(Colours.Primary);

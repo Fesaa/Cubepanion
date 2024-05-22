@@ -7,11 +7,11 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink.VotePair;
-import net.labymod.api.client.chat.command.Command;
-import net.labymod.api.client.component.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import net.labymod.api.client.chat.command.Command;
+import net.labymod.api.client.component.Component;
 
 public class AutoVoteCommand extends Command {
 
@@ -48,35 +48,39 @@ public class AutoVoteCommand extends Command {
 
     CubeGame cubeGame = CubeGame.stringToGame(game);
     if (cubeGame == null) {
-      this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.error.gameNotFound",
+      this.displayMessage(Component.translatable(
+          I18nNamespaces.commandNamespace + "autoVoteCommand.error.gameNotFound",
           Component.text(game)).color(Colours.Error));
       return true;
     }
 
     AutoVoteProvider provider = AutoVoteProvider.getProvider(cubeGame);
     if (provider == null) {
-      this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.error.providerNotFound",
+      this.displayMessage(Component.translatable(
+          I18nNamespaces.commandNamespace + "autoVoteCommand.error.providerNotFound",
           Component.text(game)).color(Colours.Error));
       return true;
     }
 
     List<Supplier<VotePair>> pairs = provider.getVotePairSuppliers();
     if (args.length < pairs.size() + 1) {
-      this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.error.notEnoughArguments",
+      this.displayMessage(Component.translatable(
+          I18nNamespaces.commandNamespace + "autoVoteCommand.error.notEnoughArguments",
           Component.text(game)).color(Colours.Error));
       return true;
     }
 
     List<Supplier<VotePair>> newPairs = new ArrayList<>(pairs.size());
-    for (int i = 1; i < pairs.size()  +1; i++) {
-      VotePair pair = pairs.get(i -1).get();
+    for (int i = 1; i < pairs.size() + 1; i++) {
+      VotePair pair = pairs.get(i - 1).get();
       String overRide = args[i];
 
       try {
         int slot = Integer.parseInt(overRide);
         newPairs.add(() -> VotePair.of(pair.choiceIndex(), slot));
       } catch (NumberFormatException e) {
-        this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.error.invalidSlot",
+        this.displayMessage(Component.translatable(
+            I18nNamespaces.commandNamespace + "autoVoteCommand.error.invalidSlot",
             Component.text(overRide)).color(Colours.Error));
         return true;
       }
@@ -88,13 +92,16 @@ public class AutoVoteCommand extends Command {
   }
 
   private void displayHelp() {
-    Component help = Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.help.title")
+    Component help = Component.translatable(
+            I18nNamespaces.commandNamespace + "autoVoteCommand.help.title")
         .color(Colours.Title)
         .append(Component.newline())
-        .append(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.help.info")
-          .color(Colours.Primary))
+        .append(
+            Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.help.info")
+                .color(Colours.Primary))
         .append(Component.newline())
-        .append(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.help.disclaimer")
+        .append(Component.translatable(
+                I18nNamespaces.commandNamespace + "autoVoteCommand.help.disclaimer")
             .color(Colours.Secondary));
 
     this.displayMessage(help);
