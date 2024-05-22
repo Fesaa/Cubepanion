@@ -25,7 +25,7 @@ import art.ameliah.laby.addons.cubepanion.core.listener.internal.InternalTracker
 import art.ameliah.laby.addons.cubepanion.core.listener.misc.MiscListeners;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.WidgetManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider.AutoVoteProviderProtocol;
+import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
@@ -83,7 +83,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     ChestAPI.Init();
     EggWarsMapAPI.Init();
     LeaderboardAPI.Init();
-    AutoVoteProviderProtocol.init(this.configuration().getAutoVoteSubConfig());
+    AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
 
     socket = new CubeSocket(
         this,

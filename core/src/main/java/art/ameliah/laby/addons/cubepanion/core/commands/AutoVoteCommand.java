@@ -2,7 +2,6 @@ package art.ameliah.laby.addons.cubepanion.core.commands;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider.AutoVoteProviderProtocol;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
@@ -10,7 +9,6 @@ import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink.VotePair;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.format.NamedTextColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -55,7 +53,7 @@ public class AutoVoteCommand extends Command {
       return true;
     }
 
-    AutoVoteProvider provider = AutoVoteProviderProtocol.getProvider(cubeGame);
+    AutoVoteProvider provider = AutoVoteProvider.getProvider(cubeGame);
     if (provider == null) {
       this.displayMessage(Component.translatable(I18nNamespaces.commandNamespace + "autoVoteCommand.error.providerNotFound",
           Component.text(game)).color(Colours.Error));

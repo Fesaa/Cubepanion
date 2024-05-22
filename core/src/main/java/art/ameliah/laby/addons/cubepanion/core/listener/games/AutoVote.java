@@ -4,7 +4,6 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider.AutoVoteProviderProtocol;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import net.labymod.api.event.Subscribe;
 
@@ -22,7 +21,7 @@ public class AutoVote {
     }
 
     VotingLink link = Cubepanion.get().getVotingLink();
-    AutoVoteProvider provider = AutoVoteProviderProtocol.getProvider(e.getDestination());
+    AutoVoteProvider provider = AutoVoteProvider.getProvider(e.getDestination());
     if (link != null && provider != null) {
       link.vote(provider);
     }
