@@ -54,6 +54,10 @@ public class EndGameSubConfig extends Config {
         chat.chat(this.toReadable(), false);
       }
       if (!config.getCustomMessage().isDefaultValue()) {
+        if (config.getCustomMessage().get().startsWith("/")) {
+          chat.chat(config.getCustomMessage().get(), false);
+          return;
+        }
         chat.chat((party ? "!" : "") + config.getCustomMessage().get(), false);
       }
     }
