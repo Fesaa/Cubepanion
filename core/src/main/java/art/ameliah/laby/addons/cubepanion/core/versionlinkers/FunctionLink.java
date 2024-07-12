@@ -1,8 +1,10 @@
 package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.reference.annotation.Referenceable;
 import net.labymod.api.util.Pair;
@@ -19,5 +21,7 @@ public abstract class FunctionLink {
   public abstract void setCoolDown(@NotNull ItemStack itemStack, int duration);
 
   public abstract CompletableFuture<Pair<PerkCategory, List<ItemStack>>> loadPerks();
+
+  public abstract CompletableFuture<@Nullable HashMap<CubeGame, Integer>> loadPlayerCounts();
 
 }

@@ -27,6 +27,7 @@ public class CubepanionManager implements Manager {
   // Own fields
 
   private String serverIP;
+  private boolean devServer;
   private CubeGame division;
   private CubeGame lastDivision;
   private String mapName;
@@ -51,6 +52,7 @@ public class CubepanionManager implements Manager {
     this.fireballManager = new FireballManager();
 
     this.serverIP = "";
+    this.devServer = false;
     this.division = CubeGame.NONE;
     this.lastDivision = CubeGame.NONE;
     this.mapName = "";
@@ -83,6 +85,7 @@ public class CubepanionManager implements Manager {
 
   public void reset() {
     this.serverIP = "";
+    this.devServer = false;
     this.lastDivision = CubeGame.NONE;
     this.division = CubeGame.NONE;
     this.teamColour = "";
@@ -126,6 +129,14 @@ public class CubepanionManager implements Manager {
     EggWarsMapAPI.getInstance().loadMaps();
     ChestAPI.getInstance().loadChestLocations();
     ChestAPI.getInstance().loadSeason();
+  }
+
+  public boolean isDevServer() {
+    return devServer;
+  }
+
+  public void setDevServer(boolean devServer) {
+    this.devServer = devServer;
   }
 
   public void onServerSwitch() {

@@ -66,6 +66,11 @@ public class ServerNavigation {
     if (address.endsWith("ccgn.co") && !address.contains("maps")) {
       return true;
     }
-    return address.endsWith("-dev-cc");
+    if (address.endsWith("-dev-cc")) {
+      this.manager.setDevServer(true);
+      return true;
+    }
+
+    return false;
   }
 }

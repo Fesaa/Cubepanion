@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketGameStatUpdate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class Protocol {
     this.register(7, PacketLogin.class);
     this.register(8, PacketLoginComplete.class);
     this.register(9, PacketSetProtocol.class);
+    this.register(10, PacketGameStatUpdate.class);
   }
 
   private void register(int id, Class<? extends Packet> clazz) {

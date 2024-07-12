@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketGameTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketPerkTracker;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketPlayerCountTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketState;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
@@ -84,6 +85,7 @@ public class CubeSocket extends Service {
     this.eventBus.registerListener(new CubeSocketNotifications(this, this.notificationController));
     this.eventBus.registerListener(new CubeSocketPerkTracker(this, addon));
     this.eventBus.registerListener(new CubeSocketGameTracker(this));
+    this.eventBus.registerListener(new CubeSocketPlayerCountTracker(this, addon));
 
     Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(() -> {
       try {
