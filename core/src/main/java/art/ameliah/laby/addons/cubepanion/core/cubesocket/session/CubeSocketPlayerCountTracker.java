@@ -42,7 +42,11 @@ public class CubeSocketPlayerCountTracker {
       if (this.packetGameStatUpdates.isEmpty()) {
         return;
       }
-      this.socket.sendPacket(this.packetGameStatUpdates.poll());
+
+      if (!this.addon.getManager().isDevServer()) {
+        this.socket.sendPacket(this.packetGameStatUpdates.poll());
+      }
+
       if (!this.packetGameStatUpdates.isEmpty()) {
         this.sendTask.execute();
       }
@@ -73,7 +77,9 @@ public class CubeSocketPlayerCountTracker {
     try {
       int playerCountInt = Integer.parseInt(playerCountString);
       this.maySendLobby = false;
-      this.socket.sendPacket(new PacketGameStatUpdate(CubeGame.LOBBY, playerCountInt));
+      if (!this.addon.getManager().isDevServer()) {
+        this.socket.sendPacket(new PacketGameStatUpdate(CubeGame.LOBBY, playerCountInt));
+      }
     } catch (NumberFormatException e) {
       LOGGER.error(getClass(), "Failed to parse playercount from scoreboard: " + playerCountString);
     }
