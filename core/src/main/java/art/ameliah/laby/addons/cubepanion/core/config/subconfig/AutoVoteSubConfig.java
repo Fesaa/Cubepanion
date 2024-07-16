@@ -55,6 +55,8 @@ public class AutoVoteSubConfig extends Config {
   @DropdownSetting
   private final ConfigProperty<FiveOptionsMode> pofMapMode = new ConfigProperty<>(
       FiveOptionsMode.LEFT);
+  @DropdownSetting
+  private final ConfigProperty<TwoOptionsMode> bedWarsModifier = new ConfigProperty<>(TwoOptionsMode.RIGHT);
 
   @SwitchSetting
   private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
@@ -127,6 +129,10 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<FiveOptionsMode> getPofMapMode() {
     return pofMapMode;
+  }
+
+  public ConfigProperty<TwoOptionsMode> getBedWarsModifier() {
+    return bedWarsModifier;
   }
 
   public ConfigProperty<Boolean> getExperiments() {

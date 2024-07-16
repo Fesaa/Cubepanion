@@ -15,6 +15,7 @@ public enum CubeGame {
   SNOWMAN_SURVIVAL("Snowman Survival", true),
   LOBBY("Main Lobby", false),
   PILLARS_OF_FORTUNE("Pillars of Fortune", true),
+  BEDWARS("BedWars", true),
   NONE("", false);
 
 
@@ -74,6 +75,9 @@ public enum CubeGame {
       }
       case "pillars of fortune" -> {
         return CubeGame.PILLARS_OF_FORTUNE;
+      }
+      case "bedwars" -> {
+        return CubeGame.BEDWARS;
       }
       default -> {
         return CubeGame.NONE;

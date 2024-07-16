@@ -39,6 +39,9 @@ public class AutoVoteProvider {
         () -> VotePair.of(12, config.getPofGameMode().get().slot),
         () -> VotePair.of(14, config.getPofMapMode().get().slot)
     ));
+    providers.put(CubeGame.BEDWARS, AutoVoteProvider.of(0,
+        () -> VotePair.of(-1, config.getBedWarsModifier().get().slot)
+    ));
   }
 
   public static AutoVoteProvider getProvider(CubeGame game) {

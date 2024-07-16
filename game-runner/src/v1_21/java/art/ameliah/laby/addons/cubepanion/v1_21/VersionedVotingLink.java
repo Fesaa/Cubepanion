@@ -51,7 +51,13 @@ public class VersionedVotingLink extends VotingLink {
   private LocalPlayer player = null;
   private final Task starter = Task.builder(() -> {
     this.openVotingMenu(player, this.hotbarSlotIndex);
-    this.waitForMenuOpenAndMakeFirstChoice(player);
+
+    VotePair votePair = this.getNextVotePair();
+    if (votePair.choiceIndex() == -1) {
+      this.waitForNewSlotAndClick(player, votePair, false);
+    } else {
+      this.waitForMenuOpenAndMakeFirstChoice(player, votePair);
+    }
   }).delay(100, TimeUnit.MILLISECONDS).build();
 
   @Inject
@@ -71,9 +77,8 @@ public class VersionedVotingLink extends VotingLink {
 
   }
 
-  private void waitForMenuOpenAndMakeFirstChoice(@NotNull LocalPlayer player) {
+  private void waitForMenuOpenAndMakeFirstChoice(@NotNull LocalPlayer player, VotePair votePair) {
     Timer timer = new Timer("waitForMenuOpenAndMakeFirstChoice");
-    VotePair votePair = this.getNextVotePair();
     LOGGER.debug(this.getClass(), "Starting vote with pair:", votePair);
     VersionedVotingLink votingInterface = this;
     timer.schedule(new TimerTask() {
