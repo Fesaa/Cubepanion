@@ -33,6 +33,9 @@ public class AutoGG {
     if (!config.isEnabled().get()) {
       return;
     }
+    if (!config.getOnElimination().get()) {
+      return;
+    }
     if (hasSentGG) {
       return;
     }
@@ -61,15 +64,20 @@ public class AutoGG {
     if (!config.isEnabled().get()) {
       return;
     }
+    if (!config.getOnElimination().get()) {
+      return;
+    }
     if (hasSentGG || !e.isClientPlayer()) {
       return;
     }
     if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
         || Cubepanion.get().getManager().isPlaying(CubeGame.FFA)
         || Cubepanion.get().getManager().isPlaying(CubeGame.SKYBLOCK)
+        || Cubepanion.get().getManager().isPlaying(CubeGame.BEDWARS)
         || CubeGame.isParkour(Cubepanion.get().getManager().getDivision())) {
       return;
     }
+
     doMessage();
   }
 
