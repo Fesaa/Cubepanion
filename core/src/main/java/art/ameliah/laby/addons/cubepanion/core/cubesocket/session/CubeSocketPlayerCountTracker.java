@@ -42,9 +42,9 @@ public class CubeSocketPlayerCountTracker {
       if (this.packetGameStatUpdates.isEmpty()) {
         return;
       }
-
+      PacketGameStatUpdate packet = this.packetGameStatUpdates.poll();
       if (!this.addon.getManager().isDevServer()) {
-        this.socket.sendPacket(this.packetGameStatUpdates.poll());
+        this.socket.sendPacket(packet);
       }
 
       if (!this.packetGameStatUpdates.isEmpty()) {
