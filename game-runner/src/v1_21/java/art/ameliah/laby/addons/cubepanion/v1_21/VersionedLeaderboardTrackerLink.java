@@ -88,7 +88,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
           for (ItemStack itemStack : menu.getItems()) {
-            if (!itemStack.getItem().toString().equals("player_head")) {
+            if (!itemStack.getItem().toString().equals("minecraft:player_head")) {
               continue;
             }
 
