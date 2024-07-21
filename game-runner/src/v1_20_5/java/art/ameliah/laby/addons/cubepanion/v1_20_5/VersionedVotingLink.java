@@ -48,6 +48,7 @@ public class VersionedVotingLink extends VotingLink {
   public ItemStack returnItemStack;
   private LocalPlayer player = null;
   private final Task starter = Task.builder(() -> {
+    this.returnItemStack = null;
     this.openVotingMenu(player, this.hotbarSlotIndex);
 
     VotePair votePair = this.getNextVotePair();
@@ -119,7 +120,7 @@ public class VersionedVotingLink extends VotingLink {
         AbstractContainerMenu menu = player.containerMenu;
         if (menu instanceof ChestMenu) {
           Slot slot = menu.getSlot(votingInterface.returnIndex);
-          if (slot.getItem().getDisplayName()
+          if (votingInterface.returnItemStack != null &&  slot.getItem().getDisplayName()
               .equals(votingInterface.returnItemStack.getDisplayName())) {
             return;
           }
