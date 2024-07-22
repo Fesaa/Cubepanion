@@ -139,6 +139,7 @@ public class LeaderboardAPI {
           row.get("player").getAsString(),
           row.get("position").getAsInt(),
           row.get("score").getAsInt(),
+          row.has("texture") ? row.get("texture").getAsString() : null,
           row.get("unix_time_stamp").getAsInt()
       ));
     }
@@ -288,15 +289,19 @@ public class LeaderboardAPI {
    * @param player   name
    * @param position int
    * @param score    int
+   * @param texture string
    * @param unix     submission unix time stamp
    */
-  public record LeaderboardRow(Leaderboard game, String player, int position, int score, int unix) {
+  public record LeaderboardRow(Leaderboard game, String player, int position, int score, @Nullable String texture, int unix) {
 
     JsonElement getAsJsonElement() {
       JsonObject jsonObject = new JsonObject();
       jsonObject.addProperty("game", game.displayName());
       jsonObject.addProperty("player", player);
       jsonObject.addProperty("position", position);
+      if (texture != null) {
+        jsonObject.addProperty("texture", texture);
+      }
       jsonObject.addProperty("score", score);
       return jsonObject;
     }

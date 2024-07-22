@@ -3,6 +3,7 @@ package art.ameliah.laby.addons.cubepanion.v1_21;
 
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTrackerLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
+import com.mojang.authlib.properties.Property;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,6 +13,7 @@ import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,6 +21,8 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ResolvableProfile;
+import org.jetbrains.annotations.Nullable;
 
 @Singleton
 @Implements(LeaderboardTrackerLink.class)
@@ -92,7 +96,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
               continue;
             }
 
-            String name = null;
+            String name;
             int position = -1;
             int score = -1;
 
@@ -109,8 +113,14 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
                 nameSiblings = nameSiblings.get(0).getSiblings();
                 if (!nameSiblings.isEmpty()) {
                   name = nameSiblings.get(0).getString();
+                } else {
+                  name = null;
                 }
+              } else {
+                name = null;
               }
+            } else {
+              name = null;
             }
 
             List<Component> positionSiblings = hoverText.get(1).getSiblings();
@@ -151,6 +161,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
                 name,
                 position,
                 score,
+                texture(itemStack.get(DataComponents.PROFILE)),
                 0
             ));
           }
@@ -165,5 +176,18 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
         }
       }
     }, 100, 100);
+  }
+
+  @Nullable
+  private String texture(ResolvableProfile profile) {
+    if (profile == null) {
+      return null;
+    }
+    Property p = profile.properties()
+        .get("textures")
+        .stream()
+        .findFirst()
+        .orElse(null);
+    return p == null ? null : p.value();
   }
 }

@@ -12,12 +12,15 @@ import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import org.jetbrains.annotations.Nullable;
 
 @Singleton
 @Implements(LeaderboardTrackerLink.class)
@@ -148,6 +151,7 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
                 name,
                 position,
                 score,
+                texture(itemStack),
                 0
             ));
           }
@@ -162,5 +166,41 @@ public class VersionedLeaderboardTrackerLink extends LeaderboardTrackerLink {
         }
       }
     }, 100, 100);
+  }
+
+  @Nullable
+  private String texture(ItemStack itemStack) {
+    if (!itemStack.hasTag()) {
+      return null;
+    }
+    CompoundTag tag = itemStack.getTag();
+    if (tag == null) {
+      return null;
+    }
+
+    if (!tag.contains("SkullOwner", 10)) {
+      return null;
+    }
+
+    CompoundTag skullOwner = tag.getCompound("SkullOwner");
+    if (!skullOwner.contains("Properties", 10)) {
+      return null;
+    }
+
+    CompoundTag properties = skullOwner.getCompound("Properties");
+    if (!properties.contains("textures", 9)) {
+      return null;
+    }
+
+    ListTag textures = properties.getList("textures", 10);
+    if (textures.isEmpty()) {
+      return null;
+    }
+
+    CompoundTag texture = textures.getCompound(0);
+    if (!texture.contains("Value", 8)) {
+      return null;
+    }
+    return texture.getString("Value");
   }
 }
