@@ -230,6 +230,11 @@ public class LeaderboardAPI {
       return CompletableFuture.failedFuture(
           new WeaveException("Upper bound must be higher than the lower bound"));
     }
+
+    if (low == 1 && up == 200) {
+      return getGameLeaderboard(game);
+    }
+
     String url = String.format("%s/game/%s/bounded?lower=%d&upper=%d",
         baseURL,
         game.displayName().replace(" ", "%20"), low, up);
