@@ -5,22 +5,20 @@ import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.EggWarsMapInfoManager;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
-import org.jetbrains.annotations.Nullable;
 
 public class CubepanionManager implements Manager {
   // Sub Managers
 
   private final PartyManager partyManager;
-  private final EggWarsMapInfoManager eggWarsMapInfoManager;
+  private final GameMapInfoManager gameMapInfoManager;
   private final DurabilityManager durabilityManager;
   private final FireballManager fireballManager;
 
@@ -36,7 +34,6 @@ public class CubepanionManager implements Manager {
   private String rankString;
   private String serverID;
   private String lastServerID;
-  private LoadedEggWarsMap currentEggWarsMap;
 
   private boolean eliminated;
   private boolean inPreLobby;
@@ -47,7 +44,7 @@ public class CubepanionManager implements Manager {
 
   public CubepanionManager(Cubepanion addon) {
     this.partyManager = new PartyManager();
-    this.eggWarsMapInfoManager = new EggWarsMapInfoManager(addon);
+    this.gameMapInfoManager = new GameMapInfoManager(addon);
     this.durabilityManager = new DurabilityManager();
     this.fireballManager = new FireballManager();
 
@@ -61,7 +58,6 @@ public class CubepanionManager implements Manager {
     this.rankString = "";
     this.serverID = "";
     this.lastServerID = "";
-    this.currentEggWarsMap = null;
 
     this.eliminated = false;
     this.inPreLobby = false;
@@ -75,8 +71,8 @@ public class CubepanionManager implements Manager {
     return this.partyManager;
   }
 
-  public EggWarsMapInfoManager getEggWarsMapInfoManager() {
-    return this.eggWarsMapInfoManager;
+  public GameMapInfoManager getGameMapInfoManager() {
+    return this.gameMapInfoManager;
   }
 
   public DurabilityManager getDurabilityManager() {
@@ -126,7 +122,7 @@ public class CubepanionManager implements Manager {
     this.partyManager.reset();
 
     LeaderboardAPI.getInstance().loadLeaderboards();
-    EggWarsMapAPI.getInstance().loadMaps();
+    GameMapAPI.getInstance().loadMaps();
     ChestAPI.getInstance().loadChestLocations();
     ChestAPI.getInstance().loadSeason();
   }
@@ -206,7 +202,6 @@ public class CubepanionManager implements Manager {
   public void setMapName(String mapName) {
     this.lastMapName = this.mapName;
     this.mapName = mapName;
-    this.currentEggWarsMap = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(mapName);
   }
 
   public String getLastMapName() {
@@ -244,10 +239,6 @@ public class CubepanionManager implements Manager {
   public void updateRankString() {
     Laby.fireEvent(new RequestEvent(RequestEvent.RequestType.RANK_TAG));
     Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
-  }
-
-  public @Nullable LoadedEggWarsMap getCurrentEggWarsMap() {
-    return currentEggWarsMap;
   }
 
   public FireballManager getFireballManager() {

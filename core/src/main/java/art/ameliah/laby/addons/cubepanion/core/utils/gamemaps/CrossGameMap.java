@@ -1,11 +1,12 @@
-package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps;
+package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 
-public class CrossEggWarsMap extends LoadedEggWarsMap {
+public class CrossGameMap extends LoadedGameMap {
 
   // Team Colour in cyclic order, moving left
   private final List<String> teamColours;
@@ -14,9 +15,9 @@ public class CrossEggWarsMap extends LoadedEggWarsMap {
   private String teamRight = "";
   private String teamBefore = "";
 
-  public CrossEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
+  public CrossGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, GenLayout genLayout,
       List<String> teamColours) {
-    super(mapName, teamSize, buildLimit, genLayout);
+    super(game, mapName, teamSize, buildLimit, genLayout);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0));
   }

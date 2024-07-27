@@ -1,12 +1,13 @@
-package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps;
+package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.Utils;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 
-public class TriangleEggWarsMap extends LoadedEggWarsMap {
+public class TriangleEggWarsMap extends LoadedGameMap {
 
   private final List<List<String>> teamColours;
   String teamUnderLeft = "";
@@ -17,11 +18,11 @@ public class TriangleEggWarsMap extends LoadedEggWarsMap {
   String teamUpRight = "";
   int triangleLocation = -1;
 
-  public TriangleEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout,
+  public TriangleEggWarsMap(CubeGame game,String mapName, int teamSize, int buildLimit, GenLayout genLayout,
       List<List<String>> teamColours) {
-    super(mapName, teamSize, buildLimit, genLayout);
+    super(game, mapName, teamSize, buildLimit, genLayout);
     this.teamColours = teamColours;
-    this.setCurrentTeamColour(this.teamColours.get(0).get(0));
+    this.setCurrentTeamColour(this.teamColours.getFirst().getFirst());
   }
 
   @Override

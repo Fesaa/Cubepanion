@@ -2,17 +2,17 @@ package art.ameliah.laby.addons.cubepanion.core.utils;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.CrossEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.DoubleCrossEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.SquareEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.TriangleEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout.Location;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.GenLayout.MapGenerator;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.CrossGameMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.DoubleCrossGameMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.SquareGameMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.TriangleEggWarsMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout.Location;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout.MapGenerator;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI.Generator;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.GameMap;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.Generator;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -50,37 +50,41 @@ public class Utils {
     return Pair.of(-1, -1);
   }
 
-  public static @Nullable LoadedEggWarsMap fromAPIMap(EggWarsMapAPI.EggWarsMap map) {
+  public static @Nullable LoadedGameMap fromAPIMap(GameMap map) {
     Generator[] gens = map.generators();
-    if (gens == null) {
-      // Generators aren't that important. We don't want to entire map to fail if
-      // they're null for some reason. We can just ignore them.
-      gens = new Generator[0];
-      LOGGER.warn("Generators are null for map", map.map_name());
+    GenLayout layout = null;
+    // EggWars Map
+    if (gens != null) {
+      List<MapGenerator> mapGenerators = new ArrayList<>();
+      for (Generator gen : gens) {
+        MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()),
+            transformLoc(gen.gen_location()), gen.level(), gen.count());
+        mapGenerators.add(mapGen);
+      }
+      layout = new GenLayout(mapGenerators);
     }
 
-    List<MapGenerator> mapGenerators = new java.util.ArrayList<>(List.of());
-    for (Generator gen : gens) {
-      MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()),
-          transformLoc(gen.gen_location()), gen.level(), gen.count());
-      mapGenerators.add(mapGen);
+
+    CubeGame game = CubeGame.stringToGame(map.game());
+    if (game.equals(CubeGame.NONE)) {
+      return null;
     }
-    GenLayout layout = new GenLayout(mapGenerators);
+
     switch (map.layout()) {
       case "square" -> {
-        return new SquareEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new SquareGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
             twoDeepStringList(transformColours(map)));
       }
       case "cross" -> {
-        return new CrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new CrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
             oneDeepStringList(transformColours(map)));
       }
       case "doublecross" -> {
-        return new DoubleCrossEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new DoubleCrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
             twoDeepStringList(transformColours(map)));
       }
       case "triangle" -> {
-        return new TriangleEggWarsMap(map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new TriangleEggWarsMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
             twoDeepStringList(transformColours(map)));
       }
       default -> {
@@ -110,7 +114,7 @@ public class Utils {
     return list;
   }
 
-  static @NotNull JsonArray transformColours(EggWarsMapAPI.EggWarsMap map) {
+  static @NotNull JsonArray transformColours(GameMap map) {
     JsonArray array = null;
     try {
       array = (new Gson()).fromJson(map.colours(), JsonArray.class);

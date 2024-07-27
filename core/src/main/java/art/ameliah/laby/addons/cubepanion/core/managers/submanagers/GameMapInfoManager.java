@@ -1,28 +1,28 @@
 package art.ameliah.laby.addons.cubepanion.core.managers.submanagers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 
-public class EggWarsMapInfoManager {
+public class GameMapInfoManager {
 
   private final Cubepanion addon;
-  private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig;
+  private final GameMapInfoSubConfig gameMapInfoSubConfig;
 
   private final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.";
 
 
-  public EggWarsMapInfoManager(Cubepanion addon) {
+  public GameMapInfoManager(Cubepanion addon) {
     this.addon = addon;
-    this.eggWarsMapInfoSubConfig = addon.configuration().getEggWarsMapInfoSubConfig();
+    this.gameMapInfoSubConfig = addon.configuration().getGameMapInfoSubConfig();
   }
 
-  private void displayEggWarsMapLayout(LoadedEggWarsMap map, boolean genLayout) {
+  private void displayGameMapLayout(LoadedGameMap map, boolean genLayout) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
     if (addon.getManager().getMapName().equals(map.getName())) {
@@ -34,7 +34,7 @@ public class EggWarsMapInfoManager {
             .color(Colours.Title));
 
     Component mapLayout = map.getMapLayoutComponent();
-    if (mapLayout != null && this.eggWarsMapInfoSubConfig.getMapLayout().get()) {
+    if (mapLayout != null && this.gameMapInfoSubConfig.getMapLayout().get()) {
       display = display
           .append(Component.newline())
           .append(Component.translatable(this.mainKey + "mapLayout", Colours.Primary))
@@ -43,7 +43,7 @@ public class EggWarsMapInfoManager {
     }
 
     Component buildLimit = map.getBuildLimitMessage();
-    if (buildLimit != null && this.eggWarsMapInfoSubConfig.getBuildLimit().get()) {
+    if (buildLimit != null && this.gameMapInfoSubConfig.getBuildLimit().get()) {
       display = display
           .append(Component.newline())
           .append(Component.newline())
@@ -51,38 +51,40 @@ public class EggWarsMapInfoManager {
     }
 
     if (genLayout) {
-      display = display
-          .append(Component.newline())
-          .append(this.addon.prefix())
-          .append(map.getGenLayoutComponent());
+      Component component = map.getGenLayoutComponent();
+      if (component != null) {
+        display = display
+            .append(Component.newline())
+            .append(this.addon.prefix())
+            .append(component);
+      }
+
     }
 
     chat.displayClientMessage(display.append(Component.newline()));
   }
 
-  public boolean doEggWarsMapLayout(String mapName, boolean keyBind) {
-    String name = mapName.toLowerCase();
-    LoadedEggWarsMap map = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
-    EggWarsMapInfoSubConfig config = this.addon.configuration().getEggWarsMapInfoSubConfig();
+  public boolean doGameMapLayout(String mapName, boolean keyBind) {
+    LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(this.addon.getManager().getDivision(), mapName);
+    GameMapInfoSubConfig config = this.addon.configuration().getGameMapInfoSubConfig();
     if (map == null) {
       return false;
     }
-    this.displayEggWarsMapLayout(map, config.getGenLayout().get() && !keyBind);
+    this.displayGameMapLayout(map, config.getGenLayout().get() && !keyBind);
     return true;
   }
 
-  public void doEggWarsMapLayout() {
-    EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
+  public void doGameMapLayout() {
+    GameMapInfoSubConfig subConfig = this.addon.configuration().getGameMapInfoSubConfig();
     if (!subConfig.isEnabled().get()) {
       return;
     }
-    String name = this.addon.getManager().getMapName().toLowerCase();
-    LoadedEggWarsMap map = EggWarsMapAPI.getInstance().getEggWarsMapFromCache(name);
+    LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();
     if (map == null) {
       return;
     }
 
-    this.displayEggWarsMapLayout(map, false);
+    this.displayGameMapLayout(map, false);
   }
 
 

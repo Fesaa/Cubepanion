@@ -19,7 +19,7 @@ public class CommandSystemSubConfig extends Config {
 
   @SwitchSetting
   @SettingRequires(value = "enabled")
-  private final ConfigProperty<Boolean> EggWarsMapInfoCommand = new ConfigProperty<>(true);
+  private final ConfigProperty<Boolean> gameMapInfoCommand = new ConfigProperty<>(true);
 
   @SwitchSetting
   @SettingRequires(value = "enabled")
@@ -45,8 +45,8 @@ public class CommandSystemSubConfig extends Config {
     return StatsCommand;
   }
 
-  public ConfigProperty<Boolean> getEggWarsMapInfoCommand() {
-    return EggWarsMapInfoCommand;
+  public ConfigProperty<Boolean> getGameMapInfoCommand() {
+    return gameMapInfoCommand;
   }
 
   public ConfigProperty<Boolean> getChestFinderCommand() {

@@ -1,24 +1,25 @@
-package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base;
+package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base;
 
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
 import net.labymod.api.client.component.Component;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class LoadedEggWarsMap {
-
-  protected final String mainKey =
-      I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.directions";
+public abstract class LoadedGameMap {
 
   protected final Component teamFillerSpaces = spaceMaker(6);
   protected final Component sideSpaces = spaceMaker(2);
   protected final Component betweenSpaces = spaceMaker(4);
+  protected final CubeGame game;
   protected final String mapName;
   protected final int teamSize;
   protected final int buildLimit;
-  protected final GenLayout genLayout;
+  protected final @Nullable GenLayout genLayout;
   protected String currentTeamColour = "";
 
-  public LoadedEggWarsMap(String mapName, int teamSize, int buildLimit, GenLayout genLayout) {
+  public LoadedGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, @Nullable GenLayout genLayout) {
+    this.game = game;
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
@@ -33,7 +34,11 @@ public abstract class LoadedEggWarsMap {
     return buildLimit;
   }
 
+  @Nullable
   public Component getGenLayoutComponent() {
+    if (this.genLayout == null) {
+      return null;
+    }
     return this.genLayout.getLayoutComponent();
   }
 
@@ -41,7 +46,7 @@ public abstract class LoadedEggWarsMap {
 
   public Component getBuildLimitMessage() {
     return Component.translatable(
-            I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.buildLimit", Colours.Primary)
+            I18nNamespaces.managerNameSpace + "GameInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 
@@ -53,5 +58,9 @@ public abstract class LoadedEggWarsMap {
 
   public Component getTeamFiller(String colour) {
     return Component.text("||||||", Colours.colourToNamedTextColor(colour));
+  }
+
+  public CubeGame getGame() {
+    return game;
   }
 }

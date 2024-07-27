@@ -7,7 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.client.chat.command.SubCommand;
 
@@ -41,10 +41,10 @@ public class State extends SubCommand {
         manager.getGameStartTime());
 
     String weaveState = String.format(
-        "Weave State:\n\tChest Seasons: %s\n\tChests loaded: %d\n\tEggWars Maps loaded: %d\n\tGames Loaded: %d\n\t",
+        "Weave State:\n\tChest Seasons: %s\n\tChests loaded: %d\n\tGame Maps loaded: %d\n\tGames Loaded: %d\n\t",
         ChestAPI.getInstance().getSeason(),
         ChestAPI.getInstance().getChestLocations().size(),
-        EggWarsMapAPI.getInstance().getConvertedEggWarsMaps().size(),
+        GameMapAPI.getInstance().size(),
         LeaderboardAPI.getInstance().getAliases().size());
 
     PartyManager partyManager = addon.getManager().getPartyManager();
@@ -65,7 +65,7 @@ public class State extends SubCommand {
     CubeSocket socket = addon.getSocket();
     CubeSocketSession session = socket.getSession();
     String socketState = String.format(
-        "Socket State:\n\tConnected: %s\n\tCubeStocketState: %s\n\tKeep Alive Sent: %d\n\tKeep Alive Received: %d\n\t",
+        "Socket State:\n\tConnected: %s\n\tCubeSocketState: %s\n\tKeep Alive Sent: %d\n\tKeep Alive Received: %d\n\t",
         socket.isConnected(),
         socket.getState(),
         session != null ? session.getKeepAlivesSent() : 0,

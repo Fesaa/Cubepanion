@@ -124,8 +124,8 @@
           }
         }
       },
-      "eggWarsMapInfoSubConfig": {
-        "name": "EggWars Map Info",
+      "gameMapInfoSubConfig": {
+        "name": "Game Map Info",
         "mapLayout": {
           "name": "Display map layout on start"
         },
@@ -140,7 +140,7 @@
         },
         "genLayout": {
           "name": "Displays maps gen layout",
-          "description": "Only when using /eggwarsmaps <map name>"
+          "description": "Only when using /gamemap <map name>"
         }
       },
       "discordRichPresenceSubConfig": {
@@ -312,9 +312,9 @@
           "name": "Appeal Site",
           "description": "/appeal [mco/]<name>."
         },
-        "EggWarsMapInfoCommand": {
-          "name": "EggWars Map Info",
-          "description": "/eggwarsmap <Map Name>."
+        "GameMapInfoCommand": {
+          "name": "Game Map Info",
+          "description": "/gamemap <Map Name>."
         },
         "PartyCommands": {
           "name": "Party Commands",
@@ -560,7 +560,7 @@
         "response": "Appeal site link for: ",
         "hover": "Click to open URL"
       },
-      "EggWarsMapInfoCommand": {
+      "GameMapInfoCommand": {
         "mapNotFound": "Could not find map with name %s"
       },
       "PartyCommands": {

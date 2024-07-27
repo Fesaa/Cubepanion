@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base;
+package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base;
 
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;

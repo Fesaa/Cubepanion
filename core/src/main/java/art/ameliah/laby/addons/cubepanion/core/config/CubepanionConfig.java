@@ -3,7 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.config;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
@@ -22,7 +22,7 @@ public class CubepanionConfig extends AddonConfig {
   private final QOLConfig qolConfig = new QOLConfig();
   private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
   @SpriteSlot()
-  private final EggWarsMapInfoSubConfig eggWarsMapInfoSubConfig = new EggWarsMapInfoSubConfig();
+  private final GameMapInfoSubConfig gameMapInfoSubConfig = new GameMapInfoSubConfig();
   @SpriteSlot(x = 1)
   private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
   @SpriteSlot(x = 3)
@@ -54,8 +54,8 @@ public class CubepanionConfig extends AddonConfig {
     return commandSystemSubConfig;
   }
 
-  public EggWarsMapInfoSubConfig getEggWarsMapInfoSubConfig() {
-    return this.eggWarsMapInfoSubConfig;
+  public GameMapInfoSubConfig getGameMapInfoSubConfig() {
+    return this.gameMapInfoSubConfig;
   }
 
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {

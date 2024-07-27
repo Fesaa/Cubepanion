@@ -8,7 +8,7 @@ import net.labymod.api.configuration.loader.annotation.ShowSettingInParent;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 
-public class EggWarsMapInfoSubConfig extends Config {
+public class GameMapInfoSubConfig extends Config {
 
   @SwitchSetting
   @ShowSettingInParent

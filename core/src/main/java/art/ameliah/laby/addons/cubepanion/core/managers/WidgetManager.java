@@ -13,9 +13,10 @@ import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.TextTrackerHudWid
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.eggwarsmaps.base.LoadedEggWarsMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -130,7 +131,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
             () -> {
-              LoadedEggWarsMap map = addon.getManager().getCurrentEggWarsMap();
+              LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(addon.getManager().getDivision(), addon.getManager().getMapName());;
               if (map == null) {
                 return "";
               }

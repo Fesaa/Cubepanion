@@ -3,7 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core;
 
 import art.ameliah.laby.addons.cubepanion.core.commands.AppealSiteCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.AutoVoteCommand;
-import art.ameliah.laby.addons.cubepanion.core.commands.EggWarsMapInfoCommand;
+import art.ameliah.laby.addons.cubepanion.core.commands.GameMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardAPICommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardMappings;
@@ -35,7 +35,7 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.LeaderboardTracker
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
@@ -81,7 +81,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     }
 
     ChestAPI.Init();
-    EggWarsMapAPI.Init();
+    GameMapAPI.Init();
     LeaderboardAPI.Init();
     AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
 
@@ -122,7 +122,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     LOGGER.setManager(this.manager);
 
     this.registerCommand(new AppealSiteCommand(this));
-    this.registerCommand(new EggWarsMapInfoCommand(this));
+    this.registerCommand(new GameMapInfoCommand(this));
     this.registerCommand(new StatCommands(this));
     this.registerCommand(new LeaderboardAPICommands(this));
     this.registerCommand(new FindChestCommand(this, chestFinderLink));

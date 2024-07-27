@@ -1,10 +1,11 @@
 package art.ameliah.laby.addons.cubepanion.core.listener;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EggWarsMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.options.MinecraftInputMapping;
@@ -51,13 +52,13 @@ public class KeyEventListener {
       return;
     }
 
-    // EggWars Map Info KeyBind
-    EggWarsMapInfoSubConfig subConfig = this.addon.configuration().getEggWarsMapInfoSubConfig();
+    // Game Map Info KeyBind
+    GameMapInfoSubConfig subConfig = this.addon.configuration().getGameMapInfoSubConfig();
     if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()
-        && this.addon.getManager().getDivision().equals(CubeGame.TEAM_EGGWARS)) {
+        && GameMapAPI.getInstance().hasMaps(this.addon.getManager().getDivision())) {
       if (keyEvent.state() == State.PRESS) {
-        this.addon.getManager().getEggWarsMapInfoManager()
-            .doEggWarsMapLayout(this.addon.getManager().getMapName(), true);
+        this.addon.getManager().getGameMapInfoManager()
+            .doGameMapLayout(this.addon.getManager().getMapName(), true);
       }
     }
 

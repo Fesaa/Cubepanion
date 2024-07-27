@@ -5,29 +5,29 @@ import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSub
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
-import art.ameliah.laby.addons.cubepanion.core.weave.EggWarsMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.event.HoverEvent;
 
-public class EggWarsMapInfoCommand extends Command {
+public class GameMapInfoCommand extends Command {
 
   private final Cubepanion addon;
 
-  public EggWarsMapInfoCommand(Cubepanion addon) {
-    super("eggwarsmap", "ewm");
+  public GameMapInfoCommand(Cubepanion addon) {
+    super("gamemap", "gm");
     this.addon = addon;
   }
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    if (!this.addon.getManager().onCubeCraft() || !this.addon.getManager().getDivision()
-        .equals(CubeGame.TEAM_EGGWARS)) {
+    CubeGame game = this.addon.getManager().getDivision();
+    if (!this.addon.getManager().onCubeCraft() || !GameMapAPI.getInstance().hasMaps(game)) {
       return false;
     }
     CommandSystemSubConfig config = this.addon.configuration().getCommandSystemSubConfig();
 
-    if (!config.getEggWarsMapInfoCommand().get() || !config.getEnabled().get()) {
+    if (!config.getGameMapInfoCommand().get() || !config.getEnabled().get()) {
       return false;
     }
 
@@ -38,17 +38,17 @@ public class EggWarsMapInfoCommand extends Command {
       mapName = String.join(" ", arguments);
     }
 
-    boolean check = this.addon.getManager().getEggWarsMapInfoManager()
-        .doEggWarsMapLayout(mapName, false);
+    boolean check = this.addon.getManager().getGameMapInfoManager()
+        .doGameMapLayout(mapName, false);
     if (!check) {
       this.displayMessage(
           Component.translatable()
-              .key(I18nNamespaces.commandNamespace + "EggWarsMapInfoCommand." + "mapNotFound")
+              .key(I18nNamespaces.commandNamespace + "GameMapInfoCommand." + "mapNotFound")
               .argument(Component.text(mapName))
               .build()
               .color(Colours.Error)
               .hoverEvent(HoverEvent.showText(
-                  EggWarsMapAPI.getInstance().getAllMapNames()
+                  GameMapAPI.getInstance().getAllMapNames(game)
                       .color(Colours.Hover)
               )));
     }
