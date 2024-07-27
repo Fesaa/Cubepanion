@@ -16,9 +16,8 @@ public class SquareGameMap extends LoadedGameMap {
   private String teamAcross = "";
   private String teamAcrossSide = "";
 
-  public SquareGameMap(CubeGame game,String mapName, int teamSize, int buildLimit, GenLayout genLayout,
-      List<List<String>> teamColours) {
-    super(game, mapName, teamSize, buildLimit, genLayout);
+  public SquareGameMap(CubeGame game,String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
+    super(game, mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0).get(0));
   }

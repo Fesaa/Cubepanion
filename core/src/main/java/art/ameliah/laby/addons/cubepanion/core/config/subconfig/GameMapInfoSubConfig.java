@@ -25,10 +25,6 @@ public class GameMapInfoSubConfig extends Config {
   @SpriteSlot(x = 6, y = 2)
   private final ConfigProperty<Boolean> buildLimit = new ConfigProperty<>(true);
 
-  @SwitchSetting
-  @SpriteSlot(y = 2, x = 1)
-  private final ConfigProperty<Boolean> genLayout = new ConfigProperty<>(true);
-
   public ConfigProperty<Boolean> isEnabled() {
     return this.enabled;
   }
@@ -43,10 +39,6 @@ public class GameMapInfoSubConfig extends Config {
 
   public ConfigProperty<Boolean> getBuildLimit() {
     return this.buildLimit;
-  }
-
-  public ConfigProperty<Boolean> getGenLayout() {
-    return genLayout;
   }
 
 }

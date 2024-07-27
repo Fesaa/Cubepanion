@@ -8,11 +8,9 @@ import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.SquareGameMap;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.TriangleEggWarsMap;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout.Location;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout.MapGenerator;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.GameMap;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.Generator;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -51,20 +49,6 @@ public class Utils {
   }
 
   public static @Nullable LoadedGameMap fromAPIMap(GameMap map) {
-    Generator[] gens = map.generators();
-    GenLayout layout = null;
-    // EggWars Map
-    if (gens != null) {
-      List<MapGenerator> mapGenerators = new ArrayList<>();
-      for (Generator gen : gens) {
-        MapGenerator mapGen = new MapGenerator(transformGen(gen.gen_type()),
-            transformLoc(gen.gen_location()), gen.level(), gen.count());
-        mapGenerators.add(mapGen);
-      }
-      layout = new GenLayout(mapGenerators);
-    }
-
-
     CubeGame game = CubeGame.stringToGame(map.game());
     if (game.equals(CubeGame.NONE)) {
       return null;
@@ -72,19 +56,19 @@ public class Utils {
 
     switch (map.layout()) {
       case "square" -> {
-        return new SquareGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new SquareGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
             twoDeepStringList(transformColours(map)));
       }
       case "cross" -> {
-        return new CrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new CrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
             oneDeepStringList(transformColours(map)));
       }
       case "doublecross" -> {
-        return new DoubleCrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new DoubleCrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
             twoDeepStringList(transformColours(map)));
       }
       case "triangle" -> {
-        return new TriangleEggWarsMap(game, map.map_name(), map.team_size(), map.build_limit(), layout,
+        return new TriangleEggWarsMap(game, map.map_name(), map.team_size(), map.build_limit(),
             twoDeepStringList(transformColours(map)));
       }
       default -> {

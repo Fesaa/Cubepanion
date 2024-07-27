@@ -58,7 +58,7 @@ public class KeyEventListener {
         && GameMapAPI.getInstance().hasMaps(this.addon.getManager().getDivision())) {
       if (keyEvent.state() == State.PRESS) {
         this.addon.getManager().getGameMapInfoManager()
-            .doGameMapLayout(this.addon.getManager().getMapName(), true);
+            .doGameMapLayout(this.addon.getManager().getMapName());
       }
     }
 

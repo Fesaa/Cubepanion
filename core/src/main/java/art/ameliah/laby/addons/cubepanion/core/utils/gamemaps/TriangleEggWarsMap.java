@@ -18,9 +18,8 @@ public class TriangleEggWarsMap extends LoadedGameMap {
   String teamUpRight = "";
   int triangleLocation = -1;
 
-  public TriangleEggWarsMap(CubeGame game,String mapName, int teamSize, int buildLimit, GenLayout genLayout,
-      List<List<String>> teamColours) {
-    super(game, mapName, teamSize, buildLimit, genLayout);
+  public TriangleEggWarsMap(CubeGame game,String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
+    super(game, mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.getFirst().getFirst());
   }

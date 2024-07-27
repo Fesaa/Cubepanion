@@ -22,7 +22,7 @@ public class GameMapInfoManager {
     this.gameMapInfoSubConfig = addon.configuration().getGameMapInfoSubConfig();
   }
 
-  private void displayGameMapLayout(LoadedGameMap map, boolean genLayout) {
+  private void displayGameMapLayout(LoadedGameMap map) {
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
     if (addon.getManager().getMapName().equals(map.getName())) {
@@ -50,27 +50,16 @@ public class GameMapInfoManager {
           .append(buildLimit);
     }
 
-    if (genLayout) {
-      Component component = map.getGenLayoutComponent();
-      if (component != null) {
-        display = display
-            .append(Component.newline())
-            .append(this.addon.prefix())
-            .append(component);
-      }
-
-    }
-
     chat.displayClientMessage(display.append(Component.newline()));
   }
 
-  public boolean doGameMapLayout(String mapName, boolean keyBind) {
+  public boolean doGameMapLayout(String mapName) {
     LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(this.addon.getManager().getDivision(), mapName);
     GameMapInfoSubConfig config = this.addon.configuration().getGameMapInfoSubConfig();
     if (map == null) {
       return false;
     }
-    this.displayGameMapLayout(map, config.getGenLayout().get() && !keyBind);
+    this.displayGameMapLayout(map);
     return true;
   }
 
@@ -84,7 +73,7 @@ public class GameMapInfoManager {
       return;
     }
 
-    this.displayGameMapLayout(map, false);
+    this.displayGameMapLayout(map);
   }
 
 

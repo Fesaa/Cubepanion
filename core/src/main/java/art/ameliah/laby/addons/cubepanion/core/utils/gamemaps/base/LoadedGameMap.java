@@ -15,15 +15,13 @@ public abstract class LoadedGameMap {
   protected final String mapName;
   protected final int teamSize;
   protected final int buildLimit;
-  protected final @Nullable GenLayout genLayout;
   protected String currentTeamColour = "";
 
-  public LoadedGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, @Nullable GenLayout genLayout) {
+  public LoadedGameMap(CubeGame game, String mapName, int teamSize, int buildLimit) {
     this.game = game;
     this.mapName = mapName;
     this.teamSize = teamSize;
     this.buildLimit = buildLimit;
-    this.genLayout = genLayout;
   }
 
   protected static Component spaceMaker(int n) {
@@ -32,14 +30,6 @@ public abstract class LoadedGameMap {
 
   public int getBuildLimit() {
     return buildLimit;
-  }
-
-  @Nullable
-  public Component getGenLayoutComponent() {
-    if (this.genLayout == null) {
-      return null;
-    }
-    return this.genLayout.getLayoutComponent();
   }
 
   public abstract Component getMapLayoutComponent();

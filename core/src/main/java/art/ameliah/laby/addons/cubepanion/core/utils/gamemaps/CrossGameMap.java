@@ -15,9 +15,8 @@ public class CrossGameMap extends LoadedGameMap {
   private String teamRight = "";
   private String teamBefore = "";
 
-  public CrossGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, GenLayout genLayout,
-      List<String> teamColours) {
-    super(game, mapName, teamSize, buildLimit, genLayout);
+  public CrossGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, List<String> teamColours) {
+    super(game, mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0));
   }

@@ -39,7 +39,7 @@ public class GameMapInfoCommand extends Command {
     }
 
     boolean check = this.addon.getManager().getGameMapInfoManager()
-        .doGameMapLayout(mapName, false);
+        .doGameMapLayout(mapName);
     if (!check) {
       this.displayMessage(
           Component.translatable()
