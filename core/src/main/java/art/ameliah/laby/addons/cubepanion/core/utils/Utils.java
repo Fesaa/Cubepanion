@@ -6,8 +6,6 @@ import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.CrossGameMap;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.DoubleCrossGameMap;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.SquareGameMap;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.TriangleEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout.Location;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.GameMap;
@@ -106,22 +104,6 @@ public class Utils {
       LOGGER.error("Failed to parse colours for " + map.map_name() + " using empty list.", e);
     }
     return array != null ? array : new JsonArray();
-  }
-
-  static GenLayout.Generator transformGen(String type) {
-    return switch (type) {
-      case "diamond" -> GenLayout.Generator.DIAMOND;
-      case "gold" -> GenLayout.Generator.GOLD;
-      default -> GenLayout.Generator.IRON;
-    };
-  }
-
-  static Location transformLoc(String loc) {
-    return switch (loc) {
-      case "middle" -> Location.MIDDLE;
-      case "semimiddle" -> Location.SEMI_MIDDLE;
-      default -> Location.BASE;
-    };
   }
 
   public static Component chestLocationsComponent(ChestLocation loc) {
