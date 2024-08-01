@@ -131,7 +131,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
             () -> {
-              LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(addon.getManager().getDivision(), addon.getManager().getMapName());;
+              LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();;
               if (map == null) {
                 return "";
               }
@@ -157,7 +157,7 @@ public class WidgetManager {
 
               return String.valueOf(d);
             },
-            () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)
+            () -> GameMapAPI.getInstance().getCurrentMap() != null
                 && !addon.getManager().isInPreLobby(), 5, 1, () -> true));
 
     // Fireball Cooldown
