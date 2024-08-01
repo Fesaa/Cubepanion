@@ -36,7 +36,7 @@ public abstract class LoadedGameMap {
 
   public Component getBuildLimitMessage() {
     return Component.translatable(
-            I18nNamespaces.managerNameSpace + "GameInfoManager.buildLimit", Colours.Primary)
+            I18nNamespaces.managerNameSpace + "GameMapInfoManager.buildLimit", Colours.Primary)
         .append(Component.text(this.buildLimit, Colours.Secondary));
   }
 

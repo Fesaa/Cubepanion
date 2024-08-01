@@ -628,7 +628,7 @@
         "waitingState": "Waiting...",
         "alivePlayersState": " [%s/%s alive]"
       },
-      "EggWarsMapInfoManager": {
+      "GameMapInfoManager": {
         "title": "------- Map Info For %s -------",
         "mapLayout": "Map layout:",
         "buildLimit": "Build limit: ",

@@ -14,7 +14,7 @@ public class GameMapInfoManager {
   private final Cubepanion addon;
   private final GameMapInfoSubConfig gameMapInfoSubConfig;
 
-  private final String mainKey = I18nNamespaces.managerNameSpace + "EggWarsMapInfoManager.";
+  private final String mainKey = I18nNamespaces.managerNameSpace + "GameMapInfoManager.";
 
 
   public GameMapInfoManager(Cubepanion addon) {

@@ -3,7 +3,6 @@ package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.getDoubleIndex;
 
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.GenLayout;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;

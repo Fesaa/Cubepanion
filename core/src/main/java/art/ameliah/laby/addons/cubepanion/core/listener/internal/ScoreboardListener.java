@@ -46,7 +46,7 @@ public class ScoreboardListener {
 
   @Subscribe
   public void serverIdTracker(ScoreboardTeamEntryAddEvent e) {
-    if (!this.addon.getManager().onCubeCraft() || updatedServerID) {
+    if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
 
@@ -55,12 +55,15 @@ public class ScoreboardListener {
       return;
     }
 
-    String t = ((TextComponent) children.get(0)).getText();
+    String t = ((TextComponent) children.getFirst()).getText();
     Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
     if (matcher.matches()) {
       String serverId = matcher.group(1);
-      this.manager.setServerID(serverId);
-      this.updatedServerID = true;
+
+      if (!updatedServerID || !serverId.equals(this.manager.getServerID())) {
+        this.manager.setServerID(serverId);
+        this.updatedServerID = true;
+      }
     }
   }
 
