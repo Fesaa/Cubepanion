@@ -25,23 +25,18 @@ public class ScoreboardListener {
   private final CubepanionManager manager;
 
   private String previousText;
-  private boolean updatedMap;
   private boolean updatedDivision;
-  private boolean updatedServerID;
 
   public ScoreboardListener(Cubepanion addon) {
     this.addon = addon;
     this.manager = this.addon.getManager();
 
     this.previousText = "";
-    this.updatedMap = false;
   }
 
   @Subscribe
   public void onServerSwitch(SubServerSwitchEvent e) {
     updatedDivision = false;
-    updatedMap = false;
-    updatedServerID = false;
   }
 
   @Subscribe
@@ -59,17 +54,13 @@ public class ScoreboardListener {
     Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
     if (matcher.matches()) {
       String serverId = matcher.group(1);
-
-      if (!updatedServerID || !serverId.equals(this.manager.getServerID())) {
-        this.manager.setServerID(serverId);
-        this.updatedServerID = true;
-      }
+      this.manager.setServerID(serverId);
     }
   }
 
   @Subscribe
   public void onScoreboardTeamEntryAddEvent(ScoreboardTeamEntryAddEvent e) {
-    if (this.updatedMap || !this.addon.getManager().onCubeCraft()) {
+    if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
 
@@ -78,32 +69,33 @@ public class ScoreboardListener {
       return;
     }
 
+    boolean updatedMap = false;
     switch (manager.getDivision()) {
       case FFA -> {
         List<Component> ffaComponent = children.get(0).getChildren();
         if (ffaComponent.size() == 2) {
           if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
             this.manager.setMapName(((TextComponent) ffaComponent.get(1)).getText());
-            this.updatedMap = true;
+            updatedMap = true;
           }
         }
       }
       case LOBBY -> {
         if (updatedDivision) {
           this.manager.setMapName("Main Lobby");
-          this.updatedMap = true;
+          updatedMap = true;
         }
       }
       default -> {
         String text = ((TextComponent) children.get(0)).getText();
         if (this.previousText.equals("Map:") || this.previousText.equals("Dimension:")) {
           this.manager.setMapName(text);
-          this.updatedMap = true;
+          updatedMap = true;
         }
         this.previousText = text;
       }
     }
-    if (this.updatedMap) {
+    if (updatedMap) {
       Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
     }
   }
@@ -139,8 +131,6 @@ public class ScoreboardListener {
         }
       }
     }
-
-    this.updatedMap = false;
   }
 
 }
