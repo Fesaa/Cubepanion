@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.inject.Singleton;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
@@ -53,19 +54,24 @@ public class LeaderboardAPI {
   }
 
   public void loadLeaderboards() {
+    loadLeaderboards(null);
+  }
+
+  public void loadLeaderboards(Consumer<Leaderboard[]> consumer) {
     // Players may be on non-active games, load all of them so ensure /lb commands
     // can display them correctly
     String url = String.format("%s/false", gamesBaseURL);
     CompletableFuture<JsonArray> completableFuture = makeRequest(url, JsonArray.class);
     completableFuture
-        .whenComplete((leaderboards, throwable) -> {
+        .handleAsync((leaderboards, throwable) -> {
           if (throwable != null) {
             LOGGER.error(getClass(), throwable, "Could not load leaderboards");
-            return;
+            return new Leaderboard[]{};
           }
 
-          for (JsonElement el : leaderboards) {
-            JsonObject obj = el.getAsJsonObject();
+          Leaderboard[] array = new Leaderboard[leaderboards.size()];
+          for (int i = 0; i < leaderboards.size(); i++) {
+            JsonObject obj = leaderboards.get(i).getAsJsonObject();
             Leaderboard game = new Leaderboard(obj.get("game").getAsString(),
                 obj.get("display_name").getAsString(), true, obj.get("score_type").getAsString());
             for (JsonElement aliasElement : obj.get("aliases").getAsJsonArray()) {
@@ -73,11 +79,19 @@ public class LeaderboardAPI {
             }
             converter.put(game.name(), game);
             converter.put(game.displayName(), game);
+
+            array[i] = game;
           }
+          return array;
         })
         .exceptionally(throwable -> {
           LOGGER.error(getClass(), throwable, "Error while loading leaderboards");
-          return new JsonArray();
+          return  new Leaderboard[]{};
+        }).thenApplyAsync(leaderboards -> {
+          if (consumer != null) {
+            consumer.accept(leaderboards);
+          }
+          return null;
         });
   }
 

@@ -13,6 +13,8 @@ public class Debug extends Command {
     withSubCommand(new TeamColourCommand(addon));
     withSubCommand(new State(addon));
     withSubCommand(new ResetConnectionTries(addon));
+    withSubCommand(new Reload(addon));
+    withSubCommand(new PreLobby(addon));
   }
 
   @Override

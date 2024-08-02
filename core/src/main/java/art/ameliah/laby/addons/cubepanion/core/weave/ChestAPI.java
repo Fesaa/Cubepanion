@@ -6,6 +6,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.inject.Singleton;
 
 
@@ -51,6 +52,10 @@ public class ChestAPI {
   }
 
   public void loadChestLocations() {
+    loadChestLocations(null);
+  }
+
+  public void loadChestLocations(Consumer<ChestLocation[]> consumer) {
     getCurrentChestLocations()
         .whenComplete((chestLocations, throwable) -> {
           if (throwable != null) {
@@ -66,10 +71,20 @@ public class ChestAPI {
         }).exceptionally(throwable -> {
           LOGGER.error(getClass(), throwable, "Could not load chest locations");
           return null;
+        })
+        .thenApplyAsync((chestLocations) -> {
+          if (consumer != null) {
+            consumer.accept(chestLocations);
+          }
+          return chestLocations;
         });
   }
 
   public void loadSeason() {
+    loadSeason(null);
+  }
+
+  public void loadSeason(Consumer<String[]> consumer) {
     getSeasons(SeasonType.RUNNING)
         .whenComplete((seasons, throwable) -> {
           if (throwable != null) {
@@ -84,6 +99,12 @@ public class ChestAPI {
         }).exceptionally(throwable -> {
           LOGGER.error(getClass(), throwable, "Could not load chest locations");
           return null;
+        })
+        .thenApplyAsync((seasons) -> {
+          if (consumer != null) {
+            consumer.accept(seasons);
+          }
+          return seasons;
         });
   }
 

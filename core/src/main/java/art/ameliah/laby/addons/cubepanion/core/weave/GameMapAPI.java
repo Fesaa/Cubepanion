@@ -10,6 +10,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import javax.inject.Singleton;
 import net.labymod.api.client.component.Component;
 
@@ -38,6 +39,10 @@ public class GameMapAPI {
   }
 
   public void loadMaps() {
+    loadMaps(null);
+  }
+
+  public void loadMaps(Consumer<GameMap[]> consumer) {
     getAllGameMaps()
         .whenComplete((gameMap, throwable) -> {
           if (throwable != null) {
@@ -65,6 +70,11 @@ public class GameMapAPI {
         .exceptionally(throwable -> {
           LOGGER.error(getClass(), throwable, "Could not load EggWars maps.");
           return null;
+        }).thenApplyAsync(gameMaps -> {
+          if (consumer != null) {
+            consumer.accept(gameMaps);
+          }
+          return gameMaps;
         });
   }
 
