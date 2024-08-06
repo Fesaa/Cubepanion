@@ -36,7 +36,7 @@ public class RespawnTags extends NameTag {
   @Subscribe
   public void onPlayerRespawn(PlayerRespawnEvent e) {
     if (!Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
-    || !Cubepanion.get().getManager().isPlaying(CubeGame.BEDWARS)) {
+    && !Cubepanion.get().getManager().isPlaying(CubeGame.BEDWARS)) {
       return;
     }
 
