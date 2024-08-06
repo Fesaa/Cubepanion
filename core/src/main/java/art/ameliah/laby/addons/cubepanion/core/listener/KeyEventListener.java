@@ -4,6 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.component.Component;
@@ -57,8 +58,8 @@ public class KeyEventListener {
     if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()
         && GameMapAPI.getInstance().hasMaps(this.addon.getManager().getDivision())) {
       if (keyEvent.state() == State.PRESS) {
-        this.addon.getManager().getGameMapInfoManager()
-            .doGameMapLayout(this.addon.getManager().getMapName());
+        LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();
+        this.addon.getManager().getGameMapInfoManager().displayGameMapLayout(map);
       }
     }
 

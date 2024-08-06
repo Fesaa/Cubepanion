@@ -22,7 +22,10 @@ public class GameMapInfoManager {
     this.gameMapInfoSubConfig = addon.configuration().getGameMapInfoSubConfig();
   }
 
-  private void displayGameMapLayout(LoadedGameMap map) {
+  public void displayGameMapLayout(LoadedGameMap map) {
+    if (map == null || !this.gameMapInfoSubConfig.isEnabled().get()) {
+      return;
+    }
     ChatExecutor chat = this.addon.labyAPI().minecraft().chatExecutor();
 
     if (addon.getManager().getMapName().equals(map.getName())) {
@@ -53,9 +56,9 @@ public class GameMapInfoManager {
     chat.displayClientMessage(display.append(Component.newline()));
   }
 
+  // Force map layout, regardless of config
   public boolean doGameMapLayout(String mapName) {
     LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(this.addon.getManager().getDivision(), mapName);
-    GameMapInfoSubConfig config = this.addon.configuration().getGameMapInfoSubConfig();
     if (map == null) {
       return false;
     }
