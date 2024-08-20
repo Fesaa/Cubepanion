@@ -1,11 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.function.Supplier;
 import net.labymod.api.reference.annotation.Referenceable;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Nullable
@@ -14,46 +11,39 @@ public abstract class VotingLink {
 
   public final int returnIndex = 31;
 
-  protected int hotbarSlotIndex;
+  public abstract void openMenu(int hotbarSlotIndex);
 
-  protected Deque<VotePair> deque = new ArrayDeque<>();
-
-  private void addToDeque(int slot, int voteIndex) {
-    if (voteIndex != -1) {
-      deque.add(new VotePair(slot, voteIndex));
-    }
-  }
-
-  public @NotNull VotePair getNextVotePair() {
-    if (deque.isEmpty()) {
-      return new VotePair(-1, -1);
-    }
-    return deque.poll();
-  }
+  public abstract void clickSlot(int syncId, int slotId, int button);
 
   public void vote(AutoVoteProvider provider) {
-    hotbarSlotIndex = provider.getHotbarSlot();
-    boolean vote = false;
-    deque.clear();
-    for (Supplier<VotePair> supplier : provider.getVotePairSuppliers()) {
-      VotePair pair = supplier.get();
-      deque.add(pair);
-      vote |= pair.voteIndex != -1;
-    }
-    if (vote) {
-      this.startAutoVote();
-    } else {
-      deque.clear();
-    }
-  }
+    this.openMenu(provider.getHotbarSlot());
 
-  public abstract void startAutoVote();
+    int syncId = 1;
+    for (Supplier<VotePair> votePairSupplier : provider.getVotePairSuppliers()) {
+      VotePair pair = votePairSupplier.get();
+      if (!pair.valid()) {
+        continue;
+      }
+
+      this.clickSlot(syncId, pair.choiceIndex(), 0);
+      syncId++;
+      this.clickSlot(syncId, pair.voteIndex(), 0);
+      this.clickSlot(syncId, returnIndex, 0);
+      syncId++;
+    }
+    this.clickSlot(syncId, returnIndex, 0);
+  }
 
   public record VotePair(int choiceIndex, int voteIndex) {
 
     public static VotePair of(int choiceIndex, int voteIndex) {
       return new VotePair(choiceIndex, voteIndex);
     }
+
+    public boolean valid() {
+      return choiceIndex >= 0 && voteIndex >= 0;
+    }
+
   }
 
 
