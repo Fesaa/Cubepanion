@@ -50,7 +50,7 @@ public enum CubeGame {
       case "solo lucky islands" -> {
         return CubeGame.SOLO_LUCKYISLANDS;
       }
-      case "lucky islands" -> {
+      case "team lucky islands", "lucky islands" -> {
         return CubeGame.TEAM_LUCKY_ISLANDS;
       }
       case "free for all", "ffa" -> {
@@ -80,7 +80,7 @@ public enum CubeGame {
       case "pillars of fortune" -> {
         return CubeGame.PILLARS_OF_FORTUNE;
       }
-      case "bedwars" -> {
+      case "team bedwars", "bedwars" -> {
         return CubeGame.BEDWARS;
       }
       default -> {
