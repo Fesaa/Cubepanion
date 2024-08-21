@@ -3,7 +3,8 @@ package art.ameliah.laby.addons.cubepanion.core.utils;
 // ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
   TEAM_EGGWARS("Team EggWars", true),
-  SOLO_LUCKYISLANDS("Lucky Islands", true),
+  SOLO_LUCKYISLANDS("Solo Lucky Islands", true),
+  TEAM_LUCKY_ISLANDS("Team Lucky Islands", true),
   SOLO_SKYWARS("Solo SkyWars", true),
   FFA("Free For All", true),
   SIMPLE_PARKOUR("Simple Parkour", false),
@@ -46,8 +47,11 @@ public enum CubeGame {
       case "solo skywars", "skywars" -> {
         return CubeGame.SOLO_SKYWARS;
       }
-      case "lucky islands", "solo lucky islands" -> {
+      case "solo lucky islands" -> {
         return CubeGame.SOLO_LUCKYISLANDS;
+      }
+      case "lucky islands" -> {
+        return CubeGame.TEAM_LUCKY_ISLANDS;
       }
       case "free for all", "ffa" -> {
         return CubeGame.FFA;

@@ -42,6 +42,10 @@ public class AutoVoteProvider {
     providers.put(CubeGame.BEDWARS, AutoVoteProvider.of(0,
         () -> VotePair.of(-1, config.getBedWarsModifier().get().slot)
     ));
+    providers.put(CubeGame.TEAM_LUCKY_ISLANDS, AutoVoteProvider.of(2,
+        () -> VotePair.of(12, config.getLuckyIslandsBlocks().get().slot),
+        () -> VotePair.of(14, config.getLuckyIslandsTime().get().slot)
+    ));
   }
 
   public static AutoVoteProvider getProvider(CubeGame game) {
