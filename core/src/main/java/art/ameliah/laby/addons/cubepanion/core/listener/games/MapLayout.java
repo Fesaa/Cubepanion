@@ -13,7 +13,7 @@ public class MapLayout {
       return;
     }
 
-    if (e.isPreLobby()) {
+    if (e.isPreLobby() || e.isSwitch()) {
       return;
     }
 
