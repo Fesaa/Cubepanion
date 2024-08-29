@@ -49,7 +49,7 @@ public class CubeSocket extends Service {
     if (System.getenv("CUBEPANION_DEV") != null) {
       host = "192.168.0.118";
     } else {
-      host = "ameliah.art";
+      host = "cubesocket.ameliah.art";
     }
   }
 
