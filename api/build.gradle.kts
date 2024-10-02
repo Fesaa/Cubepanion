@@ -1,10 +1,7 @@
-version = "0.1.0"
-
-plugins {
-    id("java-library")
-}
+import net.labymod.labygradle.common.extension.LabyModAnnotationProcessorExtension.ReferenceType
 
 dependencies {
+    labyProcessor()
     labyApi("api")
 
     // If you want to use external libraries, you can do that here.
@@ -16,8 +13,8 @@ dependencies {
     // maven(mavenCentral(), "org.apache.httpcomponents:httpclient:4.5.13")
 }
 
-labyModProcessor {
-    referenceType = net.labymod.gradle.core.processor.ReferenceType.INTERFACE
+labyModAnnotationProcessor {
+    referenceType = ReferenceType.INTERFACE
 }
 
 java {

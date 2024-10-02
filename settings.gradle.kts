@@ -1,7 +1,7 @@
 rootProject.name = "cubepanion"
 
 pluginManagement {
-    val labyGradlePluginVersion = "0.4.6"
+    val labyGradlePluginVersion = "0.5.5"
     plugins {
         id("net.labymod.gradle") version (labyGradlePluginVersion)
     }
@@ -9,17 +9,19 @@ pluginManagement {
     buildscript {
         repositories {
             maven("https://dist.labymod.net/api/v1/maven/release/")
-            maven("https://repo.spongepowered.org/repository/maven-public")
+            maven("https://maven.neoforged.net/releases/")
+            maven("https://maven.fabricmc.net/")
+            gradlePluginPortal()
             mavenCentral()
         }
 
         dependencies {
-            classpath("net.labymod.gradle", "addon", labyGradlePluginVersion)
+            classpath("net.labymod.gradle", "common", labyGradlePluginVersion)
         }
     }
 }
 
-plugins.apply("net.labymod.gradle")
+plugins.apply("net.labymod.labygradle.settings")
 
 
 
