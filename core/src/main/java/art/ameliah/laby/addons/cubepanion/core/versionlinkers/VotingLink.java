@@ -25,11 +25,17 @@ public abstract class VotingLink {
         continue;
       }
 
-      this.clickSlot(syncId, pair.choiceIndex(), 0);
-      syncId++;
+      if (pair.choiceIndex() != -1) {
+        this.clickSlot(syncId, pair.choiceIndex(), 0);
+        syncId++;
+      }
+
       this.clickSlot(syncId, pair.voteIndex(), 0);
-      this.clickSlot(syncId, returnIndex, 0);
-      syncId++;
+
+      if (pair.choiceIndex() != -1) {
+        this.clickSlot(syncId, returnIndex, 0);
+        syncId++;
+      }
     }
     this.clickSlot(syncId, returnIndex, 0);
   }
@@ -41,7 +47,7 @@ public abstract class VotingLink {
     }
 
     public boolean valid() {
-      return choiceIndex >= 0 && voteIndex >= 0;
+      return voteIndex >= 0;
     }
 
   }

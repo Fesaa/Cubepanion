@@ -261,6 +261,14 @@
             "none": "Don't vote"
           }
         },
+        "ender": {
+          "name": "Ender",
+          "entries": {
+            "left": "Human",
+            "right": "Ender",
+            "none": "Don't vote"
+          }
+        },
         "experiments": {
           "name": "Experiments",
           "description": "Only turn off, if autovote doesn't work without it. "
