@@ -17,6 +17,7 @@ public enum CubeGame {
   LOBBY("Main Lobby", false),
   PILLARS_OF_FORTUNE("Pillars of Fortune", true),
   BEDWARS("BedWars", true),
+  ENDER("Ender", false),
   NONE("", false);
 
 
@@ -82,6 +83,9 @@ public enum CubeGame {
       }
       case "team bedwars", "bedwars" -> {
         return CubeGame.BEDWARS;
+      }
+      case "ender" -> {
+        return CubeGame.ENDER;
       }
       default -> {
         return CubeGame.NONE;

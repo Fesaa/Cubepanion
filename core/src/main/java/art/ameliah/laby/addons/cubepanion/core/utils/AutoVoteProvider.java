@@ -46,6 +46,9 @@ public class AutoVoteProvider {
         () -> VotePair.of(12, config.getLuckyIslandsBlocks().get().slot),
         () -> VotePair.of(14, config.getLuckyIslandsTime().get().slot)
     ));
+    providers.put(CubeGame.ENDER, AutoVoteProvider.of(0,
+        () -> VotePair.of(-1, config.getEnder().get().slot)
+    ));
   }
 
   public static AutoVoteProvider getProvider(CubeGame game) {

@@ -58,6 +58,9 @@ public class AutoVoteSubConfig extends Config {
   @DropdownSetting
   private final ConfigProperty<TwoOptionsMode> bedWarsModifier = new ConfigProperty<>(TwoOptionsMode.RIGHT);
 
+  @DropdownSetting
+  private final ConfigProperty<TwoOptionsMode> ender = new ConfigProperty<>(TwoOptionsMode.NONE);
+
   @SwitchSetting
   private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
 
@@ -133,6 +136,10 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<TwoOptionsMode> getBedWarsModifier() {
     return bedWarsModifier;
+  }
+
+  public ConfigProperty<TwoOptionsMode> getEnder() {
+    return ender;
   }
 
   public ConfigProperty<Boolean> getExperiments() {
