@@ -29,7 +29,7 @@ public class GameMapInfoSubConfig extends Config {
     return this.enabled;
   }
 
-  public ConfigProperty<Key> getKey() {
+  public ConfigProperty<Key>  getKey() {
     return this.key;
   }
 
