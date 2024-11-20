@@ -5,7 +5,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 public class GameListeners {
 
   public static void register(Cubepanion addon) {
-    addon.registerCubepanionListener(new AutoVote());
+    addon.registerCubepanionListener(new AutoVote(addon));
     if (addon.getFunctionLink() != null) {
       addon.registerCubepanionListener(new FireballCooldown(addon, addon.getFunctionLink()));
     }
