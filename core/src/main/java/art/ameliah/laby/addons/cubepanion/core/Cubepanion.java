@@ -36,6 +36,7 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
@@ -83,6 +84,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     ChestAPI.Init();
     GameMapAPI.Init();
     LeaderboardAPI.Init();
+    GamesAPI.Init();
     AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
 
     socket = new CubeSocket(
