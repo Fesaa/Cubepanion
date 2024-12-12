@@ -163,8 +163,7 @@
         "eggWarsHealth": {
           "name": "EggWars Health",
           "entries": {
-            "left": "Half",
-            "middle": "Normal",
+            "left": "Normal",
             "right": "Double",
             "none": "Don't vote"
           }

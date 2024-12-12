@@ -24,8 +24,8 @@ public class AutoVoteSubConfig extends Config {
       ThreeOptionsMode.RIGHT);
   @DropdownSetting
   @SpriteSlot(x = 7)
-  private final ConfigProperty<ThreeOptionsMode> eggWarsHealth = new ConfigProperty<>(
-      ThreeOptionsMode.MIDDLE);
+  private final ConfigProperty<TwoOptionsMode> eggWarsHealth = new ConfigProperty<>(
+      TwoOptionsMode.LEFT);
   @DropdownSetting
   private final ConfigProperty<TwoOptionsMode> eggWarsPerk = new ConfigProperty<>(
       TwoOptionsMode.RIGHT);
@@ -98,7 +98,7 @@ public class AutoVoteSubConfig extends Config {
     return luckyIslandsBlocks;
   }
 
-  public ConfigProperty<ThreeOptionsMode> getEggWarsHealth() {
+  public ConfigProperty<TwoOptionsMode> getEggWarsHealth() {
     return eggWarsHealth;
   }
 
