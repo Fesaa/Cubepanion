@@ -149,6 +149,10 @@ public class ScoreboardListener {
     /*if (updatedDivision && !CubeGame.isParkour(this.manager.getDivision())) {
       return;
     }*/
+    if (CubeGame.isParkour(this.manager.getDivision())) {
+      // I don't remember what the issue was with parkour, ignore it all. 
+      return;
+    }
 
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
