@@ -9,6 +9,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -26,6 +27,7 @@ public class ScoreboardListener {
   private final CubepanionManager manager;
 
   private int cooldown;
+  private CubeGame bufferedDivision;
 
   private String previousText;
   private boolean updatedDivision;
@@ -57,7 +59,7 @@ public class ScoreboardListener {
     Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
     if (matcher.matches()) {
       String serverId = matcher.group(1);
-      this.manager.setServerID(serverId);
+      this.updateServerId(serverId);
     }
   }
 
@@ -72,10 +74,15 @@ public class ScoreboardListener {
       return;
     }
 
+    if (this.bufferedDivision == null) {
+      //LOGGER.debug(getClass(), "No division found for map update, skipping");
+      return;
+    }
+
     boolean updatedMap = false;
-    switch (manager.getDivision()) {
+    switch (this.bufferedDivision) {
       case FFA -> {
-        List<Component> ffaComponent = children.get(0).getChildren();
+        List<Component> ffaComponent = children.getFirst().getChildren();
         if (ffaComponent.size() == 2) {
           if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
             this.manager.setMapName(((TextComponent) ffaComponent.get(1)).getText());
@@ -84,13 +91,11 @@ public class ScoreboardListener {
         }
       }
       case LOBBY -> {
-        if (updatedDivision) {
-          this.manager.setMapName("Main Lobby");
-          updatedMap = true;
-        }
+        this.manager.setMapName("Main Lobby");
+        updatedMap = true;
       }
       default -> {
-        String text = ((TextComponent) children.get(0)).getText();
+        String text = ((TextComponent) children.getFirst()).getText();
         if (this.previousText.equals("Map:") || this.previousText.equals("Dimension:")) {
           this.manager.setMapName(text);
           updatedMap = true;
@@ -109,6 +114,14 @@ public class ScoreboardListener {
     this.cooldown = 0;
   }
 
+  private void updateServerId(String serverId) {
+    this.manager.setServerID(serverId);
+    if (this.bufferedDivision != null) {
+      this.manager.setDivision(this.bufferedDivision);
+      this.bufferedDivision = null;
+    }
+  }
+
   private void updateDivision(CubeGame division) {
     this.cooldown++;
 
@@ -125,7 +138,7 @@ public class ScoreboardListener {
       return;
     }
 
-    this.manager.setDivision(division);
+    this.bufferedDivision = division;
   }
 
   @Subscribe
