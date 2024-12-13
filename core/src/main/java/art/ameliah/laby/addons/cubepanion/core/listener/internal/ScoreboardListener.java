@@ -119,20 +119,23 @@ public class ScoreboardListener {
   private void updateDivision(CubeGame division) {
     this.cooldown++;
 
-    if (this.cooldown != 1 || this.updatedDivision) {
+    // if it's a new division, always pass through
+    if ((this.cooldown == 1 && !this.updatedDivision) || !this.manager.getDivision().equals(division)) {
+      this.bufferedDivision = division;
 
-      // EggWars has a pre-lobby, so it fires it 2*3 times; Hard code this in
-      int threshHold = this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS) ? 6 : 3;
-
-      if (this.cooldown == threshHold) {
-        this.cooldown = 0;
-        this.updatedDivision = false;
-      }
-
+      // In case of the new division, manually sync these back
+      this.cooldown = 1;
+      this.updatedDivision = false;
       return;
     }
 
-    this.bufferedDivision = division;
+    // EggWars has a pre-lobby, so it fires it 2*3 times; Hard code this in
+    int threshHold = this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS) ? 6 : 3;
+
+    if (this.cooldown >= threshHold) {
+      this.cooldown = 0;
+      this.updatedDivision = false;
+    }
   }
 
   @Subscribe
