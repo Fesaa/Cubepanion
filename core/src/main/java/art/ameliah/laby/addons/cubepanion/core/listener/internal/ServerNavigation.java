@@ -40,20 +40,6 @@ public class ServerNavigation {
     this.manager.reset();
   }
 
-
-  // This event is called when switching from server instance
-  @Subscribe
-  public void onSubServerSwitchEvent(SubServerSwitchEvent e) {
-    if (!manager.onCubeCraft()) {
-      return;
-    }
-    if (!manager.isInPreLobby() && manager.hasLost()) {
-      GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
-          manager.getGameStartTime());
-      Laby.fireEvent(event);
-    }
-  }
-
   private boolean isKubusMaken(String address) {
     address = address.toLowerCase();
     if (address.endsWith("cubecraft.net")) {

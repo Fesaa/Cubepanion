@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.managers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
@@ -181,6 +182,12 @@ public class CubepanionManager implements Manager {
 
   public void setDivision(CubeGame division) {
     LOGGER.debug(getClass(), "Setting division to " + division, "and firing game join");
+
+    if (!this.isInPreLobby() && this.hasLost()) {
+      LOGGER.debug(getClass(), "Ending game due to game switch");
+      Laby.fireEvent(new GameEndEvent(this.division, false, true, this.gameStartTime));
+    }
+
     this.lastDivision = this.division;
     this.division = division;
 
