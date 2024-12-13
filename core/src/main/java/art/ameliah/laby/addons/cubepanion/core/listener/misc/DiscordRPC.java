@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.listener.misc;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
@@ -121,13 +121,11 @@ public class DiscordRPC {
   }
 
   @Subscribe
-  public void startOfGame(GameUpdateEvent e) {
-    if (e.getDestination().equals(e.getOrigin()) && !e.isPreLobby()) {
-      deaths = 0;
-      totalPlayers = this.getTotalPlayers();
-      removedPlayers.clear();
-      updateRPC();
-    }
+  public void startOfGame(GameStartEvent e) {
+    deaths = 0;
+    totalPlayers = this.getTotalPlayers();
+    removedPlayers.clear();
+    updateRPC();
   }
 
   @Subscribe

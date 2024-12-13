@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
@@ -19,12 +20,7 @@ public class GameEvents {
       m.setInPreLobby(false);
       m.setGameStartTime(System.currentTimeMillis());
 
-      GameUpdateEvent event = new GameUpdateEvent(
-          m.getDivision(),
-          m.getDivision(),
-          false,
-          false);
-      Laby.fireEvent(event);
+      Laby.fireEvent(new GameStartEvent(m.getDivision()));
       return;
     }
 
