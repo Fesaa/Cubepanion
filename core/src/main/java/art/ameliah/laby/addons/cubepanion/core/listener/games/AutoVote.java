@@ -54,7 +54,6 @@ public class AutoVote {
 
     VotingLink link = Cubepanion.get().getVotingLink();
     AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
-    LOGGER.info(getClass(), "Event index", event.index());
     if (link != null && provider != null) {
       link.vote(provider);
       this.hasVoted = true;
@@ -63,10 +62,6 @@ public class AutoVote {
 
   @Subscribe
   public void onGameJoin(GameJoinEvent e) {
-    if (e.isPreLobby()) {
-      return;
-    }
-
     this.hasVoted = false;
   }
 
