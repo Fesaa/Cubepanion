@@ -4,7 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig.GameEndMessage;
 import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
@@ -24,7 +24,7 @@ public class AutoGG {
   }
 
   @Subscribe
-  public void onGameUpdate(GameUpdateEvent e) {
+  public void onGameUpdate(GameJoinEvent e) {
     hasSentGG = false;
   }
 

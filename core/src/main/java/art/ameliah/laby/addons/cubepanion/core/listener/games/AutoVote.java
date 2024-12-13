@@ -2,17 +2,14 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.component.TranslatableComponent;
-import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.entity.player.inventory.InventorySetSlotEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutoVote {
@@ -57,6 +54,7 @@ public class AutoVote {
 
     VotingLink link = Cubepanion.get().getVotingLink();
     AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
+    LOGGER.info(getClass(), "Event index", event.index());
     if (link != null && provider != null) {
       link.vote(provider);
       this.hasVoted = true;
@@ -64,7 +62,7 @@ public class AutoVote {
   }
 
   @Subscribe
-  public void onGameJoin(GameUpdateEvent e) {
+  public void onGameJoin(GameJoinEvent e) {
     if (e.isPreLobby()) {
       return;
     }

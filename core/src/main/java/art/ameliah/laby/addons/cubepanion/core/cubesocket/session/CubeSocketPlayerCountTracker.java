@@ -3,7 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.session;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketGameStatUpdate;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
@@ -86,7 +86,7 @@ public class CubeSocketPlayerCountTracker {
   }
 
   @Subscribe
-  public void onLobbyJoin(GameUpdateEvent event) {
+  public void onLobbyJoin(GameJoinEvent event) {
     // Only update stuff on new lobby joins, don't need to spam insignificant updates
     if (event.getDestination().equals(CubeGame.LOBBY) && !event.getOrigin().equals(CubeGame.LOBBY)) {
       // Don't update if we're still sending these

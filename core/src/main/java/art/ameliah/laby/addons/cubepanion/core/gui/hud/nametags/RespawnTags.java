@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
@@ -27,10 +27,8 @@ public class RespawnTags extends NameTag {
   }
 
   @Subscribe
-  public void onGameUpdate(GameUpdateEvent e) {
-    if (e.isSwitch()) {
-      this.components.clear();
-    }
+  public void onGameUpdate(GameJoinEvent e) {
+    this.components.clear();
   }
 
   @Subscribe

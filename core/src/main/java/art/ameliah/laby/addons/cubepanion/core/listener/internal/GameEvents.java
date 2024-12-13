@@ -2,7 +2,6 @@ package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.Laby;

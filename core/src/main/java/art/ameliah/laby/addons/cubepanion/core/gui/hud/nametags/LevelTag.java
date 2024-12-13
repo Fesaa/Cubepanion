@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashMap;
 import java.util.List;
@@ -54,8 +54,8 @@ public class LevelTag extends NameTag {
   }
 
   @Subscribe
-  public void onServerSwitch(GameUpdateEvent e) {
-    if (!e.isSwitch() || e.getDestination().equals(CubeGame.LOBBY)) {
+  public void onServerSwitch(GameJoinEvent e) {
+    if (e.getDestination().equals(CubeGame.LOBBY)) {
       this.readingWhoMessage = false;
       this.readingJoinMessage = false;
       return;

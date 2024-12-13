@@ -4,24 +4,21 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.event.Event;
 
 /**
- * Called when the division updates, or the game starts. GameEnds should be listened to with the
+ * Called when the division updatesGameEnds should be listened to with the
  * GameEndEvent
  */
-public class GameUpdateEvent implements Event {
+public class GameJoinEvent implements Event {
 
   private final CubeGame origin;
 
   private final CubeGame destination;
 
   private final boolean preLobby;
-  private final boolean isSwitch;
 
-  public GameUpdateEvent(CubeGame origin, CubeGame destination, boolean preLobby,
-      boolean isSwitch) {
+  public GameJoinEvent(CubeGame origin, CubeGame destination, boolean preLobby) {
     this.origin = origin;
     this.destination = destination;
     this.preLobby = preLobby;
-    this.isSwitch = isSwitch;
   }
 
   /**
@@ -43,13 +40,6 @@ public class GameUpdateEvent implements Event {
    */
   public boolean isPreLobby() {
     return preLobby;
-  }
-
-  /**
-   * @return Whether this change is due to a server switch
-   */
-  public boolean isSwitch() {
-    return isSwitch;
   }
 
 }

@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import java.util.regex.Pattern;
@@ -27,11 +27,7 @@ public class VoteReminder {
   }
 
   @Subscribe
-  public void onGameUpdate(GameUpdateEvent e) {
-    if (!e.isSwitch()) {
-      return;
-    }
-
+  public void onGameUpdate(GameJoinEvent e) {
     if (e.isPreLobby()) {
       hasVoted = false;
     }

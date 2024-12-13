@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.session;
 
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLocationUpdate;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import net.labymod.api.event.Subscribe;
 
 public class CubeSocketGameTracker {
@@ -14,7 +14,7 @@ public class CubeSocketGameTracker {
   }
 
   @Subscribe
-  public void onGameUpdate(GameUpdateEvent e) {
+  public void onGameUpdate(GameJoinEvent e) {
     if (socket.getState() != CubeSocketState.CONNECTED) {
       return;
     }

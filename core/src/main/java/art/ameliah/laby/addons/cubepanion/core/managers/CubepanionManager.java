@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.managers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoManager;
@@ -252,11 +252,10 @@ public class CubepanionManager implements Manager {
   public void setServerID(String serverID) {
     this.lastServerID = this.serverID;
     this.serverID = serverID;
-    GameUpdateEvent e = new GameUpdateEvent(
+    GameJoinEvent e = new GameJoinEvent(
         this.lastDivision,
         this.division,
-        this.inPreLobby,
-        true);
+        this.inPreLobby);
     Laby.fireEvent(e);
   }
 

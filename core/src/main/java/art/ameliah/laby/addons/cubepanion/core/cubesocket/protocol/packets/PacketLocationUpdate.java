@@ -4,7 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.Packet;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketBuffer;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
-import art.ameliah.laby.addons.cubepanion.core.events.GameUpdateEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 
 public class PacketLocationUpdate extends Packet {
 
@@ -23,7 +23,7 @@ public class PacketLocationUpdate extends Packet {
     this.preLobby = preLobby;
   }
 
-  public PacketLocationUpdate(GameUpdateEvent e) {
+  public PacketLocationUpdate(GameJoinEvent e) {
     String serverID = Cubepanion.get().getManager().getServerID();
     String lastServerID = Cubepanion.get().getManager().getLastServerID();
 
