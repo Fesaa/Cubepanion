@@ -88,21 +88,21 @@ public class LOGGER {
   @SafeVarargs
   public static <T, V> void debug(Class<T> origin, V... msgs) {
     if (Cubepanion.get().configuration().getShowDebug().get()) {
-      log.info(formatClass(origin) + join(msgs));
+      log.debug(formatClass(origin) + join(msgs));
     }
   }
 
   @SafeVarargs
   public static <T, V> void debug(Class<T> origin, Throwable cause, V... msgs) {
     if (Cubepanion.get().configuration().getShowDebug().get()) {
-      log.info(formatClass(origin) + join(msgs), cause);
+      log.debug(formatClass(origin) + join(msgs), cause);
     }
   }
 
   @SafeVarargs
   public static <T, V> void debug(boolean gameInfo, Class<T> origin, V... msgs) {
     if (Cubepanion.get().configuration().getShowDebug().get()) {
-      log.info(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
+      log.debug(formatClass(origin) + join(msgs) + (gameInfo ? getGameInfo() : ""));
     }
   }
 
