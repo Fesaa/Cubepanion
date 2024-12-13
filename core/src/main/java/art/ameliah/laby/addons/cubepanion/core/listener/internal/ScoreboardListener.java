@@ -79,32 +79,25 @@ public class ScoreboardListener {
       return;
     }
 
-    boolean updatedMap = false;
     switch (this.bufferedDivision) {
       case FFA -> {
         List<Component> ffaComponent = children.getFirst().getChildren();
         if (ffaComponent.size() == 2) {
           if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
             this.manager.setMapName(((TextComponent) ffaComponent.get(1)).getText());
-            updatedMap = true;
           }
         }
       }
       case LOBBY -> {
         this.manager.setMapName("Main Lobby");
-        updatedMap = true;
       }
       default -> {
         String text = ((TextComponent) children.getFirst()).getText();
         if (this.previousText.equals("Map:") || this.previousText.equals("Dimension:")) {
           this.manager.setMapName(text);
-          updatedMap = true;
         }
         this.previousText = text;
       }
-    }
-    if (updatedMap) {
-      Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
     }
   }
 
@@ -119,6 +112,7 @@ public class ScoreboardListener {
     if (this.bufferedDivision != null) {
       this.manager.setDivision(this.bufferedDivision);
       this.bufferedDivision = null;
+      Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
     }
   }
 
