@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
@@ -24,6 +25,8 @@ public class ScoreboardListener {
   private final Cubepanion addon;
   private final CubepanionManager manager;
 
+  private int cooldown;
+
   private String previousText;
   private boolean updatedDivision;
 
@@ -36,7 +39,7 @@ public class ScoreboardListener {
 
   @Subscribe
   public void onServerSwitch(SubServerSwitchEvent e) {
-    updatedDivision = false;
+    this.updatedDivision = false;
   }
 
   @Subscribe
@@ -59,7 +62,7 @@ public class ScoreboardListener {
   }
 
   @Subscribe
-  public void onScoreboardTeamEntryAddEvent(ScoreboardTeamEntryAddEvent e) {
+  public void mapTracker(ScoreboardTeamEntryAddEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
@@ -101,22 +104,46 @@ public class ScoreboardListener {
   }
 
   @Subscribe
-  public void onScoreboardObjectiveUpdate(ScoreboardObjectiveUpdateEvent e) {
-    if (!this.addon.getManager().onCubeCraft()) {
+  public void onGameStart(GameStartEvent e) {
+    this.updatedDivision = true;
+    this.cooldown = 0;
+  }
+
+  private void updateDivision(CubeGame division) {
+    this.cooldown++;
+
+    if (this.cooldown != 1 || this.updatedDivision) {
+
+      // EggWars has a pre-lobby, so it fires it 2*3 times; Hard code this in
+      int threshHold = this.manager.getDivision().equals(CubeGame.TEAM_EGGWARS) ? 6 : 3;
+
+      if (this.cooldown == threshHold) {
+        this.cooldown = 0;
+        this.updatedDivision = false;
+      }
+
+      return;
+    }
+
+    this.manager.setDivision(division);
+  }
+
+  @Subscribe
+  public void divisionTracker(ScoreboardObjectiveUpdateEvent e) {
+    if (!this.manager.onCubeCraft()) {
       return;
     }
     if (!e.objective().getName().equals("sidebar")) {
       return;
     }
-    if (updatedDivision && !CubeGame.isParkour(this.manager.getDivision())) {
+    /*if (updatedDivision && !CubeGame.isParkour(this.manager.getDivision())) {
       return;
-    }
+    }*/
 
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
     if (titleText != null && !titleText.isEmpty() && titleText.matches("[a-zA-Z ]*")) {
-      this.manager.setDivision(CubeGame.stringToGame(titleText.trim()));
-      updatedDivision = true;
+      this.updateDivision(CubeGame.stringToGame(titleText.trim()));
     } else {
       for (Component child : title.getChildren()) {
         String text = ((TextComponent) child).getText();
@@ -125,8 +152,7 @@ public class ScoreboardListener {
         }
         text = text.replaceAll("[^a-zA-Z \\.]", "").trim();
         if (text.matches("[a-zA-Z ]+")) {
-          this.manager.setDivision(CubeGame.stringToGame(text.trim()));
-          updatedDivision = true;
+          this.updateDivision(CubeGame.stringToGame(text.trim()));
           break;
         }
       }

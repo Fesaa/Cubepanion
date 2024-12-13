@@ -9,12 +9,20 @@ import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoM
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
+import net.labymod.api.event.Subscribe;
+import java.util.List;
 
 public class CubepanionManager implements Manager {
+
+  private final static List<CubeGame> NO_PRE_LOBBY = List.of(
+      CubeGame.FFA, CubeGame.SKYBLOCK, CubeGame.LOBBY
+  );
+
   // Sub Managers
 
   private final PartyManager partyManager;
@@ -79,6 +87,10 @@ public class CubepanionManager implements Manager {
     return this.durabilityManager;
   }
 
+  public FireballManager getFireballManager() {
+    return fireballManager;
+  }
+
   public void reset() {
     this.serverIP = "";
     this.devServer = false;
@@ -135,13 +147,6 @@ public class CubepanionManager implements Manager {
     this.devServer = devServer;
   }
 
-  public void onServerSwitch() {
-    this.eliminated = false;
-    this.inPreLobby = true;
-    this.gameStartTime = -1;
-    this.won = false;
-  }
-
   public boolean onCubeCraft() {
     return this.serverIP.equals("play.cubecraft.net");
   }
@@ -175,16 +180,21 @@ public class CubepanionManager implements Manager {
   }
 
   public void setDivision(CubeGame division) {
+    LOGGER.debug(getClass(), "Setting division to " + division, "and firing game join");
     this.lastDivision = this.division;
     this.division = division;
 
-    if (this.division.equals(CubeGame.SKYBLOCK)
-        || this.division.equals(CubeGame.FFA)
-        || CubeGame.isParkour(this.division)
-        || this.division.equals(CubeGame.LOBBY)) {
+    this.eliminated = false;
+    this.inPreLobby = true;
+    this.gameStartTime = -1;
+    this.won = false;
+
+    if (NO_PRE_LOBBY.contains(this.division)|| CubeGame.isParkour(this.division)) {
       this.inPreLobby = false;
       this.gameStartTime = System.currentTimeMillis();
     }
+
+    Laby.fireEvent(new GameJoinEvent(this.lastDivision, this.division, this.inPreLobby));
   }
 
   public boolean isPlaying(CubeGame game) {
@@ -241,10 +251,6 @@ public class CubepanionManager implements Manager {
     Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
   }
 
-  public FireballManager getFireballManager() {
-    return fireballManager;
-  }
-
   public String getServerID() {
     return serverID;
   }
@@ -252,11 +258,6 @@ public class CubepanionManager implements Manager {
   public void setServerID(String serverID) {
     this.lastServerID = this.serverID;
     this.serverID = serverID;
-    GameJoinEvent e = new GameJoinEvent(
-        this.lastDivision,
-        this.division,
-        this.inPreLobby);
-    Laby.fireEvent(e);
   }
 
   public String getLastServerID() {

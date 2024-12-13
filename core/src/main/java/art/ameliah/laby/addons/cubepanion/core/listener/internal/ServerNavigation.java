@@ -52,7 +52,6 @@ public class ServerNavigation {
           manager.getGameStartTime());
       Laby.fireEvent(event);
     }
-    manager.onServerSwitch();
   }
 
   private boolean isKubusMaken(String address) {
