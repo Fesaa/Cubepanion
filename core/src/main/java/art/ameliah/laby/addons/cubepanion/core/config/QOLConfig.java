@@ -38,13 +38,6 @@ public class QOLConfig extends Config {
   @SwitchSetting
   private final ConfigProperty<Boolean> fireBallCoolDown = new ConfigProperty<>(false);
 
-  @SwitchSetting
-  private final ConfigProperty<Boolean> reminderToVote = new ConfigProperty<>(false);
-  @TextFieldSetting
-  @SettingRequires(value = "reminderToVote")
-  private final ConfigProperty<String> reminderToVoteSoundId = new ConfigProperty<>(
-      "entity.lightning_bolt.impact");
-
   public ConfigProperty<Boolean> getRankTag() {
     return this.rankTag;
   }
@@ -55,14 +48,6 @@ public class QOLConfig extends Config {
 
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
-  }
-
-  public ConfigProperty<Boolean> getReminderToVote() {
-    return reminderToVote;
-  }
-
-  public ResourceLocation getVoteReminderResourceLocation() {
-    return ResourceLocation.create("minecraft", this.reminderToVoteSoundId.get());
   }
 
   public ConfigProperty<Boolean> getNoDropSkyBlock() {
