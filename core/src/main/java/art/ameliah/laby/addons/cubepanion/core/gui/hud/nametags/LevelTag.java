@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig.DisplayLocation;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashMap;
@@ -196,6 +197,9 @@ public class LevelTag extends NameTag {
     if (!config.getLevelTag().get()) {
       return null;
     }
+    if (!this.shouldRender()) {
+      return null;
+    }
     if (!(this.entity instanceof Player player)) {
       return null;
     }
@@ -206,6 +210,15 @@ public class LevelTag extends NameTag {
     }
 
     return RenderableComponent.of(Component.text(level, this.getLevelColour(level)));
+  }
+
+  private boolean shouldRender() {
+    DisplayLocation displayLocation = this.config.getLevelTagDisplayLocation().get();
+    return switch (displayLocation) {
+      case BOTH -> true;
+      case PRE_LOBBY -> this.addon.getManager().isInPreLobby();
+      case GAME -> !this.addon.getManager().isInPreLobby();
+    };
   }
 
   @Override

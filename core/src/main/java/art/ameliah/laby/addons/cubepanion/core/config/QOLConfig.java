@@ -46,6 +46,10 @@ public class QOLConfig extends Config {
     return this.levelTag;
   }
 
+  public ConfigProperty<DisplayLocation> getLevelTagDisplayLocation() {
+    return levelTagDisplayLocation;
+  }
+
   public ConfigProperty<Boolean> getRespawnTimer() {
     return this.respawnTimer;
   }
