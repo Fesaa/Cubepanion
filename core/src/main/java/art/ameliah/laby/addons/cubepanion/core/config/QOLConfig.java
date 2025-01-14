@@ -2,14 +2,11 @@ package art.ameliah.laby.addons.cubepanion.core.config;
 
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
-import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
-import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
-import net.labymod.api.configuration.settings.annotation.SettingRequires;
 
 @SpriteTexture("setting_icons.png")
 public class QOLConfig extends Config {
@@ -36,7 +33,7 @@ public class QOLConfig extends Config {
   private final ConfigProperty<Boolean> respawnTimer = new ConfigProperty<>(false);
 
   @SwitchSetting
-  private final ConfigProperty<Boolean> fireBallCoolDown = new ConfigProperty<>(false);
+  private final ConfigProperty<Boolean> coolDown = new ConfigProperty<>(false);
 
   public ConfigProperty<Boolean> getRankTag() {
     return this.rankTag;
@@ -70,8 +67,8 @@ public class QOLConfig extends Config {
     return range;
   }
 
-  public ConfigProperty<Boolean> getFireBallCoolDown() {
-    return fireBallCoolDown;
+  public ConfigProperty<Boolean> getCoolDown() {
+    return coolDown;
   }
 
   public enum DisplayLocation {

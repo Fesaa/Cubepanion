@@ -11,6 +11,7 @@ import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyText
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
@@ -163,7 +164,15 @@ public class WidgetManager {
     // Fireball Cooldown
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "fireball_cooldown", "Fireball Cooldown", "27s",
-            () -> addon.getManager().getFireballManager().getCooldownString(),
+            () -> addon.getManager().getCooldownManager().getCooldownString(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME),
+            () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS) && !addon.getManager()
+                .isInPreLobby(),
+            5, 1, () -> true));
+
+    // Feather Cooldown
+    hudWidgetRegistry.register(
+        new TextTrackerHudWidget(category, "feather_cooldown", "Feather Cooldown", "27s",
+            () -> addon.getManager().getCooldownManager().getCooldownString(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME),
             () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS) && !addon.getManager()
                 .isInPreLobby(),
             5, 1, () -> true));

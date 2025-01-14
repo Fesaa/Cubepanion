@@ -7,7 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoManager;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
@@ -15,7 +15,6 @@ import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
-import net.labymod.api.event.Subscribe;
 import java.util.List;
 
 public class CubepanionManager implements Manager {
@@ -29,7 +28,7 @@ public class CubepanionManager implements Manager {
   private final PartyManager partyManager;
   private final GameMapInfoManager gameMapInfoManager;
   private final DurabilityManager durabilityManager;
-  private final FireballManager fireballManager;
+  private final CooldownManager cooldownManager;
 
   // Own fields
 
@@ -55,7 +54,7 @@ public class CubepanionManager implements Manager {
     this.partyManager = new PartyManager();
     this.gameMapInfoManager = new GameMapInfoManager(addon);
     this.durabilityManager = new DurabilityManager();
-    this.fireballManager = new FireballManager();
+    this.cooldownManager = new CooldownManager();
 
     this.serverIP = "";
     this.devServer = false;
@@ -88,8 +87,8 @@ public class CubepanionManager implements Manager {
     return this.durabilityManager;
   }
 
-  public FireballManager getFireballManager() {
-    return fireballManager;
+  public CooldownManager getCooldownManager() {
+    return cooldownManager;
   }
 
   public void reset() {
@@ -112,7 +111,7 @@ public class CubepanionManager implements Manager {
 
     this.partyManager.reset();
     this.durabilityManager.reset();
-    this.fireballManager.reset();
+    this.cooldownManager.reset();
   }
 
   public void onCubeJoin() {

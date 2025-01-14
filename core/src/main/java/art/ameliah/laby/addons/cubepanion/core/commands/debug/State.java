@@ -4,7 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.FireballManager;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
@@ -55,12 +55,18 @@ public class State extends SubCommand {
         partyManager.isPartyChat(),
         String.join(", ", partyManager.getPartyMembers()));
 
-    FireballManager fireballManager = addon.getManager().getFireballManager();
+    CooldownManager cooldownManager = addon.getManager().getCooldownManager();
     String fireballState = String.format(
         "Fireball State:\n\tLast Use: %d\n\tCooldown: %d\n\tOn Cooldown: %s\n\t",
-        fireballManager.getLastUse(),
-        fireballManager.getCooldown(),
-        fireballManager.onCooldown());
+        cooldownManager.getLastUse(CooldownManager.FIREBALL),
+        cooldownManager.getCooldown(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME),
+        cooldownManager.onCooldown(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME));
+
+    String featherState = String.format(
+        "Feather State:\n\tLast Use: %d\n\tCooldown: %d\n\tOn Cooldown: %s\n\t",
+        cooldownManager.getLastUse(CooldownManager.FEATHER),
+        cooldownManager.getCooldown(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME),
+        cooldownManager.onCooldown(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME));
 
     CubeSocket socket = addon.getSocket();
     CubeSocketSession session = socket.getSession();
@@ -72,7 +78,7 @@ public class State extends SubCommand {
         session != null ? session.getKeepAlivesReceived() : 0);
 
     displayMessage(
-        state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + socketState);
+        state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + featherState + "\n" + socketState);
     return true;
   }
 }

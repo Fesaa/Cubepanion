@@ -106,9 +106,9 @@
           "name": "Chunk range",
           "description": "Amount of chunks to search for."
         },
-        "fireBallCoolDown": {
-          "name": "Fireball cooldown",
-          "description": "Display the cooldown animation on fireballs after using it."
+        "coolDown": {
+          "name": "Cooldown",
+          "description": "Display the cooldown animation on feathers and fireballs after using it."
         },
         "levelTag": {
           "name": "Level tag",
@@ -497,6 +497,9 @@
       },
       "fireball_cooldown": {
         "name": "Fireball cooldown"
+      },
+      "feather_cooldown": {
+        "name": "Feather cooldown"
       },
       "perk_tracking_personal": {
         "name": "Personal Perk Tracker",
