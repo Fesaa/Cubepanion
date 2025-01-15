@@ -55,8 +55,8 @@ public class AutoVote {
     VotingLink link = Cubepanion.get().getVotingLink();
     AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
     if (link != null && provider != null) {
-      link.vote(provider);
       this.hasVoted = true;
+      link.vote(provider);
     }
   }
 
