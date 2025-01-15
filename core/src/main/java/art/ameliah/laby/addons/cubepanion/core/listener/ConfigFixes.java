@@ -16,7 +16,7 @@ public class ConfigFixes {
 
     // Hard coded nonsense, should be all fine
     if (configClass == AutoVoteSubConfig.class) {
-      if (configVersion == 1 && event.getIntendedVersion() == 2) {
+      if (configVersion == 1) {
         JsonObject obj = event.getJsonObject();
 
         if (obj.has("eggWarsHealth")) {
