@@ -88,6 +88,11 @@ public class AutoVoteSubConfig extends Config {
           .build();
       Laby.labyAPI().notificationController().push(notification);
     });
+
+    // Laby seems to not fall back to default in case of unknown/null value
+    if (this.eggWarsHealth.get() == null) {
+      this.eggWarsHealth.set(TwoOptionsMode.LEFT);
+    }
   }
 
   public boolean isEnabled() {
