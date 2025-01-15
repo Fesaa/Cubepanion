@@ -15,6 +15,7 @@ import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
+import art.ameliah.laby.addons.cubepanion.core.listener.ConfigFixes;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameTickEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.KeyEventListener;
@@ -70,6 +71,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   @Override
   protected void enable() {
+    // Registering this first, just in case.
+    this.registerCubepanionListener(new ConfigFixes());
+
     LOGGER.setLog(logger());
     LOGGER.info(getClass(), "Starting Cubepanion");
     this.registerSettingCategory();
