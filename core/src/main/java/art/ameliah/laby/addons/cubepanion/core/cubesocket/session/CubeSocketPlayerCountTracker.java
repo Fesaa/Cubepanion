@@ -79,6 +79,7 @@ public class CubeSocketPlayerCountTracker {
       int playerCountInt = Integer.parseInt(playerCountString);
       this.maySendLobby = false;
       if (!this.addon.getManager().isDevServer()) {
+        LOGGER.debug(getClass(), "Updating lobby player count");
         this.socket.sendPacket(new PacketGameStatUpdate(APIGame.LOBBY, playerCountInt));
       }
     } catch (NumberFormatException e) {
@@ -118,10 +119,12 @@ public class CubeSocketPlayerCountTracker {
         return null;
       }
 
+      LOGGER.debug(getClass(), "Found", res.size(), "player counts to submit");
       res.forEach((game, playerCount) -> {
         if (playerCount == null || this.hasSendGame.contains(game)) {
           return;
         }
+        LOGGER.debug(getClass(), "Game", game, "has", playerCount, "players");
         this.hasSendGame.add(game);
         this.packetGameStatUpdates.add(new PacketGameStatUpdate(game, playerCount));
       });

@@ -136,6 +136,8 @@ public class VersionedFunctionLink extends FunctionLink {
       return CompletableFuture.completedFuture(null);
     }
 
+    FunctionLink functionLink = this;
+
     CompletableFuture<HashMap<APIGame, Integer>> future = new CompletableFuture<>();
     Timer timer = new Timer("loadPlayerCounts#onScreenOpen");
     timer.schedule(new TimerTask() {
@@ -162,38 +164,9 @@ public class VersionedFunctionLink extends FunctionLink {
         }
 
         HashMap<APIGame, Integer> games = new HashMap<>();
-        menu.getItems().forEach(item -> {
-          if (item.getHoverName().getSiblings().isEmpty()) {
-            return;
-          }
-
-          String name = item.getHoverName().getSiblings().getFirst().getString();
-          APIGame game = GamesAPI.I().getGame(name);
-
-          if (game == null) {
-            return;
-          }
-          List<Component> lines = item.getTooltipLines(
-              TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
-          if (lines.size() < 2) {
-            return;
-          }
-
-          for (Component line : lines) {
-            String content = line.getString();
-            if (content.contains("Players: ")) {
-              String playerCountString = content.replace("Players: ", "");
-              try {
-                int playerCount = Integer.parseInt(playerCountString);
-                games.put(game, playerCount);
-                break;
-              } catch (NumberFormatException e) {
-                LOGGER.warn(getClass(), e,
-                    "Failed to parse playercount from item in menu: " + playerCountString);
-              }
-            }
-          }
-        });
+        for (var item : menu.getItems()) {
+          functionLink.readPlayerCount(games, (net.labymod.api.client.world.item.ItemStack) (Object) item);
+        }
         future.complete(games);
         timer.cancel();
       }

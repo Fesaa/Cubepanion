@@ -94,8 +94,7 @@ public abstract class LeaderboardTrackerLink {
         .substring(2)
         .replace("Leaderboard", "")
         .trim()
-        .toLowerCase()
-        .replace(" ", "_");
+        .toLowerCase();
 
     return GamesAPI.I().getGame(name);
   }
