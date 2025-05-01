@@ -96,6 +96,12 @@ public abstract class LeaderboardTrackerLink {
         .trim()
         .toLowerCase();
 
+    var game = GamesAPI.I().getGame(name);
+    if (game != null) {
+      return game;
+    }
+
+    name = name.replace(" ", "_");
     return GamesAPI.I().getGame(name);
   }
 }
