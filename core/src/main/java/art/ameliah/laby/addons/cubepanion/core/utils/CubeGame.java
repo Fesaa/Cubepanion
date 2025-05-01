@@ -18,6 +18,7 @@ public enum CubeGame {
   PILLARS_OF_FORTUNE("Pillars of Fortune", true),
   BEDWARS("BedWars", true),
   ENDER("Ender", false),
+  DISASTERS("Disasters", false),
   NONE("", false);
 
 
@@ -86,6 +87,9 @@ public enum CubeGame {
       }
       case "ender" -> {
         return CubeGame.ENDER;
+      }
+      case "disasters" -> {
+        return CubeGame.DISASTERS;
       }
       default -> {
         return CubeGame.NONE;

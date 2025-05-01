@@ -142,7 +142,7 @@ public class WidgetManager {
                 return "";
               }
 
-              int d = (int) (map.getBuildLimit() + 1 - p.getPosY());
+              int d = (int) (map.getBuildLimit() + 1 - p.position().getY());
               if (d < 3 && d > 0) {
                 if (!done.get() && !addon.getManager().isInPreLobby()
                     && !addon.getManager().isEliminated()) {

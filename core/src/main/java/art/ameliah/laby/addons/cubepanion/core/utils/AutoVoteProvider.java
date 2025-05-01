@@ -49,6 +49,9 @@ public class AutoVoteProvider {
     providers.put(CubeGame.ENDER, AutoVoteProvider.of(0,
         () -> VotePair.of(-1, config.getEnder().get().slot)
     ));
+    providers.put(CubeGame.DISASTERS, AutoVoteProvider.of(0,
+        () -> VotePair.of(-1, config.getDisasters().get().slot)
+    ));
   }
 
   public static AutoVoteProvider getProvider(CubeGame game) {
