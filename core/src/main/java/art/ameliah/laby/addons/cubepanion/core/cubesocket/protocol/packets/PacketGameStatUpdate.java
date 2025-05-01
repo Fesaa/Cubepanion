@@ -4,14 +4,16 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.Packet;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketBuffer;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 
 public class PacketGameStatUpdate extends Packet {
 
-  private CubeGame game;
+  private APIGame game;
   private int playerCount;
   private long timestamp;
 
-  public PacketGameStatUpdate(CubeGame game, int playerCount) {
+  public PacketGameStatUpdate(APIGame game, int playerCount) {
     this.game = game;
     this.playerCount = playerCount;
     this.timestamp = System.currentTimeMillis();
@@ -19,14 +21,14 @@ public class PacketGameStatUpdate extends Packet {
 
   @Override
   public void read(PacketBuffer buf) {
-    this.game = CubeGame.stringToGame(buf.readString());
+    this.game = GamesAPI.I().getGame(buf.readString());
     this.playerCount = buf.readInt();
     this.timestamp = buf.readLong();
   }
 
   @Override
   public void write(PacketBuffer buf) {
-    buf.writeString(this.game.getString());
+    buf.writeString(this.game.displayName());
     buf.writeInt(this.playerCount);
     buf.writeLong(this.timestamp);
   }

@@ -41,13 +41,15 @@ public class VersionedVotingLink extends VotingLink {
       handler.startPredicting();
       sequence = handler.currentSequence();
     }
-    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(), player.getYRot()));
+    connection.send(
+        new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(),
+            player.getYRot()));
 
   }
 
   @Override
   public void clickSlot(int syncId, int slotId, int button) {
-    
+
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
       return;

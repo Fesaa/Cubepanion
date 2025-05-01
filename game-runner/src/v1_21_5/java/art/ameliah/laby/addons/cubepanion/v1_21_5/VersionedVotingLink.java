@@ -42,17 +42,20 @@ public class VersionedVotingLink extends VotingLink {
       handler.startPredicting();
       sequence = handler.currentSequence();
     }
-    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(), player.getYRot()));
+    connection.send(
+        new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(),
+            player.getYRot()));
 
   }
 
   @Override
   public void clickSlot(int syncId, int slotId, int button) {
-    if (slotId <  Short.MIN_VALUE || slotId > Short.MAX_VALUE) {
-      LOGGER.warn(getClass(), "Tried to click on a slot with id that doesn't fit inside a short!, {}", slotId);
+    if (slotId < Short.MIN_VALUE || slotId > Short.MAX_VALUE) {
+      LOGGER.warn(getClass(),
+          "Tried to click on a slot with id that doesn't fit inside a short!, {}", slotId);
       return;
     }
-    
+
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
       return;

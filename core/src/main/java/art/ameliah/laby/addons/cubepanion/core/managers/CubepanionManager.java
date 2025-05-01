@@ -13,6 +13,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.Laby;
 import java.util.List;
@@ -133,7 +134,7 @@ public class CubepanionManager implements Manager {
 
     this.partyManager.reset();
 
-    LeaderboardAPI.getInstance().loadLeaderboards();
+    GamesAPI.I().loadGames();
     GameMapAPI.getInstance().loadMaps();
     ChestAPI.getInstance().loadChestLocations();
     ChestAPI.getInstance().loadSeason();

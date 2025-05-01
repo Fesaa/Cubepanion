@@ -11,6 +11,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import net.labymod.api.models.Implements;
 import net.labymod.api.util.Pair;
 import net.minecraft.client.Minecraft;
@@ -123,14 +125,14 @@ public class VersionedFunctionLink extends FunctionLink {
   }
 
   @Override
-  public CompletableFuture<@Nullable HashMap<CubeGame, Integer>> loadPlayerCounts() {
+  public CompletableFuture<@Nullable HashMap<APIGame, Integer>> loadPlayerCounts() {
     Minecraft minecraft = Minecraft.getInstance();
     Player player = minecraft.player;
     if (player == null) {
       return CompletableFuture.completedFuture(null);
     }
 
-    CompletableFuture<HashMap<CubeGame, Integer>> future = new CompletableFuture<>();
+    CompletableFuture<HashMap<APIGame, Integer>> future = new CompletableFuture<>();
     Timer timer = new Timer("loadPlayerCounts#onScreenOpen");
     timer.schedule(new TimerTask() {
       private int count = 0;
@@ -155,34 +157,37 @@ public class VersionedFunctionLink extends FunctionLink {
           return;
         }
 
-        HashMap<CubeGame, Integer> games = new HashMap<>();
+        HashMap<APIGame, Integer> games = new HashMap<>();
         menu.getItems().forEach(item -> {
-            if (item.getHoverName().getSiblings().isEmpty()) {
-              return;
-            }
-            CubeGame game = CubeGame.stringToGame(item.getHoverName().getSiblings().getFirst().getString());
-            if (game.equals(CubeGame.NONE)) {
-              return;
-            }
-            List<Component> lines = item.getTooltipLines(TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
-            if (lines.size() < 2) {
-              return;
-            }
+          if (item.getHoverName().getSiblings().isEmpty()) {
+            return;
+          }
+          String name = item.getHoverName().getSiblings().getFirst().getString();
+          APIGame game = GamesAPI.I().getGame(name);
 
-            for (Component line : lines) {
-              String content = line.getString();
-              if (content.contains("Players: ")) {
-                String playerCountString = content.replace("Players: ", "");
-                try {
-                  int playerCount = Integer.parseInt(playerCountString);
-                  games.put(game, playerCount);
-                  break;
-                } catch (NumberFormatException e) {
-                  LOGGER.error(getClass(), e,
-                      "Failed to parse playercount from scoreboard: " + playerCountString);
-                }
+          if (game == null) {
+            return;
+          }
+          List<Component> lines = item.getTooltipLines(
+              TooltipContext.of(Minecraft.getInstance().level), player, TooltipFlag.NORMAL);
+          if (lines.size() < 2) {
+            return;
+          }
+
+          for (Component line : lines) {
+            String content = line.getString();
+            if (content.contains("Players: ")) {
+              String playerCountString = content.replace("Players: ", "");
+              try {
+                int playerCount = Integer.parseInt(playerCountString);
+                games.put(game, playerCount);
+                break;
+              } catch (NumberFormatException e) {
+                LOGGER.error(getClass(), e,
+                    "Failed to parse playercount from scoreboard: " + playerCountString);
               }
             }
+          }
         });
         future.complete(games);
         timer.cancel();

@@ -4,6 +4,7 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.session;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketConnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketReloadRequest;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
@@ -12,9 +13,14 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketReload;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
+import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
@@ -42,6 +48,7 @@ public class CubeSocketSession extends PacketHandler {
 
   private int keepAlivesSent = 0;
   private int keepAlivesReceived = 0;
+  private long lastReload = -1;
 
   public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor,
       CodecLink codecLink) {
@@ -131,5 +138,24 @@ public class CubeSocketSession extends PacketHandler {
   public void handle(PacketDisconnect packet) {
     this.socket.updateState(CubeSocketState.OFFLINE);
     this.socket.fireEventSync(new CubeSocketDisconnectEvent(packet.getReason()));
+  }
+
+  @Override
+  public void handle(PacketReload packet) {
+    long now = System.currentTimeMillis();
+    if (now - this.lastReload < 5000L) {
+      this.lastReload = now;
+      LOGGER.warn("CubeSocket tried reloading data less than 5s apart, ignoring..");
+      return;
+    }
+
+
+    this.socket.fireEventSync(new CubeSocketReloadRequest());
+    ChestAPI.getInstance().loadChestLocations();
+    ChestAPI.getInstance().loadSeason();
+    GamesAPI.I().loadGames();
+    GameMapAPI.getInstance().loadMaps();
+
+    this.lastReload = now;
   }
 }

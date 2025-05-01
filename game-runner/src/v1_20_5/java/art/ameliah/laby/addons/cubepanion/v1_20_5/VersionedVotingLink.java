@@ -48,7 +48,7 @@ public class VersionedVotingLink extends VotingLink {
 
   @Override
   public void clickSlot(int syncId, int slotId, int button) {
-    
+
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {
       return;

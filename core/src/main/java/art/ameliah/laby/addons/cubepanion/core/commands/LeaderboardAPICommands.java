@@ -6,8 +6,9 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -136,7 +137,7 @@ public class LeaderboardAPICommands extends Command {
         .exceptionally(this::handleError);
   }
 
-  private void gameLeaderboard(String last, Leaderboard leaderboard) {
+  private void gameLeaderboard(String last, APIGame leaderboard) {
     int bound;
     try {
       bound = Integer.parseInt(last);
@@ -213,13 +214,13 @@ public class LeaderboardAPICommands extends Command {
     }
     this.lastUsed = now;
 
-    Leaderboard leaderboard = this.separateLeaderboardAndUserName(arguments);
+    APIGame leaderboard = this.separateLeaderboardAndUserName(arguments);
 
     if (arguments.length == 1 && leaderboard == null) { // User leaderboards
       boolean allowBatch = true;
       allowBatch &= !this.addon.getManager().isInPreLobby();
-      allowBatch &= LeaderboardAPI.getInstance()
-          .getLeaderboard(this.addon.getManager().getDivision().getString()) != null;
+      allowBatch &= GamesAPI.I()
+          .getGame(this.addon.getManager().getDivision().getString()) != null;
 
       if (arguments[0].equalsIgnoreCase("players")) {
         if (allowBatch) {
@@ -245,13 +246,13 @@ public class LeaderboardAPICommands extends Command {
     return true;
   }
 
-  private @Nullable LeaderboardAPI.Leaderboard separateLeaderboardAndUserName(String[] arguments) {
-    Leaderboard lb;
+  private @Nullable APIGame separateLeaderboardAndUserName(String[] arguments) {
+    APIGame lb;
     String tryForLeaderboard = "";
 
     for (String s : arguments) {
       tryForLeaderboard = (tryForLeaderboard + " " + s).trim();
-      lb = LeaderboardAPI.getInstance().getLeaderboard(tryForLeaderboard);
+      lb = GamesAPI.I().getGame(tryForLeaderboard);
       if (lb != null) {
         return lb;
       }

@@ -8,6 +8,7 @@ import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownMana
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.client.chat.command.SubCommand;
 
@@ -45,7 +46,7 @@ public class State extends SubCommand {
         ChestAPI.getInstance().getSeason(),
         ChestAPI.getInstance().getChestLocations().size(),
         GameMapAPI.getInstance().size(),
-        LeaderboardAPI.getInstance().getAliases().size());
+        GamesAPI.I().getAliases().size());
 
     PartyManager partyManager = addon.getManager().getPartyManager();
     String partyState = String.format(

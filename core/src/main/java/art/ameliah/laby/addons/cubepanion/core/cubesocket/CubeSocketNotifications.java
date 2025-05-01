@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket;
 
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketConnectEvent;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketDisconnectEvent;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketReloadRequest;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
@@ -20,6 +21,18 @@ public class CubeSocketNotifications {
   public CubeSocketNotifications(CubeSocket socket, NotificationController notificationController) {
     this.socket = socket;
     this.notificationController = notificationController;
+  }
+
+  @Subscribe
+  public void onReload(CubeSocketReloadRequest e) {
+    notificationController.push(
+        Notification.builder()
+            .icon(Icon.sprite(resourceLocation, 0, 0, 64, 64, 256, 256))
+            .title(Component.translatable("cubepanion.notifications.cubesocket.reload.title"))
+            .text(Component.translatable("cubepanion.notifications.cubesocket.reload.text"))
+            .type(Type.SYSTEM)
+            .build()
+    );
   }
 
   @Subscribe

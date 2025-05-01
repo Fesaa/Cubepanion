@@ -3,8 +3,8 @@ package art.ameliah.laby.addons.cubepanion.core.commands;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.Utils;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import java.util.Map.Entry;
 import java.util.Set;
 import net.labymod.api.client.chat.command.Command;
@@ -27,7 +27,7 @@ public class LeaderboardMappings extends Command {
     Component toDisplay = Component.translatable(
         "cubepanion.messages.leaderboardAPI.commands.help.lbmappings", Colours.Title);
 
-    for (Entry<Leaderboard, Set<String>> e : LeaderboardAPI.getInstance().getAliases().entrySet()) {
+    for (Entry<APIGame, Set<String>> e : GamesAPI.I().getAliases().entrySet()) {
       toDisplay = toDisplay
           .append(Component.text(e.getKey().displayName(), Colours.Primary))
           .append(Component.text(" => ", Colours.Secondary))

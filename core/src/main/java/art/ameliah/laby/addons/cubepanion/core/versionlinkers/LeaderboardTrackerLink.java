@@ -5,8 +5,9 @@ import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.handleAPIError
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.Leaderboard;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI.LeaderboardRow;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,8 +26,8 @@ public abstract class LeaderboardTrackerLink {
 
   protected final Set<LeaderboardRow> cachedEntries = new HashSet<>(200);
   protected final Set<Integer> recordedPageNumbers = new HashSet<>();
-  private final HashMap<Leaderboard, Long> lastSubmit = new HashMap<>();
-  protected @Nullable Leaderboard currentLeaderboard;
+  private final HashMap<APIGame, Long> lastSubmit = new HashMap<>();
+  protected @Nullable APIGame currentLeaderboard;
   protected int currentPageNumber;
   protected int maxPageNumber;
 
@@ -60,7 +61,7 @@ public abstract class LeaderboardTrackerLink {
 
     ChatExecutor chat = Laby.labyAPI().minecraft().chatExecutor();
 
-    Leaderboard submittedFor = currentLeaderboard;
+    APIGame submittedFor = currentLeaderboard;
     LeaderboardAPI.getInstance()
         .submitLeaderboard(player.getUniqueId(), currentLeaderboard, cachedEntries)
         .whenComplete((integer, throwable) -> {
@@ -88,7 +89,7 @@ public abstract class LeaderboardTrackerLink {
     this.cachedEntries.add(entry);
   }
 
-  public @Nullable Leaderboard titelStringToLeaderboard(String s) {
+  public @Nullable APIGame titelStringToLeaderboard(String s) {
     String name = s
         .substring(2)
         .replace("Leaderboard", "")
@@ -96,6 +97,6 @@ public abstract class LeaderboardTrackerLink {
         .toLowerCase()
         .replace(" ", "_");
 
-    return LeaderboardAPI.getInstance().getLeaderboard(name);
+    return GamesAPI.I().getGame(name);
   }
 }

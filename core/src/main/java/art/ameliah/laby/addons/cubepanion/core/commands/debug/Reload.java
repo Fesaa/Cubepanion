@@ -3,6 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
 import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.client.chat.command.SubCommand;
 import net.labymod.api.client.component.Component;
@@ -37,11 +38,11 @@ public class Reload extends SubCommand {
       }
       this.displayMessage("Loaded " + seasons.length + " seasons.");
     });
-    LeaderboardAPI.getInstance().loadLeaderboards(leaderboards -> {
+    GamesAPI.I().loadGames(leaderboards -> {
       if (leaderboards == null) {
         return;
       }
-      this.displayMessage("Loaded " + leaderboards.length + " leaderboards.");
+      this.displayMessage("Loaded " + leaderboards.length + " games.");
     });
     GameMapAPI.getInstance().loadMaps(maps -> {
       if (maps == null) {

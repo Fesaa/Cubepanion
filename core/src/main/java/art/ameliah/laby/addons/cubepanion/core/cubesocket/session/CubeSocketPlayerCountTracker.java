@@ -7,6 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
+import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
@@ -30,7 +31,7 @@ public class CubeSocketPlayerCountTracker {
 
   private boolean maySendLobby = true;
   private boolean maySendGame = true;
-  private final HashSet<CubeGame> hasSendGame = new HashSet<>();
+  private final HashSet<APIGame> hasSendGame = new HashSet<>();
 
   public CubeSocketPlayerCountTracker(CubeSocket socket, Cubepanion addon) {
     this.socket = socket;
@@ -78,7 +79,7 @@ public class CubeSocketPlayerCountTracker {
       int playerCountInt = Integer.parseInt(playerCountString);
       this.maySendLobby = false;
       if (!this.addon.getManager().isDevServer()) {
-        this.socket.sendPacket(new PacketGameStatUpdate(CubeGame.LOBBY, playerCountInt));
+        this.socket.sendPacket(new PacketGameStatUpdate(APIGame.LOBBY, playerCountInt));
       }
     } catch (NumberFormatException e) {
       LOGGER.error(getClass(), "Failed to parse playercount from scoreboard: " + playerCountString);
