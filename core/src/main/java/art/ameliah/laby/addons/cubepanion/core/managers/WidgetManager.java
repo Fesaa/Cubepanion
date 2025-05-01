@@ -1,8 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.managers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
@@ -65,50 +63,6 @@ public class WidgetManager {
 
     hudWidgetRegistry.register(
         new NextArmourBuyTextWidget(category, "nextArmourDurability", manager));
-
-    BooleanSupplier statsTrackerEnabled = () -> addon.configuration()
-        .getStatsTrackerSubConfig().isEnabled();
-
-    // Wins / Played
-    StatsTrackerSubConfig statsTrackerSubConfig = addon.configuration()
-        .getStatsTrackerSubConfig();
-    hudWidgetRegistry.register(
-        new TextTrackerHudWidget(category, "daily_wins_tracker", "Wins/Games", "7/9",
-            () -> {
-              GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-                  .get(manager.getDivision());
-              if (gameStatsTracker != null) {
-                return gameStatsTracker.getDailyWins() + "/" + gameStatsTracker.getDailyPlayed();
-              }
-              return "";
-            },
-            WidgetManager::booleanSupplier, 2, 1, statsTrackerEnabled));
-
-    // Win Streak
-    hudWidgetRegistry.register(
-        new TextTrackerHudWidget(category, "all_time_winstreak_tracker", "Win Streak", "0",
-            () -> {
-              GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-                  .get(manager.getDivision());
-              if (gameStatsTracker != null) {
-                return String.valueOf(gameStatsTracker.getWinStreak());
-              }
-              return "";
-            },
-            WidgetManager::booleanSupplier, 3, 1, statsTrackerEnabled));
-
-    // Daily Win Streak
-    hudWidgetRegistry.register(
-        new TextTrackerHudWidget(category, "daily_winstreak_tracker", "Daily Win Streak", "0",
-            () -> {
-              GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-                  .get(manager.getDivision());
-              if (gameStatsTracker != null) {
-                return String.valueOf(gameStatsTracker.getDailyWinStreak());
-              }
-              return "";
-            },
-            WidgetManager::booleanSupplier, 2, 1, statsTrackerEnabled));
 
     // Party chat
     hudWidgetRegistry.register(
@@ -184,18 +138,6 @@ public class WidgetManager {
     for (PerkCategory perkCategory : PerkCategory.values()) {
       hudWidgetRegistry.register(new PerkDisplayWidget(category, perkCategory));
     }
-  }
-
-  private static boolean booleanSupplier() {
-    Cubepanion addon = Cubepanion.get();
-    if (addon == null) {
-      return false;
-    }
-    StatsTrackerSubConfig statsTrackerSubConfig = addon.configuration()
-        .getStatsTrackerSubConfig();
-    GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
-        .get(addon.getManager().getDivision());
-    return gameStatsTracker != null;
   }
 
 }

@@ -7,7 +7,6 @@ import art.ameliah.laby.addons.cubepanion.core.commands.GameMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardAPICommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardMappings;
-import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
@@ -16,7 +15,6 @@ import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
 import art.ameliah.laby.addons.cubepanion.core.listener.ConfigFixes;
-import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameTickEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.KeyEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.ScreenListener;
@@ -129,7 +127,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new GameMapInfoCommand(this));
-    this.registerCommand(new StatCommands(this));
     this.registerCommand(new LeaderboardAPICommands(this));
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new LeaderboardMappings(this));
@@ -137,7 +134,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new AutoVoteCommand(this));
 
     this.registerListener(new GameTickEventListener(this));
-    this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
     this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new HudEvents(this));

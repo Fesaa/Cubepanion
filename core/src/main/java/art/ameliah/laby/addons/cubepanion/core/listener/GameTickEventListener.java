@@ -36,10 +36,6 @@ public class GameTickEventListener {
       return;
     }
     int ticksInAMinute = 20 * 60;
-    if (this.counter % ticksInAMinute == 0) {
-      this.addon.configuration().getStatsTrackerSubConfig().checkForResets();
-      this.addon.saveConfiguration();
-    }
     if (this.counter % 2 == 0) { // Each two ticks
       this.durabilityUpdater(
           this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig()
