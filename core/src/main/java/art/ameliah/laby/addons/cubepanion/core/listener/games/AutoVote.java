@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
+import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.entity.player.inventory.InventorySetSlotEvent;
@@ -80,22 +81,11 @@ public class AutoVote {
       return;
     }
 
-    Component component = event.itemStack().getDisplayName();
-    List<Component> children = component.getChildren();
-    if (children.size() != 1) {
-      return;
-    }
-    children = children.getFirst().getChildren();
-    if (children.size() != 1) {
+    if (!this.addon.getManager().isInPreLobby()) {
       return;
     }
 
-    component = children.getFirst();
-    if (!(component instanceof TextComponent displayName)) {
-      return;
-    }
-
-    if (!displayName.getText().equals("Voting")) {
+    if (!this.isVotingItem(event.itemStack())) {
       return;
     }
 
@@ -118,13 +108,12 @@ public class AutoVote {
   @Subscribe
   public void onGameJoin(GameJoinEvent e) {
     if (!this.caughtVotingItem) {
-      this.hasVoted = false;
-      this.voteHasBeenConfirmed = false;
+      this.reset();
       return;
     }
 
     this.caughtVotingItem = false;
-    log.info("Voting item found, but before game joining. Trying to vote now");
+    log.debug("Voting item found, but before game joining. Trying to vote now");
     AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
     if (!config.isEnabled()) {
       return;
@@ -137,6 +126,31 @@ public class AutoVote {
     }
 
     this.votingLink.vote(provider);
+  }
+
+  private void reset() {
+    this.hasVoted = false;
+    this.voteHasBeenConfirmed = false;
+    this.caughtVotingItem = false;
+  }
+
+  private boolean isVotingItem(ItemStack itemStack) {
+    Component component = itemStack.getDisplayName();
+    List<Component> children = component.getChildren();
+    if (children.size() != 1) {
+      return false;
+    }
+    children = children.getFirst().getChildren();
+    if (children.size() != 1) {
+      return false;
+    }
+
+    component = children.getFirst();
+    if (!(component instanceof TextComponent displayName)) {
+      return false;
+    }
+
+    return displayName.getText().equals("Voting");
   }
 
 }
