@@ -2,9 +2,11 @@ package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import net.labymod.api.Laby;
 import net.labymod.api.reference.annotation.Referenceable;
+import net.labymod.api.util.concurrent.task.Task;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,9 +24,10 @@ public abstract class VotingLink {
 
   public void vote(AutoVoteProvider provider) {
     log.debug("Starting vote sequence for hotbar slot {}", provider.getHotbarSlot());
-    this.openMenu(provider.getHotbarSlot());
-
-    Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
+    Task.builder(() -> {
+      this.openMenu(provider.getHotbarSlot());
+      Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
+    }).delay(100, TimeUnit.MILLISECONDS).build().execute();
   }
 
   private void menuLogic(AutoVoteProvider provider) {
