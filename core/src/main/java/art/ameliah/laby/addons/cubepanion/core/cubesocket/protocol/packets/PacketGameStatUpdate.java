@@ -3,25 +3,34 @@ package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.Packet;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketBuffer;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
-import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 
 public class PacketGameStatUpdate extends Packet {
 
-  private APIGame game;
+  private Game game;
   private int playerCount;
   private long timestamp;
 
-  public PacketGameStatUpdate(APIGame game, int playerCount) {
+  public PacketGameStatUpdate(Game game, int playerCount) {
     this.game = game;
     this.playerCount = playerCount;
     this.timestamp = System.currentTimeMillis();
   }
 
+  public Game getGame() {
+    return game;
+  }
+
   @Override
   public void read(PacketBuffer buf) {
-    this.game = GamesAPI.I().getGame(buf.readString());
+    String s= buf.readString();
+    Game game = CubepanionAPI.I().getGame(s);
+    if (game == null) {
+      throw new IllegalArgumentException("Unknown name: "+ s);
+    }
+
+    this.game = game;
     this.playerCount = buf.readInt();
     this.timestamp = buf.readLong();
   }

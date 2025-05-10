@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol;
 
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketGameStatUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLocationUpdate;
@@ -11,7 +12,6 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketReload;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketGameStatUpdate;
 import java.util.HashMap;
 import java.util.Map;
 

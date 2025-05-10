@@ -2,12 +2,10 @@ package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.getDoubleIndex;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 
-public class DoubleCrossGameMap extends LoadedGameMap {
+public class DoubleCrossGameMap extends AbstractGameMap {
 
   private final List<List<String>> teamColours;
   private String teamSide = "";
@@ -18,8 +16,8 @@ public class DoubleCrossGameMap extends LoadedGameMap {
   private String teamAcrossLeft = "";
   private String teamAcrossRight = "";
 
-  public DoubleCrossGameMap(CubeGame game,String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
-    super(game, mapName, teamSize, buildLimit);
+  public DoubleCrossGameMap(String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
+    super(mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0).get(0));
   }

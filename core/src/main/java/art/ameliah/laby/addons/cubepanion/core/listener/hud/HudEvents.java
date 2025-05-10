@@ -1,7 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.hud;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.IntSupplier;
@@ -16,9 +15,12 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import net.labymod.api.util.Pair;
+import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
 
 public class HudEvents {
+
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   private static final ItemStack AIR = Laby.references().itemStackFactory()
       .create(ResourceLocation.create("minecraft", "air"));
@@ -98,7 +100,7 @@ public class HudEvents {
 
   private void updateMaps(ItemStack itemStack) {
     if (itemStack == null) {
-      LOGGER.debug(getClass(), "Got a null ItemStack in HudEvents#updateMaps");
+      log.debug("null itemstack passed to updateMaps");
       return;
     }
     Item item = itemStack.getAsItem();

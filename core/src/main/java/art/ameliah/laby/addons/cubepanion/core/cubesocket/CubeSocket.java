@@ -41,13 +41,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class CubeSocket extends Service {
 
-  private static final Logging LOGGER = Logging.create(CubeSocket.class);
+  private static final Logging log = Logging.create(CubeSocket.class.getSimpleName());
   private static final String host;
   private static final int port = 9527;
 
   static {
-    if (System.getenv("CUBEPANION_DEV") != null) {
-      host = "192.168.0.118";
+    if (System.getenv("DEV") != null) {
+      host = "192.168.0.193";
     } else {
       host = "cubesocket.ameliah.art";
     }
@@ -61,7 +61,6 @@ public class CubeSocket extends Service {
       (new ThreadFactoryBuilder()).withNameFormat("CubeSocketExecutor#d").build());
   private final SessionAccessor sessionAccessor;
   private final EventBus eventBus;
-  private final NotificationController notificationController;
 
   private CubeSocketSession session = null;
   private CubeSocketHandler channelHandler = null;
@@ -80,9 +79,8 @@ public class CubeSocket extends Service {
     this.connectTries = 0;
     this.sessionAccessor = sessionAccessor;
     this.eventBus = eventBus;
-    this.notificationController = notifications;
 
-    this.eventBus.registerListener(new CubeSocketNotifications(this, this.notificationController));
+    this.eventBus.registerListener(new CubeSocketNotifications(this, notifications));
     this.eventBus.registerListener(new CubeSocketPerkTracker(this, addon));
     this.eventBus.registerListener(new CubeSocketGameTracker(this));
     this.eventBus.registerListener(new CubeSocketPlayerCountTracker(this, addon));
@@ -107,7 +105,7 @@ public class CubeSocket extends Service {
           connect();
         }
       } catch (Exception e) {
-        LOGGER.error("Error in CubeSocket keep alive", e);
+        log.error("Error in CubeSocket keep alive", e);
       }
     }, 0L, 5L, TimeUnit.SECONDS);
   }
@@ -145,7 +143,7 @@ public class CubeSocket extends Service {
           this.sendPacket(new PacketHelloPing(TimeUtil.getMillis()));
         } catch (Exception e) {
           this.updateState(CubeSocketState.OFFLINE);
-          LOGGER.warn("Failed to connect to CubeSocket", e);
+          log.warn("Failed to connect to CubeSocket", e);
         }
       }
     });
@@ -204,6 +202,10 @@ public class CubeSocket extends Service {
   }
 
   public void sendPacket(Packet packet, Consumer<SocketChannel> callback) {
+    if (packet == null) {
+      log.warn("Tried to send a null packet");
+      return;
+    }
     NioSocketChannel channel = this.getChannel();
     if (channel == null || !channel.isActive()) {
       return;

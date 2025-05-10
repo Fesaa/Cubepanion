@@ -1,9 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.v1_21_4;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.ChestLocation;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Singleton;
@@ -34,20 +34,17 @@ public class VersionedChestFinderLink extends ChestFinderLink {
       return this.locations;
     }
 
-    List<ChestLocation> validLocations = ChestAPI.getInstance().getChestLocations();
-    String currentSeason = ChestAPI.getInstance().getSeason();
+    var validLocations = CubepanionAPI.I().getChestLocations();
 
     ChunkPos pos = player.chunkPosition();
-    ClientLevel level = Minecraft.getInstance().getConnection().getLevel();
+    ClientLevel level = con.getLevel();
     int range = Cubepanion.get().configuration().getQolConfig().getRange().get();
     for (int x = -range; x <= range; x++) {
       for (int y = -range; y <= range; y++) {
         LevelChunk chunk = level.getChunk(pos.x + x, pos.z + y);
         for (Map.Entry<BlockPos, BlockEntity> entry : chunk.getBlockEntities().entrySet()) {
           if (entry.getValue().getType().equals(BlockEntityType.CHEST)) {
-            ChestLocation loc = new ChestLocation(currentSeason, entry.getKey().getX(),
-                entry.getKey().getY(),
-                entry.getKey().getZ());
+            ChestLocation loc = new ChestLocation(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ());
             if (validLocations.contains(loc)) {
               this.locations.add(loc);
             }

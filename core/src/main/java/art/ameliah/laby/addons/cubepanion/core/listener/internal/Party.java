@@ -2,10 +2,13 @@ package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import net.labymod.api.util.concurrent.task.Task;
+import net.labymod.api.util.concurrent.task.TaskBuilder;
 
 public class Party {
 
@@ -28,12 +31,18 @@ public class Party {
   private boolean tryingToReadPartyMembers;
   private int partySize;
 
+  private final Task sendPartyInfoCommand;
+
   public Party(Cubepanion addon) {
     this.addon = addon;
     this.partyManager = addon.getManager().getPartyManager();
 
     this.tryingToReadPartyMembers = false;
     this.partySize = 0;
+
+    this.sendPartyInfoCommand = Task.builder(() -> {
+      this.addon.labyAPI().minecraft().chatExecutor().chat("/party status");
+    }).delay(100, TimeUnit.MILLISECONDS).build();
   }
 
   @Subscribe
@@ -141,7 +150,7 @@ public class Party {
 
   private void toggleTryingToReadPartyMembers() {
     this.tryingToReadPartyMembers = true;
-    this.addon.labyAPI().minecraft().chatExecutor().chat("/party info");
+
   }
 
 }

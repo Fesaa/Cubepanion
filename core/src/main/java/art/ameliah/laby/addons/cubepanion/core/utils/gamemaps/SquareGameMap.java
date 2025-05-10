@@ -2,12 +2,10 @@ package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 
 import static art.ameliah.laby.addons.cubepanion.core.utils.Utils.getDoubleIndex;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 
-public class SquareGameMap extends LoadedGameMap {
+public class SquareGameMap extends AbstractGameMap {
 
   private final List<List<String>> teamColours;
 
@@ -15,8 +13,8 @@ public class SquareGameMap extends LoadedGameMap {
   private String teamAcross = "";
   private String teamAcrossSide = "";
 
-  public SquareGameMap(CubeGame game,String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
-    super(game, mapName, teamSize, buildLimit);
+  public SquareGameMap(String mapName, int teamSize, int buildLimit, List<List<String>> teamColours) {
+    super(mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0).get(0));
   }

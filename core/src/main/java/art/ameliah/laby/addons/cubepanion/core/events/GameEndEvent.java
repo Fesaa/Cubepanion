@@ -4,7 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.event.Event;
 
 /**
- * Fired when a CubeGame ends, if possible. May be fired due to winning, leaving the game, or
+ * Fired when a CubeGame ends, if possible. May be fired due to winning, leaving the name, or
  * quiting the server.
  */
 public class GameEndEvent implements Event {
@@ -25,14 +25,14 @@ public class GameEndEvent implements Event {
   }
 
   /**
-   * @return The game that has ended
+   * @return The name that has ended
    */
   public CubeGame getGame() {
     return game;
   }
 
   /**
-   * @return The unix time when the game started
+   * @return The unix time when the name started
    */
   public long getGameStartTime() {
     return gameStartTime;
@@ -46,7 +46,7 @@ public class GameEndEvent implements Event {
   }
 
   /**
-   * Check this before you do anything that should happen on the server in which the game was
+   * Check this before you do anything that should happen on the server in which the name was
    * played. (Send chat message, ...)
    *
    * @return Whether the player has already switched servers

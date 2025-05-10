@@ -7,7 +7,6 @@ import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
-import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 
 public class ServerNavigation {
 
@@ -51,7 +50,7 @@ public class ServerNavigation {
     if (address.endsWith("ccgn.co") && !address.contains("maps")) {
       return true;
     }
-    if (address.endsWith("-dev-cc")) {
+    if (address.contains("-dev-cc")) {
       this.manager.setDevServer(true);
       return true;
     }

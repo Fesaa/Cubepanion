@@ -9,7 +9,6 @@ import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;

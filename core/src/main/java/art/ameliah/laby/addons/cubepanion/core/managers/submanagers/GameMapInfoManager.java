@@ -2,10 +2,10 @@ package art.ameliah.laby.addons.cubepanion.core.managers.submanagers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.I18nNamespaces;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.client.component.Component;
 
@@ -22,7 +22,7 @@ public class GameMapInfoManager {
     this.gameMapInfoSubConfig = addon.configuration().getGameMapInfoSubConfig();
   }
 
-  public void displayGameMapLayout(LoadedGameMap map) {
+  public void displayGameMapLayout(AbstractGameMap map) {
     if (map == null || !this.gameMapInfoSubConfig.isEnabled().get()) {
       return;
     }
@@ -58,7 +58,7 @@ public class GameMapInfoManager {
 
   // Force map layout, regardless of config
   public boolean doGameMapLayout(String mapName) {
-    LoadedGameMap map = GameMapAPI.getInstance().getGameMapFromCache(this.addon.getManager().getDivision(), mapName);
+    AbstractGameMap map = CubepanionAPI.I().getGameMap(this.addon.getManager().getDivision(), mapName);
     if (map == null) {
       return false;
     }
@@ -71,7 +71,8 @@ public class GameMapInfoManager {
     if (!subConfig.isEnabled().get()) {
       return;
     }
-    LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();
+
+    AbstractGameMap map = CubepanionAPI.I().currentMap();
     if (map == null) {
       return;
     }

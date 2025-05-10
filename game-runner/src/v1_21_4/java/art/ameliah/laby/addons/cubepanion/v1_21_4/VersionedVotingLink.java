@@ -35,20 +35,25 @@ public class VersionedVotingLink extends VotingLink {
 
     player.getInventory().selected = hotbarSlotIndex;
     connection.send(new ServerboundSetCarriedItemPacket(hotbarSlotIndex));
-    int sequence = 0;
+    int sequence;
     if (Cubepanion.get().configuration().getAutoVoteSubConfig().getExperiments().get()) {
+      log.debug("using sequence from BlockStatePredictionHandler");
       BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
       handler.startPredicting();
       sequence = handler.currentSequence();
+    } else {
+      sequence = 0;
     }
-    connection.send(
-        new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(),
-            player.getYRot()));
 
+    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getYRot(), player.getXRot()));
   }
 
   @Override
   public void clickSlot(int syncId, int slotId, int button) {
+    if (slotId < Short.MIN_VALUE || slotId > Short.MAX_VALUE) {
+      log.warn("Tried to click on a slot with an invalid slot id {}", slotId);
+      return;
+    }
 
     ClientPacketListener connection = Minecraft.getInstance().getConnection();
     if (connection == null) {

@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.managers;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget;
@@ -12,10 +13,8 @@ import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWi
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BooleanSupplier;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -26,7 +25,7 @@ import net.labymod.api.client.resources.ResourceLocation;
 
 //TODO: Maybe! Add ...
 // Custom text widget
-// Deaths, Kills, etc. per game tracker
+// Deaths, Kills, etc. per name tracker
 // Party information
 public class WidgetManager {
 
@@ -86,7 +85,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "distance_to_build_limit", "Build limit in", "0",
             () -> {
-              LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();;
+              AbstractGameMap map = CubepanionAPI.I().currentMap();;
               if (map == null) {
                 return "";
               }
@@ -112,7 +111,7 @@ public class WidgetManager {
 
               return String.valueOf(d);
             },
-            () -> GameMapAPI.getInstance().getCurrentMap() != null
+            () -> CubepanionAPI.I().currentMap() != null
                 && !addon.getManager().isInPreLobby(), 5, 1, () -> true));
 
     // Fireball Cooldown

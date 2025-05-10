@@ -6,10 +6,6 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSess
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
 import net.labymod.api.client.chat.command.SubCommand;
 
 public class State extends SubCommand {
@@ -40,13 +36,6 @@ public class State extends SubCommand {
         manager.isInPreLobby(),
         manager.hasLost(),
         manager.getGameStartTime());
-
-    String weaveState = String.format(
-        "Weave State:\n\tChest Seasons: %s\n\tChests loaded: %d\n\tGame Maps loaded: %d\n\tGames Loaded: %d\n\t",
-        ChestAPI.getInstance().getSeason(),
-        ChestAPI.getInstance().getChestLocations().size(),
-        GameMapAPI.getInstance().size(),
-        GamesAPI.I().getAliases().size());
 
     PartyManager partyManager = addon.getManager().getPartyManager();
     String partyState = String.format(
@@ -79,7 +68,7 @@ public class State extends SubCommand {
         session != null ? session.getKeepAlivesReceived() : 0);
 
     displayMessage(
-        state + "\n" + weaveState + "\n" + partyState + "\n" + fireballState + "\n" + featherState + "\n" + socketState);
+        state + "\n" + partyState + "\n" + fireballState + "\n" + featherState + "\n" + socketState);
     return true;
   }
 }

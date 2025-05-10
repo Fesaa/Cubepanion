@@ -5,14 +5,16 @@ import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
-import net.labymod.api.event.Subscribe;
-import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.util.logging.Logging;
+import org.jetbrains.annotations.NotNull;
 
 public class Cooldowns {
+
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   private final Cubepanion addon;
   private final @NotNull FunctionLink functionLink;
@@ -43,7 +45,7 @@ public class Cooldowns {
     }
 
     if (addon.getManager().getCooldownManager().onCooldown(id, cooldownTime)) {
-      LOGGER.debug(getClass(), "Cooldown " + id + " is already on cooldown: " + cooldownTime);
+      log.debug("Cooldown event triggered for item {}, time {}", id, cooldownTime);
       return;
     }
 

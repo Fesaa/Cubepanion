@@ -1,7 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.v1_21_5;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import javax.inject.Inject;
@@ -12,6 +11,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.prediction.BlockStatePredictionHandler;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.HashedStack;
+import net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket;
 import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
@@ -38,21 +38,19 @@ public class VersionedVotingLink extends VotingLink {
     connection.send(new ServerboundSetCarriedItemPacket(hotbarSlotIndex));
     int sequence = 0;
     if (Cubepanion.get().configuration().getAutoVoteSubConfig().getExperiments().get()) {
+      log.debug("using sequence from BlockStatePredictionHandler");
       BlockStatePredictionHandler handler = connection.getLevel().getBlockStatePredictionHandler();
       handler.startPredicting();
       sequence = handler.currentSequence();
     }
-    connection.send(
-        new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getXRot(),
-            player.getYRot()));
 
+    connection.send(new ServerboundUseItemPacket(InteractionHand.MAIN_HAND, sequence, player.getYRot(), player.getXRot()));
   }
 
   @Override
   public void clickSlot(int syncId, int slotId, int button) {
     if (slotId < Short.MIN_VALUE || slotId > Short.MAX_VALUE) {
-      LOGGER.warn(getClass(),
-          "Tried to click on a slot with id that doesn't fit inside a short!, {}", slotId);
+      log.warn("Tried to click on a slot with an invalid slot id {}", slotId);
       return;
     }
 

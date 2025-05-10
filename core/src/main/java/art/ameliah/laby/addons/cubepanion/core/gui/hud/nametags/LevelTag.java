@@ -129,7 +129,7 @@ public class LevelTag extends NameTag {
   }
 
   private void readAndPutLevel(TextComponent name) {
-    // Players may rejoin the game, lets not try and parse an int again.
+    // Players may rejoin the name, lets not try and parse an int again.
     String playerName = this.getPlayerName(name);
     if (this.levels.containsKey(playerName)) {
       return;

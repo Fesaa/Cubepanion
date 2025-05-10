@@ -5,20 +5,19 @@ import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoManager;
-import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
-import art.ameliah.laby.addons.cubepanion.core.weave.LeaderboardAPI;
-import net.labymod.api.Laby;
 import java.util.List;
+import net.labymod.api.Laby;
+import net.labymod.api.util.logging.Logging;
 
 public class CubepanionManager implements Manager {
+
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   private final static List<CubeGame> NO_PRE_LOBBY = List.of(
       CubeGame.FFA, CubeGame.SKYBLOCK, CubeGame.LOBBY
@@ -134,10 +133,7 @@ public class CubepanionManager implements Manager {
 
     this.partyManager.reset();
 
-    GamesAPI.I().loadGames();
-    GameMapAPI.getInstance().loadMaps();
-    ChestAPI.getInstance().loadChestLocations();
-    ChestAPI.getInstance().loadSeason();
+    CubepanionAPI.I().loadInitialData();
   }
 
   public boolean isDevServer() {
@@ -181,10 +177,10 @@ public class CubepanionManager implements Manager {
   }
 
   public void setDivision(CubeGame division) {
-    LOGGER.debug(getClass(), "Setting division to " + division, "and firing game join");
+    log.debug("Setting division to {} and firing join event", division);
 
     if (!this.isInPreLobby() && this.hasLost()) {
-      LOGGER.debug(getClass(), "Ending game due to game switch");
+      log.debug("Ending game due to division switch");
       Laby.fireEvent(new GameEndEvent(this.division, false, true, this.gameStartTime));
     }
 

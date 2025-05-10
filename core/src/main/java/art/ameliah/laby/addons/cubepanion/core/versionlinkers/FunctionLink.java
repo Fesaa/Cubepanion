@@ -1,17 +1,17 @@
 package art.ameliah.laby.addons.cubepanion.core.versionlinkers;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
-import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import art.ameliah.laby.addons.cubepanion.core.utils.LOGGER;
-import art.ameliah.laby.addons.cubepanion.core.weave.APIGame;
-import art.ameliah.laby.addons.cubepanion.core.weave.GamesAPI;
-import net.labymod.api.client.component.TextComponent;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.reference.annotation.Referenceable;
-import net.labymod.api.util.Pair;
+import net.labymod.api.util.concurrent.task.Task;
+import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,44 +19,29 @@ import org.jetbrains.annotations.Nullable;
 @Referenceable
 public abstract class FunctionLink {
 
-  protected List<Integer> perkSlots = List.of(20, 22, 24);
-  protected List<Integer> perkCategorySlots = List.of(0, 1, 2);
+  private final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   public abstract void setCoolDown(@NotNull ItemStack itemStack, int duration);
 
-  public abstract CompletableFuture<Pair<PerkCategory, List<ItemStack>>> loadPerks();
+  public abstract CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems( Predicate<String> titlePredicate);
 
-  public abstract CompletableFuture<@Nullable HashMap<APIGame, Integer>> loadPlayerCounts();
-
-  public void readPlayerCount(HashMap<APIGame, Integer> games,  ItemStack item) {
-    if (item.getDisplayName().getChildren().isEmpty() || item.getDisplayName().getChildren().getFirst().getChildren().isEmpty()) {
-      return;
+  protected  <T> CompletableFuture<T> try10Times(int tries, BooleanSupplier check, Supplier<T> res) {
+    if (tries >= 10) {
+      return CompletableFuture.completedFuture(null);
     }
 
-    String name = ((TextComponent)item.getDisplayName().getChildren().getFirst().getChildren().getFirst()).getText();
-    APIGame game = GamesAPI.I().getGame(name.toLowerCase().replace(" ", "_"));
-    if (game == null) {
-      return;
-    }
+    CompletableFuture<T> future = new CompletableFuture<>();
 
-    List<String> toolTips = ((CCItemStack) item).getToolTips();
-    if (toolTips.size() < 2) {
-      return;
-    }
-
-    for (String content : toolTips) {
-      if (content.contains("Players: ")) {
-        String playerCountString = content.replace("Players: ", "");
-        try {
-          int playerCount = Integer.parseInt(playerCountString);
-          games.put(game, playerCount);
-          break;
-        } catch (NumberFormatException e) {
-          LOGGER.warn(getClass(), e,
-              "Failed to parse playercount from item in menu: " + playerCountString);
-        }
+    Task.builder(() -> {
+      if (check.getAsBoolean()) {
+        future.complete(res.get());
+        return;
       }
-    }
+
+      try10Times(tries + 1, check, res).thenAcceptAsync(future::complete);
+    }).delay(100, TimeUnit.MILLISECONDS).build().execute();
+
+    return future;
   }
 
 }

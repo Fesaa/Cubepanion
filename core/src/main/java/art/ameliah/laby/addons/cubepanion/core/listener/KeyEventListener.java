@@ -2,11 +2,10 @@ package art.ameliah.laby.addons.cubepanion.core.listener;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.QOLMapSelectorLink;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI;
+import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.options.MinecraftInputMapping;
@@ -14,34 +13,16 @@ import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.input.KeyEvent;
 import net.labymod.api.event.client.input.KeyEvent.State;
-import net.labymod.api.event.client.input.MouseButtonEvent;
-import net.labymod.api.event.client.input.MouseButtonEvent.Action;
 
 public class KeyEventListener {
 
   private final Cubepanion addon;
   private final MinecraftInputMapping dropKey;
 
-  private final QOLMapSelectorLink qolMapSelectorLink;
 
-
-  public KeyEventListener(Cubepanion addon, QOLMapSelectorLink qolMapSelectorLink) {
+  public KeyEventListener(Cubepanion addon) {
     this.addon = addon;
     this.dropKey = this.addon.labyAPI().minecraft().options().getInputMapping("key.drop");
-    this.qolMapSelectorLink = qolMapSelectorLink;
-  }
-
-  @Subscribe
-  public void onMouseButtonEvent(MouseButtonEvent e) {
-    if (this.addon.getManager().onCubeCraft()
-        && this.addon.getManager().getDivision().equals(CubeGame.LOBBY)
-        && e.action().equals(Action.CLICK)
-        && this.addon.labyAPI().minecraft().minecraftWindow().isScreenOpened()) {
-      if (this.qolMapSelectorLink != null
-          && this.addon.configuration().getQolConfig().getMapSelector().get()) {
-        this.qolMapSelectorLink.onScreenOpen();
-      }
-    }
   }
 
   @Subscribe
@@ -56,9 +37,9 @@ public class KeyEventListener {
     // Game Map Info KeyBind
     GameMapInfoSubConfig subConfig = this.addon.configuration().getGameMapInfoSubConfig();
     if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()
-        && GameMapAPI.getInstance().hasMaps(this.addon.getManager().getDivision())) {
+        && CubepanionAPI.I().hasMaps(this.addon.getManager().getDivision())) {
       if (keyEvent.state() == State.PRESS) {
-        LoadedGameMap map = GameMapAPI.getInstance().getCurrentMap();
+        AbstractGameMap map = CubepanionAPI.I().currentMap();
         this.addon.getManager().getGameMapInfoManager().displayGameMapLayout(map);
       }
     }

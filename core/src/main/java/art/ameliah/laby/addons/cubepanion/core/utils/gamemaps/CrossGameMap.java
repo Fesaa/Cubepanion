@@ -1,11 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.utils.gamemaps;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 
-public class CrossGameMap extends LoadedGameMap {
+public class CrossGameMap extends AbstractGameMap {
 
   // Team Colour in cyclic order, moving left
   private final List<String> teamColours;
@@ -14,8 +12,8 @@ public class CrossGameMap extends LoadedGameMap {
   private String teamRight = "";
   private String teamBefore = "";
 
-  public CrossGameMap(CubeGame game, String mapName, int teamSize, int buildLimit, List<String> teamColours) {
-    super(game, mapName, teamSize, buildLimit);
+  public CrossGameMap(String mapName, int teamSize, int buildLimit, List<String> teamColours) {
+    super(mapName, teamSize, buildLimit);
     this.teamColours = teamColours;
     this.setCurrentTeamColour(this.teamColours.get(0));
   }

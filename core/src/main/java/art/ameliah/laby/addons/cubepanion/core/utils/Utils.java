@@ -1,19 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.utils;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.ChestLocation;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.CrossGameMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.DoubleCrossGameMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.SquareGameMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.TriangleEggWarsMap;
-import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.base.LoadedGameMap;
-import art.ameliah.laby.addons.cubepanion.core.weave.ChestAPI.ChestLocation;
-import art.ameliah.laby.addons.cubepanion.core.weave.GameMapAPI.GameMap;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -21,12 +10,10 @@ import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.util.Pair;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class Utils {
 
-  private static final Logging LOGGER = Logging.getLogger();
-
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   public static <T> @NotNull Pair<Integer, Integer> getDoubleIndex(List<List<T>> list, T value) {
     int outer = 0;
@@ -46,66 +33,6 @@ public class Utils {
     return Pair.of(-1, -1);
   }
 
-  public static @Nullable LoadedGameMap fromAPIMap(GameMap map) {
-    CubeGame game = CubeGame.stringToGame(map.game());
-    if (game.equals(CubeGame.NONE)) {
-      return null;
-    }
-
-    switch (map.layout()) {
-      case "square" -> {
-        return new SquareGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
-            twoDeepStringList(transformColours(map)));
-      }
-      case "cross" -> {
-        return new CrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
-            oneDeepStringList(transformColours(map)));
-      }
-      case "doublecross" -> {
-        return new DoubleCrossGameMap(game, map.map_name(), map.team_size(), map.build_limit(),
-            twoDeepStringList(transformColours(map)));
-      }
-      case "triangle" -> {
-        return new TriangleEggWarsMap(game, map.map_name(), map.team_size(), map.build_limit(),
-            twoDeepStringList(transformColours(map)));
-      }
-      default -> {
-        LOGGER.error("Unknown map layout", map.layout(), "for map", map.map_name());
-        return null;
-      }
-    }
-  }
-
-  static List<List<String>> twoDeepStringList(JsonArray array) {
-    List<List<String>> list = new ArrayList<>(List.of());
-    for (JsonElement element : array) {
-      List<String> inner = new ArrayList<>(List.of());
-      for (JsonElement element2 : element.getAsJsonArray()) {
-        inner.add(element2.getAsString());
-      }
-      list.add(inner);
-    }
-    return list;
-  }
-
-  static List<String> oneDeepStringList(@NotNull JsonArray array) {
-    List<String> list = new ArrayList<>();
-    for (JsonElement element : array) {
-      list.add(element.getAsString());
-    }
-    return list;
-  }
-
-  static @NotNull JsonArray transformColours(GameMap map) {
-    JsonArray array = null;
-    try {
-      array = (new Gson()).fromJson(map.colours(), JsonArray.class);
-    } catch (JsonSyntaxException e) {
-      LOGGER.error("Failed to parse colours for " + map.map_name() + " using empty list.", e);
-    }
-    return array != null ? array : new JsonArray();
-  }
-
   public static Component chestLocationsComponent(ChestLocation loc) {
     return Component.translatable("cubepanion.messages.chests_finder.found", Colours.Success)
         .append(Component.text(String.format("%s, %s, %s", loc.x(), loc.y(), loc.z()),
@@ -114,7 +41,6 @@ public class Utils {
 
   public static void handleAPIError(Class<?> origin, Cubepanion addon, Throwable e,
       String msg, String keyError, String key) {
-    LOGGER.debug(origin.getCanonicalName() + " " + msg, e);
     if (addon.configuration().getLeaderboardAPIConfig().getErrorInfo().get()) {
       addon.displayMessage(
           Component.translatable(keyError, Component.text(e.getMessage())).color(Colours.Error));
