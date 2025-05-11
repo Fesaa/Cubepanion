@@ -23,11 +23,20 @@ public abstract class VotingLink {
   public abstract void clickSlot(int syncId, int slotId, int button);
 
   public void vote(AutoVoteProvider provider) {
-    log.debug("Starting vote sequence for hotbar slot {}", provider.getHotbarSlot());
+    int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
+    log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms", provider.getHotbarSlot(), delay);
+    if (delay == 0) {
+      this.voteLogic(provider);
+      return;
+    }
     Task.builder(() -> {
-      this.openMenu(provider.getHotbarSlot());
-      Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
-    }).delay(100, TimeUnit.MILLISECONDS).build().execute();
+      this.voteLogic(provider);
+    }).delay(delay, TimeUnit.MILLISECONDS).build().execute();
+  }
+
+  private void voteLogic(AutoVoteProvider provider) {
+    this.openMenu(provider.getHotbarSlot());
+    Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
   }
 
   private void menuLogic(AutoVoteProvider provider) {

@@ -3,6 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.config.subconfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.DropdownSetting;
 import net.labymod.api.configuration.loader.Config;
@@ -66,6 +67,9 @@ public class AutoVoteSubConfig extends Config {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> experiments = new ConfigProperty<>(false);
+
+  @SliderSetting(min = 0, max = 1000, steps = 10f)
+  private final ConfigProperty<Integer> delay = new ConfigProperty<>(100);
 
   public AutoVoteSubConfig() {
     enabled.addChangeListener((prop, oldV, newV) -> {
@@ -156,6 +160,10 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<Boolean> getExperiments() {
     return experiments;
+  }
+
+  public ConfigProperty<Integer> getDelay() {
+    return delay;
   }
 
   public enum TwoOptionsMode {

@@ -276,6 +276,10 @@
             "none": "Don't vote"
           }
         },
+        "delay": {
+          "name": "Delay",
+          "description": "Delay your autovote trigger for X ms after game join"
+        },
         "experiments": {
           "name": "Experiments",
           "description": "Only turn off, if autovote doesn't work without it. "
