@@ -165,12 +165,12 @@ public class CubepanionAPI {
   }
 
   public CompletableFuture<Leaderboard> getLeaderboard(Game game, int lower, int upper) {
-    return this.get(String.format("%s/Leaderboard/name/%s?lower=%s&upper=%s",
+    return this.get(String.format("%s/Leaderboard/game/%s?lower=%s&upper=%s",
         this.baseUrlv2, game.name(), lower, upper), Leaderboard.class);
   }
 
   public CompletableFuture<Leaderboard> getLeaderboard(Game game) {
-    return this.get(this.baseUrlv2+"/Leaderboard/name/"+game.name(), Leaderboard.class);
+    return this.get(this.baseUrlv2+"/Leaderboard/game/"+game.name(), Leaderboard.class);
   }
 
   public CompletableFuture<PlayerLeaderboard> getPlayerLeaderboard(String name) {
