@@ -41,7 +41,7 @@ public class AutoVoteProvider {
         () -> VotePair.of(14, config.getPofMapMode().get().slot, "Map Mode")
     ));
     providers.put(CubeGame.BEDWARS, AutoVoteProvider.of(0,
-        () -> VotePair.of(-1, config.getBedWarsModifier().get().slot, "")
+        () -> VotePair.of(-1, config.getBedWarsModifier().get().slot, "Modifiers")
     ));
     providers.put(CubeGame.TEAM_LUCKY_ISLANDS, AutoVoteProvider.of(1,
         () -> VotePair.of(12, config.getLuckyIslandsBlocks().get().slot, "Game Option Voting"),
