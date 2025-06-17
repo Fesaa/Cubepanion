@@ -45,7 +45,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private CubepanionManager manager;
   private CubeSocket socket;
 
-  private VotingLink votingLink;
   private ChestFinderLink chestFinderLink;
   private FunctionLink functionLink;
   private CodecLink codecLink;
@@ -77,13 +76,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     registerListener(socket);
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
-    votingLink = storage.getVotingLink();
     chestFinderLink = storage.getChestFinderLink();
     functionLink = storage.getFunctionLink();
     codecLink = storage.getCodecLink();
-    if (votingLink == null) {
-      log.warn("VotingLink is null. Some features may not work.");
-    }
     if (chestFinderLink == null) {
       log.warn("ChestFinderLink is null. Some features may not work.");
     }
@@ -135,15 +130,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   }
 
   @Nullable
-  public VotingLink getVotingLink() {
-    return votingLink;
-  }
-
-  @Nullable
   public ChestFinderLink getChestFinderLink() {
     return chestFinderLink;
   }
-
 
   @Nullable
   public FunctionLink getFunctionLink() {

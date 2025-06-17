@@ -1,38 +1,53 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink.VotePair;
+import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.entity.player.inventory.InventorySetSlotEvent;
+import net.labymod.api.util.concurrent.task.Task;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AutoVote {
 
   private final Logging log = Logging.create(Cubepanion.class.getSimpleName());
-  private final Pattern votePattern = Pattern.compile("(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) voted for [a-zA-Z ]+\\. \\d+ votes?");
-  private final Pattern startingInPattern = Pattern.compile("[a-zA-Z ]+ is starting in 10 seconds.");
+  private final Pattern votePattern = Pattern.compile(
+      "(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) voted for [a-zA-Z ]+\\. \\d+ votes?");
+  private final Pattern startingInPattern = Pattern.compile(
+      "[a-zA-Z ]+ is starting in 10 seconds.");
 
   private final Cubepanion addon;
+
   @NotNull
-  private final VotingLink votingLink;
+  private final FunctionLink functionLink;
+  private int returnIndex = 31;
+
   private boolean hasVoted;
   private boolean caughtVotingItem;
   private boolean voteHasBeenConfirmed;
 
-  public AutoVote(Cubepanion addon, @NotNull VotingLink votingLink) {
+  public AutoVote(Cubepanion addon, @NotNull FunctionLink functionLink) {
     this.addon = addon;
-    this.votingLink = votingLink;
+    this.functionLink = functionLink;
   }
 
   @Subscribe
@@ -65,13 +80,14 @@ public class AutoVote {
         return;
       }
 
-      AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
+      var game = this.addon.getManager().getDivision();
+      AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
       if (provider == null) {
         return;
       }
 
-      log.debug("Voting for game {} start as the previous attempt has failed", this.addon.getManager().getDivision());
-      this.votingLink.vote(provider);
+      log.debug("Voting for game {} start as the previous attempt has failed", game);
+      this.vote(game, provider);
     }
   }
 
@@ -94,15 +110,16 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
+    var game = this.addon.getManager().getDivision();
+    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
     if (provider == null) {
       this.caughtVotingItem = true;
-      log.warn("Voting item found but division {} has no registered voting options", this.addon.getManager().getDivision());
+      log.warn("Voting item found but division {} has no registered voting options", game);
       return;
     }
 
     this.hasVoted = true;
-    this.votingLink.vote(provider);
+    this.vote(game, provider);
   }
 
   @Subscribe
@@ -119,13 +136,16 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(this.addon.getManager().getDivision());
+    var game = this.addon.getManager().getDivision();
+    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
     if (provider == null) {
-      log.warn("Voting item found but division {} has no registered voting options, even after game join", this.addon.getManager().getDivision());
+      log.warn(
+          "Voting item found but division {} has no registered voting options, even after game join",
+          game);
       return;
     }
 
-    this.votingLink.vote(provider);
+    this.vote(game, provider);
   }
 
   private void reset() {
@@ -152,5 +172,90 @@ public class AutoVote {
 
     return displayName.getText().equals("Voting");
   }
+
+  private void vote(CubeGame game, AutoVoteProvider provider) {
+    int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
+    log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms",
+        provider.getHotbarSlot(), delay);
+
+    if (delay == 0) {
+      this.startVoteSequence(game, provider);
+      return;
+    }
+    Task.builder(() -> this.startVoteSequence(game, provider)).delay(delay, TimeUnit.MILLISECONDS)
+        .build().execute();
+  }
+
+  private void startVoteSequence(CubeGame game, AutoVoteProvider provider) {
+    log.info("Going to vote for {}", game);
+
+    this.functionLink.useItemInHotBar(provider.getHotbarSlot());
+    Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
+  }
+
+  private void menuLogic(AutoVoteProvider provider) {
+    Queue<VotePair> pairs = new LinkedList<>();
+    provider.getVotePairSuppliers().forEach(pair -> pairs.add(pair.get()));
+
+    this.clickLoop(pairs, null).thenAcceptAsync(lastPair -> this.waitForNextMenu(lastPair)
+            .thenAcceptAsync(ctx -> this.functionLink.clickSlot(this.returnIndex, 0))
+        .exceptionally(ex -> {
+          log.error("Failed to vote", ex);
+          return null;
+        }));
+  }
+
+  private CompletableFuture<VotePair> clickLoop(Queue<VotePair> pairs, VotePair lastPair) {
+    var next = pairs.poll();
+    if (next == null) {
+      return CompletableFuture.completedFuture(lastPair);
+    }
+    return this.handleVotePair(next)
+        .thenComposeAsync(_lastPair -> this.clickLoop(pairs, _lastPair));
+  }
+
+  private CompletableFuture<VotePair> handleVotePair(VotePair pair) {
+    if (!pair.valid()) {
+      return CompletableFuture.completedFuture(pair);
+    }
+
+    log.debug("Handling vote pair {}", pair);
+
+    return this.waitForNextMenu(pair).thenAcceptAsync(items -> {
+      if (items == null) {
+        throw new IllegalStateException("Failed to open the next menu");
+      }
+      if (pair.choiceIndex() == -1) {
+        return;
+      }
+
+      log.debug("Clicking choice {} @ {}", pair.choiceIndex(), items.get(pair.choiceIndex()).getDisplayName());
+      this.functionLink.clickSlot(pair.choiceIndex(), 0);
+    }).thenComposeAsync(ignored -> this.waitForNextVotingMenu(pair)
+        .thenApplyAsync(items -> {
+          if (items == null) {
+            throw new IllegalStateException("Voting menu failed to open");
+          }
+
+          log.debug("Clicking vote {} @ {}", pair.voteIndex(), items.get(pair.voteIndex()).getDisplayName());
+          this.functionLink.clickSlot(pair.voteIndex(), 0);
+          this.functionLink.clickSlot(this.returnIndex, 0);
+          return pair;
+        })
+    );
+  }
+
+  private CompletableFuture<@Nullable List<CCItemStack>> waitForNextMenu(VotePair pair) {
+    return this.functionLink.loadMenuItems(
+        (title) -> title.toLowerCase().contains("voting") && !title.toLowerCase().contains(pair.menuTitle()),
+        (items) -> items.size() >= 70);
+  }
+
+  private CompletableFuture<@Nullable List<CCItemStack>> waitForNextVotingMenu(VotePair pair) {
+    return this.functionLink.loadMenuItems(
+        (title) -> title.toLowerCase().contains(pair.menuTitle()),
+        (items) -> items.size() >= 70);
+  }
+
 
 }

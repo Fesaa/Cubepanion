@@ -4,6 +4,9 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.ChestLocation;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget.GameTimerConfig.layoutEnum;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.format.NamedTextColor;
@@ -14,6 +17,10 @@ import org.jetbrains.annotations.NotNull;
 public class Utils {
 
   private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
+
+  public static <T> Function<T, CompletableFuture<T>> delay(long delay, TimeUnit unit) {
+    return (t) -> CompletableFuture.supplyAsync(() -> t, CompletableFuture.delayedExecutor(delay, unit));
+  }
 
   public static <T> @NotNull Pair<Integer, Integer> getDoubleIndex(List<List<T>> list, T value) {
     int outer = 0;

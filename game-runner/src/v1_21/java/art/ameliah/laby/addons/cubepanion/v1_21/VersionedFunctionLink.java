@@ -12,9 +12,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +38,27 @@ public class VersionedFunctionLink extends FunctionLink {
   }
 
   @Override
-  public CompletableFuture<List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate) {
+  public void useItemInHotBar(int hotBarSlotIndex) {
+    if (Minecraft.getInstance().gameMode == null || Minecraft.getInstance().player == null) {
+      return;
+    }
+
+    Minecraft.getInstance().player.getInventory().selected = hotBarSlotIndex;
+    Minecraft.getInstance().gameMode.useItem(Minecraft.getInstance().player, InteractionHand.MAIN_HAND);
+  }
+
+  @Override
+  public void clickSlot(int slotId, int button) {
+    if (Minecraft.getInstance().gameMode == null || Minecraft.getInstance().player == null) {
+      return;
+    }
+
+    int containerId = Minecraft.getInstance().player.containerMenu.containerId;
+    Minecraft.getInstance().gameMode.handleInventoryMouseClick(containerId, slotId, button, ClickType.PICKUP, Minecraft.getInstance().player);
+  }
+
+  @Override
+  public CompletableFuture<List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate) {
     Minecraft minecraft = Minecraft.getInstance();
     Player player = minecraft.player;
     if (player == null) {
@@ -55,7 +77,16 @@ public class VersionedFunctionLink extends FunctionLink {
       }
 
       Component title = currenScreen.getTitle();
-      return titlePredicate.test(title.getString());
+      var titleCheck = titlePredicate.test(title.getString());
+      if (itemPredicate == null || !titleCheck) {
+        return titleCheck;
+      }
+
+      List<CCItemStack> items = new ArrayList<>();
+      for (var item : player.containerMenu.getItems()) {
+        items.add((CCItemStack) (Object) item);
+      }
+      return itemPredicate.test(items);
     }, () -> {
       List<CCItemStack> items = new ArrayList<>();
       for (var item : player.containerMenu.getItems()) {

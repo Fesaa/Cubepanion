@@ -20,55 +20,12 @@ public abstract class VotingLink {
 
   public abstract void openMenu(int hotbarSlotIndex);
 
-  public abstract void clickSlot(int syncId, int slotId, int button);
+  public abstract void clickSlot(int slotId, int button);
 
-  public void vote(AutoVoteProvider provider) {
-    int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
-    log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms", provider.getHotbarSlot(), delay);
-    if (delay == 0) {
-      this.voteLogic(provider);
-      return;
-    }
-    Task.builder(() -> {
-      this.voteLogic(provider);
-    }).delay(delay, TimeUnit.MILLISECONDS).build().execute();
-  }
+  public record VotePair(int choiceIndex, int voteIndex, String menuTitle) {
 
-  private void voteLogic(AutoVoteProvider provider) {
-    this.openMenu(provider.getHotbarSlot());
-    Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
-  }
-
-  private void menuLogic(AutoVoteProvider provider) {
-    int syncId = 1;
-    for (Supplier<VotePair> votePairSupplier : provider.getVotePairSuppliers()) {
-      VotePair pair = votePairSupplier.get();
-      if (!pair.valid()) {
-        continue;
-      }
-
-      if (pair.choiceIndex() != -1) {
-        log.debug("Clicking choice {} w/ syncId {}", pair.choiceIndex(), syncId);
-        this.clickSlot(syncId, pair.choiceIndex(), 0);
-        syncId++;
-      }
-
-      log.debug("Clicking vote {} w/ syncId {}", pair.choiceIndex(), syncId);
-      this.clickSlot(syncId, pair.voteIndex(), 0);
-
-      if (pair.choiceIndex() != -1) {
-        log.debug("Clicking choice {} w/ syncId {}", pair.choiceIndex(), syncId);
-        this.clickSlot(syncId, returnIndex, 0);
-        syncId++;
-      }
-    }
-    this.clickSlot(syncId, returnIndex, 0);
-  }
-
-  public record VotePair(int choiceIndex, int voteIndex) {
-
-    public static VotePair of(int choiceIndex, int voteIndex) {
-      return new VotePair(choiceIndex, voteIndex);
+    public static VotePair of(int choiceIndex, int voteIndex, String menuTitle) {
+      return new VotePair(choiceIndex, voteIndex, menuTitle.toLowerCase());
     }
 
     public boolean valid() {

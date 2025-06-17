@@ -23,7 +23,15 @@ public abstract class FunctionLink {
 
   public abstract void setCoolDown(@NotNull ItemStack itemStack, int duration);
 
-  public abstract CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems( Predicate<String> titlePredicate);
+  public abstract void useItemInHotBar(int hotBarSlotIndex);
+
+  public abstract void clickSlot(int slotId, int button);
+
+  public CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate) {
+    return this.loadMenuItems(titlePredicate, null);
+  }
+
+  public abstract CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate);
 
   protected  <T> CompletableFuture<T> try10Times(int tries, BooleanSupplier check, Supplier<T> res) {
     if (tries >= 10) {

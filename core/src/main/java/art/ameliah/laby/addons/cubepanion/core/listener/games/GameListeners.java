@@ -5,11 +5,11 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 public class GameListeners {
 
   public static void register(Cubepanion addon) {
-    if (addon.getVotingLink() != null) {
-      addon.registerCubepanionListener(new AutoVote(addon, addon.getVotingLink()));
-    }
-    if (addon.getFunctionLink() != null) {
-      addon.registerCubepanionListener(new Cooldowns(addon, addon.getFunctionLink()));
+    var func = addon.getFunctionLink();
+
+    if (func != null) {
+      addon.registerCubepanionListener(new AutoVote(addon, func));
+      addon.registerCubepanionListener(new Cooldowns(addon, func));
     }
     addon.registerCubepanionListener(new MapLayout());
     addon.registerCubepanionListener(new AutoGG());
