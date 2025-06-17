@@ -225,7 +225,7 @@ public class AutoVote {
       if (items == null) {
         throw new IllegalStateException("Failed to open the next menu");
       }
-      if (pair.choiceIndex() == -1) {
+      if (!pair.inSubMenu()) {
         return;
       }
 
@@ -239,7 +239,11 @@ public class AutoVote {
 
           log.debug("Clicking vote {} @ {}", pair.voteIndex(), items.get(pair.voteIndex()).getDisplayName());
           this.functionLink.clickSlot(pair.voteIndex(), 0);
-          this.functionLink.clickSlot(this.returnIndex, 0);
+
+          if (pair.inSubMenu()) {
+            this.functionLink.clickSlot(this.returnIndex, 0);
+          }
+
           return pair;
         })
     );
@@ -247,7 +251,7 @@ public class AutoVote {
 
   private CompletableFuture<@Nullable List<CCItemStack>> waitForNextMenu(VotePair pair) {
     return this.functionLink.loadMenuItems(
-        (title) -> title.toLowerCase().contains("voting") && !title.toLowerCase().contains(pair.menuTitle()),
+        (title) -> !pair.inSubMenu() || (title.toLowerCase().contains("voting") && !title.toLowerCase().contains(pair.menuTitle())),
         (items) -> items.size() >= 70);
   }
 

@@ -32,6 +32,10 @@ public abstract class VotingLink {
       return voteIndex >= 0;
     }
 
+    public boolean inSubMenu() {
+      return choiceIndex != -1;
+    }
+
   }
 
 
