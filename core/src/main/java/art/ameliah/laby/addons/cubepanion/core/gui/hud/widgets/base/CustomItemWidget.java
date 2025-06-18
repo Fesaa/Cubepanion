@@ -26,12 +26,18 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     this.posY = posY;
     this.itemIsHeld = false;
 
-    ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
-    Icon icon = Icon.sprite16(resourceLocation, posX, posY);
-    this.setIcon(icon);
 
-    this.item = Laby.references().itemStackFactory()
-        .create(ResourceLocation.create("minecraft", itemName));
+    var src = ResourceLocation.create("minecraft", itemName);
+    // If no regex is passed, use the item as resource
+    if (this.regex == null || this.regex.isEmpty()) {
+      this.setIcon(Icon.texture(src));
+    } else {
+      ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
+      Icon icon = Icon.sprite16(resourceLocation, posX, posY);
+      this.setIcon(icon);
+    }
+
+    this.item = Laby.references().itemStackFactory().create(src);
   }
 
   public void load(ItemHudConfig config) {
