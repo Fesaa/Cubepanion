@@ -17,6 +17,7 @@ import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.LivingEntity.EquipmentSpot;
@@ -38,16 +39,11 @@ public class WidgetManager {
     HudWidgetCategory category = new CubepanionWidgetCategory("Cubepanion");
     hudWidgetRegistry.categoryRegistry().register(category);
 
-    hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "emerald_counter", "emerald", 3, 0));
-    hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "diamond_counter", "diamond", 1, 0));
-    hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "iron_ingot_counter", "iron_ingot", 0, 0));
-    hudWidgetRegistry.register(
-        new CounterItemHudWidget(category, "gold_ingot_counter", "gold_ingot", 2, 0));
-    hudWidgetRegistry.register(new CounterItemHudWidget(category, "concrete_counter",
-        "(\\w{0,10}\\_{0,1}){0,2}concrete", "white_concrete", 4, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "emerald_counter", "emerald", 3, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "diamond_counter", "diamond", 1, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "iron_ingot_counter", "iron_ingot", 0, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "gold_ingot_counter", "gold_ingot", 2, 0));
+    hudWidgetRegistry.register(new CounterItemHudWidget(category, "concrete_counter", "(\\w{0,10}\\_{0,1}){0,2}concrete", "white_concrete", 4, 0));
 
     hudWidgetRegistry.register(
         new DurabilityItemHudWidget(category, "helmet_durability_counter", "helmet",
@@ -65,8 +61,7 @@ public class WidgetManager {
     hudWidgetRegistry.register(
         new NextArmourBuyTextWidget(category, "nextArmourDurability", manager));
 
-    BooleanSupplier statsTrackerEnabled = () -> addon.configuration()
-        .getStatsTrackerSubConfig().isEnabled();
+    BooleanSupplier statsTrackerEnabled = () -> addon.configuration().getStatsTrackerSubConfig().isEnabled();
 
     // Wins / Played
     StatsTrackerSubConfig statsTrackerSubConfig = addon.configuration()

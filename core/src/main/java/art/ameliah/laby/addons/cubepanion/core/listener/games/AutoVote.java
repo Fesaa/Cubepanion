@@ -14,7 +14,6 @@ import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink.VotePair;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -259,6 +258,22 @@ public class AutoVote {
     return this.functionLink.loadMenuItems(
         (title) -> title.toLowerCase().contains(pair.menuTitle()),
         (items) -> items.size() >= 70);
+  }
+
+  public record VotePair(int choiceIndex, int voteIndex, String menuTitle) {
+
+    public static VotePair of(int choiceIndex, int voteIndex, String menuTitle) {
+      return new VotePair(choiceIndex, voteIndex, menuTitle.toLowerCase());
+    }
+
+    public boolean valid() {
+      return voteIndex >= 0;
+    }
+
+    public boolean inSubMenu() {
+      return choiceIndex != -1;
+    }
+
   }
 
 

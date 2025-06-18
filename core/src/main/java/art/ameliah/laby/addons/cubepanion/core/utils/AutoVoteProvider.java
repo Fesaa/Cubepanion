@@ -1,7 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.utils;
 
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.VotingLink.VotePair;
+import art.ameliah.laby.addons.cubepanion.core.listener.games.AutoVote.VotePair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
