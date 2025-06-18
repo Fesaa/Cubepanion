@@ -14,8 +14,10 @@ import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
 import art.ameliah.laby.addons.cubepanion.core.listener.ConfigFixes;
+import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameTickEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.KeyEventListener;
+import art.ameliah.laby.addons.cubepanion.core.listener.ScreenListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.games.GameListeners;
 import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.InternalTrackers;
@@ -94,10 +96,14 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new GameMapInfoCommand(this));
     this.registerCommand(new LeaderboardCommand(this));
+    this.registerCommand(new StatCommands(this));
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new Debug(this));
 
     this.registerListener(new GameTickEventListener(this));
+    this.registerListener(new GameShutdownEventListener(this));
+    this.registerListener(new KeyEventListener(this, qolMapSelectorLink));
+    this.registerListener(new ScreenListener(this, leaderboardTrackerLink, qolMapSelectorLink));
     this.registerListener(new KeyEventListener(this));
     this.registerListener(new HudEvents(this));
 

@@ -14,6 +14,7 @@ public class GameListeners {
     addon.registerCubepanionListener(new MapLayout());
     addon.registerCubepanionListener(new AutoGG());
     addon.registerCubepanionListener(new ClientPlayerSpawnProtection(addon));
+    addon.registerCubepanionListener(new Stats(addon));
   }
 
 }
