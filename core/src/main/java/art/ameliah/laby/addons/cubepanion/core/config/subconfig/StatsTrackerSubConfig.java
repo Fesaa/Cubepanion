@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.config.subconfig;
 
 import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -83,7 +84,8 @@ public class StatsTrackerSubConfig extends Config {
     if (this.gameStatsTrackers.get().containsKey(cubeGame)) {
       return this.gameStatsTrackers.get().get(cubeGame);
     }
-    if (cubeGame.shouldTrack()) {
+    var game = CubepanionAPI.I().tryGame(cubeGame.name());
+    if (game != null && game.shouldTrack()) {
       GameStatsTracker gameStatsTracker = new GameStatsTracker(cubeGame);
       this.gameStatsTrackers.get().put(cubeGame, gameStatsTracker);
       return gameStatsTracker;

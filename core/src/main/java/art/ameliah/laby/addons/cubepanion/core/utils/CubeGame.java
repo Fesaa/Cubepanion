@@ -2,32 +2,30 @@ package art.ameliah.laby.addons.cubepanion.core.utils;
 
 // ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
-  TEAM_EGGWARS("Team EggWars", true),
-  SOLO_LUCKYISLANDS("Solo Lucky Islands", true),
-  TEAM_LUCKY_ISLANDS("Team Lucky Islands", true),
-  SOLO_SKYWARS("Solo SkyWars", true),
-  FFA("Free For All", true),
-  SIMPLE_PARKOUR("Simple Parkour", false),
-  EASY_PARKOUR("Easy Parkour", false),
-  MEDIUM_PARKOUR("Medium Parkour", false),
-  HARD_PARKOUR("Hard Parkour", false),
-  PARKOUR("Parkour", false),
-  SKYBLOCK("Skyblock", false),
-  SNOWMAN_SURVIVAL("Snowman Survival", true),
-  LOBBY("Main Lobby", false),
-  PILLARS_OF_FORTUNE("Pillars of Fortune", true),
-  BEDWARS("BedWars", true),
-  ENDER("Ender", false),
-  DISASTERS("Disasters", false),
-  NONE("", false);
+  TEAM_EGGWARS("Team EggWars"),
+  SOLO_LUCKYISLANDS("Solo Lucky Islands"),
+  TEAM_LUCKY_ISLANDS("Team Lucky Islands"),
+  SOLO_SKYWARS("Solo SkyWars"),
+  FFA("Free For All"),
+  SIMPLE_PARKOUR("Simple Parkour"),
+  EASY_PARKOUR("Easy Parkour"),
+  MEDIUM_PARKOUR("Medium Parkour"),
+  HARD_PARKOUR("Hard Parkour"),
+  PARKOUR("Parkour"),
+  SKYBLOCK("Skyblock"),
+  SNOWMAN_SURVIVAL("Snowman Survival"),
+  LOBBY("Main Lobby"),
+  PILLARS_OF_FORTUNE("Pillars of Fortune"),
+  BEDWARS("BedWars"),
+  ENDER("Ender"),
+  DISASTERS("Disasters"),
+  NONE("");
 
 
   private final String string;
-  private final boolean shouldTrack;
 
-  CubeGame(String s, boolean shouldTrack) {
+  CubeGame(String s) {
     this.string = s;
-    this.shouldTrack = shouldTrack;
   }
 
   public static boolean isParkour(CubeGame e) {
@@ -95,10 +93,6 @@ public enum CubeGame {
         return CubeGame.NONE;
       }
     }
-  }
-
-  public boolean shouldTrack() {
-    return shouldTrack;
   }
 
   public String getString() {
