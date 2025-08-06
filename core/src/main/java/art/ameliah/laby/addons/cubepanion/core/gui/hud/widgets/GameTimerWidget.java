@@ -41,7 +41,7 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
     long timeDifference = System.currentTimeMillis() - this.manager.getGameStartTime();
     this.HUDLine.updateAndFlush(Utils.getFormattedString(timeDifference, this.config.layout.get()));
     this.HUDLine.setState(
-        !this.manager.isInPreLobby() && this.manager.onCubeCraft() ? State.VISIBLE : State.HIDDEN);
+        !this.manager.isInPreGameState() && this.manager.onCubeCraft() ? State.VISIBLE : State.HIDDEN);
   }
 
   public void load(GameTimerConfig config) {

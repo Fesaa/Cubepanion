@@ -36,7 +36,7 @@ public class RankTag extends NameTag {
     }
 
     if (addon.getManager().getDivision().equals(CubeGame.LOBBY) || addon.getManager()
-        .isInPreLobby()) {
+        .isInPreGameState()) {
       return RenderableComponent.of(Component.text(addon.getManager().getRankString()));
     }
     return null;

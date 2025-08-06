@@ -21,7 +21,7 @@ public class GameShutdownEventListener {
       CubepanionManager manager = this.addon.getManager();
       StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
           .getStatsTrackerSubConfig();
-      if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreLobby()) {
+      if (statsTrackerSubConfig.isEnabled() && manager.hasLost() && !manager.isInPreGameState()) {
         GameStatsTracker gameStatsTracker = statsTrackerSubConfig.getGameStatsTrackers()
             .get(manager.getDivision());
         if (gameStatsTracker != null) {

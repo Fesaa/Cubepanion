@@ -216,8 +216,8 @@ public class LevelTag extends NameTag {
     DisplayLocation displayLocation = this.config.getLevelTagDisplayLocation().get();
     return switch (displayLocation) {
       case BOTH -> true;
-      case PRE_LOBBY -> this.addon.getManager().isInPreLobby();
-      case GAME -> !this.addon.getManager().isInPreLobby();
+      case PRE_LOBBY -> this.addon.getManager().isInPreGameState();
+      case GAME -> !this.addon.getManager().isInPreGameState();
     };
   }
 

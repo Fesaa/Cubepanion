@@ -33,7 +33,7 @@ public class State extends SubCommand {
         manager.getTeamColour(),
         manager.getRankString(),
         manager.isEliminated(),
-        manager.isInPreLobby(),
+        manager.isInPreGameState(),
         manager.hasLost(),
         manager.getGameStartTime());
 

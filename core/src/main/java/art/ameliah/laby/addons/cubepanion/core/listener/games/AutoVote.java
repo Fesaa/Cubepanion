@@ -55,7 +55,7 @@ public class AutoVote {
       return;
     }
 
-    if (!this.addon.getManager().isInPreLobby()) {
+    if (!this.addon.getManager().isInPreGameState()) {
       return;
     }
 
@@ -96,7 +96,7 @@ public class AutoVote {
       return;
     }
 
-    if (!this.addon.getManager().isInPreLobby()) {
+    if (!this.addon.getManager().isInPreGameState()) {
       return;
     }
 

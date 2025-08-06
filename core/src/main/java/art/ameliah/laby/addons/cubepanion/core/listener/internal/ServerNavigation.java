@@ -31,7 +31,7 @@ public class ServerNavigation {
     if (!manager.onCubeCraft()) {
       return;
     }
-    if (!manager.isInPreLobby() && manager.hasLost()) {
+    if (!manager.isInPreGameState() && manager.hasLost()) {
       GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
           manager.getGameStartTime());
       Laby.fireEvent(event);

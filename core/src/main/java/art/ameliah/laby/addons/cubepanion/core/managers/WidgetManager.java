@@ -138,7 +138,7 @@ public class WidgetManager {
 
               int d = (int) (map.getBuildLimit() + 1 - p.position().getY());
               if (d < 3 && d > 0) {
-                if (!done.get() && !addon.getManager().isInPreLobby()
+                if (!done.get() && !addon.getManager().isInPreGameState()
                     && !addon.getManager().isEliminated()) {
                   mc.sounds().playSound(sound, 1.0F, 1.0F);
                   mc.chatExecutor().displayClientMessage(
@@ -153,14 +153,14 @@ public class WidgetManager {
               return String.valueOf(d);
             },
             () -> CubepanionAPI.I().currentMap() != null
-                && !addon.getManager().isInPreLobby(), 5, 1, () -> true));
+                && !addon.getManager().isInPreGameState(), 5, 1, () -> true));
 
     // Fireball Cooldown
     hudWidgetRegistry.register(
         new TextTrackerHudWidget(category, "fireball_cooldown", "Fireball Cooldown", "27s",
             () -> addon.getManager().getCooldownManager().getCooldownString(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME),
             () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS) && !addon.getManager()
-                .isInPreLobby(),
+                .isInPreGameState(),
             5, 1, () -> true));
 
     // Feather Cooldown
@@ -168,7 +168,7 @@ public class WidgetManager {
         new TextTrackerHudWidget(category, "feather_cooldown", "Feather Cooldown", "27s",
             () -> addon.getManager().getCooldownManager().getCooldownString(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME),
             () -> addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS) && !addon.getManager()
-                .isInPreLobby(),
+                .isInPreGameState(),
             5, 1, () -> true));
 
     // Game Timer

@@ -25,7 +25,7 @@ public class PacketGameStatUpdate extends Packet {
   @Override
   public void read(PacketBuffer buf) {
     String s= buf.readString();
-    Game game = CubepanionAPI.I().getGame(s);
+    Game game = CubepanionAPI.I().tryGame(s);
     if (game == null) {
       throw new IllegalArgumentException("Unknown name: "+ s);
     }

@@ -146,8 +146,13 @@ public class CubepanionAPI {
   }
 
   @Nullable
-  public Game getGame(String game) {
+  private Game getGame(String game) {
     return this.games.get(game);
+  }
+
+  @Nullable
+  public Game getGame(CubeGame cubeGame) {
+    return this.tryGame(cubeGame.getString());
   }
 
   @Nullable

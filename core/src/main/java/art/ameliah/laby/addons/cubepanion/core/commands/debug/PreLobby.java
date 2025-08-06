@@ -19,7 +19,7 @@ public class PreLobby extends SubCommand {
       return false;
     }
 
-    this.displayMessage(""+this.addon.getManager().isInPreLobby());
+    this.displayMessage(""+this.addon.getManager().isInPreGameState());
     return true;
   }
 }

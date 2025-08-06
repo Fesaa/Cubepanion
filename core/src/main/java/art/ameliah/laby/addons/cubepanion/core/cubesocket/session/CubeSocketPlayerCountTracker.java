@@ -190,7 +190,7 @@ public class CubeSocketPlayerCountTracker {
 
     String name = ((TextComponent) item.getDisplayName().getChildren().getFirst().getChildren()
         .getFirst()).getText();
-    Game game = CubepanionAPI.I().getGame(name.toLowerCase().replace(" ", "_"));
+    Game game = CubepanionAPI.I().tryGame(name);
     if (game == null) {
       return;
     }

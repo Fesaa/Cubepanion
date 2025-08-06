@@ -73,7 +73,7 @@ public class DiscordRPC {
       details = I18n.translate("cubepanion.managers.DiscordRPCManager.playing")
           + division.getString();
 
-      if (m.isInPreLobby()) {
+      if (m.isInPreGameState()) {
         state = I18n.translate("cubepanion.managers.DiscordRPCManager.waitingState");
       } else {
 
