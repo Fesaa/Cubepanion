@@ -22,7 +22,7 @@ public class AutoVoteProvider {
   // TODO: Throw this into the API
   public static void init(AutoVoteSubConfig config) {
     providers = new HashMap<>();
-    providers.put(CubeGame.TEAM_EGGWARS, AutoVoteProvider.of(1,
+    providers.put(CubeGame.TEAM_EGGWARS, AutoVoteProvider.of(0,
         () -> VotePair.of(11, config.getEggWarsPerk().get().slot, "Perk Voting"),
         () -> VotePair.of(13, config.getEggWarsItems().get().slot, "Items Voting"),
         () -> VotePair.of(15, config.getEggWarsHealth().get().slot, "Health Voting")
@@ -43,7 +43,7 @@ public class AutoVoteProvider {
     providers.put(CubeGame.BEDWARS, AutoVoteProvider.of(0,
         () -> VotePair.of(-1, config.getBedWarsModifier().get().slot, "Modifiers")
     ));
-    providers.put(CubeGame.TEAM_LUCKY_ISLANDS, AutoVoteProvider.of(1,
+    providers.put(CubeGame.TEAM_LUCKY_ISLANDS, AutoVoteProvider.of(0,
         () -> VotePair.of(12, config.getLuckyIslandsBlocks().get().slot, "Game Option Voting"),
         () -> VotePair.of(14, config.getLuckyIslandsTime().get().slot, "Time Voting")
     ));

@@ -32,7 +32,7 @@ public class AutoVote {
   private final Pattern votePattern = Pattern.compile(
       "(?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) voted for [a-zA-Z ]+\\. \\d+ votes?");
   private final Pattern startingInPattern = Pattern.compile(
-      "[a-zA-Z ]+ is starting in 10 seconds.");
+      "[a-zA-Z ]+ is starting in 5 seconds.");
 
   private final Cubepanion addon;
 
@@ -86,7 +86,7 @@ public class AutoVote {
       }
 
       log.debug("Voting for game {} start as the previous attempt has failed", game);
-      this.vote(game, provider);
+      this.vote(game, provider, provider.getHotbarSlot());
     }
   }
 
@@ -118,7 +118,7 @@ public class AutoVote {
     }
 
     this.hasVoted = true;
-    this.vote(game, provider);
+    this.vote(game, provider, event.index());
   }
 
   @Subscribe
@@ -144,7 +144,7 @@ public class AutoVote {
       return;
     }
 
-    this.vote(game, provider);
+    this.vote(game, provider, provider.getHotbarSlot());
   }
 
   private void reset() {
@@ -172,23 +172,23 @@ public class AutoVote {
     return displayName.getText().equals("Voting");
   }
 
-  private void vote(CubeGame game, AutoVoteProvider provider) {
+  private void vote(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
     int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
     log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms",
-        provider.getHotbarSlot(), delay);
+        hotbarSlot, delay);
 
     if (delay == 0) {
-      this.startVoteSequence(game, provider);
+      this.startVoteSequence(game, provider, hotbarSlot);
       return;
     }
-    Task.builder(() -> this.startVoteSequence(game, provider)).delay(delay, TimeUnit.MILLISECONDS)
+    Task.builder(() -> this.startVoteSequence(game, provider, hotbarSlot)).delay(delay, TimeUnit.MILLISECONDS)
         .build().execute();
   }
 
-  private void startVoteSequence(CubeGame game, AutoVoteProvider provider) {
+  private void startVoteSequence(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
     log.info("Going to vote for {}", game);
 
-    this.functionLink.useItemInHotBar(provider.getHotbarSlot());
+    this.functionLink.useItemInHotBar(hotbarSlot);
     Laby.labyAPI().minecraft().executeNextTick(() -> this.menuLogic(provider));
   }
 
