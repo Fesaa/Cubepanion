@@ -43,7 +43,7 @@ public class CubeSocket extends Service {
 
   private static final Logging log = Logging.create(CubeSocket.class.getSimpleName());
   private static final String host;
-  private static final int port = 9527;
+  private static final int port = 30527;
 
   static {
     if (System.getenv("DEV") != null) {
