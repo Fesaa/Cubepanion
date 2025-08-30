@@ -50,7 +50,7 @@ public class ServerNavigation {
     if (address.endsWith("ccgn.co") && !address.contains("maps")) {
       return true;
     }
-    if (address.contains("-dev-cc")) {
+    if (address.contains("-dev-cc") || address.endsWith("test.ziax.com")) {
       this.manager.setDevServer(true);
       return true;
     }

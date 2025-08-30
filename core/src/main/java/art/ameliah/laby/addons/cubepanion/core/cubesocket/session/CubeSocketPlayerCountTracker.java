@@ -79,21 +79,21 @@ public class CubeSocketPlayerCountTracker {
       return;
     }
 
-    if (!((TextComponent) playerCount.getFirst()).getText().contains("Players: ")) {
+    if (!((TextComponent) playerCount.getFirst()).getText().startsWith("Player")) {
       return;
     }
 
     int playerCountInt;
     try {
-      playerCountInt = Integer.parseInt(((TextComponent) playerCount.getLast()).getText().replace(",", ""));
+      playerCountInt = Integer.parseInt(((TextComponent) children.getLast()).getText().replace(",", ""));
     } catch (NumberFormatException e) {
       log.error("Failed to parse player count string for lobby {}", e);
       return;
     }
 
     this.maySendLobby = false;
+    log.debug("Updating lobby player count to {}", playerCountInt);
     if (!this.addon.getManager().isDevServer()) {
-      log.debug("Updating lobby player count to {}", playerCountInt);
       this.socket.sendPacket(new PacketGameStatUpdate(Game.LOBBY, playerCountInt));
     }
   }
