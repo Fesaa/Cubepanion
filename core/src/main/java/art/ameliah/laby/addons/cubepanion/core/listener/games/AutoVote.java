@@ -155,16 +155,6 @@ public class AutoVote {
 
   private boolean isVotingItem(ItemStack itemStack) {
     Component component = itemStack.getDisplayName();
-    List<Component> children = component.getChildren();
-    if (children.size() != 1) {
-      return false;
-    }
-    children = children.getFirst().getChildren();
-    if (children.size() != 1) {
-      return false;
-    }
-
-    component = children.getFirst();
     if (!(component instanceof TextComponent displayName)) {
       return false;
     }
