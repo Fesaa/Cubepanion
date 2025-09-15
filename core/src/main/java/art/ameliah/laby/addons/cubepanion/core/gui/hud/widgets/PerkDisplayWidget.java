@@ -32,8 +32,10 @@ public class PerkDisplayWidget extends ItemDisplayWidget<PerkConfig> {
         .create(ResourceLocation.create("minecraft", "stone"));
     ItemStack dirt = Laby.references().itemStackFactory()
         .create(ResourceLocation.create("minecraft", "dirt"));
+    ItemStack glass = Laby.references().itemStackFactory()
+        .create(ResourceLocation.create("minecraft", "glass"));
 
-    setDummyItems(List.of(new PerkItem(stone), new PerkItem(dirt)));
+    setDummyItems(List.of(new PerkItem(stone), new PerkItem(dirt), new PerkItem(glass)));
   }
 
   @Subscribe

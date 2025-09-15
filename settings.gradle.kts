@@ -1,7 +1,7 @@
 rootProject.name = "cubepanion"
 
 pluginManagement {
-    val labyGradlePluginVersion = "0.5.6"
+    val labyGradlePluginVersion = "0.5.9"
     plugins {
         id("net.labymod.gradle") version (labyGradlePluginVersion)
     }

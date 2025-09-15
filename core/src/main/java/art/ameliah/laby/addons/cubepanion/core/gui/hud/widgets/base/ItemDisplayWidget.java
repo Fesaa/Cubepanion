@@ -8,12 +8,11 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.SimpleHudWidget;
 import net.labymod.api.client.gui.hud.position.HudSize;
-import net.labymod.api.client.gui.mouse.MutableMouse;
+import net.labymod.api.client.gui.screen.ScreenContext;
 import net.labymod.api.client.gui.screen.key.Key;
-import net.labymod.api.client.render.ItemStackRenderer;
-import net.labymod.api.client.render.font.ComponentRenderer;
+import net.labymod.api.client.gui.screen.state.ScreenCanvas;
+import net.labymod.api.client.gui.screen.state.TextFlags;
 import net.labymod.api.client.render.font.RenderableComponent;
-import net.labymod.api.client.render.matrix.Stack;
 import net.labymod.api.client.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,30 +46,30 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
     this.items.clear();
   }
 
-  public void render(Stack stack, MutableMouse mouse, float partialTicks, boolean isEditorContext,
+  @Override
+  public void render(RenderPhase phase, ScreenContext context, boolean isEditorContext,
       HudSize size) {
-    if ((items.isEmpty() && !isEditorContext) || stack == null) {
+    if ((items.isEmpty() && !isEditorContext) || phase.equals(RenderPhase.UPDATE_SIZE)) {
       return;
     }
 
     switch (config.getOrientation().get()) {
       case HORIZONTAL:
-        horizontalRender(stack, mouse, size);
+        horizontalRender(context, isEditorContext, size);
         break;
       case VERTICAL:
-        verticalRender(stack, mouse, size);
+        verticalRender(context, isEditorContext, size);
         break;
     }
   }
 
-  private void verticalRender(Stack stack, MutableMouse mouse, HudSize size) {
-    ItemStackRenderer itemStackRenderer = this.labyAPI.minecraft().itemStackRenderer();
-    ComponentRenderer componentRenderer = this.labyAPI.renderPipeline().componentRenderer();
+  private void verticalRender(ScreenContext context, boolean isEditorContext, HudSize size) {
+    ScreenCanvas renderState = context.canvas();
     float segmentSpacing = config.segmentSpacing().get();
     float textOffSet = 4.0F;
     boolean renderName = config.getShowName().get() && shouldRenderName();
 
-    List<DisplayItem> toRender = items.isEmpty() ? dummyItems : items;
+    List<DisplayItem> toRender = (items.isEmpty() || isEditorContext) ? dummyItems : items;
 
     boolean floatingPointPosition = Laby.references().themeService().currentTheme().metadata()
         .get("hud_widget_floating_point_position", false);
@@ -92,7 +91,12 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
 
       int itemStackX = anchor().isRight() && renderName ? (int) (maxTextWidth + textOffSet) : 0;
       int itemStackY = (int) y;
-      itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
+      this.labyAPI.minecraft()
+          .itemStackRenderer()
+          .renderItemStack(context.stack(),
+              item.backingItemStack(),
+              itemStackX,
+              itemStackY);
 
       if (renderName) {
         float textX;
@@ -104,31 +108,29 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
         }
 
         float textY = itemStackY + itemSize / 2.0F - text.getHeight() / 2.0F;
-        componentRenderer
-            .builder()
-            .pos(textX, textY)
-            .useFloatingPointPosition(floatingPointPosition)
-            .centered(false)
-            .text(text)
-            .render(stack);
+        renderState.submitRenderableComponent(
+            text,
+            textX, textY, -1, TextFlags.NONE
+        );
       }
+
       segmentHeight = Math.max(itemSize, text.getHeight());
       if (segmentHeight % 2.0F != 0.0F) {
         ++segmentHeight;
       }
       y += segmentHeight + segmentSpacing;
     }
+
     float textSize = renderName ? textWidth + textOffSet : 0.0F;
     size.set(itemSize + textSize, Math.max(y - segmentSpacing, segmentSpacing));
   }
 
-  private void horizontalRender(Stack stack, MutableMouse mouse, HudSize size) {
-    ItemStackRenderer itemStackRenderer = this.labyAPI.minecraft().itemStackRenderer();
-    ComponentRenderer componentRenderer = this.labyAPI.renderPipeline().componentRenderer();
+  private void horizontalRender(ScreenContext context, boolean isEditorContext, HudSize size) {
+    ScreenCanvas renderState = context.canvas();
     float segmentSpacing = config.segmentSpacing().get();
     boolean renderName = config.getShowName().get() && shouldRenderName();
 
-    List<DisplayItem> toRender = items.isEmpty() ? dummyItems : items;
+    List<DisplayItem> toRender = (items.isEmpty() || isEditorContext) ? dummyItems : items;
 
     boolean floatingPointPosition = Laby.references().themeService().currentTheme().metadata()
         .get("hud_widget_floating_point_position", false);
@@ -140,17 +142,23 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
 
       int itemStackX = (int) x;
       int itemStackY = 0;
-      itemStackRenderer.renderItemStack(stack, item.backingItemStack(), itemStackX, itemStackY);
+      this.labyAPI.minecraft()
+          .itemStackRenderer()
+          .renderItemStack(
+              context.stack(),
+              item.backingItemStack(),
+              itemStackX,
+              itemStackY
+          );
 
       if (renderName) {
-        componentRenderer
-            .builder()
-            .pos(itemStackX + itemSize / 2.0F + (floatingPointPosition ? 0.5F : 0.0F),
-                itemStackY + itemSize)
-            .useFloatingPointPosition(floatingPointPosition)
-            .centered(true)
-            .text(text)
-            .render(stack);
+        renderState.submitRenderableComponent(
+            text,
+            itemStackX + itemSize / 2.0F + (floatingPointPosition ? 0.5F : 0.0F),
+            itemStackY + itemSize,
+            -1,
+            TextFlags.NONE
+        );
       }
 
       segmentWidth = Math.max(itemSize, text.getWidth());
@@ -160,7 +168,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
       x += segmentWidth + segmentSpacing;
     }
 
-    float textOffSet = renderName ? componentRenderer.height() : 0.0F;
+    float textOffSet = renderName ? renderState.getLineHeight() : 0.0F;
     size.set(Math.max(x - segmentSpacing, segmentSpacing), itemSize + textOffSet);
   }
 

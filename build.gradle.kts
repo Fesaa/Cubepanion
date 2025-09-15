@@ -1,3 +1,5 @@
+import net.labymod.labygradle.common.extension.model.labymod.ReleaseChannels
+
 plugins {
     id("net.labymod.labygradle")
     id("net.labymod.labygradle.addon")
@@ -32,6 +34,7 @@ labyMod {
         description = "A CubeCraft focused LabyMod addon that provides a ton of useful features!\nNot affiliated with Ziax/CubeCraft in any way."
         minecraftVersion = "1.20<*"
         version = rootProject.version.toString()
+        releaseChannel = ReleaseChannels.PRODUCTION
     }
 }
 
