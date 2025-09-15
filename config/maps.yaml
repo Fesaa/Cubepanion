@@ -131,7 +131,7 @@
   mapName: "UnderWater"
   teamSize: 2
   mapLayout: 0
-  colours: "[ [\"red\", \"yellow\"], [\"dark_aqua\", \"dark_purple\"], [\"light_purple\", \"gold\"], [\“green\", \"aqua\"] ]"
+  colours: "[ [\"red\", \"yellow\"], [\"dark_aqua\", \"dark_purple\"], [\"light_purple\", \"gold\"], [\"green\", \"aqua\"] ]"
   buildLimit: 115
 
 - gameId: 11
