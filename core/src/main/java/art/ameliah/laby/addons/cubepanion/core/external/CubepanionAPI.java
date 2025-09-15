@@ -61,6 +61,10 @@ public class CubepanionAPI {
           }
 
           log.info("Loaded {} games", games.size());
+        })
+        .exceptionallyAsync(ex -> {
+          log.error("Failed to load games, some features may not work correctly {}", ex);
+          return null;
         });
 
     this.loadChestLocations()
@@ -76,6 +80,10 @@ public class CubepanionAPI {
           this.chestLocations.clear();
           this.chestLocations.addAll(chestLocations);
           log.info("Loaded {} chest locations", this.chestLocations.size());
+        })
+        .exceptionallyAsync(ex -> {
+          log.error("Failed to load chest locations, some features may not work correctly {}", ex);
+          return null;
         });
 
     this.loadGameMaps()
@@ -103,6 +111,10 @@ public class CubepanionAPI {
           }
 
           log.info("Loaded {} game-maps", this.convertedGameMaps.size());
+        })
+        .exceptionallyAsync(ex -> {
+          log.error("Failed to load game maps, some features may not work correctly {}", ex);
+          return null;
         });
   }
 
