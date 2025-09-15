@@ -1,0 +1,121 @@
+- name: "bedwars"
+  displayName: "BedWars"
+  aliases:
+    - "bw"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: true
+
+- name: "disasters"
+  displayName: "Disasters"
+  aliases:
+    - "disaster"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "ender"
+  displayName: "Ender"
+  aliases: []
+  active: false
+  scoreType: "wins"
+  shouldTrack: false
+  hasPreLobby: false
+
+- name: "free_for_all"
+  displayName: "Free For All"
+  aliases:
+    - "ffa"
+  active: true
+  scoreType: "kills"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "main_lobby"
+  displayName: "Main" Lobby
+  aliases: []
+  active: false
+  scoreType: ''
+  shouldTrack: false
+  hasPreLobby: false
+
+- name: "parkour"
+  displayName: "Parkour"
+  aliases: []
+  active: true
+  scoreType: "medals"
+  shouldTrack: false
+  hasPreLobby: false
+
+- name: "pillars_of_fortune"
+  displayName: "Pillars of Fortune"
+  aliases:
+    - "pof"
+    - "ic"
+    - "pf"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "skyblock"
+  displayName: "Skyblock"
+  aliases:
+    - "sb"
+  active: false
+  scoreType: ''
+  shouldTrack: false
+  hasPreLobby: false
+
+- name: "snowman_survival"
+  displayName: "Snowman Survival"
+  aliases:
+    - "ss"
+  active: false
+  scoreType: "medals"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "solo_lucky_islands"
+  displayName: "Lucky Islands"
+  aliases:
+    - "sli"
+    - "li"
+    - "lucky_islands"
+    - "solo_luckyislands"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "solo_skywars"
+  displayName: "Solo SkyWars"
+  aliases:
+    - "sw"
+    - "skywars"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false
+
+- name: "team_eggwars"
+  displayName: "Team EggWars"
+  aliases:
+    - "tew"
+    - "ew"
+    - "eggwars"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: true
+
+- name: "team_lucky_islands"
+  displayName: "Team Lucky Islands"
+  aliases:
+    - "tli"
+  active: false
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false

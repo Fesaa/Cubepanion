@@ -1,0 +1,383 @@
+- gameId: 11
+  uniqueName: "beach_league"
+  mapName: "Beach (League)"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_purple\",\"green\",\"gold\",\"aqua\"]"
+  buildLimit: 87
+
+- gameId: 11
+  uniqueName: "western_league"
+  mapName: "Western (League)"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"gold\", \"white\"], [\"aqua\", \"white\"]]"
+  buildLimit: 55
+
+- gameId: 11
+  uniqueName: "palace"
+  mapName: "Palace"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_purple\",\"yellow\",\"dark_blue\",\"red\"]"
+  buildLimit: 69
+
+- gameId: 11
+  uniqueName: "food_league"
+  mapName: "Food (League)"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"white\", \"aqua\", \"white\"]"
+  buildLimit: 61
+
+- gameId: 11
+  uniqueName: "birthday_league"
+  mapName: "Birthday (League)"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"white\", \"aqua\", \"white\"]"
+  buildLimit: 65
+
+- gameId: 11
+  uniqueName: "cyberpunk"
+  mapName: "Cyberpunk"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"yellow\", \"green\", \"red\", \"dark_purple\"]"
+  buildLimit: 67
+
+- gameId: 11
+  uniqueName: "cyber snow"
+  mapName: "Cyber Snow"
+  teamSize: 2
+  mapLayout: 0
+  colours: "[[\"dark_blue\",\"red\"],[\"gray\",\"light_purple\"],[\"dark_gray\",\"dark_aqua\"],[\"yellow\",\"green\"]]"
+  buildLimit: 76
+
+- gameId: 11
+  uniqueName: "mangrove"
+  mapName: "Mangrove"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_blue\",\"yellow\",\"dark_purple\",\"red\"]"
+  buildLimit: 44
+
+- gameId: 11
+  uniqueName: "city"
+  mapName: "City"
+  teamSize: 3
+  mapLayout: 2
+  colours: "[[\"light_purple\", \"gray\"], [\"yellow\", \"aqua\"]]"
+  buildLimit: 48
+
+- gameId: 11
+  uniqueName: "temple"
+  mapName: "Temple"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"yellow\",\"dark_blue\",\"green\",\"red\"]"
+  buildLimit: 62
+
+- gameId: 11
+  uniqueName: "clouds"
+  mapName: "Clouds"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"light_purple\", \"green\"], [\"aqua\", \"gold\"]]"
+  buildLimit: 76
+
+- gameId: 11
+  uniqueName: "yuki"
+  mapName: "Yuki"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"yellow\",\"dark_blue\",\"green\",\"red\"]"
+  buildLimit: 62
+
+- gameId: 11
+  uniqueName: "kong"
+  mapName: "Kong"
+  teamSize: 2
+  mapLayout: 0
+  colours: "[ [\"red\", \"dark_purple\"], [\"gold\", \"dark_aqua\"], [\"gray\", \"light_purple\"], [\"yellow\", \"light_green\"] ]"
+  buildLimit: 53
+
+- gameId: 3
+  uniqueName: "jungle"
+  mapName: "Jungle"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"yellow\", \"red\", \"aqua\"]"
+  buildLimit: 87
+
+- gameId: 11
+  uniqueName: "magic"
+  mapName: "Magic"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"red\",\"green\"],[\"dark_aqua\",\"yellow\"]]"
+  buildLimit: 105
+
+- gameId: 11
+  uniqueName: "royalty_league"
+  mapName: "Royalty (League)"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"white\", \"aqua\", \"white\"]"
+  buildLimit: 60
+
+- gameId: 11
+  uniqueName: "underwater"
+  mapName: "UnderWater"
+  teamSize: 2
+  mapLayout: 0
+  colours: "[ [\"red\", \"yellow\"], [\"dark_aqua\", \"dark_purple\"], [\"light_purple\", \"gold\"], [\“green\", \"aqua\"] ]"
+  buildLimit: 115
+
+- gameId: 11
+  uniqueName: "food"
+  mapName: "Food"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"red\", \"dark_purple\", \"yellow\", \"gold\"]"
+  buildLimit: 100
+
+- gameId: 11
+  uniqueName: "forest"
+  mapName: "Forest"
+  teamSize: 2
+  mapLayout: 0
+  colours: "[ [\"yellow\", \"green\"], [\"light_purple\", \"gold\"], [\"dark_purple\", \"dark_aqua\"], [\"aqua\", \"red\"] ]"
+  buildLimit: 61
+
+- gameId: 11
+  uniqueName: "pizza"
+  mapName: "Pizza"
+  teamSize: 2
+  mapLayout: 0
+  colours: "[ [\"dark_purple\", \"dark_gray\"], [\"dark_green\", \"light_purple\"], [\"dark_aqua\", \"green\"], [\"gold\", \"dark_blue\"]]"
+  buildLimit: 72
+
+- gameId: 11
+  uniqueName: "snowglass"
+  mapName: "Snowglass"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"dark_blue\", \"yellow\"], [\"dark_purple\", \"red\"]]"
+  buildLimit: 132
+
+- gameId: 11
+  uniqueName: "celebration"
+  mapName: "Celebration"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_blue\", \"red\", \"dark_green\", \"yellow\"]"
+  buildLimit: 84
+
+- gameId: 11
+  uniqueName: "space"
+  mapName: "Space"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_blue\", \"red\", \"green\", \"yellow\"]"
+  buildLimit: 150
+
+- gameId: 11
+  uniqueName: "western"
+  mapName: "Western"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"light_purple\", \"yellow\"], [\"aqua\", \"gold\"]]"
+  buildLimit: 67
+
+- gameId: 11
+  uniqueName: "pyramid"
+  mapName: "Pyramid"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"yellow\", \"red\", \"aqua\"]"
+  buildLimit: 81
+
+- gameId: 11
+  uniqueName: "modern"
+  mapName: "Modern"
+  teamSize: 2
+  mapLayout: 2
+  colours: "[[\"red\",\"yellow\"],[\"light_purple\",\"aqua\"]]"
+  buildLimit: 53
+
+- gameId: 11
+  uniqueName: "under da sea"
+  mapName: "Under da Sea"
+  teamSize: 2
+  mapLayout: 1
+  colours: "[[\"light_purple\", \"dark_aqua\"], [\"gray\", \"yellow\"], [\"red\", \"dark_purple\"]]"
+  buildLimit: 85
+
+- gameId: 3
+  uniqueName: "palace"
+  mapName: "Palace"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"yellow\", \"red\", \"aqua\"]"
+  buildLimit: 75
+
+- gameId: 11
+  uniqueName: "love"
+  mapName: "Love"
+  teamSize: 3
+  mapLayout: 2
+  colours: "[[\"green\", \"gold\"], [\"yellow\", \"aqua\"]]"
+  buildLimit: 52
+
+- gameId: 3
+  uniqueName: "factory"
+  mapName: "Factory"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"red\", \"yellow\", \"aqua\"]"
+  buildLimit: 63
+
+- gameId: 11
+  uniqueName: "waterfall"
+  mapName: "Waterfall"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"green\", \"yellow\"], [\"red\", \"dark_blue\"]]"
+  buildLimit: 62
+
+- gameId: 11
+  uniqueName: "olympus"
+  mapName: "Olympus"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"green\",\"dark_aqua\",\"yellow\",\"red\"]"
+  buildLimit: 70
+
+- gameId: 11
+  uniqueName: "ink"
+  mapName: "Ink"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"yellow\", \"green\", \"light_purple\"]"
+  buildLimit: 74
+
+- gameId: 11
+  uniqueName: "ships"
+  mapName: "Ships"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"yellow\", \"aqua\"], [\"green\", \"red\"]]"
+  buildLimit: 71
+
+- gameId: 11
+  uniqueName: "beach"
+  mapName: "Beach"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_purple\",\"green\",\"gold\",\"aqua\"]"
+  buildLimit: 85
+
+- gameId: 11
+  uniqueName: "mushroom"
+  mapName: "Mushroom"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"green\",\"red\"],[\"yellow\",\"aqua\"]]"
+  buildLimit: 71
+
+- gameId: 11
+  uniqueName: "cherry"
+  mapName: "Cherry"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"gold\", \"dark_purple\"], [\"yellow\", \"aqua\"]]"
+  buildLimit: 52
+
+- gameId: 11
+  uniqueName: "palace_league"
+  mapName: "Palace (League)"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"white\", \"aqua\", \"white\"]"
+  buildLimit: 75
+
+- gameId: 11
+  uniqueName: "greece"
+  mapName: "Greece"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"gold\", \"aqua\"], [\"yellow\", \"red\"]]"
+  buildLimit: 96
+
+- gameId: 3
+  uniqueName: "fort"
+  mapName: "Fort"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"yellow\", \"aqua\", \"red\"]"
+  buildLimit: 70
+
+- gameId: 3
+  uniqueName: "mushroom"
+  mapName: "Mushrooms"
+  teamSize: 2
+  mapLayout: 3
+  colours: "[\"dark_purple\", \"yellow\", \"aqua\", \"red\"]"
+  buildLimit: 76
+
+- gameId: 11
+  uniqueName: "ruins"
+  mapName: "Ruins"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_purple\",\"red\",\"green\",\"dark_blue\"]"
+  buildLimit: 85
+
+- gameId: 11
+  uniqueName: "fairytale"
+  mapName: "Fairytale"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"dark_blue\",\"red\",\"dark_purple\",\"yellow\"]"
+  buildLimit: 63
+
+- gameId: 11
+  uniqueName: "aquatic"
+  mapName: "Aquatic"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"light_purple\",\"dark_blue\",\"yellow\",\"red\"]"
+  buildLimit: 88
+
+- gameId: 11
+  uniqueName: "waterfall_league"
+  mapName: "Waterfall (League)"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"gold\", \"white\"], [\"aqua\", \"white\"]]"
+  buildLimit: 47
+
+- gameId: 11
+  uniqueName: "whale"
+  mapName: "Whale"
+  teamSize: 4
+  mapLayout: 2
+  colours: "[[\"dark_blue\", \"red\"], [\"yellow\", \"green\"]]"
+  buildLimit: 56
+
+- gameId: 11
+  uniqueName: "volcanic"
+  mapName: "Volcanic"
+  teamSize: 4
+  mapLayout: 3
+  colours: "[\"gold\", \"aqua\", \"dark_purple\", \"green\"]"
+  buildLimit: 77
+
+- gameId: 11
+  uniqueName: "cyber_city"
+  mapName: "Cyber City"
+  teamSize: 2
+  mapLayout: 2
+  colours: "[[\"red\", \"green\"], [\"light_purple\", \"dark_aqua\"]]"
+  buildLimit: 66
