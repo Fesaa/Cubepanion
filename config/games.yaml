@@ -34,7 +34,7 @@
   hasPreLobby: false
 
 - name: "main_lobby"
-  displayName: "Main" Lobby
+  displayName: "Main Lobby"
   aliases: []
   active: false
   scoreType: ''
