@@ -18,6 +18,7 @@ import net.labymod.api.client.component.event.HoverEvent.Action;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.Style;
 import net.labymod.api.client.component.format.TextColor;
+import net.labymod.api.client.entity.Entity;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.NameTag;
 import net.labymod.api.client.entity.player.tag.tags.NameTagBackground;
@@ -87,40 +88,38 @@ public class LevelTag extends NameTag {
   }
 
   private void readWho(TextComponent msg) {
-    List<Component> children = msg.getChildren();
-    int groupSize = 0;
-    for (int i = 0; i < children.size(); i++) {
-      TextComponent t = (TextComponent) children.get(i);
-      groupSize++;
-
-      if (t.getText().contains("players online:")) {
-        groupSize = 0;
-        continue;
-      }
-
-      if (t.getText().equals(", ") || i == children.size() - 1) {
-        int offSet = i == children.size() - 1 ? 1 : 0;
-        if (i != children.size() - 1) {
-          groupSize--;
-        }
-
-        if (groupSize == 2) { // Rank and name
-          this.readAndPutLevel((TextComponent) children.get(i - 1 + offSet));
-        } else if (groupSize == 4) { // Rank, name, and emotes
-          this.readAndPutLevel((TextComponent) children.get(i - 2 + offSet));
-        }
-        groupSize = 0;
-      }
+    if (msg.getChildren().isEmpty()) {
+      return;
     }
+
+    msg = (TextComponent) msg.getChildren().getLast();
+    if (msg.getChildren().isEmpty()) {
+      return;
+    }
+
+    msg.getChildren().forEach(child -> {
+      this.readAndPutLevel((TextComponent) child); // It'll filter out everything without a hoverevent
+    });
   }
 
   private void readJoinMessage(TextComponent msg) {
+    if (msg.getChildren().size() < 2) {
+      return;
+    }
+
+    msg = (TextComponent) msg.getChildren().get(1);
+    if (msg.getChildren().isEmpty()) {
+      return;
+    }
+
+    msg = (TextComponent) msg.getChildren().getFirst();
+
     int size = msg.getChildren().size();
     TextComponent name = null;
-    if (size == 4) { // Name
-      name = (TextComponent) msg.getChildren().get(2);
-    } else if (size == 6) { // Name and emotes
-      name = (TextComponent) msg.getChildren().get(3);
+    if (size == 1) { // Name
+      name = (TextComponent) msg.getChildren().getFirst();
+    } else if (size == 3) { // Name and emotes
+      name = (TextComponent) msg.getChildren().get(1);
     }
     if (name == null) {
       return;
@@ -144,12 +143,19 @@ public class LevelTag extends NameTag {
       return;
     }
     TextComponent hoverText = (TextComponent) e.value();
-    int hoverSize = hoverText.getChildren().size();
-    TextComponent level = (TextComponent) hoverText.getChildren().get(hoverSize - 1);
+    if (hoverText.getChildren().isEmpty()) {
+      return;
+    }
+
+    hoverText = (TextComponent) hoverText.getChildren().getLast();
+    var level = hoverText.getChildren().isEmpty()
+        ? hoverText
+        : (TextComponent) hoverText.getChildren().getLast();
 
     int levelInt;
     try {
       levelInt = Integer.parseInt(level.getText());
+      LOGGER.debug("Set level for {} to {}", playerName, levelInt);
     } catch (NumberFormatException ex) {
       LOGGER.debug("Could not parse level from join message", ex);
       return;
