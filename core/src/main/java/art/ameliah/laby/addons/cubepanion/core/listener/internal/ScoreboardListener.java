@@ -18,6 +18,7 @@ import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
+import net.labymod.api.event.client.scoreboard.ScoreboardTeamUpdateEvent;
 import net.labymod.api.util.logging.Logging;
 
 public class ScoreboardListener {
@@ -42,17 +43,12 @@ public class ScoreboardListener {
   }
 
   @Subscribe
-  public void serverIdTracker(ScoreboardTeamEntryAddEvent e) {
+  public void serverIdTracker(ScoreboardTeamUpdateEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
 
-    List<Component> children = e.team().getPrefix().getChildren();
-    if (children.isEmpty()) {
-      return;
-    }
-
-    String t = ((TextComponent) children.getFirst()).getText();
+    String t = ((TextComponent) e.team().getPrefix()).getText();
     Matcher matcher = DATE_SERVER_ID_REGEX.matcher(t);
     if (matcher.matches()) {
       String serverId = matcher.group(1);
@@ -61,32 +57,42 @@ public class ScoreboardListener {
   }
 
   @Subscribe
-  public void mapTracker(ScoreboardTeamEntryAddEvent e) {
+  public void mapTracker(ScoreboardTeamUpdateEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
     }
 
     List<Component> children = e.team().getPrefix().getChildren();
-    if (children.isEmpty()) {
-      return;
-    }
 
     switch (manager.getDivision()) {
       case FFA -> {
+        if (children.size() < 2) {
+          return;
+        }
+
         List<Component> ffaComponent = children.getFirst().getChildren();
         if (ffaComponent.size() == 2) {
-          if (((TextComponent) ffaComponent.get(0)).getText().contains("Map: ")) {
-            this.manager.setMapName(((TextComponent) ffaComponent.get(1)).getText());
+          if (((TextComponent) ffaComponent.getFirst()).getText().contains("Map")) {
+            this.manager.setMapName(((TextComponent) children.get(1)).getText());
           }
         }
       }
       case LOBBY -> this.manager.setMapName("Main Lobby");
       default -> {
-        String text = ((TextComponent) children.getFirst()).getText();
-        if (this.previousText.trim().equals("Map:") || this.previousText.trim().equals("Dimension:")) {
-          this.manager.setMapName(text);
+        if (this.previousText.trim().equals("Map") || this.previousText.trim().equals("Dimension")) {
+          var text = ((TextComponent) e.team().getPrefix()).getText();
+          if (!text.isBlank()) {
+            this.manager.setMapName(text);
+            this.previousText = ""; // Ensure the if con doesn't get called
+          }
         }
-        this.previousText = text;
+
+        if (!e.team().getPrefix().getChildren().isEmpty()) {
+          var text = ((TextComponent) children.getFirst()).getText();
+          if (!text.isBlank()) {
+            this.previousText = text;
+          }
+        }
       }
     }
   }

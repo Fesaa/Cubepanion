@@ -26,7 +26,8 @@ public class State extends SubCommand {
 
     CubepanionManager manager = addon.getManager();
     String state = String.format(
-        "Cubepanion State:\n\tCubeGame: %s\n\tLast CubeGame: %s\n\tMap Name: %s\n\tTeam Colour: %s\n\tRank: %s\n\tEliminated: %s\n\tIn Pre-Lobby: %s\n\tLost: %s\n\tGame Start Time: %d\n\t",
+        "Cubepanion State:\n\tServerId: %s\n\tCubeGame: %s\n\tLast CubeGame: %s\n\tMap Name: %s\n\tTeam Colour: %s\n\tRank: %s\n\tEliminated: %s\n\tIn Pre-Lobby: %s\n\tLost: %s\n\tGame Start Time: %d\n\t",
+        addon.getManager().getServerID(),
         addon.getManager().getDivision().getString(),
         manager.getLastDivision().getString(),
         manager.getMapName(),
