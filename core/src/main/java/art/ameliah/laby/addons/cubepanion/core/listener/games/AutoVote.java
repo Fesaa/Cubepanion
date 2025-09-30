@@ -55,7 +55,7 @@ public class AutoVote {
       return;
     }
 
-    if (!this.addon.getManager().isInPreGameState()) {
+    if (this.addon.getManager().isInPreGameState()) {
       return;
     }
 
@@ -82,6 +82,16 @@ public class AutoVote {
       var game = this.addon.getManager().getDivision();
       AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
       if (provider == null) {
+        return;
+      }
+
+      var player = this.addon.labyAPI().minecraft().getClientPlayer();
+      if (player == null) {
+        return;
+      }
+      var item = player.inventory().itemStackAt(provider.getHotbarSlot());
+      if (!this.isVotingItem(item)) {
+        log.warn("Trying to vote after a failed attempt, but the item in the voting slot is not a votings item");
         return;
       }
 
