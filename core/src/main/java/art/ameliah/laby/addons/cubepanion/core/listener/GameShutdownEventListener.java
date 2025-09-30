@@ -6,6 +6,7 @@ import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubC
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameShutdownEvent;
+import net.labymod.api.event.client.lifecycle.ShutdownEvent;
 
 public class GameShutdownEventListener {
 
@@ -16,7 +17,7 @@ public class GameShutdownEventListener {
   }
 
   @Subscribe
-  public void onGameShutdownEvent(GameShutdownEvent gameShutdownEvent) {
+  public void onGameShutdownEvent(ShutdownEvent gameShutdownEvent) {
     if (this.addon.getManager().onCubeCraft()) {
       CubepanionManager manager = this.addon.getManager();
       StatsTrackerSubConfig statsTrackerSubConfig = this.addon.configuration()
