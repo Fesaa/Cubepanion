@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.gfx.pipeline.renderer.text.TextRenderingOptions;
 import net.labymod.api.client.gui.hud.binding.category.HudWidgetCategory;
 import net.labymod.api.client.gui.hud.hudwidget.SimpleHudWidget;
 import net.labymod.api.client.gui.hud.position.HudSize;
 import net.labymod.api.client.gui.screen.ScreenContext;
 import net.labymod.api.client.gui.screen.key.Key;
 import net.labymod.api.client.gui.screen.state.ScreenCanvas;
-import net.labymod.api.client.gui.screen.state.TextFlags;
 import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.client.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -110,7 +110,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
         float textY = itemStackY + itemSize / 2.0F - text.getHeight() / 2.0F;
         renderState.submitRenderableComponent(
             text,
-            textX, textY, -1, TextFlags.NONE
+            textX, textY, -1, TextRenderingOptions.NONE
         );
       }
 
@@ -157,7 +157,7 @@ public abstract class ItemDisplayWidget<T extends ItemDisplayConfig> extends Sim
             itemStackX + itemSize / 2.0F + (floatingPointPosition ? 0.5F : 0.0F),
             itemStackY + itemSize,
             -1,
-            TextFlags.NONE
+            TextRenderingOptions.NONE
         );
       }
 

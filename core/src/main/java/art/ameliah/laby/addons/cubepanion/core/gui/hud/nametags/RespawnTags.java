@@ -6,17 +6,19 @@ import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.entity.player.Player;
-import net.labymod.api.client.entity.player.tag.tags.NameTag;
+import net.labymod.api.client.entity.player.tag.tags.ComponentNameTag;
 import net.labymod.api.client.network.NetworkPlayerInfo;
-import net.labymod.api.client.render.font.RenderableComponent;
+import net.labymod.api.client.render.state.EntityExtraKeys;
+import net.labymod.api.client.render.state.entity.EntitySnapshot;
 import net.labymod.api.event.Subscribe;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-public class RespawnTags extends NameTag {
+public class RespawnTags extends ComponentNameTag {
 
   private final Cubepanion addon;
   private final HashMap<UUID, SpawnProtectionComponent> components;
@@ -44,33 +46,35 @@ public class RespawnTags extends NameTag {
   }
 
   @Override
-  protected @Nullable RenderableComponent getRenderableComponent() {
-    if (!(this.entity instanceof Player)) {
-      return null;
-    }
-
+  protected @NotNull List<Component> buildComponents(EntitySnapshot snapshot)  {
     if (!this.addon.configuration().getQolConfig().getRespawnTimer().get()) {
-      return null;
+      return List.of();
     }
 
-    NetworkPlayerInfo playerInfo = ((Player) this.entity).getNetworkPlayerInfo();
-    if (playerInfo == null) {
-      return null;
+    if (!snapshot.has(EntityExtraKeys.CUSTOM_AVATAR_DATA)) {
+      return List.of();
     }
+
+    var data = snapshot.get(EntityExtraKeys.CUSTOM_AVATAR_DATA);
+    var playerInfo = data.playerInfo();
+    if (playerInfo == null) {
+      return List.of();
+    }
+
     UUID uuid = playerInfo.profile().getUniqueId();
     SpawnProtectionComponent gen = components.get(uuid);
     if (gen == null) {
-      return null;
+      return List.of();
     }
 
     Component component = gen.getComponent(System.currentTimeMillis());
     if (component == Component.empty()
         || ((TextComponent) component).getText().equals(Component.empty().getText())) {
       components.remove(uuid);
-      return null;
+      return List.of();
     }
 
-    return RenderableComponent.of(component);
+    return List.of(component);
   }
 
 }

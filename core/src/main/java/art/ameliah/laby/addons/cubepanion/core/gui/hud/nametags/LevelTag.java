@@ -5,6 +5,7 @@ import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig.DisplayLocation;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +19,19 @@ import net.labymod.api.client.component.event.HoverEvent.Action;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.Style;
 import net.labymod.api.client.component.format.TextColor;
-import net.labymod.api.client.entity.Entity;
 import net.labymod.api.client.entity.player.Player;
-import net.labymod.api.client.entity.player.tag.tags.NameTag;
-import net.labymod.api.client.entity.player.tag.tags.NameTagBackground;
+import net.labymod.api.client.entity.player.tag.tags.ComponentNameTag;
 import net.labymod.api.client.render.font.RenderableComponent;
+import net.labymod.api.client.render.state.EntityExtraKeys;
+import net.labymod.api.client.render.state.entity.EntitySnapshot;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
+import net.labymod.api.laby3d.renderer.snapshot.ExtraKey;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
 
-public class LevelTag extends NameTag {
+public class LevelTag extends ComponentNameTag {
 
   private static final Logging LOGGER = Logging.create(LevelTag.class);
 
@@ -199,23 +201,35 @@ public class LevelTag extends NameTag {
   }
 
   @Override
-  public RenderableComponent getRenderableComponent() {
+  protected @NotNull List<Component> buildComponents(EntitySnapshot snapshot) {
+    var component = this.getRenderableComponent(snapshot);
+    return component == null ? List.of() : List.of(component);
+  }
+
+  public Component getRenderableComponent(EntitySnapshot snapshot) {
     if (!config.getLevelTag().get()) {
       return null;
     }
     if (!this.shouldRender()) {
       return null;
     }
-    if (!(this.entity instanceof Player player)) {
+
+    if (!snapshot.has(EntityExtraKeys.CUSTOM_AVATAR_DATA)) {
       return null;
     }
 
-    Integer level = this.levels.get(player.getName());
+    var data = snapshot.get(EntityExtraKeys.CUSTOM_AVATAR_DATA);
+    var playerInfo = data.playerInfo();
+    if (playerInfo == null) {
+      return null;
+    }
+
+    Integer level = this.levels.get(playerInfo.profile().getUsername());
     if (level == null) {
       return null;
     }
 
-    return RenderableComponent.of(Component.text(level, this.getLevelColour(level)));
+    return Component.text(level, this.getLevelColour(level));
   }
 
   private boolean shouldRender() {
@@ -228,7 +242,7 @@ public class LevelTag extends NameTag {
   }
 
   @Override
-  public NameTagBackground getCustomBackground() {
-    return NameTagBackground.custom(false, 0);
+  protected int getBackgroundColor(EntitySnapshot snapshot) {
+    return 0;
   }
 }
