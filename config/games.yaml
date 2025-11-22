@@ -60,6 +60,15 @@
   shouldTrack: true
   hasPreLobby: false
 
+- name: "lucky_pillars"
+  displayName: "Lucky Pillars"
+  aliases:
+    - "lp"
+  active: true
+  scoreType: "wins"
+  shouldTrack: true
+  hasPreLobby: false
+
 - name: "skyblock"
   displayName: "Skyblock"
   aliases:
