@@ -285,7 +285,7 @@ public class Stats {
     String msg = e.chatMessage().getPlainText();
     String userName = SessionTracker.get().username();
 
-    if (msg.equals("Congratulations, you win!")) {
+    if (msg.equals("Congratulations, you win!") || msg.equals("Congratulations, you won the game!")) {
       GameEndEvent event = new GameEndEvent(
           manager.getDivision(),
           true,

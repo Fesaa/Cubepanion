@@ -42,6 +42,11 @@ public class AutoGG {
     if (!e.isClientPlayer()) {
       return;
     }
+    
+    if (manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL)) {
+      return;
+    }
+    
     doMessage();
   }
 
@@ -70,11 +75,12 @@ public class AutoGG {
     if (hasSentGG || !e.isClientPlayer()) {
       return;
     }
-    if (Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
-        || Cubepanion.get().getManager().isPlaying(CubeGame.FFA)
-        || Cubepanion.get().getManager().isPlaying(CubeGame.SKYBLOCK)
-        || Cubepanion.get().getManager().isPlaying(CubeGame.BEDWARS)
-        || CubeGame.isParkour(Cubepanion.get().getManager().getDivision())) {
+    if (manager.isPlaying(CubeGame.TEAM_EGGWARS)
+        || manager.isPlaying(CubeGame.FFA)
+        || manager.isPlaying(CubeGame.SKYBLOCK)
+        || manager.isPlaying(CubeGame.BEDWARS)
+        || manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL)
+        || CubeGame.isParkour(manager.getDivision())) {
       return;
     }
 
