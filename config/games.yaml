@@ -82,7 +82,7 @@
   displayName: "Snowman Survival"
   aliases:
     - "ss"
-  active: false
+  active: true
   scoreType: "medals"
   shouldTrack: true
   hasPreLobby: false
