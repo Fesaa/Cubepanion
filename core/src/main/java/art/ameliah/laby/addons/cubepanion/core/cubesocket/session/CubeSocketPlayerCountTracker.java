@@ -51,10 +51,17 @@ public class CubeSocketPlayerCountTracker {
       if (this.packetGameStatUpdates.isEmpty()) {
         return;
       }
-      PacketGameStatUpdate packet = this.packetGameStatUpdates.poll();
+
+      var packet = this.packetGameStatUpdates.poll();
       if (!this.addon.getManager().isDevServer()) {
-        this.lastSend.put(packet.getGame(), System.currentTimeMillis());
-        this.socket.sendPacket(packet);
+        if (packet != null) {
+          this.lastSend.put(packet.getGame(), System.currentTimeMillis());
+          this.socket.sendPacket(packet);
+        } else {
+          log.warn("Found null game stat update packet, what is going on?");
+        }
+
+
       }
 
       if (!this.packetGameStatUpdates.isEmpty()) {

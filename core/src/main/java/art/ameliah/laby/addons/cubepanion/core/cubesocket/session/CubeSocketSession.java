@@ -8,6 +8,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.events.CubeSocketReloa
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.PacketHandler;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
+import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLocationUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLogin;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
@@ -15,8 +16,10 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketReload;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -123,12 +126,19 @@ public class CubeSocketSession extends PacketHandler {
   @Override
   public void handle(PacketLoginComplete packet) {
     this.socket.updateState(CubeSocketState.CONNECTED);
+
     socket.fireEventSync(new CubeSocketConnectEvent());
     this.socket.sendPacket(new PacketPing());
+
     this.executorService.schedule(() -> {
       int protocolVersion = Laby.labyAPI().minecraft().getProtocolVersion();
       this.socket.sendPacket(new PacketSetProtocol(protocolVersion));
     }, 1L, TimeUnit.SECONDS);
+
+    this.executorService.schedule(() -> {
+      var fakeEvent = new GameJoinEvent(CubeGame.LOBBY, CubeGame.LOBBY, false);
+      this.socket.sendPacket(new PacketLocationUpdate(fakeEvent));
+    }, 2L, TimeUnit.SECONDS);
   }
 
   @Override

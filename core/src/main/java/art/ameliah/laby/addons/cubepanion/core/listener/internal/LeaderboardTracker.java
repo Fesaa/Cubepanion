@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.Laby;
@@ -55,18 +56,41 @@ public class LeaderboardTracker {
 
     this.addon.getFunctionLink()
         .loadMenuItems(this::extractAndTrackTitle)
-        .thenAcceptAsync(this::enumerateItems)
+        .thenApplyAsync(this::enumerateItems)
+        .thenComposeAsync(submit -> {
+          if (!submit || this.currentTrackingGame == null) {
+            return CompletableFuture.completedFuture(null);
+          }
+
+          var submittingFor = this.currentTrackingGame;
+          var rows = this.rows.stream().toList();
+
+          return CubepanionAPI.I()
+              .submit(submittingFor, rows)
+              .thenAcceptAsync(ignored -> this.onSuccess(submittingFor));
+        })
         .exceptionallyAsync(ex -> {
-          log.error("Failed to load leaderboard {}", ex);
+          log.error("Failed to load or submit leaderboard", ex);
           return null;
         });
   }
 
-  private void enumerateItems(List<CCItemStack> items) {
+  private void onSuccess(Game submittingFor) {
+    Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(
+        Component.translatable(
+            "cubepanion.messages.leaderboardAPI.success",
+            Component.text(submittingFor.displayName())
+        ).color(Colours.Success)
+    );
+    this.reset();
+  }
+
+  private boolean enumerateItems(List<CCItemStack> items) {
     if (items == null || items.isEmpty()) {
-      return;
+      return false;
     }
 
+    var count = 0;
     for (var item : items) {
       if (item.isAir()) {
         continue;
@@ -83,9 +107,11 @@ public class LeaderboardTracker {
       }
 
       this.rows.add(row);
+      count++;
     }
 
-    this.checkSubmit();
+    log.debug("Adding {} row from {} items for {}", count, items.size(), this.currentTrackingGame);
+    return this.checkSubmit();
   }
 
   private LeaderboardRow parseLeaderboardRow(CCItemStack itemStack) {
@@ -125,7 +151,7 @@ public class LeaderboardTracker {
     }
 
     // Loading new leaderboard
-    if (this.currentTrackingGame != game) {
+    if (this.currentTrackingGame == null || this.currentTrackingGame.id() != game.id()) {
       this.reset();
     }
 
@@ -158,33 +184,25 @@ public class LeaderboardTracker {
   /**
    * Submits to the API if a valid game has been found and 200 rows are parsed.
    */
-  private void checkSubmit() {
+  private boolean checkSubmit() {
     if (this.currentTrackingGame == null) {
-      return;
+      log.debug("No game found to submit");
+      return false;
     }
 
     if (this.pages.size() != 10) {
-      return;
+      log.debug("Wanted 10 pages, got {}", this.pages.size());
+      return false;
     }
 
     if (this.rows.size() != 200) {
       this.reset();
       log.debug("10 pages, but not 200 rows, what's going on? Have {}", this.rows.size());
-      return;
+      return false;
     }
 
-    var submittingFor = this.currentTrackingGame;
-    CubepanionAPI.I().submit(submittingFor, this.rows.stream().toList())
-        .thenAcceptAsync(ignored -> {
-          Laby.labyAPI().minecraft().chatExecutor().displayClientMessage(
-              Component.translatable("cubepanion.messages.leaderboardAPI.success", Component.text(submittingFor.displayName()))
-                  .color(Colours.Success));
-          this.reset();
-        })
-        .exceptionallyAsync(e -> {
-          log.error("Failed to submit game: {}", e);
-          return null;
-        });
+    log.info("Going to submit leaderboard for {}", this.currentTrackingGame.displayName());
+    return true;
   }
 
   private void reset() {
