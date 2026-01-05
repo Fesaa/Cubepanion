@@ -14,6 +14,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class VersionedFunctionLink extends FunctionLink {
   }
 
   @Override
-  public CompletableFuture<List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate) {
+  public CompletableFuture<@Nullable MenuContext> loadMenuContext(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate) {
     Minecraft minecraft = Minecraft.getInstance();
     Player player = minecraft.player;
     if (player == null) {
@@ -89,11 +90,18 @@ public class VersionedFunctionLink extends FunctionLink {
       }
       return itemPredicate.test(items);
     }, () -> {
+      Screen currenScreen = minecraft.screen;
+      if (!(currenScreen instanceof ContainerScreen)) {
+        return null;
+      }
+
+      var title = currenScreen.getTitle().getString();
+
       List<CCItemStack> items = new ArrayList<>();
       for (var item : player.containerMenu.getItems()) {
         items.add((CCItemStack) (Object) item);
       }
-      return items;
+      return new FunctionLink.MenuContext(title, items);
     });
   }
 

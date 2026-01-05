@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_2.mixins.mixins;
+package art.ameliah.laby.addons.cubepanion.v1_21_2.mixins;
 
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCCompoundTag;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;

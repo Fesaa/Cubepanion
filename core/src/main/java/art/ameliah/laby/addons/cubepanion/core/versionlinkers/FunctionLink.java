@@ -31,7 +31,11 @@ public abstract class FunctionLink {
     return this.loadMenuItems(titlePredicate, null);
   }
 
-  public abstract CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate);
+  public CompletableFuture<@Nullable List<CCItemStack>> loadMenuItems(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate) {
+    return this.loadMenuContext(titlePredicate, itemPredicate).thenApplyAsync(ctx -> ctx == null ? null : ctx.items);
+  }
+
+  public abstract CompletableFuture<@Nullable MenuContext> loadMenuContext(Predicate<String> titlePredicate, Predicate<List<CCItemStack>> itemPredicate);
 
   protected  <T> CompletableFuture<T> try10Times(int tries, BooleanSupplier check, Supplier<T> res) {
     if (tries >= 10) {
@@ -51,5 +55,7 @@ public abstract class FunctionLink {
 
     return future;
   }
+
+  public record MenuContext(String title, List<CCItemStack> items) {}
 
 }

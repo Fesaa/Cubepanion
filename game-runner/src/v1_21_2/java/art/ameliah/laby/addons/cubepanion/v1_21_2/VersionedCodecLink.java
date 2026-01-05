@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_2.mixins;
+package art.ameliah.laby.addons.cubepanion.v1_21_2;
 
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import com.google.gson.JsonElement;
