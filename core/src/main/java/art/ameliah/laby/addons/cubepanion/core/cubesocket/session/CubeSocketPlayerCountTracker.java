@@ -57,15 +57,8 @@ public class CubeSocketPlayerCountTracker {
         if (packet != null) {
           this.lastSend.put(packet.getGame(), System.currentTimeMillis());
           this.socket.sendPacket(packet);
-        } else {
-          log.warn("Found null game stat update packet, what is going on?");
+          this.sendTask.execute();
         }
-
-
-      }
-
-      if (!this.packetGameStatUpdates.isEmpty()) {
-        this.sendTask.execute();
       }
     }).delay(1, TimeUnit.SECONDS).build();
   }

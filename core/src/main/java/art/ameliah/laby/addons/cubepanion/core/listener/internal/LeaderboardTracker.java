@@ -2,6 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.external.LeaderboardRow;
@@ -38,6 +39,11 @@ public class LeaderboardTracker {
 
   /** Context per page */
   private record LeaderboardContext(int page, Game game, List<CCItemStack> items) {}
+
+  @Subscribe
+  public void onGameSwitch(GameJoinEvent e) {
+    this.reset();
+  }
 
   @Subscribe
   public void onScreenOpen(ScreenDisplayEvent e) {
