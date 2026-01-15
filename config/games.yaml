@@ -64,7 +64,7 @@
   displayName: "Lucky Pillars"
   aliases:
     - "lp"
-  active: true
+  active: false
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
@@ -82,7 +82,7 @@
   displayName: "Snowman Survival"
   aliases:
     - "ss"
-  active: true
+  active: false
   scoreType: "medals"
   shouldTrack: true
   hasPreLobby: false
