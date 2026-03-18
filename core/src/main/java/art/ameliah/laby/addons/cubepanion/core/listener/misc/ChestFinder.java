@@ -46,12 +46,15 @@ public class ChestFinder {
 
   @Subscribe
   public void onChatMessage(ChatReceiveEvent e) {
+
     if (!config.getChestLocation().get()) {
       return;
     }
+
     final var message = e.chatMessage().getPlainText();
     final String foundChestPart = "found the Hidden Chest!";
     final String chestMessage = "A chest has been hidden somewhere in the Lobby with some goodies inside!";
+
     if (message.equalsIgnoreCase(chestMessage)) {
       task.execute();
     } else if (message.contains(foundChestPart)) {
@@ -59,6 +62,7 @@ public class ChestFinder {
           .getLocations()
           .clear();
     }
+    
   }
 
   @Subscribe
