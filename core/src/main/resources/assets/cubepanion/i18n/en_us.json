@@ -27,6 +27,13 @@
             "name": "Extra custom message"
           }
         },
+        "autoPlaySubConfig": {
+          "name": "Auto Play",
+          "description": "Automatically starts new game after specified delay.",
+          "delay": {
+            "name": "Delay"
+          }
+        },
         "friendMessageSound": {
           "name": "Play sound on friend message"
         },

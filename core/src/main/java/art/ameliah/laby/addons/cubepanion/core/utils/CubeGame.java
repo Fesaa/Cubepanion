@@ -36,6 +36,18 @@ public enum CubeGame {
         || e.equals(CubeGame.PARKOUR);
   }
 
+  public static boolean isMiniGame(CubeGame e) {
+    return e.equals(CubeGame.TEAM_EGGWARS)
+        || e.equals(CubeGame.SOLO_LUCKYISLANDS)
+        || e.equals(CubeGame.TEAM_LUCKY_ISLANDS)
+        || e.equals(CubeGame.SOLO_SKYWARS)
+        || e.equals(CubeGame.SNOWMAN_SURVIVAL)
+        || e.equals(CubeGame.PILLARS_OF_FORTUNE)
+        || e.equals(CubeGame.BEDWARS)
+        || e.equals(CubeGame.ENDER)
+        || e.equals(CubeGame.DISASTERS);
+  }
+
   public static CubeGame stringToGame(String s) {
     switch (s.toLowerCase().replace("_", " ")) {
       case "skyblock" -> {

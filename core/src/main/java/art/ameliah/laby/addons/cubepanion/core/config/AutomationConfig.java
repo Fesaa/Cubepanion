@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.ArmourBreakWarningSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoPlaySubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.EndGameSubConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
@@ -16,6 +17,9 @@ public class AutomationConfig extends Config {
 
   @SpriteSlot(x = 2)
   private final EndGameSubConfig endGameSubConfig = new EndGameSubConfig();
+
+  private final AutoPlaySubConfig autoPlaySubConfig = new AutoPlaySubConfig();
+
   @SpriteSlot(x = 6)
   @SwitchSetting
   private final ConfigProperty<Boolean> friendMessageSound = new ConfigProperty<>(true);
@@ -37,6 +41,10 @@ public class AutomationConfig extends Config {
 
   public EndGameSubConfig getEndGameSubConfig() {
     return this.endGameSubConfig;
+  }
+
+  public AutoPlaySubConfig getAutoPlaySubConfig() {
+    return autoPlaySubConfig;
   }
 
   public ArmourBreakWarningSubConfig getArmourBreakWarningSubConfig() {
