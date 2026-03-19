@@ -5,21 +5,14 @@ import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoPlaySubConfi
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.Laby;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.client.component.serializer.plain.PlainTextComponentSerializer;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 public class AutoPlay {
 
-  private static final String playAgainCommand =
-      "/playagain now";
-
-  private static final PlainTextComponentSerializer serializer =
-      PlainTextComponentSerializer.plainText();
+  private static final String playAgainCommand = "/playagain now";
 
   private final AutoPlaySubConfig config;
   private final CubepanionManager manager;
@@ -38,7 +31,20 @@ public class AutoPlay {
       return;
     }
 
+    if (!this.manager.onCubeCraft()) {
+      return;
+    }
+
     if (!CubeGame.isMiniGame(this.manager.getDivision())) {
+      return;
+    }
+
+    final var message = event.chatMessage().getPlainText();
+    if (message.contains(":")) {
+      return;
+    }
+
+    if (!message.contains("Play Again") && !message.contains("Leave")) {
       return;
     }
 
@@ -47,34 +53,11 @@ public class AutoPlay {
         .chatExecutor()
         .chat(playAgainCommand, false);
 
-    event.message()
-        .getChildren()
-        .stream()
-        .flatMap(this::flattenComponent)
-        .filter(
-            (component) ->
-                component.toBuilder().hasClickEvent() &&
-                    component.style().getClickEvent()
-                        .getValue().equalsIgnoreCase(playAgainCommand)
-        )
-        .findFirst()
-        .ifPresent(
-            (ignored) ->
-                Task.builder(runnable)
-                    .delay(this.config.getDelay().get(), TimeUnit.MILLISECONDS)
-                    .build()
-                    .execute()
-        );
+    Task.builder(runnable)
+        .delay(this.config.getDelay().get(), TimeUnit.MILLISECONDS)
+        .build()
+        .execute();
 
-  }
-
-  private Stream<Component> flattenComponent(Component component) {
-    return Stream.concat(
-        Stream.of(component),
-        component.getChildren()
-            .stream()
-            .flatMap(this::flattenComponent)
-    );
   }
 
 }

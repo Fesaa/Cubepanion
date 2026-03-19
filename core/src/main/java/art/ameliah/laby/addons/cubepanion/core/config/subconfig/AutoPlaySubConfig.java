@@ -12,7 +12,7 @@ public class AutoPlaySubConfig extends Config {
   @ShowSettingInParent
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(false);
 
-  @SliderSetting(min = 0, max = 1000, steps = 10f)
+  @SliderSetting(min = 0, max = 1000, steps = 50f)
   private final ConfigProperty<Integer> delay = new ConfigProperty<>(100);
 
   @Override
