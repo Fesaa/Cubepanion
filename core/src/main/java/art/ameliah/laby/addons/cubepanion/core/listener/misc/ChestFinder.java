@@ -57,7 +57,7 @@ public class ChestFinder {
 
     if (message.equalsIgnoreCase(chestMessage)) {
       task.execute();
-    } else if (message.contains(foundChestPart)) {
+    } else if (message.contains(foundChestPart) && !message.contains(":")) {
       Cubepanion.get().getChestFinderLink()
           .getLocations()
           .clear();
