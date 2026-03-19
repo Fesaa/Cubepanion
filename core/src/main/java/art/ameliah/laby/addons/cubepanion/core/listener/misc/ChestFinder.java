@@ -99,7 +99,7 @@ public class ChestFinder {
       final var maxScale = .15f;
       final var baseScale = .03f;
       final var scale =
-          (float) Math.max(baseScale, Math.min(maxScale, distSq * .005f));
+          (float) Math.max(baseScale, Math.min(maxScale, distSq * .0015));
 
       stack.scale(-scale, -scale, scale);
 
