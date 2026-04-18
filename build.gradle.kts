@@ -1,10 +1,9 @@
 import net.labymod.labygradle.common.extension.model.labymod.ReleaseChannels
 
 plugins {
+    id("java-library")
     id("net.labymod.labygradle")
     id("net.labymod.labygradle.addon")
-    id("signing")
-    id("maven-publish")
 }
 
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")

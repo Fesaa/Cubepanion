@@ -1,11 +1,7 @@
 rootProject.name = "cubepanion"
 
 pluginManagement {
-    val labyGradlePluginVersion = "0.6.0"
-    plugins {
-        id("net.labymod.gradle") version (labyGradlePluginVersion)
-    }
-
+    val labyGradlePluginVersion = "0.6.2"
     buildscript {
         repositories {
             maven("https://dist.labymod.net/api/v1/maven/release/")
@@ -22,9 +18,6 @@ pluginManagement {
 }
 
 plugins.apply("net.labymod.labygradle.settings")
-
-
-
 
 include(":api")
 include(":core")
