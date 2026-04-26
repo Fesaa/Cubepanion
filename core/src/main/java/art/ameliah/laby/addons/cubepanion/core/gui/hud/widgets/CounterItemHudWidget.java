@@ -31,9 +31,7 @@ public class CounterItemHudWidget extends CustomItemWidget {
     super(id, "", itemName, posX, posY);
 
     this.bindCategory(category);
-    ItemStack item = Laby.references().itemStackFactory()
-        .create(ResourceLocation.create("minecraft", itemName));
-    this.supplier = HudEvents.getInstance().registerItemStack(item);
+    this.supplier = HudEvents.getInstance().registerItemStack(ResourceLocation.create("minecraft", itemName));
     this.itemStackSupplier = null;
   }
 

@@ -1,5 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.listener.hud.HudEvents;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
@@ -9,6 +10,8 @@ import net.labymod.api.client.gui.hud.hudwidget.item.ItemHudWidget;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.client.world.item.ItemStack;
+import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.client.world.WorldLoadEvent;
 
 public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
 
@@ -17,6 +20,7 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
   private final int posY;
   public boolean itemIsHeld;
   public int counter;
+  public ResourceLocation src;
   public ItemStack item;
 
   protected CustomItemWidget(String id, String regex, String itemName, int posX, int posY) {
@@ -27,21 +31,19 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     this.itemIsHeld = false;
 
 
-    var src = ResourceLocation.create("minecraft", itemName);
-    // If no regex is passed, use the item as resource
-    if (this.regex == null || this.regex.isEmpty()) {
-      this.setIcon(Icon.texture(src));
-    } else {
-      ResourceLocation resourceLocation = ResourceLocation.create("cubepanion", "sprites.png");
-      Icon icon = Icon.sprite16(resourceLocation, posX, posY);
-      this.setIcon(icon);
-    }
-
-    this.item = Laby.references().itemStackFactory().create(src);
+    this.src = ResourceLocation.create("minecraft", itemName);
+    this.setIcon(this.createPlaceholderIcon());
   }
 
   public void load(ItemHudConfig config) {
     super.load(config);
+  }
+
+  @Subscribe
+  public void onWorldLoad(WorldLoadEvent e) {
+    if (this.item == null) {
+      this.item = Laby.references().itemStackFactory().create(src);
+    }
   }
 
   @Override
@@ -49,16 +51,16 @@ public class CustomItemWidget extends ItemHudWidget<ItemHudConfig> {
     Minecraft minecraft = this.labyAPI.minecraft();
     if (minecraft == null) {
       return false;
-    } else {
-      ClientPlayer player = minecraft.getClientPlayer();
-      if (player != null && player.gameMode() != GameMode.SPECTATOR && this.counter > 0) {
-        HudEvents hudEvents = HudEvents.getInstance();
-        return (hudEvents.hasSelected(this.item) || this.itemIsHeld)
-            || !this.config.getOnlyDisplayWhenHeld().get();
-      } else {
-        return false;
-      }
     }
+
+    ClientPlayer player = minecraft.getClientPlayer();
+    if (player == null || player.gameMode() == GameMode.SPECTATOR || this.counter == 0) {
+      return false;
+    }
+
+
+    HudEvents hudEvents = HudEvents.getInstance();
+    return (hudEvents.hasSelected(this.item) || this.itemIsHeld) || !this.config.getOnlyDisplayWhenHeld().get();
   }
 
   @Override

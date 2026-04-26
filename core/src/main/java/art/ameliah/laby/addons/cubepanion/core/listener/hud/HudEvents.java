@@ -27,10 +27,10 @@ public class HudEvents {
   private static HudEvents hudEvents;
   private final Cubepanion addon;
 
-  private final Map<Item, Integer> trackedItems;
+  private final Map<ResourceLocation, Integer> trackedItems;
   private final Map<String, Integer> trackedRegexes;
   private final Map<String, ItemStack> lastRegexMatches;
-  private ItemStack selectedStack;
+  private ResourceLocation selectedStack;
 
   public HudEvents(Cubepanion addon) {
     hudEvents = this;
@@ -46,9 +46,9 @@ public class HudEvents {
     return hudEvents;
   }
 
-  public IntSupplier registerItemStack(ItemStack itemStack) {
-    this.trackedItems.put(itemStack.getAsItem(), 0);
-    return () -> this.trackedItems.get(itemStack.getAsItem());
+  public IntSupplier registerItemStack(ResourceLocation resourceLocation) {
+    this.trackedItems.put(resourceLocation, 0);
+    return () -> this.trackedItems.get(resourceLocation);
   }
 
   public Pair<IntSupplier, Supplier<ItemStack>> registerRegex(String regex) {
@@ -63,7 +63,7 @@ public class HudEvents {
     if (this.selectedStack == null || itemStack == null) {
       return false;
     }
-    return this.selectedStack.matches(itemStack);
+    return this.selectedStack == itemStack.getIdentifier();
   }
 
   @Subscribe
@@ -86,7 +86,7 @@ public class HudEvents {
       ItemStack itemStack = inventory.itemStackAt(i);
       this.updateMaps(itemStack);
       if (i == inventory.getSelectedIndex()) {
-        this.selectedStack = itemStack;
+        this.selectedStack = itemStack.getIdentifier();
       }
     }
 
@@ -104,7 +104,7 @@ public class HudEvents {
       return;
     }
     Item item = itemStack.getAsItem();
-    this.trackedItems.computeIfPresent(item, (k, v) -> v + itemStack.getSize());
+    this.trackedItems.computeIfPresent(item.getIdentifier(), (k, v) -> v + itemStack.getSize());
     this.trackedRegexes.keySet().forEach((k) -> {
       if (item.getIdentifier().getPath().matches(k)) {
         this.trackedRegexes.compute(k, (k2, v) -> {
