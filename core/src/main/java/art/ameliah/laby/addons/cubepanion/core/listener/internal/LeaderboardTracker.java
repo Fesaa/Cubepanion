@@ -121,7 +121,7 @@ public class LeaderboardTracker {
       if (!item.getAsItem().getIdentifier().getPath().equals("player_head")) continue;
 
       var row = parseLeaderboardRow(item);
-      if (row == null) continue;
+      if (row == null || row.position() > 200) continue;
 
       rows.add(row);
       count++;
