@@ -55,6 +55,13 @@ public class CubeSocketPlayerCountTracker {
       var packet = this.packetGameStatUpdates.poll();
       if (!this.addon.getManager().isDevServer()) {
         if (packet != null) {
+
+          Long last = lastSend.get(packet.getGame());
+          if (last != null && (System.currentTimeMillis() - last < TimeUnit.MINUTES.toMillis(1))) {
+            log.debug("ignoring update for {} as it has been less than 1m since last submission", packet.getGame());
+            return;
+          }
+
           this.lastSend.put(packet.getGame(), System.currentTimeMillis());
           this.socket.sendPacket(packet);
           this.sendTask.execute();
@@ -141,8 +148,9 @@ public class CubeSocketPlayerCountTracker {
             this.readPlayerCount(map, item);
           }
           return map;
-        }).thenApplyAsync(res -> {
-          if (res == null) {
+        })
+        .thenApplyAsync(res -> {
+          if (res == null || !this.maySendGame) {
             return null;
           }
 
@@ -183,13 +191,11 @@ public class CubeSocketPlayerCountTracker {
   }
 
   private void readPlayerCount(HashMap<Game, Integer> games, CCItemStack item) {
-    if (item.getDisplayName().getChildren().isEmpty() || item.getDisplayName().getChildren()
-        .getFirst().getChildren().isEmpty()) {
+    if (!(item.getDisplayName() instanceof TextComponent displayName)) {
       return;
     }
 
-    String name = ((TextComponent) item.getDisplayName().getChildren().getFirst().getChildren()
-        .getFirst()).getText();
+    String name = displayName.getText();
     Game game = CubepanionAPI.I().tryGame(name);
     if (game == null) {
       return;
