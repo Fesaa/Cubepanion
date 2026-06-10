@@ -12,8 +12,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class WaypointObject extends AbstractWorldObject {
 
-  Icon icon;      // nullable
-  Component text; // nullable
+  @Nullable
+  protected Icon icon;
+
+  @Nullable
+  protected Component text;
 
   public WaypointObject(
       @NotNull DoubleVector3 position,

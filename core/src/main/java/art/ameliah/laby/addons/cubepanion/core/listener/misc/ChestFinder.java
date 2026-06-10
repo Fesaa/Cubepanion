@@ -15,10 +15,11 @@ public class ChestFinder {
 
   private final Task task;
   private final QOLConfig config;
+  private final ChestFinderLink finderLink;
 
   public ChestFinder(Cubepanion addon, @NotNull ChestFinderLink link) {
     config = addon.configuration().getQolConfig();
-
+    finderLink = link;
     task = Task.builder(() -> {
       if (addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
         link.displayLocations();
@@ -40,16 +41,14 @@ public class ChestFinder {
     if (message.equalsIgnoreCase(chestMessage)) {
       task.execute();
     } else if (message.contains(foundChestPart) && !message.contains(":")) {
-      Cubepanion.get().getChestFinderLink()
-          .clearLocations();
+      finderLink.clearLocations();
     }
 
   }
 
   @Subscribe
   public void onWorldChange(SubServerSwitchEvent e) {
-    Cubepanion.get().getChestFinderLink()
-        .clearLocations();
+    finderLink.clearLocations();
   }
 
 }
