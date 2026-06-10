@@ -7,6 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.util.concurrent.task.Task;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,10 +41,15 @@ public class ChestFinder {
       task.execute();
     } else if (message.contains(foundChestPart) && !message.contains(":")) {
       Cubepanion.get().getChestFinderLink()
-          .getLocations()
-          .clear();
+          .clearLocations();
     }
 
+  }
+
+  @Subscribe
+  public void onWorldChange(SubServerSwitchEvent e) {
+    Cubepanion.get().getChestFinderLink()
+        .clearLocations();
   }
 
 }

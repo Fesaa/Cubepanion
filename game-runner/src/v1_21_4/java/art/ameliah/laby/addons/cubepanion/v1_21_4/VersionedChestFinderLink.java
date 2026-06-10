@@ -26,7 +26,7 @@ public class VersionedChestFinderLink extends ChestFinderLink {
   @Override
   public @NotNull List<ChestLocation> getChestLocations() {
 
-    this.locations.clear();
+    this.clearLocations();
 
     LocalPlayer player = Minecraft.getInstance().player;
     ClientPacketListener con = Minecraft.getInstance().getConnection();
