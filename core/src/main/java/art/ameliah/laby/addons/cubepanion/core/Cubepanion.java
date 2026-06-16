@@ -24,6 +24,7 @@ import art.ameliah.laby.addons.cubepanion.core.listener.internal.InternalTracker
 import art.ameliah.laby.addons.cubepanion.core.listener.misc.MiscListeners;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.WidgetManager;
+import art.ameliah.laby.addons.cubepanion.core.render.waypoint.WaypointSubmitter;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
@@ -120,6 +121,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.labyAPI().tagRegistry().register("level_tag", PositionType.RIGHT_TO_NAME, levelTag);
 
     WidgetManager.register(this);
+    WaypointSubmitter.registerWaypointSubmitter();
 
     log.info("Cubepanion has successfully registered all her components.");
   }
