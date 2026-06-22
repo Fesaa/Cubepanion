@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_4;
+package art.ameliah.laby.addons.cubepanion.v26_2;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.ChestLocation;
@@ -15,7 +15,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,9 +41,9 @@ public class VersionedChestFinderLink extends ChestFinderLink {
     int range = Cubepanion.get().configuration().getQolConfig().getRange().get();
     for (int x = -range; x <= range; x++) {
       for (int y = -range; y <= range; y++) {
-        LevelChunk chunk = level.getChunk(pos.x + x, pos.z + y);
+        LevelChunk chunk = level.getChunk(pos.x() + x, pos.z() + y);
         for (Map.Entry<BlockPos, BlockEntity> entry : chunk.getBlockEntities().entrySet()) {
-          if (entry.getValue().getType().equals(BlockEntityType.CHEST)) {
+          if (entry.getValue().getType().equals(BlockEntityTypes.CHEST)) {
             ChestLocation loc = new ChestLocation(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ());
             if (validLocations.contains(loc)) {
               this.locations.add(loc);

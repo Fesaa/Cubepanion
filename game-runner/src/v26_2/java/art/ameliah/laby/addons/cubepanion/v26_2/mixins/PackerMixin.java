@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_4.mixins;
+package art.ameliah.laby.addons.cubepanion.v26_2.mixins;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;

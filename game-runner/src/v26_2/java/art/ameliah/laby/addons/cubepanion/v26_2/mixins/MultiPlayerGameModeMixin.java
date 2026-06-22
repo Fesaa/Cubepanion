@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_4.mixins;
+package art.ameliah.laby.addons.cubepanion.v26_2.mixins;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
@@ -9,7 +9,7 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,8 +27,8 @@ public class MultiPlayerGameModeMixin {
   @Unique
   private Cubepanion cubepanion$addon = null;
 
-  @Inject(at = @At("HEAD"), method = "handleInventoryMouseClick", cancellable = true)
-  private void handleInventoryMouseClick(int $$0, int $$1, int $$2, ClickType $$3, Player $$4,
+  @Inject(at = @At("HEAD"), method = "handleContainerInput", cancellable = true)
+  private void handleInventoryMouseClick(int containerId, int slotNum, int buttonNum, ContainerInput containerInput, Player player,
       CallbackInfo ci) {
     if (cubepanion$addon == null) {
       cubepanion$addon = Cubepanion.get();
@@ -39,15 +39,15 @@ public class MultiPlayerGameModeMixin {
     if (!cubepanion$addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)) {
       return;
     }
-    if ($$3 != ClickType.THROW) {
+    if (containerInput != ContainerInput.THROW) {
       return;
     }
-    AbstractContainerMenu inv = $$4.containerMenu;
+    AbstractContainerMenu inv = player.containerMenu;
     Slot slot;
     try {
-      slot = inv.getSlot($$1);
+      slot = inv.getSlot(slotNum);
     } catch (IndexOutOfBoundsException e) {
-      log.debug("Ignoring handleInventoryMouseClick as the index is out of bounds {}", $$1);
+      log.debug("Ignoring handleInventoryMouseClick as the index is out of bounds {}", slotNum);
       return;
     }
     ItemStack itemStack = slot.getItem();

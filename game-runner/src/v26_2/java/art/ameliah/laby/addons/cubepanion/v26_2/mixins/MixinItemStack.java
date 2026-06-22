@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_5.mixins;
+package art.ameliah.laby.addons.cubepanion.v26_2.mixins;
 
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCCompoundTag;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
@@ -10,7 +10,6 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(net.minecraft.world.item.ItemStack.class)
 @Implements({@Interface(
-    iface = art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack.class,
+    iface = CCItemStack.class,
     prefix = "itemStack$",
     remap = Remap.NONE
 )})
@@ -30,25 +29,26 @@ public abstract class MixinItemStack implements CCItemStack {
 
   @Shadow
   public abstract List<net.minecraft.network.chat.Component> getTooltipLines(
-      Item.TooltipContext $$0, @Nullable Player $$1, TooltipFlag $$2);
+      TooltipContext $$0, @Nullable Player $$1, TooltipFlag $$2);
 
   @Shadow
   public abstract DataComponentMap getComponents();
-
 
   @Shadow
   public abstract DataComponentPatch getComponentsPatch();
 
   @Override
   public CCCompoundTag getCustomDataTag() {
-    var data = this.getComponentsPatch().get(DataComponents.CUSTOM_DATA);
+    if (!this.getComponents().has(DataComponents.CUSTOM_DATA)) {
+      return null;
+    }
+
+    var data = this.getComponents().get(DataComponents.CUSTOM_DATA);
     if (data == null || data.isEmpty()) {
       return null;
     }
 
-    var tag = data.get();
-
-    return (CCCompoundTag) (Object) tag.copyTag();
+    return (CCCompoundTag) (Object) data.copyTag();
   }
 
   @Override
@@ -67,12 +67,18 @@ public abstract class MixinItemStack implements CCItemStack {
 
   @Override
   public String texture() {
-    var profile = this.getComponentsPatch().get(DataComponents.PROFILE);
-    if (profile == null || profile.isEmpty()) {
+    if (!this.getComponents().has(DataComponents.PROFILE)) {
       return null;
     }
 
-    return profile.get().properties()
+    var profile = this.getComponents().get(DataComponents.PROFILE);
+    if (profile == null) {
+      return null;
+    }
+
+    return profile
+        .partialProfile()
+        .properties()
         .get("textures")
         .stream()
         .findFirst()

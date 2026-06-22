@@ -1,14 +1,14 @@
-package art.ameliah.laby.addons.cubepanion.v1_21_5;
+package art.ameliah.laby.addons.cubepanion.v26_2;
 
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
+import io.netty.channel.Channel;
+import io.netty.channel.EventLoop;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import javax.inject.Singleton;
-import io.netty.channel.Channel;
-import io.netty.channel.EventLoop;
 import net.labymod.api.models.Implements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,7 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +62,7 @@ public class VersionedFunctionLink extends FunctionLink {
     }
 
     int containerId = Minecraft.getInstance().player.containerMenu.containerId;
-    Minecraft.getInstance().gameMode.handleInventoryMouseClick(containerId, slotId, button, ClickType.PICKUP, Minecraft.getInstance().player);
+    Minecraft.getInstance().gameMode.handleContainerInput(containerId, slotId, button, ContainerInput.PICKUP, Minecraft.getInstance().player);
   }
 
   @Override
@@ -74,7 +74,7 @@ public class VersionedFunctionLink extends FunctionLink {
     }
 
     return this.try10Times(1, () -> {
-      Screen currenScreen = minecraft.screen;
+      Screen currenScreen = minecraft.gui.screen();
       if (!(currenScreen instanceof ContainerScreen)) {
         return false;
       }
@@ -96,7 +96,7 @@ public class VersionedFunctionLink extends FunctionLink {
       }
       return itemPredicate.test(items);
     }, () -> {
-      Screen currenScreen = minecraft.screen;
+      Screen currenScreen = minecraft.gui.screen();
       if (!(currenScreen instanceof ContainerScreen)) {
         return null;
       }
@@ -107,7 +107,7 @@ public class VersionedFunctionLink extends FunctionLink {
       for (var item : player.containerMenu.getItems()) {
         items.add((CCItemStack) (Object) item);
       }
-      return new FunctionLink.MenuContext(title, items);
+      return new MenuContext(title, items);
     });
   }
 
