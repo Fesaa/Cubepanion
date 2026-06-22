@@ -60,7 +60,6 @@ public class MultiPlayerGameModeMixin {
         || itemStack.is(ItemTags.REPAIRS_LEATHER_ARMOR)
         || itemStack.is(ItemTags.REPAIRS_GOLD_ARMOR)
         || itemStack.is(ItemTags.REPAIRS_CHAIN_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_COPPER_ARMOR)
         || itemStack.is(ItemTags.REPAIRS_IRON_ARMOR)
         || itemStack.is(ItemTags.REPAIRS_DIAMOND_ARMOR)
         || itemStack.is(ItemTags.REPAIRS_NETHERITE_ARMOR)
