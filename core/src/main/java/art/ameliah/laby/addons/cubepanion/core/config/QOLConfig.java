@@ -24,7 +24,7 @@ public class QOLConfig extends Config {
   private final ConfigProperty<Boolean> mapSelector = new ConfigProperty<>(false);
   @SwitchSetting
   private final ConfigProperty<Boolean> chestLocation = new ConfigProperty<>(true);
-  @SliderSetting(min = 5F, max = 20F)
+  @SliderSetting(min = 5F, max = 40F)
   private final ConfigProperty<Integer> range = new ConfigProperty<>(10);
   @SwitchSetting
   private final ConfigProperty<Boolean> noDropSkyBlock = new ConfigProperty<>(false);
