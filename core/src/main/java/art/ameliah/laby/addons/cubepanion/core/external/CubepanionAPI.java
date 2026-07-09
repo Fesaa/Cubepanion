@@ -43,9 +43,9 @@ public class CubepanionAPI {
   public void loadInitialData() {
     log.info("Loading initial data from {} & {}", this.baseUrl, this.baseUrlv2);
     this.getGames()
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load games, some features may not work correctly {}", ex);
-          return null;
+        .exceptionallyCompose(ex -> {
+          log.error("Failed to load games, retrying {}", ex);
+          return this.getGames();
         })
         .thenAcceptAsync(games -> {
           if (games == null) {
@@ -68,9 +68,9 @@ public class CubepanionAPI {
         });
 
     this.loadChestLocations()
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load chest locations, some features may not work correctly {}", ex);
-          return null;
+        .exceptionallyCompose(ex -> {
+          log.error("Failed to load chest locations, retrying: {}", ex);
+          return this.loadChestLocations();
         })
         .thenAcceptAsync(chestLocations -> {
           if (chestLocations == null) {
@@ -87,9 +87,9 @@ public class CubepanionAPI {
         });
 
     this.loadGameMaps()
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load game maps, some features may not work correctly {}", ex);
-          return null;
+        .exceptionallyCompose(ex -> {
+          log.error("Failed to load game maps, retyring: {}", ex);
+          return this.loadGameMaps();
         })
         .thenAcceptAsync(gameMaps -> {
           if (gameMaps == null) {
@@ -217,7 +217,7 @@ public class CubepanionAPI {
     CompletableFuture<Void> future = new CompletableFuture<>();
 
     Request.ofString()
-        .url(this.baseUrlv2+"/Leaderboard")
+        .url(this.baseUrlv2+"/Leaderboard/new")
         .method(Method.POST)
         .json(submission)
         .async()
