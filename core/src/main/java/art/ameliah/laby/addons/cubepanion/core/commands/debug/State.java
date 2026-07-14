@@ -3,6 +3,7 @@ package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
@@ -68,8 +69,15 @@ public class State extends SubCommand {
         session != null ? session.getKeepAlivesSent() : 0,
         session != null ? session.getKeepAlivesReceived() : 0);
 
+    String apiState = String.format(
+        "API State:\n\tGames loaded: %d\n\tMaps loaded: %d\n\tChests loaded: %d",
+        CubepanionAPI.I().totalGames(),
+        CubepanionAPI.I().totalMaps(),
+        CubepanionAPI.I().getChestLocations().size()
+    );
+
     displayMessage(
-        state + "\n" + partyState + "\n" + fireballState + "\n" + featherState + "\n" + socketState);
+        state + "\n" + partyState + "\n" + fireballState + "\n" + featherState + "\n" + socketState + "\n" + apiState);
     return true;
   }
 }

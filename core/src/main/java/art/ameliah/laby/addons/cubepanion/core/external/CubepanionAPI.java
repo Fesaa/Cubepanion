@@ -7,14 +7,22 @@ import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javax.inject.Singleton;
 import net.labymod.api.Laby;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.notification.Notification;
+import net.labymod.api.notification.Notification.Type;
 import net.labymod.api.util.GsonUtil;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
@@ -40,64 +48,58 @@ public class CubepanionAPI {
   private final List<ChestLocation> chestLocations = new ArrayList<>();
   private final HashMap<Integer, HashMap<String, AbstractGameMap>> convertedGameMaps = new HashMap<>();
 
-  public void loadInitialData() {
-    log.info("Loading initial data from {} & {}", this.baseUrl, this.baseUrlv2);
-    this.getGames()
-        .exceptionallyCompose(ex -> {
-          log.error("Failed to load games, retrying {}", ex);
-          return this.getGames();
-        })
-        .thenAcceptAsync(games -> {
+  public CompletableFuture<Boolean> loadGames(boolean toastOnSuccess) {
+    return retryOnceWithToast(
+        this::getGames,
+        games -> {
           if (games == null) {
             return;
           }
-
           for (var game : games) {
             this.gameById.put(game.id(), game);
-
             this.games.put(game.name(), game);
             this.games.put(game.displayName(), game);
             game.aliases().forEach(a -> this.games.put(a, game));
           }
-
           log.info("Loaded {} games", games.size());
-        })
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load games, some features may not work correctly {}", ex);
-          return null;
-        });
+        },
+        games -> ToastDescription.of(
+            "cubepanion.notifications.reload.games.title",
+            "cubepanion.notifications.reload.games.success"),
+        ex -> ToastDescription.of(
+            "cubepanion.notifications.reload.games.title",
+            "cubepanion.notifications.reload.games.failure"),
+        toastOnSuccess);
+  }
 
-    this.loadChestLocations()
-        .exceptionallyCompose(ex -> {
-          log.error("Failed to load chest locations, retrying: {}", ex);
-          return this.loadChestLocations();
-        })
-        .thenAcceptAsync(chestLocations -> {
+  public CompletableFuture<Boolean> loadChestLocations(boolean toastOnSuccess) {
+    return retryOnceWithToast(
+        this::loadChestLocations,
+        chestLocations -> {
           if (chestLocations == null) {
             return;
           }
-
           this.chestLocations.clear();
           this.chestLocations.addAll(chestLocations);
           log.info("Loaded {} chest locations", this.chestLocations.size());
-        })
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load chest locations, some features may not work correctly {}", ex);
-          return null;
-        });
+        },
+        cl -> ToastDescription.of(
+            "cubepanion.notifications.reload.chests.title",
+            "cubepanion.notifications.reload.chests.success"),
+        ex -> ToastDescription.of(
+            "cubepanion.notifications.reload.chests.title",
+            "cubepanion.notifications.reload.chests.failure"),
+        toastOnSuccess);
+  }
 
-    this.loadGameMaps()
-        .exceptionallyCompose(ex -> {
-          log.error("Failed to load game maps, retyring: {}", ex);
-          return this.loadGameMaps();
-        })
-        .thenAcceptAsync(gameMaps -> {
+  public CompletableFuture<Boolean> loadGameMaps(boolean toastOnSuccess) {
+    return retryOnceWithToast(
+        this::loadGameMaps,
+        gameMaps -> {
           if (gameMaps == null) {
             log.warn("Failed to load game maps, some features may not work correctly");
             return;
           }
-
-          log.info("Loaded {} game-maps", gameMaps.size());
 
           this.convertedGameMaps.clear();
           for (var gameMap : gameMaps) {
@@ -110,12 +112,26 @@ public class CubepanionAPI {
             map.put(gameMap.mapName().toLowerCase(), convertedMap);
           }
 
-          log.info("Loaded {} game-maps", this.convertedGameMaps.size());
-        })
-        .exceptionallyAsync(ex -> {
-          log.error("Failed to load game maps, some features may not work correctly {}", ex);
-          return null;
-        });
+          log.info("Loaded {} game-maps. {} total maps in the api", this.convertedGameMaps.size(), gameMaps.size());
+        },
+        maps -> ToastDescription.of(
+            "cubepanion.notifications.reload.maps.title",
+            "cubepanion.notifications.reload.maps.success"),
+        ex -> ToastDescription.of(
+            "cubepanion.notifications.reload.maps.title",
+            "cubepanion.notifications.reload.maps.failure"),
+            toastOnSuccess);
+  }
+
+  public void loadInitialData() {
+    log.info("Loading initial data from {} & {}", this.baseUrl, this.baseUrlv2);
+
+    this.loadGames(false)
+        .handleAsync((success, ex) -> null)
+        .thenComposeAsync(ignored -> this.loadChestLocations(false))
+        .handleAsync((success, ex) -> null)
+        .thenComposeAsync(ignored -> this.loadGameMaps(false))
+        .whenCompleteAsync((success, ex) -> log.info("Finished loading initial data"));
   }
 
   public boolean hasMaps(CubeGame cubeGame) {
@@ -179,6 +195,14 @@ public class CubepanionAPI {
 
   public int totalGames() {
     return new HashSet<>(this.games.values()).size();
+  }
+
+  public int totalMaps() {
+    var total = 0;
+    for (var mapsMap : convertedGameMaps.values()) {
+      total += mapsMap.size();
+    }
+    return total;
   }
 
   public CompletableFuture<Leaderboard> getLeaderboard(Game game, int lower, int upper) {
@@ -333,6 +357,64 @@ public class CubepanionAPI {
     return future;
   }
 
+  private static final Duration RETRY_DELAY = Duration.ofSeconds(2);
+
+  public <T> CompletableFuture<Boolean> retryOnceWithToast(
+      Supplier<CompletableFuture<T>> loader,
+      Consumer<T> onSuccess,
+      Function<T, ToastDescription> successToast,
+      Function<Throwable, ToastDescription> failureToast,
+      boolean toastOnSuccess
+  ) {
+    return loader.get()
+        .exceptionallyComposeAsync(ex -> {
+          log.warn("Initial load failed, retrying in {}", RETRY_DELAY, ex);
+          return CompletableFuture
+              .supplyAsync(() -> null, CompletableFuture.delayedExecutor(
+                  RETRY_DELAY.toMillis(), TimeUnit.MILLISECONDS))
+              .thenComposeAsync(ignored -> loader.get());
+        })
+        .handleAsync((result, ex) -> {
+          if (ex != null) {
+            log.error("Failed to load data after retry", ex);
+            pushToast(failureToast.apply(ex));
+            return false;
+          }
+
+          try {
+            onSuccess.accept(result);
+          } catch (Exception e) {
+            log.error("onSuccess callback threw while processing loaded data", e);
+            pushToast(failureToast.apply(e));
+            return false;
+          }
+
+          if (toastOnSuccess) {
+            pushToast(successToast.apply(result));
+          }
+
+          return true;
+        });
+  }
+
+  private static void pushToast(ToastDescription description) {
+    Laby.labyAPI().notificationController().push(Notification.builder()
+        .title(Component.translatable(description.titleKey(), description.titleArgs()))
+        .text(Component.translatable(description.textKey(), description.textArgs()))
+        .type(Type.SYSTEM)
+        .build());
+  }
+
+  public record ToastDescription(String titleKey, Component[] titleArgs, String textKey, Component[] textArgs) {
+
+    public static ToastDescription of(String titleKey, String textKey) {
+      return new ToastDescription(titleKey, new Component[0], textKey, new Component[0]);
+    }
+
+    public static ToastDescription of(String titleKey, String textKey, Component... textArgs) {
+      return new ToastDescription(titleKey, new Component[0], textKey, textArgs);
+    }
+  }
 
   private static CubepanionAPI instance;
 
