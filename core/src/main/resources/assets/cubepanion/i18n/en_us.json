@@ -772,17 +772,17 @@
       "reload": {
         "games": {
           "title": "Games",
-          "success": "Games reloaded successfully.",
+          "success": "%s Games reloaded successfully.",
           "failure": "Failed to reload games, some features may not work correctly."
         },
         "chests": {
           "title": "Chest Locations",
-          "success": "Chest locations reloaded successfully.",
+          "success": "%s Chest locations reloaded successfully.",
           "failure": "Failed to reload chest locations, some features may not work correctly."
         },
         "maps": {
           "title": "Game Maps",
-          "success": "Game maps reloaded successfully.",
+          "success": "%s Game maps reloaded successfully.",
           "failure": "Failed to reload game maps, some features may not work correctly."
         }
       }

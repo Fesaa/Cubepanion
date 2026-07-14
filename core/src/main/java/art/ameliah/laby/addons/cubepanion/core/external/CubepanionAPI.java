@@ -65,7 +65,8 @@ public class CubepanionAPI {
         },
         games -> ToastDescription.of(
             "cubepanion.notifications.reload.games.title",
-            "cubepanion.notifications.reload.games.success"),
+            "cubepanion.notifications.reload.games.success",
+            Component.text(games.size())),
         ex -> ToastDescription.of(
             "cubepanion.notifications.reload.games.title",
             "cubepanion.notifications.reload.games.failure"),
@@ -85,7 +86,8 @@ public class CubepanionAPI {
         },
         cl -> ToastDescription.of(
             "cubepanion.notifications.reload.chests.title",
-            "cubepanion.notifications.reload.chests.success"),
+            "cubepanion.notifications.reload.chests.success",
+            Component.text(cl.size())),
         ex -> ToastDescription.of(
             "cubepanion.notifications.reload.chests.title",
             "cubepanion.notifications.reload.chests.failure"),
@@ -116,7 +118,8 @@ public class CubepanionAPI {
         },
         maps -> ToastDescription.of(
             "cubepanion.notifications.reload.maps.title",
-            "cubepanion.notifications.reload.maps.success"),
+            "cubepanion.notifications.reload.maps.success",
+            Component.text(maps.size())),
         ex -> ToastDescription.of(
             "cubepanion.notifications.reload.maps.title",
             "cubepanion.notifications.reload.maps.failure"),
