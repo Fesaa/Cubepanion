@@ -150,7 +150,7 @@ public class Party {
 
   private void toggleTryingToReadPartyMembers() {
     this.tryingToReadPartyMembers = true;
-
+    this.sendPartyInfoCommand.execute();
   }
 
 }
