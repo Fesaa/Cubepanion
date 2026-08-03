@@ -27,6 +27,7 @@ import net.labymod.api.util.GsonUtil;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Request.Method;
 import net.labymod.api.util.logging.Logging;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Singleton
@@ -39,14 +40,15 @@ public class CubepanionAPI {
   private final TypeToken<List<GameMap>> gameMapsToken = new TypeToken<>() {};
 
   private final String baseUrl = System.getenv("DEV") == null ?
-      "https://cubepanion.ameliah.art/api" : "http://192.168.0.193:5050/api";
+      "https://cubepanion.ameliah.art/api" : System.getenv("DEV") + "/api";
   private final String baseUrlv2 = System.getenv("DEV") == null ?
-      "https://cubepanion.ameliah.art/api/v2" : "http://192.168.0.193:5050/api/v2";
+      "https://cubepanion.ameliah.art/api/v2" : System.getenv("DEV") + "/api/v2";
 
   private final Map<String, Game> games = new HashMap<>();
   private final Map<Integer, Game> gameById = new HashMap<>();
   private final List<ChestLocation> chestLocations = new ArrayList<>();
   private final HashMap<Integer, HashMap<String, AbstractGameMap>> convertedGameMaps = new HashMap<>();
+  private LeaderboardConfiguration leaderboardConfiguration = new LeaderboardConfiguration(false, 200, 100);
 
   public CompletableFuture<Boolean> loadGames(boolean toastOnSuccess) {
     return retryOnceWithToast(
@@ -126,14 +128,35 @@ public class CubepanionAPI {
             toastOnSuccess);
   }
 
+  public CompletableFuture<Boolean> loadLeaderboardConfiguration(boolean toastOnSuccess) {
+    return retryOnceWithToast(
+        () -> get(this.baseUrlv2 + "/Leaderboard/config", LeaderboardConfiguration.class),
+        config -> leaderboardConfiguration = config,
+        ignored -> ToastDescription.of(
+            "cubepanion.notifications.reload.leaderboard-config.title",
+            "cubepanion.notifications.reload.leaderboard-config.success"
+        ),
+        ignored -> ToastDescription.of(
+            "cubepanion.notifications.reload.leaderboard-config.title",
+            "cubepanion.notifications.reload.leaderboard-config.failure"
+            ),
+        toastOnSuccess);
+  }
+
   public void loadInitialData() {
+    this.loadInitialData(false);
+  }
+
+  public void loadInitialData(boolean toastOnSuccess) {
     log.info("Loading initial data from {} & {}", this.baseUrl, this.baseUrlv2);
 
     this.loadGames(false)
         .handleAsync((success, ex) -> null)
-        .thenComposeAsync(ignored -> this.loadChestLocations(false))
+        .thenComposeAsync(ignored -> this.loadChestLocations(toastOnSuccess))
         .handleAsync((success, ex) -> null)
-        .thenComposeAsync(ignored -> this.loadGameMaps(false))
+        .thenComposeAsync(ignored -> this.loadGameMaps(toastOnSuccess))
+        .handleAsync((success, ex) -> null)
+        .thenComposeAsync(ignored -> this.loadLeaderboardConfiguration(toastOnSuccess))
         .whenCompleteAsync((success, ex) -> log.info("Finished loading initial data"));
   }
 
@@ -144,6 +167,11 @@ public class CubepanionAPI {
     }
 
     return this.convertedGameMaps.containsKey(game.id());
+  }
+
+  @NotNull
+  public LeaderboardConfiguration getLeaderboardConfiguration() {
+    return this.leaderboardConfiguration;
   }
 
   @Nullable

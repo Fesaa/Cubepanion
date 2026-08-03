@@ -28,9 +28,7 @@ public class Reload extends SubCommand {
       case "" -> {
         this.displayMessage("Reloading all API data...");
         this.displayMessage(Component.newline());
-        CubepanionAPI.I().loadGames(true);
-        CubepanionAPI.I().loadChestLocations(true);
-        CubepanionAPI.I().loadGameMaps(true);
+        CubepanionAPI.I().loadInitialData(true);
       }
       case "games" -> {
         this.displayMessage("Reloading games...");

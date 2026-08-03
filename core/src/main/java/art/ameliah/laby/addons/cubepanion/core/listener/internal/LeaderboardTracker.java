@@ -53,6 +53,8 @@ public class LeaderboardTracker {
 
     if (this.addon.getFunctionLink() == null) return;
 
+    if (!CubepanionAPI.I().getLeaderboardConfiguration().enabled()) return;
+
     this.addon.getFunctionLink()
         .loadMenuContext(
             title -> title != null && title.contains("Leaderboard"),
@@ -152,13 +154,15 @@ public class LeaderboardTracker {
 
   /** Check if we have all rows/pages and ready to submit */
   private boolean checkSubmit() {
-    if (pages.size() != 10) {
-      log.debug("Wanted 10 pages, got {}", pages.size());
+    if (pages.size() != CubepanionAPI.I().getLeaderboardConfiguration().pageCount()) {
+      log.debug("Wanted {} pages, got {}",
+          CubepanionAPI.I().getLeaderboardConfiguration().pageCount(), pages.size());
       return false;
     }
 
-    if (rows.size() != 200) {
-      log.debug("10 pages, but not 200 rows, have {}", rows.size());
+    if (rows.size() != CubepanionAPI.I().getLeaderboardConfiguration().playerCount()) {
+      log.debug("{} pages, but not {} rows, have {}",
+          pages.size(), CubepanionAPI.I().getLeaderboardConfiguration().playerCount(), rows.size());
       return false;
     }
 
