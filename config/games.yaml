@@ -64,7 +64,7 @@
   displayName: "Lucky Pillars"
   aliases:
     - "lp"
-  active: false
+  active: true
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
