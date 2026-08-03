@@ -1,6 +1,6 @@
 # CubeCraft Laby 4 addon
 
-Got a question, found a bug or want something added? Contact `ameliahh` on discord or open an issue
+Got a question, found a bug or want something added? Tag `ameliahh` in the Cube discord or open an issue
 ___________
 
 ## Contribute
