@@ -2,6 +2,8 @@ package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
@@ -148,6 +150,32 @@ public class ScoreboardListener {
     this.buffer = 0;
 
     this.manager.setDivision(division);
+  }
+
+  @Subscribe
+  public void onPrintDebugRequest(PrintDebugRequestEvent e) {
+    if (e.receiver() == Receiver.ScoreboardListener) {
+      Laby.labyAPI().minecraft().chatExecutor().chat(this.debug(), false);
+    }
+  }
+
+  private String debug() {
+    return String.format(
+        "ScoreboardListener{" +
+            "onCubeCraft=%s, " +
+            "division=%s, " +
+            "map=%s, " +
+            "serverId=%s, " +
+            "buffer=%d, " +
+            "previousText='%s'" +
+            "}",
+        manager.onCubeCraft(),
+        manager.getDivision(),
+        manager.getMapName(),
+        manager.getServerID(),
+        buffer,
+        previousText
+    );
   }
 
 }

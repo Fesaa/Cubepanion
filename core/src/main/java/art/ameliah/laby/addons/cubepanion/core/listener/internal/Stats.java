@@ -5,7 +5,9 @@ import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +28,7 @@ public class Stats {
 
   private final HashMap<Pattern, Integer> customKillMessages = new HashMap<>(69);
   private final HashMap<Pattern, Integer> defaultKillMessages = new HashMap<>(8);
+  private final List<Pattern> naturalCausesMessages = new ArrayList<>(4);
 
   public Stats(Cubepanion addon) {
     this.addon = addon;
@@ -267,6 +270,11 @@ public class Stats {
     this.customKillMessages.put(Pattern.compile(
         this.userNameRegex + " yeeted their weapon into " + this.userNameRegex + "\\."
             + this.assistRegex), 1);
+
+    this.naturalCausesMessages.add(Pattern.compile(userNameRegex + " died in the void\\."));
+    this.naturalCausesMessages.add(Pattern.compile(userNameRegex + " tried to survive in the void\\."));
+    this.naturalCausesMessages.add(Pattern.compile(userNameRegex + " thought they could survive in the void\\."));
+    this.naturalCausesMessages.add(Pattern.compile(userNameRegex + " blew up\\."));
   }
 
   @Subscribe
@@ -324,15 +332,12 @@ public class Stats {
         }
       }
 
-      // "Natural" causes
-      if (msg.equals(userName + " tried to survive in the void.")
-          || msg.equals(userName + " died in the void.")
-          || msg.equals(userName + " thought they could survive in the void.")) {
-        Laby.fireEvent(new PlayerDeathEvent(true, "void", userName));
-      } else if (msg.equals(userName + " blew up.")) {
-        Laby.fireEvent(new PlayerDeathEvent(true, "tnt", userName));
+      for (var pattern : naturalCausesMessages) {
+        if (pattern.matcher(msg).matches()) {
+          var reason = msg.contains("blew up") ? "tnt" : "void";
+          Laby.fireEvent(new PlayerDeathEvent(true, reason, userName));
+        }
       }
-
     }
 
   }
