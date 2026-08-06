@@ -4,7 +4,6 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketReload;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,8 +29,6 @@ public abstract class PacketHandler extends SimpleChannelInboundHandler<Object> 
 
 
   public abstract void handle(PacketPong packet);
-
-  public abstract void handle(PacketPerkUpdate packet);
 
   public abstract void handle(PacketHelloPong packet);
 

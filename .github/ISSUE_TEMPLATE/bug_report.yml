@@ -1,0 +1,75 @@
+name: Bug Report
+description: Report something that went wrong
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Which version do you play on?
+      description: The version of the game/addon you are using
+      placeholder: e.g. 1.2.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-addons
+    attributes:
+      label: Which other addons do you have installed if any?
+      description: List any other addons/mods running alongside this one
+      placeholder: e.g. AddonA v1.0, AddonB v2.1
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-went-wrong
+    attributes:
+      label: What went wrong?
+      description: A short summary of the issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can I reproduce the bug?
+      description: Step-by-step instructions
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: video
+    attributes:
+      label: Video
+      description: Please attach a video of what went wrong
+    validations:
+      required: false
+
+  - type: textarea
+    id: debug-output
+    attributes:
+      label: Debug output
+      description: >
+        Please include the output of `/cdebug s` right after it went wrong.
+        See the ReadMe for other debug commands that may be helpful.
+      render: shell
+    validations:
+      required: true

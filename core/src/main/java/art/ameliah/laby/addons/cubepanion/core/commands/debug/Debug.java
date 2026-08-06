@@ -15,6 +15,8 @@ public class Debug extends Command {
     withSubCommand(new ResetConnectionTries(addon));
     withSubCommand(new Reload(addon));
     withSubCommand(new PreLobby(addon));
+    withSubCommand(new LevelsCommand(addon));
+    withSubCommand(new PrintDebugRequestsCommand(addon));
   }
 
   @Override

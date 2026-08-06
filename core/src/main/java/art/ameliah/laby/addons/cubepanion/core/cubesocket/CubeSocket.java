@@ -9,7 +9,6 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.Protocol;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketDisconnect;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketHelloPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketGameTracker;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketPerkTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketPlayerCountTracker;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketSession;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.session.CubeSocketState;
@@ -19,7 +18,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -85,7 +83,6 @@ public class CubeSocket extends Service {
     this.functionLink = fl;
 
     this.eventBus.registerListener(new CubeSocketNotifications(this, notifications));
-    this.eventBus.registerListener(new CubeSocketPerkTracker(this, addon));
     this.eventBus.registerListener(new CubeSocketGameTracker(this));
     this.eventBus.registerListener(new CubeSocketPlayerCountTracker(this, addon));
 
@@ -133,7 +130,7 @@ public class CubeSocket extends Service {
           return;
         }
 
-        this.session = new CubeSocketSession(this, this.sessionAccessor, this.addon.getCodecLink());
+        this.session = new CubeSocketSession(this, this.sessionAccessor);
         this.channelHandler = new CubeSocketHandler(this, this.session);
         this.lastDisconnectReason = null;
 

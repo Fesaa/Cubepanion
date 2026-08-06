@@ -75,7 +75,7 @@ public class PacketPerkUpdate extends Packet {
 
   @Override
   public void handle(PacketHandler packetHandler) {
-    packetHandler.handle(this);
+
   }
 
   public @NotNull PerkCategory getPerkCategory() {

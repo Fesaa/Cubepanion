@@ -5,6 +5,7 @@ import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
 import java.util.concurrent.TimeUnit;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
@@ -27,7 +28,7 @@ public class ChestFinder {
     }).delay(2000, TimeUnit.MILLISECONDS).build();
   }
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
 
     if (!config.getChestLocation().get()) {

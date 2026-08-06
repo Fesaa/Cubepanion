@@ -7,6 +7,8 @@ import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.Laby;
@@ -87,10 +89,48 @@ public class AutoGG {
     doMessage();
   }
 
+  @Subscribe
+  public void onPrintDebugRequest(PrintDebugRequestEvent e) {
+    if (e.receiver() == Receiver.AutoGG) {
+      Laby.labyAPI().minecraft().chatExecutor().chat(this.debug(), false);
+    }
+  }
+
   private void doMessage() {
     GameEndMessage gameEndMessage = config.getGameEndMessage().get();
     gameEndMessage.send(Laby.labyAPI().minecraft().chatExecutor(), config,
         manager.getPartyManager().isInParty());
     hasSentGG = true;
+  }
+
+  private String debug() {
+    return String.format(
+        "AutoGG{" +
+            "enabled=%s, " +
+            "onElimination=%s, " +
+            "hasSentGG=%s, " +
+            "division=%s, " +
+            "inParty=%s, " +
+            "message=%s, " +
+            "bedwars=%s, " +
+            "eggwars=%s, " +
+            "ffa=%s, " +
+            "skyblock=%s, " +
+            "snowman=%s, " +
+            "parkour=%s" +
+            "}",
+        config.isEnabled().get(),
+        config.getOnElimination().get(),
+        hasSentGG,
+        manager.getDivision(),
+        manager.getPartyManager().isInParty(),
+        config.getGameEndMessage().get(),
+        manager.isPlaying(CubeGame.BEDWARS),
+        manager.isPlaying(CubeGame.TEAM_EGGWARS),
+        manager.isPlaying(CubeGame.FFA),
+        manager.isPlaying(CubeGame.SKYBLOCK),
+        manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL),
+        CubeGame.isParkour(manager.getDivision())
+    );
   }
 }

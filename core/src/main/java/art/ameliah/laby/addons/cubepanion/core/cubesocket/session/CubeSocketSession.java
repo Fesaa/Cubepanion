@@ -11,50 +11,37 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLocationUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLogin;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketLoginComplete;
-import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPerkUpdate;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPing;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketPong;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketReload;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.Laby;
 import net.labymod.api.client.session.SessionAccessor;
-import net.labymod.api.client.world.item.ItemStack;
 import net.labymod.api.concurrent.ThreadFactoryBuilder;
 import net.labymod.api.util.I18n;
 
 public class CubeSocketSession extends PacketHandler {
 
-  private static final Gson gson = new Gson();
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1,
       (new ThreadFactoryBuilder()).withNameFormat("CubeSocketSessionExecutor#d").build());
   private final CubeSocket socket;
   private final SessionAccessor sessionAccessor;
-  private final CodecLink codecLink;
 
   private int keepAlivesSent = 0;
   private int keepAlivesReceived = 0;
   private long lastReload = -1;
 
-  public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor,
-      CodecLink codecLink) {
+  public CubeSocketSession(CubeSocket socket, SessionAccessor sessionAccessor) {
     this.socket = socket;
     this.sessionAccessor = sessionAccessor;
-    this.codecLink = codecLink;
   }
 
   public int getKeepAlivesReceived() {
@@ -72,31 +59,6 @@ public class CubeSocketSession extends PacketHandler {
       socket.fireEventSync(new CubeSocketDisconnectEvent(
           I18n.translate("cubepanion.notifications.cubesocket.disconnect.apiServer")));
     }
-  }
-
-  @Override
-  public void handle(PacketPerkUpdate packet) {
-    if (sessionAccessor.getSession() == null) {
-      return;
-    }
-    if (this.codecLink == null) {
-      return;
-    }
-
-    // Ignore updates from ourselves, the LoadPerkEvent has already fired
-    UUID uuid = sessionAccessor.getSession().getUniqueId();
-    if (packet.getSender().equals(uuid)) {
-      return;
-    }
-
-    List<ItemStack> perks = new ArrayList<>(packet.getPerks().length);
-    for (String perk : packet.getPerks()) {
-      JsonObject json = gson.fromJson(perk, JsonObject.class);
-      Optional<ItemStack> stack = codecLink.decode(json);
-      stack.ifPresent(perks::add);
-    }
-
-    this.socket.fireEventSync(new PerkLoadEvent(packet.getPerkCategory(), perks, true));
   }
 
   @Override

@@ -4,6 +4,8 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig.DisplayLocation;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinPreLobbyEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,12 +35,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class LevelTag extends ComponentNameTag {
 
-  private static final Logging LOGGER = Logging.create(LevelTag.class);
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
 
   private final Cubepanion addon;
   private final QOLConfig config;
-  private final Map<String, Integer> levels = new HashMap<>();
-  private final Pattern whoList = Pattern.compile("There are \\d{1,3} players online: .*");
+  private static final Map<String, Integer> levels = new HashMap<>();
+  private final Pattern whoList = Pattern.compile("There (is|are) \\d{1,3} players? online: .*");
   private final Pattern joinMessage = Pattern.compile(
       "\\[\\+\\] (?:.{0,5} |)([a-zA-Z0-9_]{2,16})(?: .{0,5}|) joined your game \\(\\d{1,2}\\/\\d{1,2}\\)\\.");
 
@@ -52,9 +54,19 @@ public class LevelTag extends ComponentNameTag {
     this.addon.registerCubepanionListener(this);
   }
 
+  @NotNull
+  public static Map<String, Integer> getLevels() {
+    return new HashMap<>(levels);
+  }
+
   @Subscribe
   public void onServerSwitch(SubServerSwitchEvent e) {
-    this.levels.clear();
+    levels.clear();
+  }
+
+  @Subscribe
+  public void onGamePreLobbyJoin(GameJoinPreLobbyEvent e) {
+    this.requestWhoMessage();
   }
 
   @Subscribe
@@ -65,6 +77,11 @@ public class LevelTag extends ComponentNameTag {
       return;
     }
 
+    this.requestWhoMessage();
+  }
+  
+  private void requestWhoMessage() {
+    
     this.readingWhoMessage = true;
     this.readingJoinMessage = true;
     Laby.labyAPI().minecraft().chatExecutor().chat("/who", false);
@@ -90,18 +107,19 @@ public class LevelTag extends ComponentNameTag {
   }
 
   private void readWho(TextComponent msg) {
-    if (msg.getChildren().isEmpty()) {
-      return;
+    visit(msg);
+  }
+
+  private void visit(TextComponent component) {
+    if (component.style() != null && component.style().getHoverEvent() != null) {
+      readAndPutLevel(component);
     }
 
-    msg = (TextComponent) msg.getChildren().getLast();
-    if (msg.getChildren().isEmpty()) {
-      return;
+    for (Component child : component.getChildren()) {
+      if (child instanceof TextComponent tc) {
+        visit(tc);
+      }
     }
-
-    msg.getChildren().forEach(child -> {
-      this.readAndPutLevel((TextComponent) child); // It'll filter out everything without a hoverevent
-    });
   }
 
   private void readJoinMessage(TextComponent msg) {
@@ -132,7 +150,7 @@ public class LevelTag extends ComponentNameTag {
   private void readAndPutLevel(TextComponent name) {
     // Players may rejoin the name, lets not try and parse an int again.
     String playerName = this.getPlayerName(name);
-    if (this.levels.containsKey(playerName)) {
+    if (levels.containsKey(playerName)) {
       return;
     }
 
@@ -157,13 +175,13 @@ public class LevelTag extends ComponentNameTag {
     int levelInt;
     try {
       levelInt = Integer.parseInt(level.getText());
-      LOGGER.debug("Set level for {} to {}", playerName, levelInt);
+      log.debug("Set level for {} to {}", playerName, levelInt);
     } catch (NumberFormatException ex) {
-      LOGGER.debug("Could not parse level from join message", ex);
+      log.debug("Could not parse level from join message", ex);
       return;
     }
 
-    this.levels.put(playerName, levelInt);
+    levels.put(playerName, levelInt);
   }
 
   @NotNull
@@ -224,7 +242,7 @@ public class LevelTag extends ComponentNameTag {
       return null;
     }
 
-    Integer level = this.levels.get(playerInfo.profile().getUsername());
+    Integer level = levels.get(playerInfo.profile().getUsername());
     if (level == null) {
       return null;
     }

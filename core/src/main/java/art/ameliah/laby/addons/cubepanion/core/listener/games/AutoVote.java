@@ -18,6 +18,7 @@ import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.world.item.ItemStack;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.entity.player.inventory.InventorySetSlotEvent;
@@ -49,7 +50,7 @@ public class AutoVote {
     this.functionLink = functionLink;
   }
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
@@ -13,7 +14,7 @@ public class TeamColour {
   private final Pattern EggWarsTeamJoin = Pattern.compile("You have joined .{1,30} team\\.");
 
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
 

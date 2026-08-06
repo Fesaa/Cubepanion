@@ -5,6 +5,7 @@ import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
@@ -45,7 +46,7 @@ public class Party {
     }).delay(100, TimeUnit.MILLISECONDS).build();
   }
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;
