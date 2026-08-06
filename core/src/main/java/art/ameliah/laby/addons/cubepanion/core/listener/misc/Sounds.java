@@ -4,6 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.AutomationConfig;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
@@ -15,7 +16,7 @@ public class Sounds {
     config = Cubepanion.get().configuration().getAutomationConfig();
   }
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
     Minecraft minecraft = Laby.labyAPI().minecraft();
     String msg = e.chatMessage().getPlainText();

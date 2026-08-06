@@ -175,6 +175,7 @@ public class CubepanionManager implements Manager {
   }
 
   public void onGameStart() {
+    log.debug("Starting {}! PreLobby: {}", division, this.inPreGameState);
     this.inPreGameState = false;
     this.onGameStartDivisionBuffer = false;
     this.gameStartTime = System.currentTimeMillis();

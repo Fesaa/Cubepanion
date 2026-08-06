@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.Laby;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
@@ -285,7 +286,7 @@ public class Stats {
     manager.setEliminated(true);
   }
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatReceiveEvent(ChatReceiveEvent e) {
     if (!this.addon.getManager().onCubeCraft()) {
       return;

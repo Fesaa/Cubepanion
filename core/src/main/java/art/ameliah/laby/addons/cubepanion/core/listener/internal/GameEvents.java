@@ -4,12 +4,16 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
 import net.labymod.api.Laby;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
+import net.labymod.api.util.logging.Logging;
 
 public class GameEvents {
 
-  @Subscribe
+  private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
+
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
     String msg = e.chatMessage().getPlainText();
 

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.entity.player.ClientPlayer;
+import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
@@ -17,7 +18,7 @@ public class RankTag {
 
   private boolean hasRequested = false;
 
-  @Subscribe
+  @Subscribe(Priority.EARLY)
   public void onChatMessage(ChatReceiveEvent e) {
 
     Minecraft mc = Laby.labyAPI().minecraft();
