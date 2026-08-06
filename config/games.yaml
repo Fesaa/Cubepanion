@@ -128,3 +128,12 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+
+- name: "mob_who"
+  displayName: "Mob Who"
+  aliases:
+    - "mw"
+  active: true
+  scoreType: "wins"
+  shouldTrack: false
+  hasPreLobby: false
