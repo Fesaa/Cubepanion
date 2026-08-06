@@ -3,11 +3,14 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import java.util.HashMap;
 import java.util.Map;
+import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +57,28 @@ public class Cooldowns {
     if (addon.configuration().getQolConfig().getCoolDown().get()) {
       functionLink.setCoolDown(e.getItemStack(), (int) ((cooldownTime/1000)*20) );
     }
+  }
+
+  @Subscribe
+  public void onPrintDebug(PrintDebugRequestEvent event) {
+    if (event.receiver() == Receiver.Cooldowns) {
+      Laby.labyAPI().minecraft().chatExecutor().chat(debug());
+    }
+  }
+
+  private String debug() {
+    return String.format("CoolDowns{" +
+        "enabled=%s" +
+        "division=%s" +
+        "Fireball(%s, %s)" +
+        "Feather(%s, %s)" +
+        "EggMites(%s, %s)" +
+        "}",
+        addon.configuration().getQolConfig().getCoolDown().get(), addon.getManager().getDivision(),
+        addon.getManager().getCooldownManager().getLastUse(CooldownManager.FIREBALL), addon.getManager().getCooldownManager().canUse(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME),
+        addon.getManager().getCooldownManager().getLastUse(CooldownManager.FEATHER), addon.getManager().getCooldownManager().canUse(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME),
+        addon.getManager().getCooldownManager().getLastUse(CooldownManager.EGG_MITES), addon.getManager().getCooldownManager().canUse(CooldownManager.EGG_MITES, CooldownManager.EGG_MITES_COOLDOWN_TIME)
+        );
   }
 
 }

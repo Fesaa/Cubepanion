@@ -7,6 +7,7 @@ public record PrintDebugRequestEvent(Receiver receiver) implements Event {
   public enum Receiver {
     AutoGG,
     ScoreboardListener,
+    Cooldowns,
   }
 
 }
