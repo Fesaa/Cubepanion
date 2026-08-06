@@ -28,7 +28,6 @@ import art.ameliah.laby.addons.cubepanion.core.render.waypoint.WaypointSubmitter
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
-import art.ameliah.laby.addons.cubepanion.core.versionlinkers.CodecLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.component.Component;
@@ -49,7 +48,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
   private ChestFinderLink chestFinderLink;
   private FunctionLink functionLink;
-  private CodecLink codecLink;
 
   public Cubepanion() {
     instance = this;
@@ -73,15 +71,11 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     chestFinderLink = storage.getChestFinderLink();
     functionLink = storage.getFunctionLink();
-    codecLink = storage.getCodecLink();
     if (chestFinderLink == null) {
       log.warn("ChestFinderLink is null. Some features may not work.");
     }
     if (functionLink == null) {
       log.warn("FunctionLink is null. Some features may not work.");
-    }
-    if (codecLink == null) {
-      log.warn("CodecLink is null. Some features may not work.");
     }
 
     socket = new CubeSocket(
@@ -144,11 +138,6 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @Nullable
   public FunctionLink getFunctionLink() {
     return functionLink;
-  }
-
-  @Nullable
-  public CodecLink getCodecLink() {
-    return codecLink;
   }
 
   @NotNull

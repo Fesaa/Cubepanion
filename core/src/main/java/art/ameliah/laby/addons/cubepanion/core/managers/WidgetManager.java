@@ -3,13 +3,11 @@ package art.ameliah.laby.addons.cubepanion.core.managers;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.imp.GameStatsTracker;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.events.PerkLoadEvent.PerkCategory;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.CounterItemHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.DurabilityItemHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.GameTimerWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.NextArmourBuyTextWidget;
-import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.PerkDisplayWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.TextTrackerHudWidget;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.widgets.base.CubepanionWidgetCategory;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
@@ -181,11 +179,6 @@ public class WidgetManager {
 
     // Game Timer
     hudWidgetRegistry.register(new GameTimerWidget(category, "elapsed_time_tracker", 5, 1));
-
-    // Perk trackers
-    for (PerkCategory perkCategory : PerkCategory.values()) {
-      hudWidgetRegistry.register(new PerkDisplayWidget(category, perkCategory));
-    }
   }
 
   private static boolean booleanSupplier() {

@@ -15,9 +15,6 @@ public class InternalTrackers {
     addon.registerCubepanionListener(new ServerNavigation(addon));
     addon.registerCubepanionListener(new SessionTracker());
     addon.registerCubepanionListener(new LeaderboardTracker(addon));
-    if (functionLink != null) {
-      addon.registerCubepanionListener(new PerkTracker(addon, functionLink));
-    }
   }
 
 }
