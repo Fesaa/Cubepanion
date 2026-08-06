@@ -344,7 +344,7 @@
         },
         "StatsCommand": {
           "name": "Stats Commands",
-          "description": "/stats help for all information."
+          "description": "/stats help for all information. (Very broken, won't fix, PR yourself)"
         },
         "friendsTrackerCommand": {
           "name": "Friend tracker",
