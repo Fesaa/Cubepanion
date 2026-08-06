@@ -115,7 +115,7 @@
         },
         "coolDown": {
           "name": "Cooldown",
-          "description": "Display the cooldown animation on feathers and fireballs after using it."
+          "description": "Display the cooldown animation on Leap Feathers, Fireballs, and Egg Mites after using it."
         },
         "levelTag": {
           "name": "Level tag",
