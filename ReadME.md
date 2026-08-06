@@ -3,6 +3,20 @@
 Got a question, found a bug or want something added? Tag `ameliahh` in the Cube discord or open an issue
 ___________
 
+## Something doesn't work
+
+I can code: Open a PR
+
+I can't code: Open an issue. The following debug commands may help me
+
+```
+/cdebug s #always include
+/cdebug print AutoGG
+/cdebug print Cooldowns
+/cdebug print ScoreboardListener
+/cdebug levels
+```
+
 ## Contribute
 
 You're more than welcome to contribute!
