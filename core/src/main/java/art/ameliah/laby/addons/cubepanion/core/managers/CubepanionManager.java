@@ -4,6 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
+import art.ameliah.laby.addons.cubepanion.core.events.GameJoinPreLobbyEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
@@ -139,7 +140,7 @@ public class CubepanionManager implements Manager {
     this.updateRankString();
 
     this.eliminated = false;
-    this.inPreGameState = true;
+    this.inPreGameState = false;
     this.onGameStartDivisionBuffer = false;
 
     this.gameStartTime = -1;
@@ -202,6 +203,7 @@ public class CubepanionManager implements Manager {
 
     if (game.hasPreLobby() && this.isInPreGameState()) {
       log.debug("{} has a pre lobby, ignoring update", game.displayName());
+      Laby.fireEvent(new GameJoinPreLobbyEvent(game));
       return;
     }
 
