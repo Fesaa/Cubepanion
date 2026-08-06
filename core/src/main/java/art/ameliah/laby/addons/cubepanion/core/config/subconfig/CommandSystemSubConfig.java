@@ -23,10 +23,6 @@ public class CommandSystemSubConfig extends Config {
 
   @SwitchSetting
   @SettingRequires(value = "enabled")
-  private final ConfigProperty<Boolean> PartyCommands = new ConfigProperty<>(true);
-
-  @SwitchSetting
-  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> StatsCommand = new ConfigProperty<>(true);
 
   @SwitchSetting
@@ -35,10 +31,6 @@ public class CommandSystemSubConfig extends Config {
 
   public ConfigProperty<Boolean> getAppealSiteCommand() {
     return appealSiteCommand;
-  }
-
-  public ConfigProperty<Boolean> getPartyCommands() {
-    return PartyCommands;
   }
 
   public ConfigProperty<Boolean> getStatsCommand() {

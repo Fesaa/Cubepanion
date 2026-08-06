@@ -338,13 +338,9 @@
           "name": "Appeal Site",
           "description": "/appeal [mco/]<name>."
         },
-        "GameMapInfoCommand": {
+        "gameMapInfoCommand": {
           "name": "Game Map Info",
           "description": "/gamemap <Map Name>."
-        },
-        "PartyCommands": {
-          "name": "Party Commands",
-          "description": "/party extra for all information."
         },
         "StatsCommand": {
           "name": "Stats Commands",
