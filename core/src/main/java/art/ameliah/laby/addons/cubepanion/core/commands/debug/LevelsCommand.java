@@ -1,14 +1,15 @@
 package art.ameliah.laby.addons.cubepanion.core.commands.debug;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import net.labymod.api.client.chat.command.SubCommand;
 
-public class DivisionCommand extends SubCommand {
+public class LevelsCommand extends SubCommand {
 
   private final Cubepanion addon;
 
-  public DivisionCommand(Cubepanion addon) {
-    super("division");
+  public LevelsCommand(Cubepanion addon) {
+    super("levels");
     this.addon = addon;
   }
 
@@ -17,7 +18,14 @@ public class DivisionCommand extends SubCommand {
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
-    this.displayMessage("Division: " + this.addon.getManager().getDivision().getString());
+
+    var sb = new StringBuilder();
+    for (var entry : LevelTag.getLevels().entrySet()) {
+      sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+    }
+
+    this.displayMessage(sb.toString());
+
     return true;
   }
 }
