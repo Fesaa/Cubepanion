@@ -1,0 +1,460 @@
+[
+  {
+    "gameId": 11,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "team_eggwars_perk_voting",
+        "iconUrl": "",
+        "choiceIndex": 11,
+        "menuTitle": "Perk Voting",
+        "options": [
+          {
+            "slot": 12,
+            "name": "No Perk"
+          },
+          {
+            "slot": 14,
+            "name": "Free Perk"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "team_eggwars_items_voting",
+        "iconUrl": "",
+        "choiceIndex": 13,
+        "menuTitle": "Items Voting",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Ultra Hardcore"
+          },
+          {
+            "slot": 13,
+            "name": "Normal"
+          },
+          {
+            "slot": 15,
+            "name": "Overpowered"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "team_eggwars_health_voting",
+        "iconUrl": "",
+        "choiceIndex": 15,
+        "menuTitle": "Health Voting",
+        "options": [
+          {
+            "slot": 12,
+            "name": "Normal"
+          },
+          {
+            "slot": 14,
+            "name": "Double"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 10,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "solo_skywars_chests_voting",
+        "iconUrl": "",
+        "choiceIndex": 11,
+        "menuTitle": "Chest Items",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Basic"
+          },
+          {
+            "slot": 13,
+            "name": "Normal"
+          },
+          {
+            "slot": 15,
+            "name": "Overpowered"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "solo_skywars_projectiles_voting",
+        "iconUrl": "",
+        "choiceIndex": 13,
+        "menuTitle": "Projectile Options",
+        "options": [
+          {
+            "slot": 11,
+            "name": "No Projectiles"
+          },
+          {
+            "slot": 13,
+            "name": "Normal Projectiles"
+          },
+          {
+            "slot": 15,
+            "name": "Soft Blocks"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "solo_skywars_time_voting",
+        "iconUrl": "",
+        "choiceIndex": 15,
+        "menuTitle": "Time",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Day"
+          },
+          {
+            "slot": 13,
+            "name": "Sunset"
+          },
+          {
+            "slot": 15,
+            "name": "Night"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 12,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "solo_lucky_islands_blocks_voting",
+        "iconUrl": "",
+        "choiceIndex": 12,
+        "menuTitle": "Game Option Voting",
+        "options": [
+          {
+            "slot": 10,
+            "name": "Blessed"
+          },
+          {
+            "slot": 12,
+            "name": "Normal"
+          },
+          {
+            "slot": 14,
+            "name": "Overpowered"
+          },
+          {
+            "slot": 16,
+            "name": "Crazy"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "solo_lucky_islands_time_voting",
+        "iconUrl": "",
+        "choiceIndex": 14,
+        "menuTitle": "Time Voting",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Day"
+          },
+          {
+            "slot": 13,
+            "name": "Sunset"
+          },
+          {
+            "slot": 15,
+            "name": "Night"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 5,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "team_lucky_islands_blocks_voting",
+        "iconUrl": "",
+        "choiceIndex": 12,
+        "menuTitle": "Game Option Voting",
+        "options": [
+          {
+            "slot": 10,
+            "name": "Blessed"
+          },
+          {
+            "slot": 12,
+            "name": "Normal"
+          },
+          {
+            "slot": 14,
+            "name": "Overpowered"
+          },
+          {
+            "slot": 16,
+            "name": "Crazy"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "team_lucky_islands_time_voting",
+        "iconUrl": "",
+        "choiceIndex": 14,
+        "menuTitle": "Time Voting",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Day"
+          },
+          {
+            "slot": 13,
+            "name": "Sunset"
+          },
+          {
+            "slot": 15,
+            "name": "Night"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 8,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "pillars_of_fortune_game_mode_voting",
+        "iconUrl": "",
+        "choiceIndex": 12,
+        "menuTitle": "Game Mode",
+        "options": [
+          {
+            "slot": 10,
+            "name": "Normal"
+          },
+          {
+            "slot": 12,
+            "name": "Shuffle"
+          },
+          {
+            "slot": 14,
+            "name": "Balanced"
+          },
+          {
+            "slot": 16,
+            "name": "Swapper"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "pillars_of_fortune_map_mode_voting",
+        "iconUrl": "",
+        "choiceIndex": 14,
+        "menuTitle": "Map Modifier",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Normal"
+          },
+          {
+            "slot": 12,
+            "name": "Rising Lava"
+          },
+          {
+            "slot": 13,
+            "name": "Portals"
+          },
+          {
+            "slot": 14,
+            "name": "Ablockalypse"
+          },
+          {
+            "slot": 15,
+            "name": "Fragile Blocks"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 3,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "bedwars_modifier_voting",
+        "iconUrl": "",
+        "choiceIndex": -1,
+        "menuTitle": "Modifiers",
+        "options": [
+          {
+            "slot": 12,
+            "name": "Normal"
+          },
+          {
+            "slot": 14,
+            "name": "Faster Gens"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 4,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "ender_voting",
+        "iconUrl": "",
+        "choiceIndex": -1,
+        "menuTitle": "",
+        "options": [
+          {
+            "slot": 12,
+            "name": "Human"
+          },
+          {
+            "slot": 14,
+            "name": "Ender"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 14,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "lucky_pillars_item_modifier_voting",
+        "iconUrl": "",
+        "choiceIndex": 12,
+        "menuTitle": "Item Modifier",
+        "options": [
+          {
+            "slot": 12,
+            "name": "Items"
+          },
+          {
+            "slot": 14,
+            "name": "No Items"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      },
+      {
+        "id": "lucky_pillars_lucky_blocks_mode_voting",
+        "iconUrl": "",
+        "choiceIndex": 14,
+        "menuTitle": "Mode",
+        "options": [
+          {
+            "slot": 11,
+            "name": "Normal"
+          },
+          {
+            "slot": 13,
+            "name": "Blessed"
+          },
+          {
+            "slot": 15,
+            "name": "Overpowered"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "gameId": 9,
+    "hotbarSlot": 0,
+    "categories": [
+      {
+        "id": "disasters_voting",
+        "iconUrl": "",
+        "choiceIndex": -1,
+        "menuTitle": "Disasters",
+        "options": [
+          {
+            "slot": 12,
+            "name": "Normal"
+          },
+          {
+            "slot": 14,
+            "name": "Stacked"
+          },
+          {
+            "slot": -1,
+            "name": "Don't vote"
+          }
+        ]
+      }
+    ]
+  }
+]
