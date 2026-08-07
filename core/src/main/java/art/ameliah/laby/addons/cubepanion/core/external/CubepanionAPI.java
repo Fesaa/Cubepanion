@@ -199,6 +199,11 @@ public class CubepanionAPI {
     return this.chestLocations;
   }
 
+  @NotNull
+  public Map<String, Game> getGamesMap() {
+    return new HashMap<>(games);
+  }
+
   @Nullable
   public Game getGameById(int id) {
     return this.gameById.get(id);

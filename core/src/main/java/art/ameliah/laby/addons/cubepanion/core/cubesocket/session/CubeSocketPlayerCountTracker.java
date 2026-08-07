@@ -195,7 +195,7 @@ public class CubeSocketPlayerCountTracker {
       return;
     }
 
-    String name = displayName.getText();
+    String name = displayName.getText().trim();
     Game game = CubepanionAPI.I().tryGame(name);
     if (game == null) {
       return;
@@ -217,6 +217,7 @@ public class CubeSocketPlayerCountTracker {
           log.warn("Could not parse player count {} for name {}", playerCountString,
               game.displayName());
         }
+        break;
       }
     }
   }

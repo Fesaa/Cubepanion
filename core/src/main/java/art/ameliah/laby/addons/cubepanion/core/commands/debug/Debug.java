@@ -17,6 +17,7 @@ public class Debug extends Command {
     withSubCommand(new PreLobby(addon));
     withSubCommand(new LevelsCommand(addon));
     withSubCommand(new PrintDebugRequestsCommand(addon));
+    withSubCommand(new GamesCommand(addon));
   }
 
   @Override
