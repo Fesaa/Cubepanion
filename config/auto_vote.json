@@ -5,6 +5,7 @@
     "categories": [
       {
         "id": "team_eggwars_perk_voting",
+        "name": "Team EggWars Perks",
         "iconUrl": "",
         "choiceIndex": 11,
         "menuTitle": "Perk Voting",
@@ -25,6 +26,7 @@
       },
       {
         "id": "team_eggwars_items_voting",
+        "name": "Team EggWars Items",
         "iconUrl": "",
         "choiceIndex": 13,
         "menuTitle": "Items Voting",
@@ -49,6 +51,7 @@
       },
       {
         "id": "team_eggwars_health_voting",
+        "name": "Team EggWars Health",
         "iconUrl": "",
         "choiceIndex": 15,
         "menuTitle": "Health Voting",
@@ -75,6 +78,7 @@
     "categories": [
       {
         "id": "solo_skywars_chests_voting",
+        "name": "Solo SkyWars Chests",
         "iconUrl": "",
         "choiceIndex": 11,
         "menuTitle": "Chest Items",
@@ -99,6 +103,7 @@
       },
       {
         "id": "solo_skywars_projectiles_voting",
+        "name": "Solo SkyWars Projectiles",
         "iconUrl": "",
         "choiceIndex": 13,
         "menuTitle": "Projectile Options",
@@ -123,6 +128,7 @@
       },
       {
         "id": "solo_skywars_time_voting",
+        "name": "Solo SkyWars Time",
         "iconUrl": "",
         "choiceIndex": 15,
         "menuTitle": "Time",
@@ -153,6 +159,7 @@
     "categories": [
       {
         "id": "solo_lucky_islands_blocks_voting",
+        "name": "Lucky Islands Blocks",
         "iconUrl": "",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
@@ -181,6 +188,7 @@
       },
       {
         "id": "solo_lucky_islands_time_voting",
+        "name": "Lucky Islands Time",
         "iconUrl": "",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
@@ -211,6 +219,7 @@
     "categories": [
       {
         "id": "team_lucky_islands_blocks_voting",
+        "name": "Team Lucky Islands Blocks",
         "iconUrl": "",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
@@ -239,6 +248,7 @@
       },
       {
         "id": "team_lucky_islands_time_voting",
+        "name": "Team Lucky Islands Time",
         "iconUrl": "",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
@@ -269,6 +279,7 @@
     "categories": [
       {
         "id": "pillars_of_fortune_game_mode_voting",
+        "name": "Pillars of Fortune Game Mode",
         "iconUrl": "",
         "choiceIndex": 12,
         "menuTitle": "Game Mode",
@@ -297,6 +308,7 @@
       },
       {
         "id": "pillars_of_fortune_map_mode_voting",
+        "name": "Pillars of Fortune Map Mode",
         "iconUrl": "",
         "choiceIndex": 14,
         "menuTitle": "Map Modifier",
@@ -335,6 +347,7 @@
     "categories": [
       {
         "id": "bedwars_modifier_voting",
+        "name": "BedWars Modifier",
         "iconUrl": "",
         "choiceIndex": -1,
         "menuTitle": "Modifiers",
@@ -361,6 +374,7 @@
     "categories": [
       {
         "id": "ender_voting",
+        "name": "Ender",
         "iconUrl": "",
         "choiceIndex": -1,
         "menuTitle": "",
@@ -387,6 +401,7 @@
     "categories": [
       {
         "id": "lucky_pillars_item_modifier_voting",
+        "name": "Lucky Pillars Item Modifier",
         "iconUrl": "",
         "choiceIndex": 12,
         "menuTitle": "Item Modifier",
@@ -407,6 +422,7 @@
       },
       {
         "id": "lucky_pillars_lucky_blocks_mode_voting",
+        "name": "Lucky Pillars Block Mode",
         "iconUrl": "",
         "choiceIndex": 14,
         "menuTitle": "Mode",
@@ -437,6 +453,7 @@
     "categories": [
       {
         "id": "disasters_voting",
+        "name": "Disasters",
         "iconUrl": "",
         "choiceIndex": -1,
         "menuTitle": "Disasters",
