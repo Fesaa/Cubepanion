@@ -83,7 +83,7 @@
         },
         "respawnTimer": {
           "name": "Respawn timer",
-          "description": "Adds to a countdown timer to a players name tag while respawning in EggWars."
+          "description": "Adds to a countdown timer to a players name tag while respawning in EggWars & BedWars."
         },
         "shortFriendsList": {
           "name": "Shorter friends list",
@@ -256,6 +256,23 @@
             "middle": "Portals",
             "middleRight": "Ablockalypse",
             "right": "Fragile Blocks",
+            "none": "Don't vote"
+          }
+        },
+        "luckyPillarsItemModifier": {
+          "name": "Lucky Pillars Item Modifier",
+          "entries": {
+            "left": "Items",
+            "right": "No Items",
+            "none": "Don't vote"
+          }
+        },
+        "luckyPillarsLuckyBlocksMode": {
+          "name": "Lucky Pillars Block Mode",
+          "entries": {
+            "left": "Normal",
+            "middle": "Blessed",
+            "right": "Overpowered",
             "none": "Don't vote"
           }
         },

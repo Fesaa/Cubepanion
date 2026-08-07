@@ -35,7 +35,7 @@ public class AutoPlay {
       return;
     }
 
-    if (!CubeGame.isMiniGame(this.manager.getDivision())) {
+    if (!this.manager.getDivision().isMiniGame()) {
       return;
     }
 

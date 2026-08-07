@@ -50,6 +50,10 @@ public class AutoVoteProvider {
     providers.put(CubeGame.ENDER, AutoVoteProvider.of(0,
         () -> VotePair.of(-1, config.getEnder().get().slot, "")
     ));
+    providers.put(CubeGame.LUCKY_PILLARS, AutoVoteProvider.of(0,
+        () -> VotePair.of(12, config.getLuckyPillarsItemsModifier().get().slot, "Item Modifier"),
+        () -> VotePair.of(14, config.getLuckyPillarsLuckyBlockMode().get().slot, "Mode")
+    ));
   }
 
   public static AutoVoteProvider getProvider(CubeGame game) {

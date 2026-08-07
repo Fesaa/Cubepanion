@@ -1,31 +1,37 @@
 package art.ameliah.laby.addons.cubepanion.core.utils;
 
+
+// TODO: Bonk this enum and load all info from API. We can used named constants for checking
 // ALSO ADD IN CubeGame#stringToGame !!!
 public enum CubeGame {
-  TEAM_EGGWARS("Team EggWars"),
-  SOLO_LUCKYISLANDS("Solo Lucky Islands"),
-  TEAM_LUCKY_ISLANDS("Team Lucky Islands"),
-  SOLO_SKYWARS("Solo SkyWars"),
-  FFA("Free For All"),
-  SIMPLE_PARKOUR("Simple Parkour"),
-  EASY_PARKOUR("Easy Parkour"),
-  MEDIUM_PARKOUR("Medium Parkour"),
-  HARD_PARKOUR("Hard Parkour"),
-  PARKOUR("Parkour"),
-  SKYBLOCK("Skyblock"),
-  SNOWMAN_SURVIVAL("Snowman Survival"),
-  LOBBY("Main Lobby"),
-  PILLARS_OF_FORTUNE("Pillars of Fortune"),
-  BEDWARS("BedWars"),
-  ENDER("Ender"),
-  DISASTERS("Disasters"),
-  NONE("");
+  TEAM_EGGWARS("Team EggWars", true),
+  SOLO_LUCKYISLANDS("Solo Lucky Islands", true),
+  TEAM_LUCKY_ISLANDS("Team Lucky Islands", true),
+  SOLO_SKYWARS("Solo SkyWars", true),
+  FFA("Free For All", false),
+  SIMPLE_PARKOUR("Simple Parkour", false),
+  EASY_PARKOUR("Easy Parkour", false),
+  MEDIUM_PARKOUR("Medium Parkour", false),
+  HARD_PARKOUR("Hard Parkour", false),
+  PARKOUR("Parkour", false),
+  SKYBLOCK("Skyblock", false),
+  SNOWMAN_SURVIVAL("Snowman Survival", true),
+  LOBBY("Main Lobby", false),
+  PILLARS_OF_FORTUNE("Pillars of Fortune", true),
+  BEDWARS("BedWars", true),
+  ENDER("Ender", true),
+  DISASTERS("Disasters", true),
+  LUCKY_PILLARS("Lucky Pillars", true),
+  MOB_WHO("Mob Who", true),
+  NONE("", false);
 
 
   private final String string;
+  private final boolean isMiniGame;
 
-  CubeGame(String s) {
+  CubeGame(String s, boolean isMiniGame) {
     this.string = s;
+    this.isMiniGame = isMiniGame;
   }
 
   public static boolean isParkour(CubeGame e) {
@@ -36,16 +42,8 @@ public enum CubeGame {
         || e.equals(CubeGame.PARKOUR);
   }
 
-  public static boolean isMiniGame(CubeGame e) {
-    return e.equals(CubeGame.TEAM_EGGWARS)
-        || e.equals(CubeGame.SOLO_LUCKYISLANDS)
-        || e.equals(CubeGame.TEAM_LUCKY_ISLANDS)
-        || e.equals(CubeGame.SOLO_SKYWARS)
-        || e.equals(CubeGame.SNOWMAN_SURVIVAL)
-        || e.equals(CubeGame.PILLARS_OF_FORTUNE)
-        || e.equals(CubeGame.BEDWARS)
-        || e.equals(CubeGame.ENDER)
-        || e.equals(CubeGame.DISASTERS);
+  public boolean isMiniGame() {
+    return isMiniGame;
   }
 
   public static CubeGame stringToGame(String s) {
@@ -100,6 +98,12 @@ public enum CubeGame {
       }
       case "disasters" -> {
         return CubeGame.DISASTERS;
+      }
+      case "lucky pillars" -> {
+        return CubeGame.LUCKY_PILLARS;
+      }
+      case "mob who" -> {
+        return CubeGame.MOB_WHO;
       }
       default -> {
         return CubeGame.NONE;

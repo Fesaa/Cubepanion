@@ -56,6 +56,13 @@ public class AutoVoteSubConfig extends Config {
   @DropdownSetting
   private final ConfigProperty<FiveOptionsMode> pofMapMode = new ConfigProperty<>(
       FiveOptionsMode.LEFT);
+
+  @DropdownSetting
+  private final ConfigProperty<TwoOptionsMode> luckyPillarsItemModifier = new ConfigProperty<>(TwoOptionsMode.LEFT);
+
+  @DropdownSetting
+  private final ConfigProperty<ThreeOptionsMode> luckyPillarsLuckyBlocksMode = new ConfigProperty<>(ThreeOptionsMode.LEFT);
+
   @DropdownSetting
   private final ConfigProperty<TwoOptionsMode> bedWarsModifier = new ConfigProperty<>(TwoOptionsMode.RIGHT);
 
@@ -120,6 +127,14 @@ public class AutoVoteSubConfig extends Config {
 
   public ConfigProperty<TwoOptionsMode> getEnder() {
     return ender;
+  }
+
+  public ConfigProperty<TwoOptionsMode> getLuckyPillarsItemsModifier() {
+    return luckyPillarsItemModifier;
+  }
+
+  public ConfigProperty<ThreeOptionsMode> getLuckyPillarsLuckyBlockMode() {
+    return luckyPillarsLuckyBlocksMode;
   }
 
   public ConfigProperty<Integer> getDelay() {
