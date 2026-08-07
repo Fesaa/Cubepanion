@@ -7,6 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubCo
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
+import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
@@ -29,6 +30,8 @@ public class CubepanionConfig extends AddonConfig {
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
   private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
+
+  private final Config AutoVote = new Config();
 
   @Override
   public ConfigProperty<Boolean> enabled() {

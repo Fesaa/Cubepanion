@@ -7,6 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.commands.GameMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
+import art.ameliah.laby.addons.cubepanion.core.config.AutoVoteSettingsLoader;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
@@ -64,6 +65,8 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
 
     log.info("Starting Cubepanion");
     this.registerSettingCategory();
+
+    new AutoVoteSettingsLoader().loadAndRegisterSettings();
 
     CubepanionAPI.Init();
     AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
