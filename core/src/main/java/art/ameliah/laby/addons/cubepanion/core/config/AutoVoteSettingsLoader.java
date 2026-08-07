@@ -1,39 +1,143 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategory;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategoryOption;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfig;
+import art.ameliah.laby.addons.cubepanion.core.listener.games.AutoVote.VotePair;
+import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import net.labymod.api.Laby;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget;
+import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.configuration.settings.Setting;
 import net.labymod.api.configuration.settings.type.SettingElement;
+import net.labymod.api.util.concurrent.task.Task;
+import net.labymod.api.util.concurrent.task.TaskBuilder;
+import net.labymod.api.util.logging.Logging;
+import org.jetbrains.annotations.Nullable;
 import java.awt.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 public class AutoVoteSettingsLoader {
 
-  private final AutoVoteConfig EggWarsConfig = new AutoVoteConfig(11, 0, List.of(
-      new AutoVoteCategory("team_eggwars_perk_voting", "", 11, "Perk Voting", List.of(
-          new AutoVoteCategoryOption(12, "No Perk"),
-          new AutoVoteCategoryOption(14, "Perk"),
-          new AutoVoteCategoryOption(-1, "Don't vote")
-      ))
-  ));
+  private final Logging log = Logging.create(Cubepanion.class.getSimpleName());
+  private static final Duration RETRY_DELAY = Duration.ofSeconds(2);
 
-  public void loadAndRegisterSettings() {
-    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("autoVote");
+  private static final AutoVoteSettingsLoader Instance = new AutoVoteSettingsLoader();
 
-    settings.register(createSettingElements(EggWarsConfig));
+  private final Task retryTask = Task.builder(() -> loadAndRegisterSettings(false))
+      .delay(2, TimeUnit.MINUTES)
+      .build();
+  private final List<AutoVoteConfig> configs = new ArrayList<>();
+
+  private AutoVoteSettingsLoader() {}
+
+  public static AutoVoteSettingsLoader I() {
+    return Instance;
+  }
+
+  @Nullable
+  public AutoVoteProvider getProvider(Game game) {
+    log.debug("Getting vote provider for {}", game);
+    for (var config : configs) {
+      if (config.gameId() == game.id()) {
+        return buildProviderForConfig(config);
+      }
+    }
+
+    return null;
+  }
+
+  @Nullable
+  private AutoVoteProvider buildProviderForConfig(AutoVoteConfig config) {
+    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("AutoVote");
+    if (settings == null) {
+      return null;
+    }
+
+    var votePairs = new ArrayList<Supplier<VotePair>>();
+
+    for (var category : config.categories()) {
+      var kv  = settings.getElementById(category.id());
+      if (kv == null) {
+        return null;
+      }
+
+      var setting = kv.getValue();
+      // TODO: Get settings value
+      votePairs.add(() -> new VotePair(category.choiceIndex(), 0, category.menuTitle()));
+    }
+
+
+    return AutoVoteProvider.of(config.hotbarSlot(), votePairs);
+  }
+
+  public void loadAndRegisterSettings(boolean retryWithBackOff) {
+    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("AutoVote");
+    if (settings == null) {
+      log.warn("AutoVote config not found, cannot register dynamic auto vote options");
+      return;
+    }
+
+    CubepanionAPI.I().getAutoVoteConfig()
+        .exceptionallyComposeAsync(ex -> {
+          log.warn("Initial load failed, retrying in {}", RETRY_DELAY, ex);
+          return CompletableFuture
+              .supplyAsync(() -> null, CompletableFuture.delayedExecutor(
+                  RETRY_DELAY.toMillis(), TimeUnit.MILLISECONDS))
+              .thenComposeAsync(ignored -> CubepanionAPI.I().getAutoVoteConfig());
+        }).handleAsync((configs, ex) -> {
+          if (ex != null) {
+            log.warn("Failed to load auto vote config. With retry again in 2m");
+
+            // TODO: Show toast
+
+            retryTask.execute();
+            return null;
+          }
+
+          log.info("Registering settings for {} games", configs.size());
+
+          this.configs.addAll(configs);
+
+          Laby.labyAPI().minecraft().executeOnRenderThread(() -> {
+            var allElements = new ArrayList<SettingElement>();
+
+            for (var config: configs) {
+              allElements.addAll(createSettingElements(config));
+            }
+
+            settings.register(allElements);
+          });
+
+          return null;
+        }).exceptionally(ex -> {
+          log.error("An error occurred while creating auto vote configuration", ex);
+          return null;
+        });
   }
 
   private List<SettingElement> createSettingElements(AutoVoteConfig config) {
     var elements = new ArrayList<SettingElement>(config.categories().size());
 
     for (var category : config.categories()) {
-      var element = new SettingElement(category.id(), null, null, new String[0]);
+      /*ResourceLocation resourceLocation;
+      if (category.itemId() != null && !category.itemId().isEmpty()) {
+       resourceLocation = ResourceLocation.create("minecraft", category.itemId());
+      } else {
+        resourceLocation = ResourceLocation.create("minecraft", "bundle");
+      }*/
+
+      var element = new SettingElement(category.id(), null, category.name(), new String[0]);
 
       element.setWidgets(new DropdownWidget[] {
           categoryOptionDropdownWidget(category)
@@ -42,6 +146,7 @@ public class AutoVoteSettingsLoader {
       elements.add(element);
     }
 
+    log.debug("Created {} setting elements for {}", elements.size(), config.gameId());
     return elements;
   }
 

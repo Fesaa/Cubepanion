@@ -66,9 +66,9 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     log.info("Starting Cubepanion");
     this.registerSettingCategory();
 
-    new AutoVoteSettingsLoader().loadAndRegisterSettings();
-
     CubepanionAPI.Init();
+
+    AutoVoteSettingsLoader.I().loadAndRegisterSettings(true);
     AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();

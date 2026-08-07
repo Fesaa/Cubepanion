@@ -2,8 +2,11 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
+import art.ameliah.laby.addons.cubepanion.core.config.AutoVoteSettingsLoader;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
@@ -80,8 +83,13 @@ public class AutoVote {
         return;
       }
 
-      var game = this.addon.getManager().getDivision();
-      AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
+      var cubeGame = this.addon.getManager().getDivision();
+      var game = CubepanionAPI.I().getGame(cubeGame);
+      if (game == null) {
+        return;
+      }
+
+      AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
       if (provider == null) {
         return;
       }
@@ -120,8 +128,13 @@ public class AutoVote {
       return;
     }
 
-    var game = this.addon.getManager().getDivision();
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
     if (provider == null) {
       this.caughtVotingItem = true;
       log.warn("Voting item found but division {} has no registered voting options", game);
@@ -146,8 +159,13 @@ public class AutoVote {
       return;
     }
 
-    var game = this.addon.getManager().getDivision();
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
     if (provider == null) {
       log.warn(
           "Voting item found but division {} has no registered voting options, even after game join",
@@ -173,7 +191,7 @@ public class AutoVote {
     return displayName.getText().equals("Voting");
   }
 
-  private void vote(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
+  private void vote(Game game, AutoVoteProvider provider, int hotbarSlot) {
     int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
     log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms",
         hotbarSlot, delay);
@@ -186,7 +204,7 @@ public class AutoVote {
         .build().execute();
   }
 
-  private void startVoteSequence(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
+  private void startVoteSequence(Game game, AutoVoteProvider provider, int hotbarSlot) {
     log.info("Going to vote for {}", game);
 
     this.functionLink.useItemInHotBar(hotbarSlot);

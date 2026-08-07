@@ -162,6 +162,9 @@
           "name": "Display game art instead of CubeCraft Logo"
         }
       },
+      "AutoVote": {
+        "name": "Auto Vote"
+      },
       "autoVoteSubConfig": {
         "name": "Auto Vote",
         "enabled": {
@@ -802,6 +805,10 @@
           "title": "Leaderboard config",
           "success": "Leaderboard config reloaded successfully.",
           "failure": "Leaderboard config failed to load, some features may not work correctly."
+        },
+        "autovote-config": {
+          "title": "AutoVote config",
+          "failure": "Failed to load auto vote config. Retry by running /cdebug load-auto-vote"
         }
       }
     }
