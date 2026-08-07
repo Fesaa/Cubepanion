@@ -6,7 +6,7 @@
       {
         "id": "team_eggwars_perk_voting",
         "name": "Team EggWars Perks",
-        "iconUrl": "",
+        "itemId": "emerald",
         "choiceIndex": 11,
         "menuTitle": "Perk Voting",
         "options": [
@@ -27,7 +27,7 @@
       {
         "id": "team_eggwars_items_voting",
         "name": "Team EggWars Items",
-        "iconUrl": "",
+        "itemId": "bat_spawn_egg",
         "choiceIndex": 13,
         "menuTitle": "Items Voting",
         "options": [
@@ -52,7 +52,7 @@
       {
         "id": "team_eggwars_health_voting",
         "name": "Team EggWars Health",
-        "iconUrl": "",
+        "itemId": "poppy",
         "choiceIndex": 15,
         "menuTitle": "Health Voting",
         "options": [
@@ -79,7 +79,7 @@
       {
         "id": "solo_skywars_chests_voting",
         "name": "Solo SkyWars Chests",
-        "iconUrl": "",
+        "itemId": "chest",
         "choiceIndex": 11,
         "menuTitle": "Chest Items",
         "options": [
@@ -104,7 +104,7 @@
       {
         "id": "solo_skywars_projectiles_voting",
         "name": "Solo SkyWars Projectiles",
-        "iconUrl": "",
+        "itemId": "arrow",
         "choiceIndex": 13,
         "menuTitle": "Projectile Options",
         "options": [
@@ -129,7 +129,7 @@
       {
         "id": "solo_skywars_time_voting",
         "name": "Solo SkyWars Time",
-        "iconUrl": "",
+        "itemId": "clock",
         "choiceIndex": 15,
         "menuTitle": "Time",
         "options": [
@@ -160,7 +160,7 @@
       {
         "id": "solo_lucky_islands_blocks_voting",
         "name": "Lucky Islands Blocks",
-        "iconUrl": "",
+        "itemId": "gold_block",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
         "options": [
@@ -189,7 +189,7 @@
       {
         "id": "solo_lucky_islands_time_voting",
         "name": "Lucky Islands Time",
-        "iconUrl": "",
+        "itemId": "clock",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
         "options": [
@@ -220,7 +220,7 @@
       {
         "id": "team_lucky_islands_blocks_voting",
         "name": "Team Lucky Islands Blocks",
-        "iconUrl": "",
+        "itemId": "gold_block",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
         "options": [
@@ -249,7 +249,7 @@
       {
         "id": "team_lucky_islands_time_voting",
         "name": "Team Lucky Islands Time",
-        "iconUrl": "",
+        "itemId": "clock",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
         "options": [
@@ -280,7 +280,7 @@
       {
         "id": "pillars_of_fortune_game_mode_voting",
         "name": "Pillars of Fortune Game Mode",
-        "iconUrl": "",
+        "itemId": "lever",
         "choiceIndex": 12,
         "menuTitle": "Game Mode",
         "options": [
@@ -309,7 +309,7 @@
       {
         "id": "pillars_of_fortune_map_mode_voting",
         "name": "Pillars of Fortune Map Mode",
-        "iconUrl": "",
+        "itemId": "piston",
         "choiceIndex": 14,
         "menuTitle": "Map Modifier",
         "options": [
@@ -348,7 +348,7 @@
       {
         "id": "bedwars_modifier_voting",
         "name": "BedWars Modifier",
-        "iconUrl": "",
+        "iconUrl": "red_bed",
         "choiceIndex": -1,
         "menuTitle": "Modifiers",
         "options": [
@@ -375,7 +375,7 @@
       {
         "id": "ender_voting",
         "name": "Ender",
-        "iconUrl": "",
+        "itemId": "ender_pearl",
         "choiceIndex": -1,
         "menuTitle": "",
         "options": [
@@ -402,7 +402,7 @@
       {
         "id": "lucky_pillars_item_modifier_voting",
         "name": "Lucky Pillars Item Modifier",
-        "iconUrl": "",
+        "itemId": "iron_sword",
         "choiceIndex": 12,
         "menuTitle": "Item Modifier",
         "options": [
@@ -423,7 +423,7 @@
       {
         "id": "lucky_pillars_lucky_blocks_mode_voting",
         "name": "Lucky Pillars Block Mode",
-        "iconUrl": "",
+        "itemId": "gold_block",
         "choiceIndex": 14,
         "menuTitle": "Mode",
         "options": [
@@ -454,7 +454,7 @@
       {
         "id": "disasters_voting",
         "name": "Disasters",
-        "iconUrl": "",
+        "itemId": "closed_eyeblossom",
         "choiceIndex": -1,
         "menuTitle": "Disasters",
         "options": [
