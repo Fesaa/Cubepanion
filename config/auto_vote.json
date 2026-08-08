@@ -21,7 +21,8 @@
           },
           {
             "slot": -1,
-            "name": "Don't vote"
+            "name": "Don't vote",
+            "defaultSelected": true
           }
         ]
       },
@@ -42,7 +43,8 @@
           },
           {
             "slot": 15,
-            "name": "Overpowered"
+            "name": "Overpowered",
+            "defaultSelected": true
           },
           {
             "slot": -1,
@@ -59,7 +61,8 @@
         "options": [
           {
             "slot": 12,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 14,
@@ -95,7 +98,8 @@
           },
           {
             "slot": 15,
-            "name": "Overpowered"
+            "name": "Overpowered",
+            "defaultSelected": true
           },
           {
             "slot": -1,
@@ -112,7 +116,8 @@
         "options": [
           {
             "slot": 11,
-            "name": "No Projectiles"
+            "name": "No Projectiles",
+            "defaultSelected": true
           },
           {
             "slot": 13,
@@ -141,7 +146,8 @@
           },
           {
             "slot": 13,
-            "name": "Sunset"
+            "name": "Sunset",
+            "defaultSelected": true
           },
           {
             "slot": 15,
@@ -173,7 +179,8 @@
           },
           {
             "slot": 12,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 14,
@@ -202,7 +209,8 @@
           },
           {
             "slot": 13,
-            "name": "Sunset"
+            "name": "Sunset",
+            "defaultSelected": true
           },
           {
             "slot": 15,
@@ -234,7 +242,8 @@
           },
           {
             "slot": 12,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 14,
@@ -263,7 +272,8 @@
           },
           {
             "slot": 13,
-            "name": "Sunset"
+            "name": "Sunset",
+            "defaultSelected": true
           },
           {
             "slot": 15,
@@ -291,7 +301,8 @@
         "options": [
           {
             "slot": 10,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 12,
@@ -320,7 +331,8 @@
         "options": [
           {
             "slot": 11,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 12,
@@ -364,7 +376,8 @@
           },
           {
             "slot": 14,
-            "name": "Faster Gens"
+            "name": "Faster Gens",
+            "defaultSelected": true
           },
           {
             "slot": -1,
@@ -396,7 +409,8 @@
           },
           {
             "slot": -1,
-            "name": "Don't vote"
+            "name": "Don't vote",
+            "defaultSelected": true
           }
         ]
       }
@@ -416,7 +430,8 @@
         "options": [
           {
             "slot": 12,
-            "name": "Items"
+            "name": "Items",
+            "defaultSelected": true
           },
           {
             "slot": 14,
@@ -437,7 +452,8 @@
         "options": [
           {
             "slot": 11,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 13,
@@ -469,7 +485,8 @@
         "options": [
           {
             "slot": 12,
-            "name": "Normal"
+            "name": "Normal",
+            "defaultSelected": true
           },
           {
             "slot": 14,
