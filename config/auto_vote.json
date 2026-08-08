@@ -1,6 +1,7 @@
 [
   {
     "gameId": 11,
+    "gameName": "Team EggWars",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -74,6 +75,7 @@
   },
   {
     "gameId": 10,
+    "gameName": "Solo SkyWars",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -155,6 +157,7 @@
   },
   {
     "gameId": 12,
+    "gameName": "Solo Lucky Islands",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -215,6 +218,7 @@
   },
   {
     "gameId": 5,
+    "gameName": "Team Lucky Islands",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -275,6 +279,7 @@
   },
   {
     "gameId": 8,
+    "gameName": "Pillars of Fortune",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -343,6 +348,7 @@
   },
   {
     "gameId": 3,
+    "gameName": "BedWars",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -370,6 +376,7 @@
   },
   {
     "gameId": 4,
+    "gameName": "Ender",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -397,6 +404,7 @@
   },
   {
     "gameId": 14,
+    "gameName": "Lucky Pillars",
     "hotbarSlot": 0,
     "categories": [
       {
@@ -449,6 +457,7 @@
   },
   {
     "gameId": 9,
+    "gameName": "Disasters",
     "hotbarSlot": 0,
     "categories": [
       {
