@@ -17,6 +17,19 @@ I can't code: Open an issue. The following debug commands may help me
 /cdebug levels
 ```
 
+## FAQ
+
+### Can I submit a leaderboard for game X?
+Open a PR to add the game in this [file](https://github.com/Fesaa/Cubepanion/blob/main/config/games.yaml)!
+
+### Can you add auto voting for X?
+
+Make sure the game is added in this [file](https://github.com/Fesaa/Cubepanion/blob/main/config/games.yaml), then open a PR to add it in this [file](https://github.com/Fesaa/Cubepanion/blob/main/config/auto_vote.json)!
+
+### I don't get the map layout on map X!!
+
+Open a PR to add the map in this [file](https://github.com/Fesaa/Cubepanion/blob/main/config/maps.yaml)!
+
 ## Contribute
 
 You're more than welcome to contribute!
