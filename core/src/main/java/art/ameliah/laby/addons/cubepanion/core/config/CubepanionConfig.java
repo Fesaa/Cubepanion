@@ -1,6 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
@@ -11,6 +11,7 @@ import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.annotation.SpriteSlot;
 import net.labymod.api.configuration.loader.annotation.SpriteTexture;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
+import org.jetbrains.annotations.NotNull;
 
 @ConfigName("settings")
 @SpriteTexture("setting_icons.png")
@@ -18,9 +19,9 @@ public class CubepanionConfig extends AddonConfig {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  private final AutoVoteConfig autoVoteConfig = new AutoVoteConfig();
   private final AutomationConfig automationConfig = new AutomationConfig();
   private final QOLConfig qolConfig = new QOLConfig();
-  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
   @SpriteSlot()
   private final GameMapInfoSubConfig gameMapInfoSubConfig = new GameMapInfoSubConfig();
   @SpriteSlot(x = 1)
@@ -35,16 +36,17 @@ public class CubepanionConfig extends AddonConfig {
     return this.enabled;
   }
 
+  @NotNull
+  public AutoVoteConfig getAutoVoteConfig() {
+    return autoVoteConfig;
+  }
+
   public AutomationConfig getAutomationConfig() {
     return automationConfig;
   }
 
   public QOLConfig getQolConfig() {
     return qolConfig;
-  }
-
-  public AutoVoteSubConfig getAutoVoteSubConfig() {
-    return autoVoteSubConfig;
   }
 
   public CommandSystemSubConfig getCommandSystemSubConfig() {

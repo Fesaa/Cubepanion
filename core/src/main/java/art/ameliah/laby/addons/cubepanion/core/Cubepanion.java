@@ -8,13 +8,13 @@ import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
+import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteSettingsLoader;
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.CubeSocket;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
-import art.ameliah.laby.addons.cubepanion.core.listener.ConfigFixes;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameTickEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.KeyEventListener;
@@ -25,7 +25,6 @@ import art.ameliah.laby.addons.cubepanion.core.listener.misc.MiscListeners;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.WidgetManager;
 import art.ameliah.laby.addons.cubepanion.core.render.waypoint.WaypointSubmitter;
-import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
@@ -45,6 +44,7 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   private static Cubepanion instance;
   private CubepanionManager manager;
   private CubeSocket socket;
+  private AutoVoteSettingsLoader autoVoteSettingsLoader;
 
   private ChestFinderLink chestFinderLink;
   private FunctionLink functionLink;
@@ -60,13 +60,14 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @Override
   protected void enable() {
     // Registering this first, just in case.
-    this.registerCubepanionListener(new ConfigFixes());
 
     log.info("Starting Cubepanion");
     this.registerSettingCategory();
 
     CubepanionAPI.Init();
-    AutoVoteProvider.init(this.configuration().getAutoVoteSubConfig());
+
+    autoVoteSettingsLoader = new AutoVoteSettingsLoader(this);
+    autoVoteSettingsLoader.loadAndRegisterSettings(true);;
 
     DefaultReferenceStorage storage = this.referenceStorageAccessor();
     chestFinderLink = storage.getChestFinderLink();
@@ -143,6 +144,11 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
   @NotNull
   public CubeSocket getSocket() {
     return socket;
+  }
+
+  @NotNull
+  public AutoVoteSettingsLoader getAutoVoteLoader() {
+    return autoVoteSettingsLoader;
   }
 
   public void registerCubepanionListener(Object listener) {

@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.core.external;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfiguration;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
@@ -38,11 +39,14 @@ public class CubepanionAPI {
   private final TypeToken<List<LeaderboardRow>> lbRowsToken = new TypeToken<>() {};
   private final TypeToken<List<ChestLocation>> chestLocationToken = new TypeToken<>() {};
   private final TypeToken<List<GameMap>> gameMapsToken = new TypeToken<>() {};
+  private final TypeToken<List<AutoVoteConfiguration>> autoVoteConfigToken = new TypeToken<>() {};
 
   private final String baseUrl = System.getenv("DEV") == null ?
       "https://cubepanion.ameliah.art/api" : System.getenv("DEV") + "/api";
   private final String baseUrlv2 = System.getenv("DEV") == null ?
       "https://cubepanion.ameliah.art/api/v2" : System.getenv("DEV") + "/api/v2";
+
+  private static final String AutoVoteConfigUrl = "https://raw.githubusercontent.com/Fesaa/Cubepanion/refs/heads/main/config/auto_vote.json";
 
   private final Map<String, Game> games = new HashMap<>();
   private final Map<Integer, Game> gameById = new HashMap<>();
@@ -252,6 +256,10 @@ public class CubepanionAPI {
 
   public CompletableFuture<PlayerLeaderboard> getPlayerLeaderboard(String name) {
     return this.get(this.baseUrlv2+"/Leaderboard/player/"+name, PlayerLeaderboard.class);
+  }
+
+  public CompletableFuture<List<AutoVoteConfiguration>> getAutoVoteConfig() {
+    return this.get(AutoVoteConfigUrl, autoVoteConfigToken);
   }
 
   public CompletableFuture<List<ChestLocation>> loadChestLocations() {

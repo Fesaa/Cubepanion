@@ -162,151 +162,11 @@
           "name": "Display game art instead of CubeCraft Logo"
         }
       },
-      "autoVoteSubConfig": {
+      "autoVoteConfig": {
         "name": "Auto Vote",
-        "enabled": {
-          "name": "Global toggle"
-        },
-        "eggWarsHealth": {
-          "name": "EggWars Health",
-          "entries": {
-            "left": "Normal",
-            "right": "Double",
-            "none": "Don't vote"
-          }
-        },
-        "eggWarsItems": {
-          "name": "EggWars Items",
-          "entries": {
-            "left": "Ultra Hardcore",
-            "middle": "Normal",
-            "right": "Overpowered",
-            "none": "Don't vote"
-          }
-        },
-        "eggWarsPerk": {
-          "name": "EggWars Perk",
-          "entries": {
-            "left": "No Perk",
-            "right": "Free Perk",
-            "none": "Don't vote"
-          }
-        },
-        "skyWarsChests": {
-          "name": "SkyWars Chests",
-          "entries": {
-            "left": "Basic",
-            "middle": "Normal",
-            "right": "Overpowered",
-            "none": "Don't vote"
-          }
-        },
-        "skyWarsProjectiles": {
-          "name": "SkyWars Projectiles",
-          "entries": {
-            "left": "No Projectiles",
-            "middle": "Normal Projectiles",
-            "right": "Soft Blocks",
-            "none": "Don't vote"
-          }
-        },
-        "skyWarsTime": {
-          "name": "SkyWars Time",
-          "entries": {
-            "left": "Day",
-            "middle": "Sunset",
-            "right": "Night",
-            "none": "Don't vote"
-          }
-        },
-        "luckyIslandsTime": {
-          "name": "Lucky Islands Time",
-          "entries": {
-            "left": "Day",
-            "middle": "Sunset",
-            "right": "Night",
-            "none": "Don't vote"
-          }
-        },
-        "luckyIslandsBlocks": {
-          "name": "Lucky Islands Blocks",
-          "entries": {
-            "left": "Blessed",
-            "middleLeft": "Normal",
-            "middleRight": "Overpowered",
-            "right": "Crazy",
-            "none": "Don't vote"
-          }
-        },
-        "pofGameMode": {
-          "name": "POF GameMode",
-          "entries": {
-            "left": "Normal",
-            "middleLeft": "Shuffle",
-            "middleRight": "Balanced",
-            "right": "Swapper",
-            "none": "Don't vote"
-          }
-        },
-        "pofMapMode": {
-          "name": "POF MapMod",
-          "entries": {
-            "left": "Normal",
-            "middleLeft": "Rising Lava",
-            "middle": "Portals",
-            "middleRight": "Ablockalypse",
-            "right": "Fragile Blocks",
-            "none": "Don't vote"
-          }
-        },
-        "luckyPillarsItemModifier": {
-          "name": "Lucky Pillars Item Modifier",
-          "entries": {
-            "left": "Items",
-            "right": "No Items",
-            "none": "Don't vote"
-          }
-        },
-        "luckyPillarsLuckyBlocksMode": {
-          "name": "Lucky Pillars Block Mode",
-          "entries": {
-            "left": "Normal",
-            "middle": "Blessed",
-            "right": "Overpowered",
-            "none": "Don't vote"
-          }
-        },
-        "bedWarsModifier": {
-          "name": "BedWars Modifier",
-          "entries": {
-            "left": "Normal",
-            "right": "Faster Gens",
-            "none": "Don't vote"
-          }
-        },
-        "ender": {
-          "name": "Ender",
-          "entries": {
-            "left": "Human",
-            "right": "Ender",
-            "none": "Don't vote"
-          }
-        },
-        "disasters": {
-          "name": "Disasters",
-          "entries": {
-            "left": "Normal",
-            "right": "Stacked",
-            "none": "Don't vote"
-          }
-        },
         "delay": {
           "name": "Delay",
-          "description": "Delay your autovote trigger for X ms after game join"
-        },
-        "experiments": {
-          "name": "Experiments",
-          "description": "Only turn off, if autovote doesn't work without it. "
+          "description": "Delay your Auto Vote   trigger by Xms after game join"
         }
       },
       "statsTrackerSubConfig": {
@@ -802,6 +662,10 @@
           "title": "Leaderboard config",
           "success": "Leaderboard config reloaded successfully.",
           "failure": "Leaderboard config failed to load, some features may not work correctly."
+        },
+        "autovote-config": {
+          "title": "AutoVote config",
+          "failure": "Failed to load auto vote config. Retry by running /cdebug load-auto-vote"
         }
       }
     }

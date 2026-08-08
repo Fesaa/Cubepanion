@@ -2,11 +2,11 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class AutoVote {
 
   @NotNull
   private final FunctionLink functionLink;
-  private int returnIndex = 31;
+  private final int returnIndex = 31;
 
   private boolean hasVoted;
   private boolean caughtVotingItem;
@@ -74,31 +74,37 @@ public class AutoVote {
     }
 
     var startingMatcher = startingInPattern.matcher(e.chatMessage().getPlainText());
-    if (startingMatcher.matches()) {
-      AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-      if (!config.isEnabled()) {
-        return;
-      }
-
-      var game = this.addon.getManager().getDivision();
-      AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
-      if (provider == null) {
-        return;
-      }
-
-      var player = this.addon.labyAPI().minecraft().getClientPlayer();
-      if (player == null) {
-        return;
-      }
-      var item = player.inventory().itemStackAt(provider.getHotbarSlot());
-      if (!this.isVotingItem(item)) {
-        log.warn("Trying to vote after a failed attempt, but the item in the voting slot is not a votings item");
-        return;
-      }
-
-      log.debug("Voting for game {} start as the previous attempt has failed", game);
-      this.vote(game, provider, provider.getHotbarSlot());
+    if (!startingMatcher.matches()) {
+      return;
     }
+
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
+      return;
+    }
+
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
+    if (provider == null) {
+      return;
+    }
+
+    var player = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (player == null) {
+      return;
+    }
+    var item = player.inventory().itemStackAt(provider.getHotbarSlot());
+    if (!this.isVotingItem(item)) {
+      log.warn("Trying to vote after a failed attempt, but the item in the voting slot is not a votings item");
+      return;
+    }
+
+    log.debug("Voting for game {} start as the previous attempt has failed", game);
+    this.vote(game, provider, provider.getHotbarSlot());
   }
 
   @Subscribe
@@ -115,13 +121,17 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-    if (!config.isEnabled()) {
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
       return;
     }
 
-    var game = this.addon.getManager().getDivision();
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
       this.caughtVotingItem = true;
       log.warn("Voting item found but division {} has no registered voting options", game);
@@ -141,13 +151,17 @@ public class AutoVote {
 
     this.caughtVotingItem = false;
     log.debug("Voting item found, but before game joining. Trying to vote now");
-    AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-    if (!config.isEnabled()) {
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
       return;
     }
 
-    var game = this.addon.getManager().getDivision();
-    AutoVoteProvider provider = AutoVoteProvider.getProvider(game);
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
       log.warn(
           "Voting item found but division {} has no registered voting options, even after game join",
@@ -173,8 +187,8 @@ public class AutoVote {
     return displayName.getText().equals("Voting");
   }
 
-  private void vote(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
-    int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
+  private void vote(Game game, AutoVoteProvider provider, int hotbarSlot) {
+    int delay = Cubepanion.get().configuration().getAutoVoteConfig().getDelay().get();
     log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms",
         hotbarSlot, delay);
 
@@ -186,7 +200,7 @@ public class AutoVote {
         .build().execute();
   }
 
-  private void startVoteSequence(CubeGame game, AutoVoteProvider provider, int hotbarSlot) {
+  private void startVoteSequence(Game game, AutoVoteProvider provider, int hotbarSlot) {
     log.info("Going to vote for {}", game);
 
     this.functionLink.useItemInHotBar(hotbarSlot);
@@ -197,7 +211,8 @@ public class AutoVote {
     Queue<VotePair> pairs = new LinkedList<>();
     provider.getVotePairSuppliers().forEach(pair -> pairs.add(pair.get()));
 
-    this.clickLoop(pairs, null).thenAcceptAsync(lastPair -> this.waitForNextMenu(lastPair)
+    this.clickLoop(pairs, null)
+        .thenComposeAsync(lastPair -> this.waitForNextMenu(lastPair)
             .thenAcceptAsync(ctx -> this.functionLink.clickSlot(this.returnIndex, 0))
         .exceptionally(ex -> {
           log.error("Failed to vote", ex);
