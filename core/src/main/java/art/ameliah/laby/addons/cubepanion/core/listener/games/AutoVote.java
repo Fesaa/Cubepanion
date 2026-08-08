@@ -2,7 +2,6 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
@@ -40,7 +39,7 @@ public class AutoVote {
 
   @NotNull
   private final FunctionLink functionLink;
-  private int returnIndex = 31;
+  private final int returnIndex = 31;
 
   private boolean hasVoted;
   private boolean caughtVotingItem;
@@ -75,36 +74,37 @@ public class AutoVote {
     }
 
     var startingMatcher = startingInPattern.matcher(e.chatMessage().getPlainText());
-    if (startingMatcher.matches()) {
-      AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-      if (!config.isEnabled()) {
-        return;
-      }
-
-      var cubeGame = this.addon.getManager().getDivision();
-      var game = CubepanionAPI.I().getGame(cubeGame);
-      if (game == null) {
-        return;
-      }
-
-      AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
-      if (provider == null) {
-        return;
-      }
-
-      var player = this.addon.labyAPI().minecraft().getClientPlayer();
-      if (player == null) {
-        return;
-      }
-      var item = player.inventory().itemStackAt(provider.getHotbarSlot());
-      if (!this.isVotingItem(item)) {
-        log.warn("Trying to vote after a failed attempt, but the item in the voting slot is not a votings item");
-        return;
-      }
-
-      log.debug("Voting for game {} start as the previous attempt has failed", game);
-      this.vote(game, provider, provider.getHotbarSlot());
+    if (!startingMatcher.matches()) {
+      return;
     }
+
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
+      return;
+    }
+
+    var cubeGame = this.addon.getManager().getDivision();
+    var game = CubepanionAPI.I().getGame(cubeGame);
+    if (game == null) {
+      return;
+    }
+
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
+    if (provider == null) {
+      return;
+    }
+
+    var player = this.addon.labyAPI().minecraft().getClientPlayer();
+    if (player == null) {
+      return;
+    }
+    var item = player.inventory().itemStackAt(provider.getHotbarSlot());
+    if (!this.isVotingItem(item)) {
+      log.warn("Trying to vote after a failed attempt, but the item in the voting slot is not a votings item");
+      return;
+    }
+
+    log.debug("Voting for game {} start as the previous attempt has failed", game);
+    this.vote(game, provider, provider.getHotbarSlot());
   }
 
   @Subscribe
@@ -121,8 +121,7 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-    if (!config.isEnabled()) {
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
       return;
     }
 
@@ -152,8 +151,7 @@ public class AutoVote {
 
     this.caughtVotingItem = false;
     log.debug("Voting item found, but before game joining. Trying to vote now");
-    AutoVoteSubConfig config = this.addon.configuration().getAutoVoteSubConfig();
-    if (!config.isEnabled()) {
+    if (!addon.configuration().getAutoVoteConfig().isEnabled()) {
       return;
     }
 
@@ -190,7 +188,7 @@ public class AutoVote {
   }
 
   private void vote(Game game, AutoVoteProvider provider, int hotbarSlot) {
-    int delay = Cubepanion.get().configuration().getAutoVoteSubConfig().getDelay().get();
+    int delay = Cubepanion.get().configuration().getAutoVoteConfig().getDelay().get();
     log.debug("Starting vote sequence for hotbar slot {} with a delay of {}ms",
         hotbarSlot, delay);
 

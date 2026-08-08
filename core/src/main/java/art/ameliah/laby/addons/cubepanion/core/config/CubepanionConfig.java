@@ -1,8 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.config;
 
 import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteSettingsLoader;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
@@ -23,7 +21,7 @@ public class CubepanionConfig extends AddonConfig {
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
   private final AutomationConfig automationConfig = new AutomationConfig();
   private final QOLConfig qolConfig = new QOLConfig();
-  private final AutoVoteSubConfig autoVoteSubConfig = new AutoVoteSubConfig();
+  private final AutoVoteConfig autoVoteConfig = new AutoVoteConfig();
   @SpriteSlot()
   private final GameMapInfoSubConfig gameMapInfoSubConfig = new GameMapInfoSubConfig();
   @SpriteSlot(x = 1)
@@ -32,8 +30,6 @@ public class CubepanionConfig extends AddonConfig {
   private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
   private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
-
-  private final AutoVoteConfig autoVoteConfig = new AutoVoteConfig();
 
   @Override
   public ConfigProperty<Boolean> enabled() {
@@ -51,10 +47,6 @@ public class CubepanionConfig extends AddonConfig {
 
   public QOLConfig getQolConfig() {
     return qolConfig;
-  }
-
-  public AutoVoteSubConfig getAutoVoteSubConfig() {
-    return autoVoteSubConfig;
   }
 
   public CommandSystemSubConfig getCommandSystemSubConfig() {
