@@ -2,14 +2,12 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
-import art.ameliah.laby.addons.cubepanion.core.config.AutoVoteSettingsLoader;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoVoteSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,7 +87,7 @@ public class AutoVote {
         return;
       }
 
-      AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
+      AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
       if (provider == null) {
         return;
       }
@@ -134,7 +132,7 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
       this.caughtVotingItem = true;
       log.warn("Voting item found but division {} has no registered voting options", game);
@@ -165,7 +163,7 @@ public class AutoVote {
       return;
     }
 
-    AutoVoteProvider provider = AutoVoteSettingsLoader.I().getProvider(game);
+    AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
       log.warn(
           "Voting item found but division {} has no registered voting options, even after game join",
@@ -215,7 +213,8 @@ public class AutoVote {
     Queue<VotePair> pairs = new LinkedList<>();
     provider.getVotePairSuppliers().forEach(pair -> pairs.add(pair.get()));
 
-    this.clickLoop(pairs, null).thenAcceptAsync(lastPair -> this.waitForNextMenu(lastPair)
+    this.clickLoop(pairs, null)
+        .thenComposeAsync(lastPair -> this.waitForNextMenu(lastPair)
             .thenAcceptAsync(ctx -> this.functionLink.clickSlot(this.returnIndex, 0))
         .exceptionally(ex -> {
           log.error("Failed to vote", ex);

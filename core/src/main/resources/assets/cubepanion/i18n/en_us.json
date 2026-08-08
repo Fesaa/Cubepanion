@@ -162,7 +162,7 @@
           "name": "Display game art instead of CubeCraft Logo"
         }
       },
-      "AutoVote": {
+      "autoVoteConfig": {
         "name": "Auto Vote"
       },
       "autoVoteSubConfig": {

@@ -1,24 +1,21 @@
-package art.ameliah.laby.addons.cubepanion.core.config;
+package art.ameliah.laby.addons.cubepanion.core.config.autovote;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategory;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategoryOption;
-import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfig;
+import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfiguration;
 import art.ameliah.laby.addons.cubepanion.core.listener.games.AutoVote.VotePair;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import net.labymod.api.Laby;
-import net.labymod.api.client.gui.icon.Icon;
+import net.labymod.api.client.gui.screen.widget.Widget;
+import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.CategoryWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget;
-import net.labymod.api.client.resources.ResourceLocation;
-import net.labymod.api.configuration.settings.Setting;
 import net.labymod.api.configuration.settings.type.SettingElement;
 import net.labymod.api.util.concurrent.task.Task;
-import net.labymod.api.util.concurrent.task.TaskBuilder;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.Nullable;
-import java.awt.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,57 +29,20 @@ public class AutoVoteSettingsLoader {
   private final Logging log = Logging.create(Cubepanion.class.getSimpleName());
   private static final Duration RETRY_DELAY = Duration.ofSeconds(2);
 
-  private static final AutoVoteSettingsLoader Instance = new AutoVoteSettingsLoader();
-
   private final Task retryTask = Task.builder(() -> loadAndRegisterSettings(false))
       .delay(2, TimeUnit.MINUTES)
       .build();
-  private final List<AutoVoteConfig> configs = new ArrayList<>();
 
-  private AutoVoteSettingsLoader() {}
+  private final List<AutoVoteConfiguration> configs = new ArrayList<>();
 
-  public static AutoVoteSettingsLoader I() {
-    return Instance;
-  }
+  private final AutoVoteConfig config;
 
-  @Nullable
-  public AutoVoteProvider getProvider(Game game) {
-    log.debug("Getting vote provider for {}", game);
-    for (var config : configs) {
-      if (config.gameId() == game.id()) {
-        return buildProviderForConfig(config);
-      }
-    }
-
-    return null;
-  }
-
-  @Nullable
-  private AutoVoteProvider buildProviderForConfig(AutoVoteConfig config) {
-    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("AutoVote");
-    if (settings == null) {
-      return null;
-    }
-
-    var votePairs = new ArrayList<Supplier<VotePair>>();
-
-    for (var category : config.categories()) {
-      var kv  = settings.getElementById(category.id());
-      if (kv == null) {
-        return null;
-      }
-
-      var setting = kv.getValue();
-      // TODO: Get settings value
-      votePairs.add(() -> new VotePair(category.choiceIndex(), 0, category.menuTitle()));
-    }
-
-
-    return AutoVoteProvider.of(config.hotbarSlot(), votePairs);
+  public AutoVoteSettingsLoader(Cubepanion addon) {
+    this.config = addon.configuration().getAutoVoteConfig();
   }
 
   public void loadAndRegisterSettings(boolean retryWithBackOff) {
-    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("AutoVote");
+    var settings = Laby.labyAPI().coreSettingRegistry().getById("cubepanion").getById("autoVoteConfig");
     if (settings == null) {
       log.warn("AutoVote config not found, cannot register dynamic auto vote options");
       return;
@@ -101,7 +61,9 @@ public class AutoVoteSettingsLoader {
 
             // TODO: Show toast
 
-            retryTask.execute();
+            if (retryWithBackOff) {
+              retryTask.execute();
+            }
             return null;
           }
 
@@ -126,7 +88,8 @@ public class AutoVoteSettingsLoader {
         });
   }
 
-  private List<SettingElement> createSettingElements(AutoVoteConfig config) {
+  private List<SettingElement> createSettingElements(
+      AutoVoteConfiguration config) {
     var elements = new ArrayList<SettingElement>(config.categories().size());
 
     for (var category : config.categories()) {
@@ -137,10 +100,12 @@ public class AutoVoteSettingsLoader {
         resourceLocation = ResourceLocation.create("minecraft", "bundle");
       }*/
 
-      var element = new SettingElement(category.id(), null, category.name(), new String[0]);
+      var element = new SettingElement(category.id(), null, category.name(), new String[] {
+          category.name()
+      });
 
-      element.setWidgets(new DropdownWidget[] {
-          categoryOptionDropdownWidget(category)
+      element.setWidgets(new Widget[] {
+          new AutoVoteCategoryDropdownWidget(this.config, category)
       });
 
       elements.add(element);
@@ -150,13 +115,32 @@ public class AutoVoteSettingsLoader {
     return elements;
   }
 
-  private DropdownWidget<AutoVoteCategoryOption> categoryOptionDropdownWidget(AutoVoteCategory category) {
-    var dropDownWidget = new DropdownWidget<AutoVoteCategoryOption>();
+  @Nullable
+  public AutoVoteProvider getProvider(Game game) {
+    log.debug("Getting vote provider for {}", game);
+    for (var config : configs) {
+      if (config.gameId() == game.id()) {
+        return buildProviderForConfig(config);
+      }
+    }
 
-    dropDownWidget.addAll((Collection<AutoVoteCategoryOption>) category.options());
-    dropDownWidget.setEntryRenderer(new AutoVoteCategoryOptionRenderer());
+    return null;
+  }
 
-    return dropDownWidget;
+  @Nullable
+  private AutoVoteProvider buildProviderForConfig(AutoVoteConfiguration configuration) {
+    var votePairs = new ArrayList<Supplier<VotePair>>();
+
+    for (var category : configuration.categories()) {
+      var slot = config.getSlots().get(category.id());
+      if (slot == null) {
+        return null;
+      }
+
+      votePairs.add(() -> VotePair.of(category.choiceIndex(), slot, category.menuTitle()));
+    }
+
+    return AutoVoteProvider.of(configuration.hotbarSlot(), votePairs);
   }
 
 }

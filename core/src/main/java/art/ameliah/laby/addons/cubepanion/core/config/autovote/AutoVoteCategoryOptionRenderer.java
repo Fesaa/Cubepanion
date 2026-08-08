@@ -1,4 +1,4 @@
-package art.ameliah.laby.addons.cubepanion.core.config;
+package art.ameliah.laby.addons.cubepanion.core.config.autovote;
 
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategoryOption;
 import net.labymod.api.client.component.Component;
