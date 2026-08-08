@@ -19,9 +19,9 @@ public class CubepanionConfig extends AddonConfig {
 
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
+  private final AutoVoteConfig autoVoteConfig = new AutoVoteConfig();
   private final AutomationConfig automationConfig = new AutomationConfig();
   private final QOLConfig qolConfig = new QOLConfig();
-  private final AutoVoteConfig autoVoteConfig = new AutoVoteConfig();
   @SpriteSlot()
   private final GameMapInfoSubConfig gameMapInfoSubConfig = new GameMapInfoSubConfig();
   @SpriteSlot(x = 1)
