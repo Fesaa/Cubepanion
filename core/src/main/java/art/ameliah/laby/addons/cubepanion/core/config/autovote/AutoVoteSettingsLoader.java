@@ -93,13 +93,6 @@ public class AutoVoteSettingsLoader {
     var elements = new ArrayList<SettingElement>(config.categories().size());
 
     for (var category : config.categories()) {
-      /*ResourceLocation resourceLocation;
-      if (category.itemId() != null && !category.itemId().isEmpty()) {
-       resourceLocation = ResourceLocation.create("minecraft", category.itemId());
-      } else {
-        resourceLocation = ResourceLocation.create("minecraft", "bundle");
-      }*/
-
       var element = new SettingElement(category.id(), null, category.name(), new String[] {
           category.name()
       });

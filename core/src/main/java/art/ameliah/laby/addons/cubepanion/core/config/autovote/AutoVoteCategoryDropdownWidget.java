@@ -8,7 +8,7 @@ import java.util.Collection;
 public class AutoVoteCategoryDropdownWidget extends DropdownWidget<AutoVoteCategoryOption> {
 
   public AutoVoteCategoryDropdownWidget(AutoVoteConfig config, AutoVoteCategory category) {
-    this.addAll((Collection<AutoVoteCategoryOption>) category.options());
+    addAll((Collection<AutoVoteCategoryOption>) category.options());
     setEntryRenderer(new AutoVoteCategoryOptionRenderer());
     setChangeListener(new AutoVoteCategoryOptionChangeListener(config, category));
 
