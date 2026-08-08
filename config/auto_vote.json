@@ -6,7 +6,7 @@
     "categories": [
       {
         "id": "team_eggwars_perk_voting",
-        "name": "Team EggWars Perks",
+        "name": "Perks",
         "itemId": "emerald",
         "choiceIndex": 11,
         "menuTitle": "Perk Voting",
@@ -28,7 +28,7 @@
       },
       {
         "id": "team_eggwars_items_voting",
-        "name": "Team EggWars Items",
+        "name": "Items",
         "itemId": "bat_spawn_egg",
         "choiceIndex": 13,
         "menuTitle": "Items Voting",
@@ -54,7 +54,7 @@
       },
       {
         "id": "team_eggwars_health_voting",
-        "name": "Team EggWars Health",
+        "name": "Health",
         "itemId": "poppy",
         "choiceIndex": 15,
         "menuTitle": "Health Voting",
@@ -168,7 +168,7 @@
     "categories": [
       {
         "id": "solo_lucky_islands_blocks_voting",
-        "name": "Lucky Islands Blocks",
+        "name": "Blocks",
         "itemId": "gold_block",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
@@ -198,7 +198,7 @@
       },
       {
         "id": "solo_lucky_islands_time_voting",
-        "name": "Lucky Islands Time",
+        "name": "Time",
         "itemId": "clock",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
@@ -231,7 +231,7 @@
     "categories": [
       {
         "id": "team_lucky_islands_blocks_voting",
-        "name": "Team Lucky Islands Blocks",
+        "name": "Blocks",
         "itemId": "gold_block",
         "choiceIndex": 12,
         "menuTitle": "Game Option Voting",
@@ -261,7 +261,7 @@
       },
       {
         "id": "team_lucky_islands_time_voting",
-        "name": "Team Lucky Islands Time",
+        "name": "Time",
         "itemId": "clock",
         "choiceIndex": 14,
         "menuTitle": "Time Voting",
@@ -294,7 +294,7 @@
     "categories": [
       {
         "id": "pillars_of_fortune_game_mode_voting",
-        "name": "Pillars of Fortune Game Mode",
+        "name": "Game Mode",
         "itemId": "lever",
         "choiceIndex": 12,
         "menuTitle": "Game Mode",
@@ -324,7 +324,7 @@
       },
       {
         "id": "pillars_of_fortune_map_mode_voting",
-        "name": "Pillars of Fortune Map Mode",
+        "name": "Map Mode",
         "itemId": "piston",
         "choiceIndex": 14,
         "menuTitle": "Map Modifier",
@@ -365,7 +365,7 @@
     "categories": [
       {
         "id": "bedwars_modifier_voting",
-        "name": "BedWars Modifier",
+        "name": "Modifier",
         "iconUrl": "red_bed",
         "choiceIndex": -1,
         "menuTitle": "Modifiers",
@@ -423,7 +423,7 @@
     "categories": [
       {
         "id": "lucky_pillars_item_modifier_voting",
-        "name": "Lucky Pillars Item Modifier",
+        "name": "Item Modifier",
         "itemId": "iron_sword",
         "choiceIndex": 12,
         "menuTitle": "Item Modifier",
@@ -445,7 +445,7 @@
       },
       {
         "id": "lucky_pillars_lucky_blocks_mode_voting",
-        "name": "Lucky Pillars Block Mode",
+        "name": "Block Mode",
         "itemId": "gold_block",
         "choiceIndex": 14,
         "menuTitle": "Mode",
