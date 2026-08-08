@@ -9,12 +9,14 @@ public class AutoVoteGameElement extends SettingElement {
   private final String displayName;
 
   public AutoVoteGameElement(AutoVoteConfig config, AutoVoteConfiguration configuration) {
-    super(String.format("auto_vote_game_%d", configuration.gameId()), null, null, new String[0]);
+    super(String.format("auto_vote_game_%d", configuration.gameId()), null, null, new String[] {
+        configuration.gameName()
+    });
 
     displayName = configuration.gameName();
 
     for (var category : configuration.categories()) {
-      addSetting(new AutoVoteCategoryElement(config, category));
+      addSetting(new AutoVoteCategoryElement(config, configuration, category));
     }
   }
 
