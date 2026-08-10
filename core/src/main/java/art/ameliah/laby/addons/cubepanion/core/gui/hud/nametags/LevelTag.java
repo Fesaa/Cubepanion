@@ -65,12 +65,7 @@ public class LevelTag extends ComponentNameTag {
   }
 
   @Subscribe
-  public void onGamePreLobbyJoin(GameJoinPreLobbyEvent e) {
-    this.requestWhoMessage();
-  }
-
-  @Subscribe
-  public void onServerSwitch(GameJoinEvent e) {
+  public void onGameJoin(GameJoinEvent e) {
     if (e.getDestination().equals(CubeGame.LOBBY)) {
       this.readingWhoMessage = false;
       this.readingJoinMessage = false;

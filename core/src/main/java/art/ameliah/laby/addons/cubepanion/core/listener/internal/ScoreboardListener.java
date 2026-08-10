@@ -143,6 +143,10 @@ public class ScoreboardListener {
       return;
     }
 
+    if (division == CubeGame.MOB_WHO) {
+      // Fuck you updating scoreboard
+      return;
+    }
 
     this.buffer++;
     if (this.buffer % 3 != 0) return;
