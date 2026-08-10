@@ -2,6 +2,8 @@
   displayName: "BedWars"
   aliases:
     - "bw"
+    - "team_bedwars"
+    - "Team BedWars"
   active: true
   scoreType: "wins"
   shouldTrack: true
