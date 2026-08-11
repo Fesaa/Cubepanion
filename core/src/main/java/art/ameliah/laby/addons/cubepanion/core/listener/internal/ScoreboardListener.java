@@ -137,7 +137,6 @@ public class ScoreboardListener {
     if (division == null) return;
 
     if (division.hasFlagEnabled(GameFlag.IGNORE_SCOREBOARD_UPDATES)) {
-      // Fuck you updating scoreboard
       return;
     }
 

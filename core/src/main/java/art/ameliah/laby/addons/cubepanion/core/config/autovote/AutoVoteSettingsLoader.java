@@ -7,6 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfigu
 import art.ameliah.laby.addons.cubepanion.core.listener.games.AutoVote.VotePair;
 import art.ameliah.laby.addons.cubepanion.core.utils.AutoVoteProvider;
 import net.labymod.api.Laby;
+import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.configuration.settings.type.SettingElement;
 import net.labymod.api.util.concurrent.task.Task;
 import net.labymod.api.util.logging.Logging;
@@ -70,7 +71,11 @@ public class AutoVoteSettingsLoader {
             var allElements = new ArrayList<SettingElement>();
 
             for (var config : configs) {
-              settings.register(new AutoVoteGameElement(this.config, config));
+              Icon icon = null;
+              if (config.icon() != null && !config.icon().isEmpty()) {
+                icon = Icon.url(config.icon());
+              }
+              settings.register(new AutoVoteGameElement(this.config, config, icon));
             }
 
             settings.register(allElements);

@@ -67,7 +67,7 @@ public class DiscordRPC {
     String state;
     var game = m.getGame();
 
-    if (!game.hasFlagEnabled(GameFlag.GAME)) {
+    if (game.hasFlagEnabled(GameFlag.LOBBY)) {
       details = I18n.translate("cubepanion.managers.DiscordRPCManager.lobby");
       state = I18n.translate("cubepanion.managers.DiscordRPCManager.lobbyState");
     } else {

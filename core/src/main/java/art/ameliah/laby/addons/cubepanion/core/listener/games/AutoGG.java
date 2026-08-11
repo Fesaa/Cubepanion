@@ -107,13 +107,15 @@ public class AutoGG {
             "division=%s, " +
             "inParty=%s, " +
             "message=%s, " +
+            "hasRespawns=%s" +
             "}",
         config.isEnabled().get(),
         config.getOnElimination().get(),
         hasSentGG,
         manager.getGame(),
         manager.getPartyManager().isInParty(),
-        config.getGameEndMessage().get()
+        config.getGameEndMessage().get(),
+        manager.getGame().hasFlagEnabled(GameFlag.HAS_RESPAWNS)
     );
   }
 }
