@@ -8,6 +8,13 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: true
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "RESPAWN_TAGS"
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "HAS_RESPAWNS"
+    - "COOLDOWNS"
+    - "MINI_GAME"
 
 - name: "disasters"
   displayName: "Disasters"
@@ -17,6 +24,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "ender"
   displayName: "Ender"
@@ -25,6 +36,10 @@
   scoreType: "wins"
   shouldTrack: false
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "free_for_all"
   displayName: "Free For All"
@@ -34,6 +49,11 @@
   scoreType: "kills"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png"
+  gameFlags:
+    - "HAS_RESPAWNS"
+    - "ALTERNATE_MAP_TRACKER"
+    - "NO_PRE_GAME_STATE"
 
 - name: "main_lobby"
   displayName: "Main Lobby"
@@ -42,14 +62,27 @@
   scoreType: ''
   shouldTrack: false
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "LOBBY"
+    - "NO_PRE_GAME_STATE"
 
 - name: "parkour"
   displayName: "Parkour"
-  aliases: []
+  aliases:
+    - "Simple Parkour"
+    - "Easy Parkour"
+    - "Medium Parkour"
+    - "Hard Parkour"
   active: true
   scoreType: "medals"
   shouldTrack: false
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png"
+  gameFlags:
+    - "IGNORE_SCOREBOARD_UPDATES"
+    - "NO_PRE_GAME_STATE"
+    - "HAS_RESPAWNS"
 
 - name: "pillars_of_fortune"
   displayName: "Pillars of Fortune"
@@ -61,6 +94,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "lucky_pillars"
   displayName: "Lucky Pillars"
@@ -70,6 +107,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "skyblock"
   displayName: "Skyblock"
@@ -79,6 +120,11 @@
   scoreType: ''
   shouldTrack: false
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png"
+  gameFlags:
+    - "DONT_DROP_TOOLS"
+    - "NO_PRE_GAME_STATE"
+    - "HAS_RESPAWNS"
 
 - name: "snowman_survival"
   displayName: "Snowman Survival"
@@ -88,6 +134,12 @@
   scoreType: "medals"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
+    - "IN_GAME_AFTER_ELIMINATION"
+    - "HAS_RESPAWNS"
 
 - name: "solo_lucky_islands"
   displayName: "Lucky Islands"
@@ -100,6 +152,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "solo_skywars"
   displayName: "Solo SkyWars"
@@ -110,6 +166,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "team_eggwars"
   displayName: "Team EggWars"
@@ -121,6 +181,13 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: true
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "HAS_RESPAWNS"
+    - "COOLDOWNS"
+    - "RESPAWN_TAGS"
+    - "MINI_GAME"
 
 - name: "team_lucky_islands"
   displayName: "Team Lucky Islands"
@@ -130,6 +197,10 @@
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "MINI_GAME"
 
 - name: "mob_who"
   displayName: "Mob Who"
@@ -139,3 +210,8 @@
   scoreType: "wins"
   shouldTrack: false
   hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808"
+  gameFlags:
+    - "DISCORD_RPC_PLAYER_TRACKING"
+    - "IGNORE_SCOREBOARD_UPDATES"
+    - "MINI_GAME"
