@@ -14,12 +14,14 @@ import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.lifecycle.GameTickEvent;
 import net.labymod.api.notification.Notification;
+import java.util.function.Supplier;
 
 public class GameTickEventListener {
 
   private final Cubepanion addon;
   private final DurabilityManager durabilityManager;
   private final ArmourBreakWarningSubConfig armourBreakWarningSubConfig;
+  private final Supplier<Boolean> armourWarningEnabled;
   private int counter = 0;
 
   public GameTickEventListener(Cubepanion addon) {
@@ -28,6 +30,7 @@ public class GameTickEventListener {
     this.durabilityManager = this.addon.getManager().getDurabilityManager();
     this.armourBreakWarningSubConfig = this.addon.configuration().getAutomationConfig()
         .getArmourBreakWarningSubConfig();
+    this.armourWarningEnabled = () -> this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig().getEnabled().get();
   }
 
   @Subscribe
@@ -36,14 +39,8 @@ public class GameTickEventListener {
       return;
     }
     int ticksInAMinute = 20 * 60;
-    if (this.counter % ticksInAMinute == 0) {
-      this.addon.configuration().getStatsTrackerSubConfig().checkForResets();
-      this.addon.saveConfiguration();
-    }
     if (this.counter % 2 == 0) { // Each two ticks
-      this.durabilityUpdater(
-          this.addon.configuration().getAutomationConfig().getArmourBreakWarningSubConfig()
-              .getEnabled().get());
+      this.durabilityUpdater(this.armourWarningEnabled.get());
     }
     this.counter++;
   }

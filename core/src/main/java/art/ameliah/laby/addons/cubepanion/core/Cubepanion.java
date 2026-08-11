@@ -5,7 +5,6 @@ import art.ameliah.laby.addons.cubepanion.core.commands.AppealSiteCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.FindChestCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.GameMapInfoCommand;
 import art.ameliah.laby.addons.cubepanion.core.commands.LeaderboardCommand;
-import art.ameliah.laby.addons.cubepanion.core.commands.StatCommands;
 import art.ameliah.laby.addons.cubepanion.core.commands.debug.Debug;
 import art.ameliah.laby.addons.cubepanion.core.config.CubepanionConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteSettingsLoader;
@@ -15,7 +14,6 @@ import art.ameliah.laby.addons.cubepanion.core.generated.DefaultReferenceStorage
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.LevelTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RankTag;
 import art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags.RespawnTags;
-import art.ameliah.laby.addons.cubepanion.core.listener.GameShutdownEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.GameTickEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.KeyEventListener;
 import art.ameliah.laby.addons.cubepanion.core.listener.games.GameListeners;
@@ -92,12 +90,10 @@ public class Cubepanion extends LabyAddon<CubepanionConfig> {
     this.registerCommand(new AppealSiteCommand(this));
     this.registerCommand(new GameMapInfoCommand(this));
     this.registerCommand(new LeaderboardCommand(this));
-    this.registerCommand(new StatCommands(this));
     this.registerCommand(new FindChestCommand(this, chestFinderLink));
     this.registerCommand(new Debug(this));
 
     this.registerListener(new GameTickEventListener(this));
-    this.registerListener(new GameShutdownEventListener(this));
     this.registerListener(new KeyEventListener(this));
     this.registerListener(new KeyEventListener(this));
     this.registerListener(new HudEvents(this));

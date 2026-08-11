@@ -53,8 +53,7 @@ public class NextArmourBuyTextWidget extends TextHudWidget<NextArmourBuyHudConfi
     if (whereToDisplay.games && !this.manager.isInPreGameState()) {
       return true;
     }
-    if (this.manager.getDivision().getString().equals(whereToDisplay.gameName)
-        && !this.manager.isInPreGameState()) {
+    if (this.manager.getGame().displayName().equals(whereToDisplay.gameName) && !this.manager.isInPreGameState()) {
       return true;
     }
     return false;

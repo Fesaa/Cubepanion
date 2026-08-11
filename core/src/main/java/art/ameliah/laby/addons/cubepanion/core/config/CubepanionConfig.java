@@ -4,7 +4,6 @@ import art.ameliah.laby.addons.cubepanion.core.config.autovote.AutoVoteConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPresenceSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
-import art.ameliah.laby.addons.cubepanion.core.config.subconfig.StatsTrackerSubConfig;
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
@@ -26,8 +25,6 @@ public class CubepanionConfig extends AddonConfig {
   private final GameMapInfoSubConfig gameMapInfoSubConfig = new GameMapInfoSubConfig();
   @SpriteSlot(x = 1)
   private final DiscordRichPresenceSubConfig discordRichPresenceSubConfig = new DiscordRichPresenceSubConfig();
-  @SpriteSlot(x = 3)
-  private final StatsTrackerSubConfig statsTrackerSubConfig = new StatsTrackerSubConfig();
   private final CommandSystemSubConfig commandSystemSubConfig = new CommandSystemSubConfig();
   private final LeaderboardAPIConfig leaderboardAPIConfig = new LeaderboardAPIConfig();
 
@@ -59,10 +56,6 @@ public class CubepanionConfig extends AddonConfig {
 
   public DiscordRichPresenceSubConfig getDiscordRichPresenceSubConfig() {
     return this.discordRichPresenceSubConfig;
-  }
-
-  public StatsTrackerSubConfig getStatsTrackerSubConfig() {
-    return this.statsTrackerSubConfig;
   }
 
   public LeaderboardAPIConfig getLeaderboardAPIConfig() {

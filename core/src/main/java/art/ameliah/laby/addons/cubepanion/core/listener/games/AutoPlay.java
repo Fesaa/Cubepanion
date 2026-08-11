@@ -2,8 +2,8 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.AutoPlaySubConfig;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
@@ -35,7 +35,7 @@ public class AutoPlay {
       return;
     }
 
-    if (!this.manager.getDivision().isMiniGame()) {
+    if (!this.manager.getGame().hasFlagEnabled(GameFlag.MINI_GAME)) {
       return;
     }
 

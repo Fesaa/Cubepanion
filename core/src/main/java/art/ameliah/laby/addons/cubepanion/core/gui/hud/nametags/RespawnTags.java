@@ -3,16 +3,14 @@ package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.ComponentNameTag;
-import net.labymod.api.client.network.NetworkPlayerInfo;
 import net.labymod.api.client.render.state.EntityExtraKeys;
 import net.labymod.api.client.render.state.entity.EntitySnapshot;
 import net.labymod.api.event.Subscribe;
@@ -35,12 +33,11 @@ public class RespawnTags extends ComponentNameTag {
 
   @Subscribe
   public void onPlayerRespawn(PlayerRespawnEvent e) {
-    if (!Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)
-    && !Cubepanion.get().getManager().isPlaying(CubeGame.BEDWARS)) {
+    if (!addon.getManager().getGame().hasFlagEnabled(GameFlag.RESPAWN_TAGS)) {
       return;
     }
 
-    SpawnProtectionComponent spawnProtectionComponent = new SpawnProtectionComponent(this.addon);
+    var spawnProtectionComponent = new SpawnProtectionComponent(this.addon);
     spawnProtectionComponent.enable(false);
     this.components.put(e.getUUID(), spawnProtectionComponent);
   }
@@ -61,15 +58,14 @@ public class RespawnTags extends ComponentNameTag {
       return List.of();
     }
 
-    UUID uuid = playerInfo.profile().getUniqueId();
-    SpawnProtectionComponent gen = components.get(uuid);
+    var uuid = playerInfo.profile().getUniqueId();
+    var gen = components.get(uuid);
     if (gen == null) {
       return List.of();
     }
 
-    Component component = gen.getComponent(System.currentTimeMillis());
-    if (component == Component.empty()
-        || ((TextComponent) component).getText().equals(Component.empty().getText())) {
+    var component = gen.getComponent(System.currentTimeMillis());
+    if (component == null) {
       components.remove(uuid);
       return List.of();
     }

@@ -1,6 +1,7 @@
 package art.ameliah.laby.addons.cubepanion.v1_21_9.mixins;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
 import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.component.Component;
@@ -36,7 +37,7 @@ public class MultiPlayerGameModeMixin {
     if (!cubepanion$addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
       return;
     }
-    if (!cubepanion$addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)) {
+    if (!cubepanion$addon.getManager().getGame().hasFlagEnabled(GameFlag.DONT_DROP_TOOLS)) {
       return;
     }
     if ($$3 != ClickType.THROW) {

@@ -3,12 +3,10 @@ package art.ameliah.laby.addons.cubepanion.core.utils;
 import art.ameliah.laby.addons.cubepanion.core.listener.games.AutoVote.VotePair;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class AutoVoteProvider {
 
-  private static Map<CubeGame, AutoVoteProvider> providers;
   private final int hotbarSlot;
   private final List<Supplier<VotePair>> votePairSuppliers = new ArrayList<>();
 

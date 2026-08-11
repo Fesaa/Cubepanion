@@ -9,22 +9,18 @@ import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.DurabilityManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.GameMapInfoManager;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.PartyManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import java.util.List;
 import net.labymod.api.Laby;
 import net.labymod.api.util.logging.Logging;
 
 public class CubepanionManager implements Manager {
 
   private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
-
-  private final static List<CubeGame> NO_PRE_GAME_STATE = List.of(
-      CubeGame.FFA, CubeGame.SKYBLOCK, CubeGame.LOBBY
-  );
 
 
   private final PartyManager partyManager;
@@ -35,8 +31,8 @@ public class CubepanionManager implements Manager {
   private String serverIP;
   private boolean devServer;
 
-  private CubeGame division;
-  private CubeGame lastDivision;
+  private Game game;
+  private Game lastGame;
 
   private String mapName;
   private String lastMapName;
@@ -70,8 +66,8 @@ public class CubepanionManager implements Manager {
 
     this.serverIP = "";
     this.devServer = false;
-    this.division = CubeGame.NONE;
-    this.lastDivision = CubeGame.NONE;
+    this.game = Game.UNKNOWN;
+    this.lastGame = Game.UNKNOWN;
     this.mapName = "";
     this.lastMapName = "";
     this.teamColour = "";
@@ -106,8 +102,8 @@ public class CubepanionManager implements Manager {
   public void reset() {
     this.serverIP = "";
     this.devServer = false;
-    this.lastDivision = CubeGame.NONE;
-    this.division = CubeGame.NONE;
+    this.lastGame = Game.UNKNOWN;
+    this.game = Game.UNKNOWN;
     this.teamColour = "";
     this.mapName = "";
     this.lastMapName = "";
@@ -130,8 +126,8 @@ public class CubepanionManager implements Manager {
   public void onCubeJoin() {
     Laby.fireEvent(new CubeJoinEvent());
     this.serverIP = "play.cubecraft.net";
-    this.division = CubeGame.LOBBY;
-    this.lastDivision = this.division;
+    this.game = Game.LOBBY;
+    this.lastGame = this.game;
     this.mapName = "Lobby";
     this.lastMapName = this.mapName;
     this.teamColour = "";
@@ -175,12 +171,12 @@ public class CubepanionManager implements Manager {
   }
 
   public void onGameStart() {
-    log.debug("Starting {}! PreLobby: {}", division, this.inPreGameState);
+    log.debug("Starting {}! PreLobby: {}", game, this.inPreGameState);
     this.inPreGameState = false;
     this.onGameStartDivisionBuffer = false;
     this.gameStartTime = System.currentTimeMillis();
 
-    Laby.fireEvent(new GameStartEvent(this.division));
+    Laby.fireEvent(new GameStartEvent(this.game));
   }
 
   public boolean hasLost() {
@@ -191,59 +187,53 @@ public class CubepanionManager implements Manager {
     this.won = won;
   }
 
-  public CubeGame getDivision() {
-    return division;
+  public Game getGame() {
+    return game;
   }
 
-  public void setDivision(CubeGame division) {
-    var game = CubepanionAPI.I().getGame(division);
-    if (game == null) {
-      log.warn("Failed to find game for {}", division);
-      return;
-    }
-
+  public void setGame(Game game) {
     if (game.hasPreLobby() && this.isInPreGameState()) {
       log.debug("{} has a pre lobby, ignoring update", game.displayName());
       Laby.fireEvent(new GameJoinPreLobbyEvent(game));
       return;
     }
 
-    if (!this.onGameStartDivisionBuffer && !this.isInPreGameState() && this.division.equals(division)) {
-      log.debug("First division update after leaving pre lobby, assuming game start of {}", division);
+    if (!this.onGameStartDivisionBuffer && !this.isInPreGameState() && this.game.equals(game)) {
+      log.debug("First division update after leaving pre lobby, assuming game start of {}", game);
       this.onGameStartDivisionBuffer = true;
       return;
     }
 
-    log.debug("Setting division to {} and firing join event", division);
+    log.debug("Setting division to {} and firing join event", game);
 
     if (!this.isInPreGameState() && this.hasLost()) {
       log.debug("Ending game due to division switch");
-      Laby.fireEvent(new GameEndEvent(this.division, false, true, this.gameStartTime));
+      Laby.fireEvent(new GameEndEvent(this.game, false, true, this.gameStartTime));
     }
 
-    this.lastDivision = this.division;
-    this.division = division;
+    this.lastGame = this.game;
+    this.game = game;
 
     this.eliminated = false;
     this.inPreGameState = true;
     this.gameStartTime = -1;
     this.won = false;
 
-    if (NO_PRE_GAME_STATE.contains(this.division)|| CubeGame.isParkour(this.division)) {
+    if (this.game.hasFlagEnabled(GameFlag.NO_PRE_GAME_STATE)) {
       this.inPreGameState = false;
       this.gameStartTime = System.currentTimeMillis();
     }
 
-    Laby.fireEvent(new GameJoinEvent(this.lastDivision, this.division, this.inPreGameState));
+    Laby.fireEvent(new GameJoinEvent(this.lastGame, this.game, this.inPreGameState));
     Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
   }
 
-  public boolean isPlaying(CubeGame game) {
-    return division.equals(game) && !inPreGameState;
+  public boolean isPlaying(Game game) {
+    return this.game.equals(game) && !inPreGameState;
   }
 
-  public CubeGame getLastDivision() {
-    return lastDivision;
+  public Game getLastGame() {
+    return lastGame;
   }
 
   public String getMapName() {

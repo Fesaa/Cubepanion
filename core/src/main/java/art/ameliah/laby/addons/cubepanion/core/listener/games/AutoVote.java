@@ -82,12 +82,7 @@ public class AutoVote {
       return;
     }
 
-    var cubeGame = this.addon.getManager().getDivision();
-    var game = CubepanionAPI.I().getGame(cubeGame);
-    if (game == null) {
-      return;
-    }
-
+    var game = this.addon.getManager().getGame();
     AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
       return;
@@ -125,11 +120,7 @@ public class AutoVote {
       return;
     }
 
-    var cubeGame = this.addon.getManager().getDivision();
-    var game = CubepanionAPI.I().getGame(cubeGame);
-    if (game == null) {
-      return;
-    }
+    var game = this.addon.getManager().getGame();
 
     AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {
@@ -155,11 +146,7 @@ public class AutoVote {
       return;
     }
 
-    var cubeGame = this.addon.getManager().getDivision();
-    var game = CubepanionAPI.I().getGame(cubeGame);
-    if (game == null) {
-      return;
-    }
+    var game = this.addon.getManager().getGame();
 
     AutoVoteProvider provider = addon.getAutoVoteLoader().getProvider(game);
     if (provider == null) {

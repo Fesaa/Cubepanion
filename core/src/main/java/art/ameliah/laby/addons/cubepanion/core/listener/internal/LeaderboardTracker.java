@@ -5,9 +5,9 @@ import art.ameliah.laby.addons.cubepanion.core.accessors.CCItemStack;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.external.LeaderboardRow;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
@@ -47,7 +47,7 @@ public class LeaderboardTracker {
 
   @Subscribe
   public void onScreenOpen(ScreenDisplayEvent e) {
-    if (!this.addon.getManager().onCubeCraft() || !this.addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
+    if (!addon.getManager().onCubeCraft() || !addon.getManager().getGame().hasFlagEnabled(GameFlag.LOBBY)) {
       return;
     }
 

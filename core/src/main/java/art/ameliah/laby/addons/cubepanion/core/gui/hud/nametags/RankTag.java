@@ -1,10 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.gui.hud.nametags;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.ClientPlayer;
-import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.ComponentNameTag;
 import net.labymod.api.client.render.state.EntityExtraKeys;
 import net.labymod.api.client.render.state.entity.EntitySnapshot;
@@ -49,10 +48,10 @@ public class RankTag extends ComponentNameTag {
       return null;
     }
 
-    if (addon.getManager().getDivision().equals(CubeGame.LOBBY) || addon.getManager()
-        .isInPreGameState()) {
+    if (addon.getManager().getGame().hasFlagEnabled(GameFlag.LOBBY) || addon.getManager().isInPreGameState()) {
       return Component.text(addon.getManager().getRankString());
     }
+
     return null;
   }
 

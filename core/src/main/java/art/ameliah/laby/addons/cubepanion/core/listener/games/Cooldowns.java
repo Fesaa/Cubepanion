@@ -5,8 +5,8 @@ import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.ItemUseEvent.UseType;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.submanagers.CooldownManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class Cooldowns {
 
   @Subscribe
   public void onItemUse(ItemUseEvent e) {
-    if (!addon.getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+    if (!addon.getManager().getGame().hasFlagEnabled(GameFlag.COOLDOWNS)) {
       return;
     }
 
@@ -74,7 +74,7 @@ public class Cooldowns {
         "Feather(%s, %s)" +
         "EggMites(%s, %s)" +
         "}",
-        addon.configuration().getQolConfig().getCoolDown().get(), addon.getManager().getDivision(),
+        addon.configuration().getQolConfig().getCoolDown().get(), addon.getManager().getGame(),
         addon.getManager().getCooldownManager().getLastUse(CooldownManager.FIREBALL), addon.getManager().getCooldownManager().canUse(CooldownManager.FIREBALL, CooldownManager.FIREBALL_COOLDOWN_TIME),
         addon.getManager().getCooldownManager().getLastUse(CooldownManager.FEATHER), addon.getManager().getCooldownManager().canUse(CooldownManager.FEATHER, CooldownManager.FEATHER_COOLDOWN_TIME),
         addon.getManager().getCooldownManager().getLastUse(CooldownManager.EGG_MITES), addon.getManager().getCooldownManager().canUse(CooldownManager.EGG_MITES, CooldownManager.EGG_MITES_COOLDOWN_TIME)

@@ -7,7 +7,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
 import art.ameliah.laby.addons.cubepanion.core.external.Game;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.FunctionLink;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -108,8 +108,7 @@ public class CubeSocketPlayerCountTracker {
   @Subscribe
   public void onLobbyJoin(GameJoinEvent event) {
     // Only update stuff on new lobby joins, don't need to spam insignificant updates
-    if (event.getDestination().equals(CubeGame.LOBBY) && !event.getOrigin()
-        .equals(CubeGame.LOBBY)) {
+    if (event.getDestination().hasFlagEnabled(GameFlag.LOBBY) && !event.getOrigin().hasFlagEnabled(GameFlag.LOBBY)) {
       // Don't update if we're still sending these
       if (this.packetGameStatUpdates.isEmpty()) {
         this.hasSendGame.clear();
@@ -118,7 +117,7 @@ public class CubeSocketPlayerCountTracker {
     }
 
     // The scoreboard event is fired before this one, so reset it when joining anything else
-    if (!event.getDestination().equals(CubeGame.LOBBY)) {
+    if (!event.getDestination().hasFlagEnabled(GameFlag.LOBBY)) {
       this.maySendLobby = true;
     }
   }
@@ -183,7 +182,7 @@ public class CubeSocketPlayerCountTracker {
       return true;
     }
 
-    if (!this.addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
+    if (!this.addon.getManager().getGame().hasFlagEnabled(GameFlag.LOBBY)) {
       return true;
     }
 

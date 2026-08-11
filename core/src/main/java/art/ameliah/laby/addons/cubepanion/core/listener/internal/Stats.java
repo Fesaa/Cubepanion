@@ -296,7 +296,7 @@ public class Stats {
 
     if (msg.equals("Congratulations, you win!") || msg.equals("Congratulations, you won the game!")) {
       GameEndEvent event = new GameEndEvent(
-          manager.getDivision(),
+          manager.getGame(),
           true,
           false,
           manager.getGameStartTime());

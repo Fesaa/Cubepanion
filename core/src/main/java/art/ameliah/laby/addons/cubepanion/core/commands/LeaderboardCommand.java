@@ -71,7 +71,7 @@ public class LeaderboardCommand extends Command {
         .map(Player::getName)
         .toList();
 
-    var div = this.addon.getManager().getDivision().getString();
+    var div = this.addon.getManager().getGame().displayName();
     var game = CubepanionAPI.I().tryGame(div);
     if (game == null) {
       log.warn("Failed to find a game from division? {}", div);

@@ -2,21 +2,85 @@ package art.ameliah.laby.addons.cubepanion.core.external;
 
 import java.util.List;
 
-/**
- *
- * @param id internal id
- * @param name name
- * @param displayName pretty name
- * @param aliases other ways of writing the game I.e. tew, li
- * @param active game currently playable
- * @param scoreType wins, medals, kills, etc
- * @param shouldTrack is the game is eligible for tracking by the stats tracker
- * @param hasPreLobby this is an actual pre lobby, as opposed to the cages also counting in manager
- */
-public record Game(int id, String name, String displayName, List<String> aliases, boolean active, String scoreType, boolean shouldTrack, boolean hasPreLobby) {
+public final class Game {
+  private final int id;
+  private final String name;
+  private final String displayName;
+  private final List<String> aliases;
+  private final boolean active;
+  private final String scoreType;
+  private final boolean shouldTrack;
+  private final boolean hasPreLobby;
+  private final String icon;
+  private final int enabledFlags;
 
-  public static Game UNKNOWN = new Game(0, "unknown", "Unknown", List.of(), false, "Unknown", false, false);
+  public Game(
+      int id,
+      String name,
+      String displayName,
+      List<String> aliases,
+      boolean active,
+      String scoreType,
+      boolean shouldTrack,
+      boolean hasPreLobby,
+      String icon,
+      int enabledFlags
+  ) {
+    this.id = id;
+    this.name = name;
+    this.displayName = displayName;
+    this.aliases = List.copyOf(aliases);
+    this.active = active;
+    this.scoreType = scoreType;
+    this.shouldTrack = shouldTrack;
+    this.hasPreLobby = hasPreLobby;
+    this.icon = icon;
+    this.enabledFlags = enabledFlags;
+  }
 
-  public static Game LOBBY = new Game(0, "main_lobby", "Main Lobby", List.of(),false, "Main Lobby", false, false);
+  public static final Game UNKNOWN =
+      new Game(0, "unknown", "Unknown", List.of(), false, "Unknown", false, false, "", 0);
 
+  public static final Game LOBBY =
+      new Game(0, "main_lobby", "Main Lobby", List.of(), false, "Main Lobby", false, false, "", GameFlag.LOBBY.I());
+
+  public int id() {
+    return id;
+  }
+
+  public String name() {
+    return name;
+  }
+
+  public String displayName() {
+    return displayName;
+  }
+
+  public List<String> aliases() {
+    return aliases;
+  }
+
+  public boolean active() {
+    return active;
+  }
+
+  public String scoreType() {
+    return scoreType;
+  }
+
+  public boolean shouldTrack() {
+    return shouldTrack;
+  }
+
+  public boolean hasPreLobby() {
+    return hasPreLobby;
+  }
+
+  public String icon() {
+    return icon;
+  }
+
+  public boolean hasFlagEnabled(GameFlag flag) {
+    return flag.isSetIn(enabledFlags);
+  }
 }
