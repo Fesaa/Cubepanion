@@ -3,7 +3,6 @@ package art.ameliah.laby.addons.cubepanion.v26_1.mixins;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.util.logging.Logging;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
