@@ -3,6 +3,7 @@
     "gameId": 11,
     "gameName": "Team EggWars",
     "hotbarSlot": 0,
+    "icon": "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png"
     "categories": [
       {
         "id": "team_eggwars_perk_voting",
@@ -79,6 +80,7 @@
   {
     "gameId": 10,
     "gameName": "Solo SkyWars",
+    "icon": "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png"
     "hotbarSlot": 0,
     "categories": [
       {
@@ -164,6 +166,7 @@
   {
     "gameId": 12,
     "gameName": "Solo Lucky Islands",
+    "icon": "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
     "hotbarSlot": 0,
     "categories": [
       {
@@ -227,6 +230,7 @@
   {
     "gameId": 5,
     "gameName": "Team Lucky Islands",
+    "icon": "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
     "hotbarSlot": 0,
     "categories": [
       {
@@ -419,6 +423,7 @@
   {
     "gameId": 14,
     "gameName": "Lucky Pillars",
+    "icon": "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png"
     "hotbarSlot": 0,
     "categories": [
       {
