@@ -38,6 +38,11 @@ public class GameTimerWidget extends TextHudWidget<GameTimerConfig> {
           Utils.getFormattedString((45 + 32 * 60 + 60 * 60) * 1000, this.config.layout.get()));
       return;
     }
+    if (this.manager.getGameStartTime() == -1) {
+      this.HUDLine.setState(State.HIDDEN);
+      return;
+    }
+
     long timeDifference = System.currentTimeMillis() - this.manager.getGameStartTime();
     this.HUDLine.updateAndFlush(Utils.getFormattedString(timeDifference, this.config.layout.get()));
     this.HUDLine.setState(

@@ -1,6 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.events;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import net.labymod.api.event.Event;
 
 /**
@@ -9,14 +9,14 @@ import net.labymod.api.event.Event;
  */
 public class GameEndEvent implements Event {
 
-  private final CubeGame game;
+  private final Game game;
 
   private final long gameStartTime;
   private final boolean won;
   private final boolean switchedServer;
   private final long gameDuration;
 
-  public GameEndEvent(CubeGame game, boolean won, boolean switchedServer, long gameStartTime) {
+  public GameEndEvent(Game game, boolean won, boolean switchedServer, long gameStartTime) {
     this.game = game;
     this.gameStartTime = gameStartTime;
     this.won = won;
@@ -27,7 +27,7 @@ public class GameEndEvent implements Event {
   /**
    * @return The name that has ended
    */
-  public CubeGame getGame() {
+  public Game getGame() {
     return game;
   }
 

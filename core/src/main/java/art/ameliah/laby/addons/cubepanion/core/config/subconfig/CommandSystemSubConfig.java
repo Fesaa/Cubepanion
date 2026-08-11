@@ -23,18 +23,10 @@ public class CommandSystemSubConfig extends Config {
 
   @SwitchSetting
   @SettingRequires(value = "enabled")
-  private final ConfigProperty<Boolean> StatsCommand = new ConfigProperty<>(true);
-
-  @SwitchSetting
-  @SettingRequires(value = "enabled")
   private final ConfigProperty<Boolean> chestFinderCommand = new ConfigProperty<>(true);
 
   public ConfigProperty<Boolean> getAppealSiteCommand() {
     return appealSiteCommand;
-  }
-
-  public ConfigProperty<Boolean> getStatsCommand() {
-    return StatsCommand;
   }
 
   public ConfigProperty<Boolean> getGameMapInfoCommand() {

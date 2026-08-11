@@ -4,6 +4,7 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.TextColor;
+import org.jetbrains.annotations.Nullable;
 
 public class SpawnProtectionComponent {
 
@@ -33,6 +34,7 @@ public class SpawnProtectionComponent {
     this.creation = System.currentTimeMillis();
   }
 
+  @Nullable
   public Component getComponent(long currentTime) {
     long difference = currentTime - this.creation;
 
@@ -43,7 +45,7 @@ public class SpawnProtectionComponent {
 
     if (!this.inUse || seconds < 0) {
       this.inUse = false;
-      return Component.empty();
+      return null;
     }
 
     int actualSeconds = (int) seconds;

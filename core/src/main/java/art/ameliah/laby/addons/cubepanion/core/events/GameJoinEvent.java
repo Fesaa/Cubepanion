@@ -1,6 +1,6 @@
 package art.ameliah.laby.addons.cubepanion.core.events;
 
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import net.labymod.api.event.Event;
 
 /**
@@ -9,13 +9,13 @@ import net.labymod.api.event.Event;
  */
 public class GameJoinEvent implements Event {
 
-  private final CubeGame origin;
+  private final Game origin;
 
-  private final CubeGame destination;
+  private final Game destination;
 
   private final boolean preLobby;
 
-  public GameJoinEvent(CubeGame origin, CubeGame destination, boolean preLobby) {
+  public GameJoinEvent(Game origin, Game destination, boolean preLobby) {
     this.origin = origin;
     this.destination = destination;
     this.preLobby = preLobby;
@@ -24,14 +24,14 @@ public class GameJoinEvent implements Event {
   /**
    * @return Last division
    */
-  public CubeGame getOrigin() {
+  public Game getOrigin() {
     return origin;
   }
 
   /**
    * @return Current division
    */
-  public CubeGame getDestination() {
+  public Game getDestination() {
     return destination;
   }
 

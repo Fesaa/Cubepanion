@@ -2,8 +2,8 @@ package art.ameliah.laby.addons.cubepanion.core.listener.games;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerRespawnEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.gui.imp.SpawnProtectionComponent;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.chat.ChatExecutor;
 import net.labymod.api.event.Phase;
 import net.labymod.api.event.Subscribe;
@@ -24,7 +24,7 @@ public class ClientPlayerSpawnProtection {
 
   @Subscribe
   public void onPlayerRespawn(PlayerRespawnEvent e) {
-    if (!Cubepanion.get().getManager().isPlaying(CubeGame.TEAM_EGGWARS)) {
+    if (!Cubepanion.get().getManager().getGame().hasFlagEnabled(GameFlag.RESPAWN_TAGS)) {
       return;
     }
 

@@ -1,25 +1,20 @@
 package art.ameliah.laby.addons.cubepanion.core.listener.internal;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
-import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.event.Subscribe;
-import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardObjectiveUpdateEvent;
-import net.labymod.api.event.client.scoreboard.ScoreboardTeamEntryAddEvent;
 import net.labymod.api.event.client.scoreboard.ScoreboardTeamUpdateEvent;
 import net.labymod.api.util.logging.Logging;
 
@@ -66,35 +61,38 @@ public class ScoreboardListener {
 
     List<Component> children = e.team().getPrefix().getChildren();
 
-    switch (manager.getDivision()) {
-      case FFA -> {
-        if (children.size() < 2) {
-          return;
-        }
+    if (manager.getGame().hasFlagEnabled(GameFlag.LOBBY)) {
+      this.manager.setMapName("Main Lobby");
+      return;
+    }
 
-        List<Component> ffaComponent = children.getFirst().getChildren();
-        if (ffaComponent.size() == 2) {
-          if (((TextComponent) ffaComponent.getFirst()).getText().contains("Map")) {
-            this.manager.setMapName(((TextComponent) children.get(1)).getText());
-          }
+    if (manager.getGame().hasFlagEnabled(GameFlag.ALTERNATE_MAP_TRACKER)) {
+      if (children.size() < 2) {
+        return;
+      }
+
+      List<Component> ffaComponent = children.getFirst().getChildren();
+      if (ffaComponent.size() == 2) {
+        if (((TextComponent) ffaComponent.getFirst()).getText().contains("Map")) {
+          this.manager.setMapName(((TextComponent) children.get(1)).getText());
         }
       }
-      case LOBBY -> this.manager.setMapName("Main Lobby");
-      default -> {
-        if (this.previousText.trim().equals("Map") || this.previousText.trim().equals("Dimension")) {
-          var text = ((TextComponent) e.team().getPrefix()).getText();
-          if (!text.isBlank()) {
-            this.manager.setMapName(text);
-            this.previousText = ""; // Ensure the if con doesn't get called
-          }
-        }
 
-        if (!e.team().getPrefix().getChildren().isEmpty()) {
-          var text = ((TextComponent) children.getFirst()).getText();
-          if (!text.isBlank()) {
-            this.previousText = text;
-          }
-        }
+      return;
+    }
+
+    if (this.previousText.trim().equals("Map") || this.previousText.trim().equals("Dimension")) {
+      var text = ((TextComponent) e.team().getPrefix()).getText();
+      if (!text.isBlank()) {
+        this.manager.setMapName(text);
+        this.previousText = ""; // Ensure the if con doesn't get called
+      }
+    }
+
+    if (!e.team().getPrefix().getChildren().isEmpty()) {
+      var text = ((TextComponent) children.getFirst()).getText();
+      if (!text.isBlank()) {
+        this.previousText = text;
       }
     }
   }
@@ -103,12 +101,12 @@ public class ScoreboardListener {
     this.manager.setServerID(serverId);
   }
 
-  private CubeGame extractDivisionFromEvent(ScoreboardObjectiveUpdateEvent e) {
+  private Game extractDivisionFromEvent(ScoreboardObjectiveUpdateEvent e) {
     Component title = e.objective().getTitle();
     String titleText = ((TextComponent) title).getText();
 
     if (titleText != null && !titleText.isEmpty() && titleText.matches("[a-zA-Z ]*")) {
-      return CubeGame.stringToGame(titleText.trim());
+      return CubepanionAPI.I().tryGame(titleText.trim());
     }
 
     for (Component child : title.getChildren()) {
@@ -119,7 +117,7 @@ public class ScoreboardListener {
 
       text = text.replaceAll("[^a-zA-Z \\.]", "").trim();
       if (text.matches("[a-zA-Z ]+")) {
-        return CubeGame.stringToGame(text.trim());
+        return CubepanionAPI.I().tryGame(text.trim());
       }
     }
 
@@ -138,13 +136,7 @@ public class ScoreboardListener {
     var division = this.extractDivisionFromEvent(e);
     if (division == null) return;
 
-    if (CubeGame.isParkour(division)) {
-      // I don't remember what the issue was with parkour, ignore it all.
-      return;
-    }
-
-    if (division == CubeGame.MOB_WHO) {
-      // Fuck you updating scoreboard
+    if (division.hasFlagEnabled(GameFlag.IGNORE_SCOREBOARD_UPDATES)) {
       return;
     }
 
@@ -153,7 +145,7 @@ public class ScoreboardListener {
 
     this.buffer = 0;
 
-    this.manager.setDivision(division);
+    this.manager.setGame(division);
   }
 
   @Subscribe
@@ -174,7 +166,7 @@ public class ScoreboardListener {
             "previousText='%s'" +
             "}",
         manager.onCubeCraft(),
-        manager.getDivision(),
+        manager.getGame(),
         manager.getMapName(),
         manager.getServerID(),
         buffer,

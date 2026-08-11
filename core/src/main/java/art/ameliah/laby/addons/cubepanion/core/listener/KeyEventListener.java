@@ -3,8 +3,8 @@ package art.ameliah.laby.addons.cubepanion.core.listener;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.GameMapInfoSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.utils.Colours;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.entity.player.Player;
@@ -35,9 +35,9 @@ public class KeyEventListener {
     }
 
     // Game Map Info KeyBind
-    GameMapInfoSubConfig subConfig = this.addon.configuration().getGameMapInfoSubConfig();
+    var subConfig = this.addon.configuration().getGameMapInfoSubConfig();
     if (keyEvent.key().equals(subConfig.getKey().get()) && subConfig.isEnabled().get()
-        && CubepanionAPI.I().hasMaps(this.addon.getManager().getDivision())) {
+        && CubepanionAPI.I().hasMaps(this.addon.getManager().getGame())) {
       if (keyEvent.state() == State.PRESS) {
         AbstractGameMap map = CubepanionAPI.I().currentMap();
         this.addon.getManager().getGameMapInfoManager().displayGameMapLayout(map);
@@ -45,7 +45,7 @@ public class KeyEventListener {
     }
 
     // No drop SkyBlock
-    if (this.addon.getManager().getDivision().equals(CubeGame.SKYBLOCK)
+    if (this.addon.getManager().getGame().hasFlagEnabled(GameFlag.DONT_DROP_TOOLS)
         && this.addon.configuration().getQolConfig().getNoDropSkyBlock().get()) {
       if (this.dropKey.getKeyCode() != keyEvent.key().getId()) {
         return;

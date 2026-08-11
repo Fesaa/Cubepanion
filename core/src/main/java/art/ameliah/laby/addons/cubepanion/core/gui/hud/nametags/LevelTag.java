@@ -4,15 +4,12 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig.DisplayLocation;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.GameJoinPreLobbyEvent;
-import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
@@ -21,15 +18,12 @@ import net.labymod.api.client.component.event.HoverEvent.Action;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.Style;
 import net.labymod.api.client.component.format.TextColor;
-import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.client.entity.player.tag.tags.ComponentNameTag;
-import net.labymod.api.client.render.font.RenderableComponent;
 import net.labymod.api.client.render.state.EntityExtraKeys;
 import net.labymod.api.client.render.state.entity.EntitySnapshot;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.network.server.SubServerSwitchEvent;
-import net.labymod.api.laby3d.renderer.snapshot.ExtraKey;
 import net.labymod.api.util.logging.Logging;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,7 +60,7 @@ public class LevelTag extends ComponentNameTag {
 
   @Subscribe
   public void onGameJoin(GameJoinEvent e) {
-    if (e.getDestination().equals(CubeGame.LOBBY)) {
+    if (e.getDestination().hasFlagEnabled(GameFlag.LOBBY)) {
       this.readingWhoMessage = false;
       this.readingJoinMessage = false;
       return;

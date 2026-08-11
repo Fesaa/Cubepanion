@@ -9,8 +9,8 @@ import art.ameliah.laby.addons.cubepanion.core.events.PlayerDeathEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PrintDebugRequestEvent.Receiver;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.Laby;
 import net.labymod.api.event.Subscribe;
 
@@ -45,7 +45,7 @@ public class AutoGG {
       return;
     }
     
-    if (manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL)) {
+    if (manager.getGame().hasFlagEnabled(GameFlag.IN_GAME_AFTER_ELIMINATION)) {
       return;
     }
     
@@ -77,12 +77,7 @@ public class AutoGG {
     if (hasSentGG || !e.isClientPlayer()) {
       return;
     }
-    if (manager.isPlaying(CubeGame.TEAM_EGGWARS)
-        || manager.isPlaying(CubeGame.FFA)
-        || manager.isPlaying(CubeGame.SKYBLOCK)
-        || manager.isPlaying(CubeGame.BEDWARS)
-        || manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL)
-        || CubeGame.isParkour(manager.getDivision())) {
+    if (manager.getGame().hasFlagEnabled(GameFlag.HAS_RESPAWNS)) {
       return;
     }
 
@@ -112,25 +107,15 @@ public class AutoGG {
             "division=%s, " +
             "inParty=%s, " +
             "message=%s, " +
-            "bedwars=%s, " +
-            "eggwars=%s, " +
-            "ffa=%s, " +
-            "skyblock=%s, " +
-            "snowman=%s, " +
-            "parkour=%s" +
+            "hasRespawns=%s" +
             "}",
         config.isEnabled().get(),
         config.getOnElimination().get(),
         hasSentGG,
-        manager.getDivision(),
+        manager.getGame(),
         manager.getPartyManager().isInParty(),
         config.getGameEndMessage().get(),
-        manager.isPlaying(CubeGame.BEDWARS),
-        manager.isPlaying(CubeGame.TEAM_EGGWARS),
-        manager.isPlaying(CubeGame.FFA),
-        manager.isPlaying(CubeGame.SKYBLOCK),
-        manager.isPlaying(CubeGame.SNOWMAN_SURVIVAL),
-        CubeGame.isParkour(manager.getDivision())
+        manager.getGame().hasFlagEnabled(GameFlag.HAS_RESPAWNS)
     );
   }
 }

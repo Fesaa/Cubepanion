@@ -32,7 +32,7 @@ public class ServerNavigation {
       return;
     }
     if (!manager.isInPreGameState() && manager.hasLost()) {
-      GameEndEvent event = new GameEndEvent(manager.getDivision(), false, true,
+      GameEndEvent event = new GameEndEvent(manager.getGame(), false, true,
           manager.getGameStartTime());
       Laby.fireEvent(event);
     }

@@ -5,8 +5,9 @@ import art.ameliah.laby.addons.cubepanion.core.config.subconfig.DiscordRichPrese
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.PlayerEliminationEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import java.util.HashSet;
 import java.util.Set;
 import net.labymod.api.client.network.ClientPacketListener;
@@ -64,14 +65,13 @@ public class DiscordRPC {
 
     String details;
     String state;
-    CubeGame division = m.getDivision();
+    var game = m.getGame();
 
-    if (division == CubeGame.LOBBY) {
+    if (game.hasFlagEnabled(GameFlag.LOBBY)) {
       details = I18n.translate("cubepanion.managers.DiscordRPCManager.lobby");
       state = I18n.translate("cubepanion.managers.DiscordRPCManager.lobbyState");
     } else {
-      details = I18n.translate("cubepanion.managers.DiscordRPCManager.playing")
-          + division.getString();
+      details = I18n.translate("cubepanion.managers.DiscordRPCManager.playing") + game.displayName();
 
       if (m.isInPreGameState()) {
         state = I18n.translate("cubepanion.managers.DiscordRPCManager.waitingState");
@@ -84,7 +84,7 @@ public class DiscordRPC {
           state = I18n.translate("cubepanion.managers.DiscordRPCManager.playingHiddenState");
         }
 
-        if (config.players().get() && doPlayerTracking()) {
+        if (config.players().get() && game.hasFlagEnabled(GameFlag.DISCORD_RPC_PLAYER_TRACKING)) {
           state += I18n.translate("cubepanion.managers.DiscordRPCManager.alivePlayersState",
               totalPlayers - deaths, totalPlayers);
         }
@@ -95,7 +95,7 @@ public class DiscordRPC {
     b.state(state);
 
     if (config.getGameImage().get()) {
-      b.largeAsset(getGameAsset(division));
+      b.largeAsset(getGameAsset(game));
     } else {
       b.largeAsset(getGameAsset(null));
     }
@@ -146,60 +146,14 @@ public class DiscordRPC {
     updateRPC();
   }
 
-  private boolean doPlayerTracking() {
-    switch (this.addon.getManager().getDivision()) {
-      case SKYBLOCK, SIMPLE_PARKOUR, EASY_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR, FFA -> {
-        return false;
-      }
-      default -> {
-        return true;
-      }
-    }
-  }
-
-  private Asset getGameAsset(@Nullable CubeGame game) {
+  private Asset getGameAsset(@Nullable Game game) {
     if (game == null) {
       return Asset.of(
           "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808",
           "CubeCraft");
     }
-    switch (game) {
-      case SKYBLOCK -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png",
-            game.getString());
-      }
-      case TEAM_EGGWARS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/eggwars.png",
-            game.getString());
-      }
-      case SOLO_SKYWARS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skywars.png",
-            game.getString());
-      }
-      case SOLO_LUCKYISLANDS -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/lucky-islands.png",
-            game.getString());
-      }
-      case FFA -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/pvp.png",
-            game.getString());
-      }
-      case SIMPLE_PARKOUR, EASY_PARKOUR, MEDIUM_PARKOUR, HARD_PARKOUR -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/parkour.png",
-            game.getString());
-      }
-      default -> {
-        return Asset.of(
-            "https://forums.cubecraftcdn.com/xenforo/data/avatars/o/307/307406.jpg?1591095808",
-            "CubeCraft");
-      }
-    }
+
+    return Asset.of(game.icon(), game.displayName());
   }
 
 }

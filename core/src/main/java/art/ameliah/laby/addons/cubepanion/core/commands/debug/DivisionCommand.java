@@ -17,7 +17,7 @@ public class DivisionCommand extends SubCommand {
     if (!this.addon.getManager().onCubeCraft()) {
       return false;
     }
-    this.displayMessage("Division: " + this.addon.getManager().getDivision().getString());
+    this.displayMessage("Division: " + this.addon.getManager().getGame().displayName());
     return true;
   }
 }

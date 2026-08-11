@@ -17,7 +17,7 @@ import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.Packe
 import art.ameliah.laby.addons.cubepanion.core.cubesocket.protocol.packets.PacketSetProtocol;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.Game;
 import io.netty.channel.ChannelHandlerContext;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -98,7 +98,7 @@ public class CubeSocketSession extends PacketHandler {
     }, 1L, TimeUnit.SECONDS);
 
     this.executorService.schedule(() -> {
-      var fakeEvent = new GameJoinEvent(CubeGame.LOBBY, CubeGame.LOBBY, false);
+      var fakeEvent = new GameJoinEvent(Game.LOBBY, Game.LOBBY, false);
       this.socket.sendPacket(new PacketLocationUpdate(fakeEvent));
     }, 2L, TimeUnit.SECONDS);
   }

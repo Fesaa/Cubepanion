@@ -58,7 +58,7 @@ public class GameMapInfoManager {
 
   // Force map layout, regardless of config
   public boolean doGameMapLayout(String mapName) {
-    AbstractGameMap map = CubepanionAPI.I().getGameMap(this.addon.getManager().getDivision(), mapName);
+    AbstractGameMap map = CubepanionAPI.I().getGameMap(this.addon.getManager().getGame(), mapName);
     if (map == null) {
       return false;
     }

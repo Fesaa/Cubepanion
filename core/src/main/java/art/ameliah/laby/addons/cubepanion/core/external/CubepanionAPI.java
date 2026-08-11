@@ -3,7 +3,6 @@ package art.ameliah.laby.addons.cubepanion.core.external;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteConfiguration;
 import art.ameliah.laby.addons.cubepanion.core.listener.internal.SessionTracker;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.utils.gamemaps.AbstractGameMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -164,12 +163,7 @@ public class CubepanionAPI {
         .whenCompleteAsync((success, ex) -> log.info("Finished loading initial data"));
   }
 
-  public boolean hasMaps(CubeGame cubeGame) {
-    var game = this.tryGame(cubeGame.getString());
-    if (game == null) {
-      return false;
-    }
-
+  public boolean hasMaps(Game game) {
     return this.convertedGameMaps.containsKey(game.id());
   }
 
@@ -181,16 +175,11 @@ public class CubepanionAPI {
   @Nullable
   public AbstractGameMap currentMap() {
     var m = Cubepanion.get().getManager();
-    return getGameMap(m.getDivision(), m.getMapName());
+    return getGameMap(m.getGame(), m.getMapName());
   }
 
   @Nullable
-  public AbstractGameMap getGameMap(CubeGame cubeGame, String mapName) {
-    var game = this.tryGame(cubeGame.getString());
-    if (game == null) {
-      return null;
-    }
-
+  public AbstractGameMap getGameMap(Game game, String mapName) {
     var maps = this.convertedGameMaps.get(game.id());
     if (maps == null) {
       return null;
@@ -208,6 +197,11 @@ public class CubepanionAPI {
     return new HashMap<>(games);
   }
 
+  @NotNull
+  public List<Game> getGamesList() {
+    return new ArrayList<>(gameById.values());
+  }
+
   @Nullable
   public Game getGameById(int id) {
     return this.gameById.get(id);
@@ -216,11 +210,6 @@ public class CubepanionAPI {
   @Nullable
   private Game getGame(String game) {
     return this.games.get(game);
-  }
-
-  @Nullable
-  public Game getGame(CubeGame cubeGame) {
-    return this.tryGame(cubeGame.getString());
   }
 
   @Nullable

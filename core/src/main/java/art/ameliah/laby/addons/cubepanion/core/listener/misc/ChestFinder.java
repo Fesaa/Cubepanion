@@ -2,7 +2,7 @@ package art.ameliah.laby.addons.cubepanion.core.listener.misc;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.QOLConfig;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
 import java.util.concurrent.TimeUnit;
 import net.labymod.api.event.Priority;
@@ -22,7 +22,7 @@ public class ChestFinder {
     config = addon.configuration().getQolConfig();
     finderLink = link;
     task = Task.builder(() -> {
-      if (addon.getManager().getDivision().equals(CubeGame.LOBBY)) {
+      if (addon.getManager().getGame().hasFlagEnabled(GameFlag.LOBBY)) {
         link.displayLocations();
       }
     }).delay(2000, TimeUnit.MILLISECONDS).build();

@@ -3,7 +3,6 @@ package art.ameliah.laby.addons.cubepanion.core.commands;
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.config.subconfig.CommandSystemSubConfig;
 import art.ameliah.laby.addons.cubepanion.core.external.CubepanionAPI;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import net.labymod.api.client.chat.command.Command;
 
 public class GameMapInfoCommand extends Command {
@@ -17,7 +16,7 @@ public class GameMapInfoCommand extends Command {
 
   @Override
   public boolean execute(String prefix, String[] arguments) {
-    CubeGame game = this.addon.getManager().getDivision();
+    var game = this.addon.getManager().getGame();
     if (!this.addon.getManager().onCubeCraft() || !CubepanionAPI.I().hasMaps(game)) {
       return false;
     }

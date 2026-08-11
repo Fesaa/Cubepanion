@@ -1,8 +1,8 @@
 package art.ameliah.laby.addons.cubepanion.core.commands;
 
 import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
+import art.ameliah.laby.addons.cubepanion.core.external.GameFlag;
 import art.ameliah.laby.addons.cubepanion.core.managers.CubepanionManager;
-import art.ameliah.laby.addons.cubepanion.core.utils.CubeGame;
 import art.ameliah.laby.addons.cubepanion.core.versionlinkers.ChestFinderLink;
 import net.labymod.api.client.chat.command.Command;
 
@@ -22,7 +22,7 @@ public class FindChestCommand extends Command {
   @Override
   public boolean execute(String prefix, String[] arguments) {
     if (!this.manager.onCubeCraft()
-        || !this.manager.getDivision().equals(CubeGame.LOBBY)
+        || !this.manager.getGame().hasFlagEnabled(GameFlag.LOBBY)
         || this.chestFinderLink == null
         || !this.addon.configuration().getCommandSystemSubConfig().getChestFinderCommand().get()) {
       return false;
