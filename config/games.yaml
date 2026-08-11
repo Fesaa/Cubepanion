@@ -13,7 +13,6 @@
     - "RespawnTags"
     - "DiscordRpcPlayerTracking"
     - "HasRespawns"
-    - "Cooldowns"
     - "MiniGame"
 
 - name: "disasters"
