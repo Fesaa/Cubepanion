@@ -240,7 +240,7 @@
         },
         "userCommands": {
           "name": "Slash commands",
-          "description": "/lb for help"
+          "description": "/lb help for help"
         },
         "errorInfo": {
           "name": "Error info",

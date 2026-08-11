@@ -11,6 +11,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.event.HoverEvent;
+import net.labymod.api.client.component.format.Style;
 import net.labymod.api.client.component.format.TextDecoration;
 import net.labymod.api.client.entity.player.Player;
 import net.labymod.api.util.logging.Logging;
@@ -20,19 +22,6 @@ public class LeaderboardCommand extends Command {
   private final Logging log = Logging.create(Cubepanion.class.getSimpleName());
   private final Cubepanion addon;
   private final String mainKey = I18nNamespaces.globalNamespace + ".messages.leaderboardAPI.commands.";
-  private final Component helpMessage = Component.translatable(this.mainKey + "help.title",
-          Colours.Title)
-      .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary)
-          .decorate(TextDecoration.ITALIC))
-      .append(Component.text("\n/leaderboardAPI <userName>", Colours.Primary))
-      .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
-      .append(Component.text("\n/leaderboardAPI ", Colours.Primary))
-      .append(Component.text("<game>", Colours.Primary))
-      .append(Component.text(" [start]", Colours.Primary))
-      .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary))
-      .append(Component.text("\n/leaderboardAPI players", Colours.Primary))
-      .append(Component.translatable(this.mainKey + "help.players", Colours.Secondary))
-      .append(Component.newline());
 
   public LeaderboardCommand(Cubepanion addon) {
     super("leaderboard", "lb");
@@ -48,13 +37,9 @@ public class LeaderboardCommand extends Command {
     }
 
     var name = arguments[0];
-    Game game = CubepanionAPI.I().tryGame(name);
-    if (game != null) {
-      return this.gameLeaderboard(game, arguments);
-    }
 
     if (name.equals("help")) {
-      this.displayMessage(this.helpMessage);
+      this.displayMessage(this.helpMessage());
       return true;
     }
 
@@ -62,7 +47,29 @@ public class LeaderboardCommand extends Command {
       return this.batchLeaderboard();
     }
 
+    var game = tryGetGame(arguments);
+    if (game != null) {
+      return this.gameLeaderboard(game, arguments);
+    }
+
     return this.playerLeaderboard(name);
+  }
+
+  private Game tryGetGame(String[] arguments) {
+    var name = arguments[0];
+
+    for (var idx = 0; idx < arguments.length; idx++) {
+      if (idx > 0) {
+        name += " " + arguments[idx];
+      }
+
+      var game = CubepanionAPI.I().tryGame(name);
+      if (game != null) {
+        return game;
+      }
+    }
+
+    return null;
   }
 
   private boolean batchLeaderboard() {
@@ -197,4 +204,40 @@ public class LeaderboardCommand extends Command {
 
     displayMessage(toDisplay);
   }
+
+  private Style gamesHovertext = null;
+
+  private Component helpMessage()  {
+    if (gamesHovertext == null) {
+      var hoverText = Component.empty();
+      var i = CubepanionAPI.I().totalGames();
+
+      for (var value : CubepanionAPI.I().getGamesList()) {
+        hoverText = hoverText.append(Component.text(value.displayName()));
+
+        if (--i != 0) {
+          hoverText = hoverText.append(Component.text(", "));
+        }
+      }
+
+      gamesHovertext = Style.builder()
+          .hoverEvent(HoverEvent.showText(hoverText))
+          .build();
+    }
+
+
+    return Component.translatable(this.mainKey + "help.title",
+            Colours.Title)
+        .append(Component.translatable(this.mainKey + "help.info", Colours.Secondary)
+            .decorate(TextDecoration.ITALIC))
+        .append(Component.text("\n/lb <userName>", Colours.Primary))
+        .append(Component.translatable(this.mainKey + "help.player", Colours.Secondary))
+        .append(Component.text("\n/lb ", Colours.Primary))
+        .append(Component.text("<game>", Colours.Primary).style(gamesHovertext))
+        .append(Component.text(" [start]", Colours.Primary))
+        .append(Component.translatable(this.mainKey + "help.leaderboard", Colours.Secondary))
+        .append(Component.text("\n/lb players", Colours.Primary))
+        .append(Component.translatable(this.mainKey + "help.players", Colours.Secondary))
+        .append(Component.newline());
+  };
 }

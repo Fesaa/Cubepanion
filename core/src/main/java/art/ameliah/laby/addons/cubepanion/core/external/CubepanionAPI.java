@@ -197,6 +197,11 @@ public class CubepanionAPI {
     return new HashMap<>(games);
   }
 
+  @NotNull
+  public List<Game> getGamesList() {
+    return new ArrayList<>(gameById.values());
+  }
+
   @Nullable
   public Game getGameById(int id) {
     return this.gameById.get(id);
