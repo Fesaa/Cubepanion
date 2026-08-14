@@ -116,6 +116,7 @@
   displayName: "Skyblock"
   aliases:
     - "sb"
+    - "Skyblock Dungeon"
   active: false
   scoreType: ""
   shouldTrack: false
