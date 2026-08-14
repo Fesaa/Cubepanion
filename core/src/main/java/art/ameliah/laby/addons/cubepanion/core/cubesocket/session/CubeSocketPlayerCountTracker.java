@@ -53,7 +53,7 @@ public class CubeSocketPlayerCountTracker {
       }
 
       var packet = this.packetGameStatUpdates.poll();
-      if (!this.addon.getManager().isDevServer()) {
+      if (this.addon.getManager().isProd()) {
         if (packet != null) {
 
           Long last = lastSend.get(packet.getGame());
@@ -100,7 +100,7 @@ public class CubeSocketPlayerCountTracker {
 
     this.maySendLobby = false;
     log.debug("Updating lobby player count to {}", playerCountInt);
-    if (!this.addon.getManager().isDevServer()) {
+    if (this.addon.getManager().isProd()) {
       this.socket.sendPacket(new PacketGameStatUpdate(Game.LOBBY, playerCountInt));
     }
   }

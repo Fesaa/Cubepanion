@@ -4,7 +4,6 @@ import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.events.CubeJoinEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameEndEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameJoinEvent;
-import art.ameliah.laby.addons.cubepanion.core.events.GameJoinPreLobbyEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.GameStartEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent;
 import art.ameliah.laby.addons.cubepanion.core.events.RequestEvent.RequestType;
@@ -21,7 +20,6 @@ import net.labymod.api.util.logging.Logging;
 public class CubepanionManager implements Manager {
 
   private static final Logging log = Logging.create(Cubepanion.class.getSimpleName());
-
 
   private final PartyManager partyManager;
   private final GameMapInfoManager gameMapInfoManager;
@@ -50,11 +48,6 @@ public class CubepanionManager implements Manager {
    * If we're currently in a pre lobby or in cages
    */
   private boolean inPreGameState;
-  /**
-   * Set to true after one division change while inPreLobby is false
-   */
-  private boolean onGameStartDivisionBuffer;
-
   private long gameStartTime;
 
 
@@ -114,7 +107,6 @@ public class CubepanionManager implements Manager {
     this.eliminated = false;
     this.inPreGameState = false;
     this.won = false;
-    this.onGameStartDivisionBuffer = false;
 
     this.gameStartTime = -1;
 
@@ -137,7 +129,6 @@ public class CubepanionManager implements Manager {
 
     this.eliminated = false;
     this.inPreGameState = false;
-    this.onGameStartDivisionBuffer = false;
 
     this.gameStartTime = -1;
 
@@ -146,8 +137,8 @@ public class CubepanionManager implements Manager {
     CubepanionAPI.I().loadInitialData();
   }
 
-  public boolean isDevServer() {
-    return devServer;
+  public boolean isProd() {
+    return !devServer;
   }
 
   public void setDevServer(boolean devServer) {
@@ -173,7 +164,6 @@ public class CubepanionManager implements Manager {
   public void onGameStart() {
     log.debug("Starting {}! PreLobby: {}", game, this.inPreGameState);
     this.inPreGameState = false;
-    this.onGameStartDivisionBuffer = false;
     this.gameStartTime = System.currentTimeMillis();
 
     Laby.fireEvent(new GameStartEvent(this.game));
@@ -194,13 +184,6 @@ public class CubepanionManager implements Manager {
   public void setGame(Game game) {
     if (game.hasPreLobby() && this.isInPreGameState()) {
       log.debug("{} has a pre lobby, ignoring update", game.displayName());
-      Laby.fireEvent(new GameJoinPreLobbyEvent(game));
-      return;
-    }
-
-    if (!this.onGameStartDivisionBuffer && !this.isInPreGameState() && this.game.equals(game)) {
-      log.debug("First division update after leaving pre lobby, assuming game start of {}", game);
-      this.onGameStartDivisionBuffer = true;
       return;
     }
 
@@ -228,10 +211,6 @@ public class CubepanionManager implements Manager {
     Laby.fireEvent(new RequestEvent(RequestType.UPDATE_RPC));
   }
 
-  public boolean isPlaying(Game game) {
-    return this.game.equals(game) && !inPreGameState;
-  }
-
   public Game getLastGame() {
     return lastGame;
   }
@@ -249,10 +228,6 @@ public class CubepanionManager implements Manager {
 
   public String getLastMapName() {
     return lastMapName;
-  }
-
-  public String getServerIP() {
-    return serverIP;
   }
 
   public String getTeamColour() {

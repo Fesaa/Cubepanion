@@ -83,4 +83,14 @@ public final class Game {
   public boolean hasFlagEnabled(GameFlag flag) {
     return flag.isSetIn(enabledFlags);
   }
+
+  @Override
+  public String toString() {
+    return "Game{" +
+        "id=" + id +
+        ", displayName='" + displayName + '\'' +
+        ", hasPreLobby=" + hasPreLobby +
+        ", enabledFlags=" + enabledFlags +
+        '}';
+  }
 }

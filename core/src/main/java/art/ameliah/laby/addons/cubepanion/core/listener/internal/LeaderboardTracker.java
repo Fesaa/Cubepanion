@@ -66,6 +66,8 @@ public class LeaderboardTracker {
           if (context == null) return CompletableFuture.completedFuture(null);
 
           var submittingFor = context.game();
+          if (!submittingFor.active()) return CompletableFuture.completedFuture(null);
+
           var rowsList = rows.stream().toList();
 
           return CubepanionAPI.I()
