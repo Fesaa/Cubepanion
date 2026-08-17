@@ -116,7 +116,6 @@
   displayName: "Skyblock"
   aliases:
     - "sb"
-    - "Skyblock Dungeon"
   active: false
   scoreType: ""
   shouldTrack: false
@@ -126,6 +125,19 @@
     - "DontDropTools"
     - "NoPreGameState"
     - "HasRespawns"
+
+- name: "skyblock_dungeons"
+  displayName: "Skyblock Dungeon"
+  aliases: []
+  active: false
+  scoreType: ""
+  shouldTrack: false
+  hasPreLobby: false
+  icon: "https://forums.cubecraftcdn.com/xenforo/serve/styles/cubecraft/cubecraft/minigames/node-icons/skyblock.png"
+  gameFlags:
+    - "DontDropTools"
+    - "HasRespawns"
+
 
 - name: "snowman_survival"
   displayName: "Snowman Survival"
