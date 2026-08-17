@@ -1,0 +1,15 @@
+name: reload-api.yml
+on:
+  push:
+    branches: [ "master", "main" ]
+    paths:
+      - config/**
+  workflow_dispatch:
+
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GET API
+        run: curl -fL "${{ secrets.API_URL }}"
+

@@ -3,8 +3,12 @@ name: LabyAddon Build
 on:
   push:
     branches: [ "master", "main" ]
+    paths-ignore:
+      - config/**
   pull_request:
     branches: [ "master", "main" ]
+    paths-ignore:
+      - config/**
   workflow_dispatch:
 
 jobs:
