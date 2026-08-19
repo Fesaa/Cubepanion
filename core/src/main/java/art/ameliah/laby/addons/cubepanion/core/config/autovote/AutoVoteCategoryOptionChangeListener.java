@@ -1,7 +1,9 @@
 package art.ameliah.laby.addons.cubepanion.core.config.autovote;
 
+import art.ameliah.laby.addons.cubepanion.core.Cubepanion;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategory;
 import art.ameliah.laby.addons.cubepanion.core.external.autovote.AutoVoteCategoryOption;
+import net.labymod.api.Laby;
 import net.labymod.api.client.gui.screen.widget.widgets.input.dropdown.DropdownWidget.ChangeListener;
 
 public class AutoVoteCategoryOptionChangeListener implements ChangeListener<AutoVoteCategoryOption> {
@@ -17,5 +19,7 @@ public class AutoVoteCategoryOptionChangeListener implements ChangeListener<Auto
   @Override
   public void onChange(AutoVoteCategoryOption option) {
     config.getSlots().put(category.id(), option.slot());
+    // Since slot isn't a real setting field, we need to manually save
+    Cubepanion.get().saveConfiguration();
   }
 }

@@ -68,8 +68,6 @@ public class AutoVoteSettingsLoader {
           this.configs.addAll(configs);
 
           Laby.labyAPI().minecraft().executeOnRenderThread(() -> {
-            var allElements = new ArrayList<SettingElement>();
-
             for (var config : configs) {
               Icon icon = null;
               if (config.icon() != null && !config.icon().isEmpty()) {
@@ -77,8 +75,6 @@ public class AutoVoteSettingsLoader {
               }
               settings.register(new AutoVoteGameElement(this.config, config, icon));
             }
-
-            settings.register(allElements);
           });
 
           return null;
