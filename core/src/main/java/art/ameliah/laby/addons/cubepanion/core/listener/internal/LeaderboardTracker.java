@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,7 @@ public class LeaderboardTracker {
   private final Cubepanion addon;
 
   // Shared concurrent state
+  private final AtomicInteger gameId = new AtomicInteger(-1);
   private final Set<Integer> pages = ConcurrentHashMap.newKeySet();
   private final Set<LeaderboardRow> rows = ConcurrentHashMap.newKeySet(200);
 
@@ -94,6 +96,11 @@ public class LeaderboardTracker {
     if (game == null) {
       log.debug("Failed to match {} to a game", gameString);
       return null;
+    }
+
+    if (gameId.get() != game.id()) {
+      reset();
+      gameId.set(game.id());
     }
 
     Matcher matcher = pagePattern.matcher(cleaned.trim());
@@ -183,6 +190,7 @@ public class LeaderboardTracker {
   }
 
   private void reset() {
+    gameId.set(-1);
     pages.clear();
     rows.clear();
   }
