@@ -140,6 +140,12 @@ public class ScoreboardListener {
       return;
     }
 
+    if (manager.getGame().id() != division.id()) {
+      manager.setGame(division);
+      this.buffer = 0;
+      return;
+    }
+
     this.buffer++;
     if (this.buffer % 3 != 0) return;
 
