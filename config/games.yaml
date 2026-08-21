@@ -216,9 +216,10 @@
     - "MiniGame"
 
 - name: "mob_who"
-  displayName: "Mob Who"
+  displayName: "Mob Hunt"
   aliases:
     - "mw"
+    - "mh"
   active: true
   scoreType: "wins"
   shouldTrack: false
