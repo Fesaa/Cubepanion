@@ -220,6 +220,7 @@
   aliases:
     - "mw"
     - "mh"
+    - "mob_hunt"
   active: true
   scoreType: "wins"
   shouldTrack: false
