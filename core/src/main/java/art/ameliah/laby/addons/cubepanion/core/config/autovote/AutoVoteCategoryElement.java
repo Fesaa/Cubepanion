@@ -49,7 +49,6 @@ public class AutoVoteCategoryElement extends SettingElement {
         break;
       } else if (option.defaultSelected()) {
         selected = option;
-        break;
       }
     }
 
