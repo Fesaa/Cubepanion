@@ -596,6 +596,7 @@
           "noLeaderboards": "No recorded leaderboards. :(",
           "noPlayers": "No players where found for %s between places %s and %s.",
           "noBatch": "Leaderboard for all players may only be requested in running games.",
+          "no-leaderboard-for-game": "%s does not have a leaderboard.",
           "leaderboards": {
             "title": {
               "player": "All recorded leaderboards for %s {%s}:",

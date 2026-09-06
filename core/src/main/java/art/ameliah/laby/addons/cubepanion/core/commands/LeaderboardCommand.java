@@ -49,6 +49,11 @@ public class LeaderboardCommand extends Command {
 
     var game = tryGetGame(arguments);
     if (game != null) {
+      if (game.scoreType().isEmpty()) {
+        displayMessage(Component.translatable(mainKey+"no-leaderboard-for-game", Colours.Error,Component.text(game.displayName())));
+        return true;
+      }
+
       return this.gameLeaderboard(game, arguments);
     }
 
@@ -213,6 +218,8 @@ public class LeaderboardCommand extends Command {
       var i = CubepanionAPI.I().totalGames();
 
       for (var value : CubepanionAPI.I().getGamesList()) {
+        if (value.scoreType().isEmpty()) continue;
+
         hoverText = hoverText.append(Component.text(value.displayName()));
 
         if (--i != 0) {
