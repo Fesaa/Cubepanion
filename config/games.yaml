@@ -19,7 +19,7 @@
   displayName: "Disasters"
   aliases:
     - "disaster"
-  active: true
+  active: false
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
@@ -103,7 +103,7 @@
   displayName: "Lucky Pillars"
   aliases:
     - "lp"
-  active: true
+  active: false
   scoreType: "wins"
   shouldTrack: true
   hasPreLobby: false
