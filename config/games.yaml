@@ -221,7 +221,7 @@
     - "mw"
     - "mh"
     - "mob_hunt"
-  active: true
+  active: false
   scoreType: "wins"
   shouldTrack: false
   hasPreLobby: false
