@@ -132,7 +132,7 @@ public class LeaderboardTracker {
       if (!item.getAsItem().getIdentifier().getPath().equals("player_head")) continue;
 
       var row = parseLeaderboardRow(item);
-      if (row == null || row.position() > 200) continue;
+      if (row == null || row.position() > CubepanionAPI.I().getLeaderboardConfiguration().playerCount()) continue;
 
       rows.add(row);
       count++;
