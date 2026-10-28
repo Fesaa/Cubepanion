@@ -57,13 +57,11 @@ public class MultiPlayerGameModeMixin {
         || itemStack.is(ItemTags.HOES)
         || itemStack.is(ItemTags.SWORDS)
         || itemStack.is(Items.BOW)
-        || itemStack.is(ItemTags.REPAIRS_LEATHER_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_GOLD_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_CHAIN_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_COPPER_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_IRON_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_DIAMOND_ARMOR)
-        || itemStack.is(ItemTags.REPAIRS_NETHERITE_ARMOR)
+        || itemStack.is(ItemTags.SPEARS)
+        || itemStack.is(ItemTags.FOOT_ARMOR)
+        || itemStack.is(ItemTags.LEG_ARMOR)
+        || itemStack.is(ItemTags.CHEST_ARMOR)
+        || itemStack.is(ItemTags.HEAD_ARMOR)
     )) {
       ci.cancel();
       cubepanion$addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
